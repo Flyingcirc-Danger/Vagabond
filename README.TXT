@@ -1,0 +1,1 @@
+Protype 2 of the CATAN board with new algo
