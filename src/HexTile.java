@@ -206,6 +206,16 @@ public class HexTile {
         return new HexTile(F[0],F[1] + radius, radius);
     }
 
+    public String toString(){
+        return new String("A coordinates: (" + getAx() + "," + getAy() +
+                ")\nB coordinates: (" + getBx() + "," + getBy() +
+                ")\nC coordinates: (" + getCx() + "," + getCy() +
+                ")\nD coordinates: (" + getDx() + "," + getDy() +
+                ")\nE coordinates: (" + getEx() + "," + getEy() +
+                ")\nF coordinates: (" + getFx() + "," + getFy() +
+                ")\nCenter coordinates: (" + getCenter()[0] + "," + getCenter()[1] + ")") ;
+    }
+
 
 
 
