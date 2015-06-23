@@ -15,10 +15,11 @@ public class Board extends PApplet {
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
         background(255);
         deck = new CatanDeck(true);
+
     }
 
     public void draw() {
-        HexTile center = new HexTile(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,50,0,11);
+        HexTile center = new HexTile(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,50,0,deck.getTokenValues()[0],deck.getResources()[0]);
         buildBoard(deck,center);
 
 
@@ -34,7 +35,9 @@ public class Board extends PApplet {
     }
 
     public void hex(HexTile drawTile){
-        fill(255);
+        int[] cl = drawTile.tileColor();
+        fill(cl[0],cl[1],cl[2]);
+        stroke(0,0,0,8);
         beginShape();
         vertex(drawTile.getAx(), drawTile.getAy());
         vertex(drawTile.getBx(), drawTile.getBy());
@@ -43,18 +46,23 @@ public class Board extends PApplet {
         vertex(drawTile.getEx(), drawTile.getEy());
         vertex(drawTile.getFx(), drawTile.getFy());
         endShape(CLOSE);
-        ellipse(drawTile.getCenter()[0], drawTile.getCenter()[1],30,30);
-        textSize(10);
-        fill(0);
-        text(""+drawTile.getValue(),drawTile.getCenter()[0],drawTile.getCenter()[1]);
+        stroke(0,0,0);
+        fill(255);
+        if(drawTile.getValue() < 13) {
+            ellipse(drawTile.getCenter()[0], drawTile.getCenter()[1], 30, 30);
+            textSize(10);
+            fill(0);
+            text("" + drawTile.getValue(), drawTile.getCenter()[0], drawTile.getCenter()[1]);
+        }
     }
 
     public void buildBoard(CatanDeck deck, HexTile center){
         deck.getTiles()[0] = center;
         hex(center);
         for(int i =0; i < 18; i++){
-            deck.getTiles()[i+1] = deck.getTiles()[i].expand(deck.getBuildOrder()[i], deck.getTokenValues()[i]);
-            hex(deck.getTiles()[i+1]);
+            deck.getTiles()[i+1] = deck.getTiles()[i].expand(deck.getBuildOrder()[i], deck.getTokenValues()[i+1],deck.getResources()[i+1]);
+            hex(deck.getTiles()[i + 1]);
+           // System.out.println(deck.getTiles()[i+1].getValue() + " " + deck.getTiles()[i+1].getResourceType());
         }
     }
 }

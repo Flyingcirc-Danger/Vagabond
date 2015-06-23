@@ -19,8 +19,11 @@ public class HexTile {
     private int value;
     private int order;
 
+    //tile resource type
+    private String resourceType;
 
-    public HexTile(int centerX, int centerY, int radius, int order, int value) {
+
+    public HexTile(int centerX, int centerY, int radius, int order, int value, String resourceType) {
         this.order = order;
         this.value = value;
         this.radius = radius;
@@ -31,6 +34,7 @@ public class HexTile {
         this.D = new int[]{centerX, (centerY - radius)};
         this.E = new int[]{(centerX - radius), (centerY - (radius / 2))};
         this.F = new int[]{(centerX - radius), (centerY + (radius / 2))};
+        this.resourceType = resourceType;
 
 
 
@@ -170,6 +174,14 @@ public class HexTile {
         return F[1];
     }
 
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
+
     //Hex Generators
 
     /**
@@ -178,8 +190,8 @@ public class HexTile {
      * side C-D
      * @return Hex tile CD neighbor
      */
-    public HexTile addCD(int value){
-        return new HexTile(B[0], B[1] + radius, radius, order++, value);
+    public HexTile addCD(int value, String newResourceType){
+        return new HexTile(B[0], B[1] + radius, radius, order++, value, newResourceType);
     }
 
     /**
@@ -188,8 +200,8 @@ public class HexTile {
      * side B-C
      * @return Hex tile BC neighbor
      */
-    public HexTile addBC(int value){
-        return new HexTile(center[0] + (radius * 2),center[1], radius, order++,value);
+    public HexTile addBC(int value,String newResourceType){
+        return new HexTile(center[0] + (radius * 2),center[1], radius, order++,value, newResourceType);
     }
 
     /**
@@ -198,8 +210,8 @@ public class HexTile {
      * side A-B
      * @return Hex tile AB neighbor
      */
-    public HexTile addAB(int value){
-        return new HexTile(C[0], C[1] - radius, radius, order++,value);
+    public HexTile addAB(int value, String newResourceType){
+        return new HexTile(C[0], C[1] - radius, radius, order++,value,newResourceType);
     }
 
     /**
@@ -208,8 +220,8 @@ public class HexTile {
      * side F-A
      * @return Hex tile FA neighbor
      */
-    public HexTile addFA(int value){
-        return new HexTile(E[0], E[1] - radius, radius, order++,value);
+    public HexTile addFA(int value, String newResourceType){
+        return new HexTile(E[0], E[1] - radius, radius, order++,value,newResourceType);
     }
 
     /**
@@ -218,31 +230,10 @@ public class HexTile {
      * side E-F
      * @return Hex tile EF neighbor
      */
-    public HexTile addEF(int value){
-        return new HexTile(center[0] - (radius * 2),center[1], radius,order++,value);
+    public HexTile addEF(int value, String newResourceType){
+        return new HexTile(center[0] - (radius * 2),center[1], radius,order++,value,newResourceType);
     }
 
-    public HexTile expand(String instruction, int value) throws IllegalArgumentException{
-        if(instruction.equals("AB")){
-            return this.addAB(value);
-        }
-        if(instruction.equals("BC")) {
-            return this.addBC(value);
-        }
-        if(instruction.equals("CD")){
-            return this.addCD(value);
-        }
-        if(instruction.equals("DE")){
-            return this.addDE(value);
-        }
-        if(instruction.equals("EF")){
-            return this.addEF(value);
-        }
-        if(instruction.equals("FA")){
-            return this.addFA(value);
-        }
-        else throw new IllegalArgumentException();
-    }
 
     /**
      * Returns a Hex tile with co-ordinates
@@ -250,8 +241,59 @@ public class HexTile {
      * side D-E
      * @return Hex tile DE neighbor
      */
-    public HexTile addDE(int value){
-        return new HexTile(F[0],F[1] + radius, radius,order++,value);
+    public HexTile addDE(int value,String newResourceType){
+        return new HexTile(F[0],F[1] + radius, radius,order++,value,newResourceType);
+    }
+
+    public HexTile expand(String instruction, int value,String newResourceType) throws IllegalArgumentException{
+        if(instruction.equals("AB")){
+            return this.addAB(value,newResourceType);
+        }
+        if(instruction.equals("BC")) {
+            return this.addBC(value,newResourceType);
+        }
+        if(instruction.equals("CD")){
+            return this.addCD(value,newResourceType);
+        }
+        if(instruction.equals("DE")){
+            return this.addDE(value,newResourceType);
+        }
+        if(instruction.equals("EF")){
+            return this.addEF(value,newResourceType);
+        }
+        if(instruction.equals("FA")){
+            return this.addFA(value,newResourceType);
+        }
+        else throw new IllegalArgumentException();
+    }
+
+
+    /**
+     * Returns the color of this tile based on
+     * it's assigned resource
+     * @return the RGB Fill value
+     */
+    public int[] tileColor(){
+        if(resourceType.equals("forest")){
+           return new int[] {76,175,80};
+        }
+        if(resourceType.equals("pasture")){
+            return new int[] {139,195,74};
+        }
+        if(resourceType.equals("mine")){
+            return new int[] {158,158,158};
+        }
+        if(resourceType.equals("grain")){
+            return new int[] {255,193,7};
+        }
+        if(resourceType.equals("brick")){
+            return new int[] {255,87,34};
+        //desert
+        } else {
+            return new int[] {255,235,59};
+        }
+
+
     }
 
     @Override
