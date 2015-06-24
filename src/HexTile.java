@@ -15,7 +15,17 @@ public class HexTile {
     //radius
     private int radius;
 
-    public HexTile(int centerX, int centerY, int radius) {
+    //token values and build order
+    private int value;
+    private int order;
+
+    //tile resource type
+    private String resourceType;
+
+
+    public HexTile(int centerX, int centerY, int radius, int order, int value, String resourceType) {
+        this.order = order;
+        this.value = value;
         this.radius = radius;
         this.center = new int[]{centerX, centerY};
         this.A = new int[]{centerX, (centerY + radius)};
@@ -24,9 +34,13 @@ public class HexTile {
         this.D = new int[]{centerX, (centerY - radius)};
         this.E = new int[]{(centerX - radius), (centerY - (radius / 2))};
         this.F = new int[]{(centerX - radius), (centerY + (radius / 2))};
+        this.resourceType = resourceType;
+
 
 
     }
+
+
 
     //GETTERS AND SETTERS
 
@@ -94,6 +108,22 @@ public class HexTile {
         this.radius = radius;
     }
 
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
     //SPECIFIC COORDINATE GETTERS
 
     public int getAx(){
@@ -144,16 +174,24 @@ public class HexTile {
         return F[1];
     }
 
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
+
     //Hex Generators
 
     /**
      * Returns a Hex tile with co-ordinates
      * that place it in the position bordering
-     * side A-B
-     * @return Hex tile AB neighbor
+     * side C-D
+     * @return Hex tile CD neighbor
      */
-    public HexTile addAB(){
-        return new HexTile(B[0], B[1] + radius, radius);
+    public HexTile addCD(int value, String newResourceType){
+        return new HexTile(B[0], B[1] + radius, radius, order++, value, newResourceType);
     }
 
     /**
@@ -162,38 +200,18 @@ public class HexTile {
      * side B-C
      * @return Hex tile BC neighbor
      */
-    public HexTile addBC(){
-        return new HexTile(center[0] + (radius * 2),center[1], radius);
+    public HexTile addBC(int value,String newResourceType){
+        return new HexTile(center[0] + (radius * 2),center[1], radius, order++,value, newResourceType);
     }
 
     /**
      * Returns a Hex tile with co-ordinates
      * that place it in the position bordering
-     * side C-D
-     * @return Hex tile CD neighbor
+     * side A-B
+     * @return Hex tile AB neighbor
      */
-    public HexTile addCD(){
-        return new HexTile(C[0], C[1] - radius, radius);
-    }
-
-    /**
-     * Returns a Hex tile with co-ordinates
-     * that place it in the position bordering
-     * side D-E
-     * @return Hex tile DE neighbor
-     */
-    public HexTile addDE(){
-        return new HexTile(E[0], E[1] - radius, radius);
-    }
-
-    /**
-     * Returns a Hex tile with co-ordinates
-     * that place it in the position bordering
-     * side E-F
-     * @return Hex tile EF neighbor
-     */
-    public HexTile addEF(){
-        return new HexTile(center[0] - (radius * 2),center[1], radius);
+    public HexTile addAB(int value, String newResourceType){
+        return new HexTile(C[0], C[1] - radius, radius, order++,value,newResourceType);
     }
 
     /**
@@ -202,18 +220,96 @@ public class HexTile {
      * side F-A
      * @return Hex tile FA neighbor
      */
-    public HexTile addFA(){
-        return new HexTile(F[0],F[1] + radius, radius);
+    public HexTile addFA(int value, String newResourceType){
+        return new HexTile(E[0], E[1] - radius, radius, order++,value,newResourceType);
     }
 
+    /**
+     * Returns a Hex tile with co-ordinates
+     * that place it in the position bordering
+     * side E-F
+     * @return Hex tile EF neighbor
+     */
+    public HexTile addEF(int value, String newResourceType){
+        return new HexTile(center[0] - (radius * 2),center[1], radius,order++,value,newResourceType);
+    }
+
+
+    /**
+     * Returns a Hex tile with co-ordinates
+     * that place it in the position bordering
+     * side D-E
+     * @return Hex tile DE neighbor
+     */
+    public HexTile addDE(int value,String newResourceType){
+        return new HexTile(F[0],F[1] + radius, radius,order++,value,newResourceType);
+    }
+
+    public HexTile expand(String instruction, int value,String newResourceType) throws IllegalArgumentException{
+        if(instruction.equals("AB")){
+            return this.addAB(value,newResourceType);
+        }
+        if(instruction.equals("BC")) {
+            return this.addBC(value,newResourceType);
+        }
+        if(instruction.equals("CD")){
+            return this.addCD(value,newResourceType);
+        }
+        if(instruction.equals("DE")){
+            return this.addDE(value,newResourceType);
+        }
+        if(instruction.equals("EF")){
+            return this.addEF(value,newResourceType);
+        }
+        if(instruction.equals("FA")){
+            return this.addFA(value,newResourceType);
+        }
+        else throw new IllegalArgumentException();
+    }
+
+
+    /**
+     * Returns the color of this tile based on
+     * it's assigned resource
+     * @return the RGB Fill value
+     */
+    public int[] tileColor(){
+        if(resourceType.equals("forest")){
+           return new int[] {76,175,80};
+        }
+        if(resourceType.equals("pasture")){
+            return new int[] {139,195,74};
+        }
+        if(resourceType.equals("mine")){
+            return new int[] {158,158,158};
+        }
+        if(resourceType.equals("grain")){
+            return new int[] {255,193,7};
+        }
+        if(resourceType.equals("brick")){
+            return new int[] {255,87,34};
+        //desert
+        } else {
+            return new int[] {255,235,59};
+        }
+
+
+    }
+
+    @Override
+    /**
+     * A printout of the coordinates of this hex
+     */
     public String toString(){
-        return new String("A coordinates: (" + getAx() + "," + getAy() +
+        return "A coordinates: (" + getAx() + "," + getAy() +
                 ")\nB coordinates: (" + getBx() + "," + getBy() +
                 ")\nC coordinates: (" + getCx() + "," + getCy() +
                 ")\nD coordinates: (" + getDx() + "," + getDy() +
                 ")\nE coordinates: (" + getEx() + "," + getEy() +
                 ")\nF coordinates: (" + getFx() + "," + getFy() +
-                ")\nCenter coordinates: (" + getCenter()[0] + "," + getCenter()[1] + ")") ;
+                ")\nCenter coordinates: (" + getCenter()[0] + "," + getCenter()[1] +
+                ")\nValue: " + getValue() +
+                "\nOrder: " + getOrder();
     }
 
 

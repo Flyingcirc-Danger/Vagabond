@@ -15,10 +15,10 @@ public class HexTileTest extends TestCase {
      * @throws Exception
      */
     public void testAddAB() throws Exception {
-        HexTile master = new HexTile(0,0,50);
-        HexTile slave = master.addAB();
+        HexTile master = new HexTile(0,0,50,0,1,"forest");
+
         int[] expected = new int[] {50,75};
-        int [] result = master.addAB().getCenter();
+        int [] result = master.addAB(1,"forest").getCenter();
         assertEquals(expected[0], result[0]);
         assertEquals(expected[1], result[1]);
 
@@ -29,9 +29,9 @@ public class HexTileTest extends TestCase {
      * @throws Exception
      */
     public void testAddBC() throws Exception {
-        HexTile master = new HexTile(0,0,50);
+        HexTile master = new HexTile(0,0,50,0,1,"forest");
         int[] expected = new int[] {100,0};
-        int [] result = master.addBC().getCenter();
+        int [] result = master.addBC(1,"forest").getCenter();
         assertEquals(expected[0], result[0]);
         assertEquals(expected[1], result[1]);
 
@@ -43,9 +43,9 @@ public class HexTileTest extends TestCase {
      * @throws Exception
      */
     public void testAddCD() throws Exception {
-        HexTile master = new HexTile(0,0,50);
+        HexTile master = new HexTile(0,0,50,0,1,"forest");
         int[] expected = new int[] {50,-75};
-        int [] result = master.addCD().getCenter();
+        int [] result = master.addCD(1,"forest").getCenter();
         assertEquals(expected[0], result[0]);
         assertEquals(expected[1], result[1]);
 
@@ -56,9 +56,9 @@ public class HexTileTest extends TestCase {
      * @throws Exception
      */
     public void testAddDE() throws Exception {
-        HexTile master = new HexTile(0,0,50);
+        HexTile master = new HexTile(0,0,50,0,1,"forest");
         int[] expected = new int[] {-50,-75};
-        int [] result = master.addDE().getCenter();
+        int [] result = master.addDE(1,"forest").getCenter();
         assertEquals(expected[0], result[0]);
         assertEquals(expected[1], result[1]);
 
@@ -69,9 +69,9 @@ public class HexTileTest extends TestCase {
      * @throws Exception
      */
     public void testAddEF() throws Exception {
-        HexTile master = new HexTile(0,0,50);
+        HexTile master = new HexTile(0,0,50,0,1,"forest");
         int[] expected = new int[] {-100,0};
-        int [] result = master.addEF().getCenter();
+        int [] result = master.addEF(1,"forest").getCenter();
         assertEquals(expected[0], result[0]);
         assertEquals(expected[1], result[1]);
 
@@ -82,9 +82,9 @@ public class HexTileTest extends TestCase {
      * @throws Exception
      */
     public void testAddFA() throws Exception {
-        HexTile master = new HexTile(0,0,50);
+        HexTile master = new HexTile(0,0,50,1,0,"forest");
         int[] expected = new int[] {-50,75};
-        int [] result = master.addFA().getCenter();
+        int [] result = master.addFA(1,"forest").getCenter();
         assertEquals(expected[0], result[0]);
         assertEquals(expected[1], result[1]);
 
