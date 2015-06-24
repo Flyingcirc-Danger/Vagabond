@@ -64,7 +64,6 @@ public class Board extends PApplet {
         for(int i =0; i < 18; i++){
             deck.getTiles()[i+1] = deck.getTiles()[i].expand(deck.getBuildOrder()[i], deck.getTokenValues()[i+1],deck.getResources()[i+1]);
             hex(deck.getTiles()[i + 1]);
-           // System.out.println(deck.getTiles()[i+1].getValue() + " " + deck.getTiles()[i+1].getResourceType());
         }
     }
 }
