@@ -33,9 +33,6 @@ public class CatanDeck {
                     };
             //shuffle the terrain and update the token values
             findDesert(shuffleTerrain());
-            for(int i = 0; i <resources.length; i++){
-                System.out.println("Index: " + i + " resource: " + resources[i] + " " + tokenValues[i]);
-            }
 
         }
 

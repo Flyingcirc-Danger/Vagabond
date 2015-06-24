@@ -14,11 +14,13 @@ public class Board extends PApplet {
         this.SCREEN_WIDTH = 800;
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
         background(0,188,212);
+        smooth();
         deck = new CatanDeck(true);
 
     }
 
     public void draw() {
+        smooth();
         HexTile center = new HexTile(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,50,0,deck.getTokenValues()[0],deck.getResources()[0]);
         buildBoard(deck,center);
 
