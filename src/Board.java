@@ -13,7 +13,7 @@ public class Board extends PApplet {
         this.SCREEN_HEIGHT = 600;
         this.SCREEN_WIDTH = 800;
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
-        background(255);
+        background(0,188,212);
         deck = new CatanDeck(true);
 
     }
@@ -37,7 +37,7 @@ public class Board extends PApplet {
     public void hex(HexTile drawTile){
         int[] cl = drawTile.tileColor();
         fill(cl[0],cl[1],cl[2]);
-        stroke(0,0,0,8);
+        stroke(0,0,0,7);
         beginShape();
         vertex(drawTile.getAx(), drawTile.getAy());
         vertex(drawTile.getBx(), drawTile.getBy());
