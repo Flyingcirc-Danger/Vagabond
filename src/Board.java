@@ -1,5 +1,8 @@
 import processing.core.*;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 /**
  * Created by Tom_Bryant on 6/23/15.
  */
@@ -24,8 +27,10 @@ public class Board extends PApplet {
         smooth(8);
         HexTile center = new HexTile(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,50,0,deck.getTokenValues()[0],deck.getResources()[0]);
         buildBoard(deck,center);
-       // drawBoard();
-        deck.createEdgeTiles();
+        deck.popEdgeTiles();
+        //drawCoast();
+        drawBoard();
+
 
 
 
@@ -41,7 +46,7 @@ public class Board extends PApplet {
 
     public void hex(HexTile drawTile){
         int[] cl = drawTile.tileColor();
-        fill(cl[0],cl[1],cl[2]);
+        fill(cl[0],cl[1],cl[2],100);
         stroke(0,0,0,30);
         beginShape();
         vertex(drawTile.getAx(), drawTile.getAy());
@@ -107,7 +112,17 @@ public class Board extends PApplet {
      * A method for drawing the coast.
      */
     public void drawCoast(){
-
+        stroke(0,0,0,50);
+        fill(255,243,224);
+        ArrayList<EdgeCoord> edges = deck.getEdgeCoords();
+        beginShape();
+        for(int i =0; i < edges.size(); i++){
+            EdgeCoord edge = edges.get(i);
+            vertex((int)edge.coord.getX(),(int)edge.coord.getY());
+        }
+        endShape(CLOSE);
     }
+
+
 }
 

@@ -13,8 +13,8 @@ public class CatanDeck {
     private String[] resources;
     private String[] buildOrder;
     private int[] tokenValues;
-    private HashMap<Point, ArrayList<Integer>> pointMap;
-    private ArrayList<Point> edgeCoords;
+    private HashMap<Point, ArrayList<String>> pointMap;
+    private ArrayList<EdgeCoord> edgeCoords;
 
     public CatanDeck(boolean classicRules){
         if(classicRules){
@@ -39,8 +39,8 @@ public class CatanDeck {
                     };
             //shuffle the terrain and update the token values
             findDesert(shuffleTerrain());
-            pointMap = new HashMap<Point, ArrayList<Integer>>();
-            edgeCoords = new ArrayList<Point>();
+            pointMap = new HashMap<Point, ArrayList<String>>();
+            edgeCoords = new ArrayList<EdgeCoord>();
 
         }
 
@@ -79,19 +79,35 @@ public class CatanDeck {
         this.resources = resources;
     }
 
+    public HashMap<Point, ArrayList<String>> getPointMap() {
+        return pointMap;
+    }
+
+    public void setPointMap(HashMap<Point, ArrayList<String>> pointMap) {
+        this.pointMap = pointMap;
+    }
+
+    public ArrayList<EdgeCoord> getEdgeCoords() {
+        return edgeCoords;
+    }
+
+    public void setEdgeCoords(ArrayList<EdgeCoord> edgeCoords) {
+        this.edgeCoords = edgeCoords;
+    }
+
     /**
      * A method for populating the coordinate hashmap
      * @param coord the v2 coordinate you wish to add
      * @param order the order/id of the hex that it belongs to.
      */
-    public void addCoordinate(int[] coord, int order){
+    public void addCoordinate(int[] coord, int order, char name){
 
         Point key = arrayToPoint(coord);
         if(pointMap.containsKey(key)){
-            pointMap.get(key).add(order);
+            pointMap.get(key).add(String.valueOf(order) + name);
         } else{
-            ArrayList<Integer> value = new ArrayList<Integer>();
-            value.add(order);
+            ArrayList<String> value = new ArrayList<String>();
+            value.add(String.valueOf(order) + name);
             pointMap.put(key,value);
         }
     }
@@ -103,26 +119,32 @@ public class CatanDeck {
      */
     public void bulkAddCoord(HexTile toAdd){
         int id = toAdd.getOrder();
-        addCoordinate(toAdd.getA(), id);
-        addCoordinate(toAdd.getB(),id);
-        addCoordinate(toAdd.getC(),id);
-        addCoordinate(toAdd.getD(),id);
-        addCoordinate(toAdd.getE(),id);
-        addCoordinate(toAdd.getF(),id);
+        addCoordinate(toAdd.getA(), id, 'A');
+        addCoordinate(toAdd.getB(),id, 'B');
+        addCoordinate(toAdd.getC(),id, 'C');
+        addCoordinate(toAdd.getD(),id, 'D');
+        addCoordinate(toAdd.getE(),id, 'E');
+        addCoordinate(toAdd.getF(),id, 'F');
     }
 
-    public void createEdgeTiles(){
+    public void popEdgeTiles(){
         Iterator it = pointMap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            ArrayList<Integer> ids = (ArrayList<Integer>)pair.getValue();
+            ArrayList<String> ids = (ArrayList<String>)pair.getValue();
             if(ids.size() == 1) {
-
-                System.out.println(ids.toString());
+                edgeCoords.add(new EdgeCoord((Point)pair.getKey(), ids.get(0)));
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
+        edgeCoords.sort(Comparator.<EdgeCoord>naturalOrder());
+        for(int i = 0; i < edgeCoords.size(); i++){
+        }
     }
+
+
+
+
 
 
     /**
