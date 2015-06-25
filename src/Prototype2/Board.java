@@ -1,6 +1,7 @@
+package Prototype2;
+
 import processing.core.*;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -41,7 +42,7 @@ public class Board extends PApplet {
     }
 
     public static void main(String args[]) {
-        PApplet.main(new String[] { "--present", "Board" });
+        PApplet.main(new String[] { "--present", "Prototype2.Board" });
     }
 
     public void hex(HexTile drawTile){

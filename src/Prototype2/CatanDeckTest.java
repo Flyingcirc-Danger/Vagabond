@@ -1,8 +1,8 @@
+package Prototype2;
+
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Tom_Bryant on 6/24/15.

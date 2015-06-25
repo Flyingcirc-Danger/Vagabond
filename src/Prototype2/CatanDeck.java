@@ -1,7 +1,6 @@
-import com.sun.javafx.geom.Point2D;
+package Prototype2;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**

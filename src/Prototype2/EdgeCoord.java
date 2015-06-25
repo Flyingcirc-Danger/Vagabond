@@ -1,4 +1,4 @@
-import com.sun.javafx.geom.Edge;
+package Prototype2;
 
 import java.awt.*;
 

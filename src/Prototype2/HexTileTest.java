@@ -1,8 +1,6 @@
-import junit.framework.TestCase;
-import org.junit.Assert;
-import org.junit.Assert.*;
+package Prototype2;
 
-import java.util.Arrays;
+import junit.framework.TestCase;
 
 /**
  * Created by Tom_Bryant on 6/23/15.
