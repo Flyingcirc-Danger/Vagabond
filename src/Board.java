@@ -14,15 +14,18 @@ public class Board extends PApplet {
         this.SCREEN_WIDTH = 800;
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
         background(0,188,212);
-        smooth();
+        smooth(8);
         deck = new CatanDeck(true);
+
 
     }
 
     public void draw() {
-        smooth();
+        smooth(8);
         HexTile center = new HexTile(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,50,0,deck.getTokenValues()[0],deck.getResources()[0]);
         buildBoard(deck,center);
+       // drawBoard();
+        deck.createEdgeTiles();
 
 
 
@@ -33,13 +36,13 @@ public class Board extends PApplet {
     }
 
     public static void main(String args[]) {
-        PApplet.main(new String[] { "--present", "MyProcessingSketch" });
+        PApplet.main(new String[] { "--present", "Board" });
     }
 
     public void hex(HexTile drawTile){
         int[] cl = drawTile.tileColor();
         fill(cl[0],cl[1],cl[2]);
-        stroke(0,0,0,7);
+        stroke(0,0,0,30);
         beginShape();
         vertex(drawTile.getAx(), drawTile.getAy());
         vertex(drawTile.getBx(), drawTile.getBy());
@@ -48,23 +51,63 @@ public class Board extends PApplet {
         vertex(drawTile.getEx(), drawTile.getEy());
         vertex(drawTile.getFx(), drawTile.getFy());
         endShape(CLOSE);
-        stroke(0,0,0);
-        fill(255);
         if(drawTile.getValue() < 13) {
+            stroke(0,0,0,0);
+            fill(0,0,0,60f);
+            ellipse(drawTile.getCenter()[0]+2, drawTile.getCenter()[1]+2, 30, 30);
+            stroke(0,0,0,5);
+            fill(255,243,224);
             ellipse(drawTile.getCenter()[0], drawTile.getCenter()[1], 30, 30);
-            textSize(10);
-            fill(0);
-            text("" + drawTile.getValue(), drawTile.getCenter()[0], drawTile.getCenter()[1]);
+            textSize(15);
+            PFont f = createFont("assets/merit4.ttf",15);
+            textFont(f);
+            fill(121,85,72);
+            String token = "" + drawTile.getValue();
+
+            text(token, (float) (drawTile.getCenter()[0] - (textWidth(token) / 2)), (float) (drawTile.getCenter()[1] + 6));
         }
     }
 
+    /**
+     * A method for building a board
+     * given a specific build order
+     * from the center out
+     * Also assigns the tile resource type and
+     * token value
+     * @param deck the catan deck for your game
+     * @param center the center tile
+     */
     public void buildBoard(CatanDeck deck, HexTile center){
         deck.getTiles()[0] = center;
-        hex(center);
+        deck.bulkAddCoord(center);
+       // hex(center);
         for(int i =0; i < 18; i++){
             deck.getTiles()[i+1] = deck.getTiles()[i].expand(deck.getBuildOrder()[i], deck.getTokenValues()[i+1],deck.getResources()[i+1]);
-            hex(deck.getTiles()[i + 1]);
+            deck.bulkAddCoord(deck.getTiles()[i+1]);
+            stroke(0,0,0,0);
+           // hex(deck.getTiles()[i + 1]);
         }
+    }
+
+
+    /**
+     * A method for drawing the board.
+     * Should not be called before buildBoard()
+     * If a coast is desired, it should be called after
+     * drawCoast()
+     */
+    public void drawBoard(){
+        for(int i= 0; i < deck.getTiles().length; i++){
+            hex(deck.getTiles()[i]);
+        }
+
+    }
+
+    /**
+     * A method for drawing the coast.
+     */
+    public void drawCoast(){
+
     }
 }
 

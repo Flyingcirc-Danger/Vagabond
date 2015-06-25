@@ -191,7 +191,8 @@ public class HexTile {
      * @return Hex tile CD neighbor
      */
     public HexTile addCD(int value, String newResourceType){
-        return new HexTile(B[0], B[1] + radius, radius, order++, value, newResourceType);
+        int newOrder = order + 1;
+        return new HexTile(B[0], B[1] + radius, radius, newOrder, value, newResourceType);
     }
 
     /**
@@ -201,7 +202,8 @@ public class HexTile {
      * @return Hex tile BC neighbor
      */
     public HexTile addBC(int value,String newResourceType){
-        return new HexTile(center[0] + (radius * 2),center[1], radius, order++,value, newResourceType);
+        int newOrder = order + 1;
+        return new HexTile(center[0] + (radius * 2),center[1], radius, newOrder,value, newResourceType);
     }
 
     /**
@@ -211,7 +213,8 @@ public class HexTile {
      * @return Hex tile AB neighbor
      */
     public HexTile addAB(int value, String newResourceType){
-        return new HexTile(C[0], C[1] - radius, radius, order++,value,newResourceType);
+        int newOrder = order + 1;
+        return new HexTile(C[0], C[1] - radius, radius, newOrder,value,newResourceType);
     }
 
     /**
@@ -221,7 +224,7 @@ public class HexTile {
      * @return Hex tile FA neighbor
      */
     public HexTile addFA(int value, String newResourceType){
-        return new HexTile(E[0], E[1] - radius, radius, order++,value,newResourceType);
+        return new HexTile(E[0], E[1] - radius, radius, order + 1,value,newResourceType);
     }
 
     /**
@@ -231,7 +234,7 @@ public class HexTile {
      * @return Hex tile EF neighbor
      */
     public HexTile addEF(int value, String newResourceType){
-        return new HexTile(center[0] - (radius * 2),center[1], radius,order++,value,newResourceType);
+        return new HexTile(center[0] - (radius * 2),center[1], radius,order + 1,value,newResourceType);
     }
 
 
@@ -242,7 +245,7 @@ public class HexTile {
      * @return Hex tile DE neighbor
      */
     public HexTile addDE(int value,String newResourceType){
-        return new HexTile(F[0],F[1] + radius, radius,order++,value,newResourceType);
+        return new HexTile(F[0],F[1] + radius, radius,order + 1,value,newResourceType);
     }
 
     public HexTile expand(String instruction, int value,String newResourceType) throws IllegalArgumentException{

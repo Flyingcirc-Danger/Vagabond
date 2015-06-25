@@ -1,4 +1,8 @@
-import java.util.Random;
+import com.sun.javafx.geom.Point2D;
+
+import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  *
@@ -9,6 +13,8 @@ public class CatanDeck {
     private String[] resources;
     private String[] buildOrder;
     private int[] tokenValues;
+    private HashMap<Point, ArrayList<Integer>> pointMap;
+    private ArrayList<Point> edgeCoords;
 
     public CatanDeck(boolean classicRules){
         if(classicRules){
@@ -33,6 +39,8 @@ public class CatanDeck {
                     };
             //shuffle the terrain and update the token values
             findDesert(shuffleTerrain());
+            pointMap = new HashMap<Point, ArrayList<Integer>>();
+            edgeCoords = new ArrayList<Point>();
 
         }
 
@@ -69,6 +77,75 @@ public class CatanDeck {
 
     public void setResources(String[] resources) {
         this.resources = resources;
+    }
+
+    /**
+     * A method for populating the coordinate hashmap
+     * @param coord the v2 coordinate you wish to add
+     * @param order the order/id of the hex that it belongs to.
+     */
+    public void addCoordinate(int[] coord, int order){
+
+        Point key = arrayToPoint(coord);
+        if(pointMap.containsKey(key)){
+            pointMap.get(key).add(order);
+        } else{
+            ArrayList<Integer> value = new ArrayList<Integer>();
+            value.add(order);
+            pointMap.put(key,value);
+        }
+    }
+
+    /**
+     * Adds all the coordinates from a single hex tile
+     * into the coordinate hashmap
+     * @param toAdd the hextile you wish to operate on
+     */
+    public void bulkAddCoord(HexTile toAdd){
+        int id = toAdd.getOrder();
+        addCoordinate(toAdd.getA(), id);
+        addCoordinate(toAdd.getB(),id);
+        addCoordinate(toAdd.getC(),id);
+        addCoordinate(toAdd.getD(),id);
+        addCoordinate(toAdd.getE(),id);
+        addCoordinate(toAdd.getF(),id);
+    }
+
+    public void createEdgeTiles(){
+        Iterator it = pointMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            ArrayList<Integer> ids = (ArrayList<Integer>)pair.getValue();
+            if(ids.size() == 1) {
+
+                System.out.println(ids.toString());
+            }
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+    }
+
+
+    /**
+     * Converts an int array of size 2 to a Point object
+     * @param toConvert the array to convert
+     * @return a new Point object.
+     */
+    public Point arrayToPoint(int[] toConvert) throws IllegalArgumentException{
+        if(toConvert.length > 2){
+            throw new IllegalArgumentException();
+        }
+        return new Point(toConvert[0],toConvert[1]);
+    }
+
+
+    /**
+     * Converts a point object to an int array
+     * @param toConvert the point object containing X & Y coords
+     * @return an int array with the point coords.
+     */
+    public int[] pointToArray(Point toConvert){
+        int[] result = new int[] {(int) toConvert.getX(), (int) toConvert.getY()};
+        return result;
     }
 
     /**
