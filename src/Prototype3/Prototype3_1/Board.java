@@ -1,4 +1,4 @@
-package Prototype3;
+package Prototype3.Prototype3_1;
 
 import processing.core.PApplet;
 
@@ -60,6 +60,6 @@ public class Board extends PApplet {
     }
 
     public static void main(String args[]) {
-        PApplet.main(new String[] { "--present", "Prototype3.Board" });
+        PApplet.main(new String[] { "--present", "Prototype3.Prototype3_1.Board" });
     }
 }

@@ -1,4 +1,4 @@
-package Prototype3;
+package Prototype3.Prototype3_2;
 
 import processing.core.PApplet;
 
