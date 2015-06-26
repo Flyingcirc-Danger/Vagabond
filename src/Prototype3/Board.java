@@ -26,7 +26,7 @@ public class Board extends PApplet {
         this.center= new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, new BoardData());
         center.getModel().buildBoard(center);
         fill(0);
-        text("Prototype 2", 20,20);
+        text("Prototype 3.1", 20,20);
 
     }
 
