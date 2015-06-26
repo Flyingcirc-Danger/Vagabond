@@ -68,6 +68,10 @@ public class HexTile {
 
     }
 
+    /**
+     * Populates the neighbors of each point.
+     * The neighbors are a set, so no duplicates can be added
+     */
     private void configureNeighbors(){
         this.A.getNeigbors().add(F);
         this.A.getNeigbors().add(B);
@@ -91,10 +95,9 @@ public class HexTile {
      */
     private HexPoint addToPointMap(Point toAdd){
         if(model.getPointMap().containsKey(toAdd)){
-            model.getPointMap().get(toAdd).setEdge(false);
             return model.getPointMap().get(toAdd);
         } else {
-            HexPoint newPoint = new HexPoint(toAdd,model.assignID(),parent);
+            HexPoint newPoint = new HexPoint(toAdd, center, model.assignID(),parent);
             model.getPointMap().put(toAdd,newPoint);
             return newPoint;
         }
@@ -105,7 +108,8 @@ public class HexTile {
      */
     public void display(){
         parent.smooth(8);
-        parent.stroke(0, 0, 0,20);
+        parent.fill(255);
+        parent.stroke(0,0,0,40);
         parent.beginShape();
         parent.vertex((float) A.getX(),(float) A.getY());
         parent.vertex((float) B.getX(), (float) B.getY());
@@ -250,6 +254,9 @@ public class HexTile {
         return model;
     }
 
+    public PApplet getParent() {
+        return parent;
+    }
 
     /**
      * Decides how to round a double
@@ -281,6 +288,10 @@ public class HexTile {
                 "\nF: " + F.toString();
     }
 
+    /**
+     * A method for displaying points on
+     * the hex. Calls the display method of each point.
+     */
     public void pointDebug(){
         this.A.display();
         this.B.display();
@@ -291,6 +302,11 @@ public class HexTile {
     }
 
 
+    /**
+     * A method for checking the mouse position
+     * relative to the points on this hex
+     * @return
+     */
     public boolean checkPoints(){
         if(A.overPoint()){
             A.mapNeigbors();
@@ -318,5 +334,27 @@ public class HexTile {
         } else {
             return false;
         }
+    }
+
+    public HexTile expand(String instruction) throws IllegalArgumentException{
+        if(instruction.equals("AB")){
+            return this.addAB();
+        }
+        if(instruction.equals("BC")) {
+            return this.addBC();
+        }
+        if(instruction.equals("CD")){
+            return this.addCD();
+        }
+        if(instruction.equals("DE")){
+            return this.addDE();
+        }
+        if(instruction.equals("EF")){
+            return this.addEF();
+        }
+        if(instruction.equals("FA")){
+            return this.addFA();
+        }
+        else throw new IllegalArgumentException();
     }
 }

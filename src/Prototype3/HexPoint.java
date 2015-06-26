@@ -3,14 +3,15 @@ package Prototype3;
 import processing.core.PApplet;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * Created by Tom_Bryant on 6/26/15.
+ * A Hex point object. In vagabond you build
+ * on hex points, so it's important for each point
+ * to know their neigbors.
  */
-public class HexPoint {
+public class HexPoint implements Comparable<HexPoint> {
 
     private PApplet parent;
 
@@ -18,14 +19,16 @@ public class HexPoint {
     private HashSet<HexPoint> neigbors;
     private int id;
     private boolean edge;
+    private Point centerCoords;
 
 
-    public HexPoint(Point coords, int id, PApplet parent){
+    public HexPoint(Point coords, Point centerCoords, int id, PApplet parent){
         this.coords = coords;
         this.id = id;
         this.edge = true;
         this.parent = parent;
         this.neigbors = new HashSet<HexPoint>();
+        this.centerCoords = centerCoords;
     }
 
     /**
@@ -66,7 +69,10 @@ public class HexPoint {
     }
 
     public boolean isEdge() {
-        return edge;
+        if(neigbors.size() > 2){
+            return false;
+        }
+        return true;
     }
 
     public void setEdge(boolean edge) {
@@ -81,6 +87,14 @@ public class HexPoint {
         return this.coords.getY();
     }
 
+    public Point getCenterCoords() {
+        return centerCoords;
+    }
+
+    public PApplet getParent() {
+        return parent;
+    }
+
     @Override
     public String toString() {
         return "HexPoint{" +
@@ -90,25 +104,44 @@ public class HexPoint {
                 '}';
     }
 
+    /**
+     * A method for mapping lines between all neighbors
+     */
     public void mapNeigbors(){
         for(HexPoint pt : neigbors) {
             parent.stroke(255, 0, 0);
             parent.strokeWeight(5);
             parent.line(coords.x, coords.y, (float)pt.getX(),(float)pt.getY());
+            parent.strokeWeight(1);
         }
     }
 
+    /**
+     * A method for checking to see if the mouse is over this
+     * point.
+     * @return
+     */
+
+
     boolean overPoint() {
-        int x = coords.x;
-        int y = coords.y;
-        int width = 10;
-        int height = 20;
-        if (parent.mouseX >= x && parent.mouseX <= x+width &&
-                parent.mouseY >= y && parent.mouseY <= y+height) {
+        float disX = coords.x - parent.mouseX;
+        float disY = coords.y - parent.mouseY;
+        if(parent.sqrt(parent.sq(disX) + parent.sq(disY)) < 20 ) {
             return true;
         } else {
             return false;
         }
+    }
+
+    @Override
+    public int compareTo(HexPoint o) {
+        if(o.getId()< this.getId()){
+            return 1;
+        }
+        if(o.getId() > this.getId()){
+            return -1;
+        }
+        return 0;
     }
 }
 
