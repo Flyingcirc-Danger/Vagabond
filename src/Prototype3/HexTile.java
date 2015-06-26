@@ -14,23 +14,27 @@ public class HexTile {
 
     //points
     private Point center;
-    private Point A;
-    private Point B;
-    private Point C;
-    private Point D;
-    private Point E;
-    private Point F;
+    private HexPoint A;
+    private HexPoint B;
+    private HexPoint C;
+    private HexPoint D;
+    private HexPoint E;
+    private HexPoint F;
 
     //measurements
     private int radius;
     private int sideToSide;
     private int canopyHeight;
 
-    public HexTile(PApplet parent, double centerX, double centerY, int radius){
+    //board data
+    private BoardData model;
+
+    public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model){
         this.parent = parent;
         this.center = new Point();
         this.center.setLocation(centerX, centerY);
         this.radius = radius;
+        this.model = model;
         initPoints();
 
     }
@@ -42,18 +46,58 @@ public class HexTile {
     private void initPoints(){
         this.sideToSide = decideRound((Math.sqrt(3) * this.radius) / 2);
         this.canopyHeight = decideRound(radius - Math.sqrt((Math.pow(radius, 2) - Math.pow(sideToSide, 2))));
-        this.A = new Point();
-        A.setLocation(center.getX(), center.getY() - radius);
-        this.B = new Point();
-        B.setLocation(center.getX() + sideToSide, center.getY() - canopyHeight);
-        this.C = new Point();
-        C.setLocation(center.getX() + sideToSide, center.getY() + canopyHeight);
-        this.D = new Point();
-        D.setLocation(center.getX(), center.getY() + radius);
-        this.E = new Point();
-        E.setLocation(center.getX() - sideToSide, center.getY() + canopyHeight);
-        this.F = new Point();
-        F.setLocation(center.getX() - sideToSide, center.getY() - canopyHeight);
+        Point tempA = new Point();
+        tempA.setLocation(center.getX(), center.getY() - radius);
+        this.A = addToPointMap(tempA);
+        Point tempB = new Point();
+        tempB.setLocation(center.getX() + sideToSide, center.getY() - canopyHeight);
+        this.B = addToPointMap(tempB);
+        Point tempC = new Point();
+        tempC.setLocation(center.getX() + sideToSide, center.getY() + canopyHeight);
+        this.C = addToPointMap(tempC);
+        Point tempD = new Point();
+        tempD.setLocation(center.getX(), center.getY() + radius);
+        this.D = addToPointMap(tempD);
+        Point tempE = new Point();
+        tempE.setLocation(center.getX() - sideToSide, center.getY() + canopyHeight);
+        this.E = addToPointMap(tempE);
+        Point tempF = new Point();
+        tempF.setLocation(center.getX() - sideToSide, center.getY() - canopyHeight);
+        this.F = addToPointMap(tempF);
+        configureNeighbors();
+
+    }
+
+    private void configureNeighbors(){
+        this.A.getNeigbors().add(F);
+        this.A.getNeigbors().add(B);
+        this.B.getNeigbors().add(A);
+        this.B.getNeigbors().add(C);
+        this.C.getNeigbors().add(B);
+        this.C.getNeigbors().add(D);
+        this.D.getNeigbors().add(C);
+        this.D.getNeigbors().add(E);
+        this.E.getNeigbors().add(D);
+        this.E.getNeigbors().add(F);
+        this.F.getNeigbors().add(E);
+        this.F.getNeigbors().add(A);
+    }
+
+    /**
+     * Creates a new HexPoint if one doesn't already
+     * Exist
+     * @param toAdd the co-ordinate to create a new HexPoint
+     * @return the new HexPoint;
+     */
+    private HexPoint addToPointMap(Point toAdd){
+        if(model.getPointMap().containsKey(toAdd)){
+            model.getPointMap().get(toAdd).setEdge(false);
+            return model.getPointMap().get(toAdd);
+        } else {
+            HexPoint newPoint = new HexPoint(toAdd,model.assignID(),parent);
+            model.getPointMap().put(toAdd,newPoint);
+            return newPoint;
+        }
     }
 
     /**
@@ -77,7 +121,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addAB(){
-        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius);
+        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius,model);
     }
 
     /**
@@ -85,7 +129,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addBC(){
-        return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius);
+        return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius,model);
     }
 
     /**
@@ -93,7 +137,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addCD(){
-        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius);
+        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius,model);
     }
 
     /**
@@ -102,7 +146,7 @@ public class HexTile {
      */
     public HexTile addDE(){
         //return new HexTile(parent,E.getX(),(center.getY() + (radius + (radius - canopyHeight))),radius);
-        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius);
+        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius,model);
     }
 
     /**
@@ -110,7 +154,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addEF(){
-        return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius);
+        return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius,model);
     }
 
     /**
@@ -119,57 +163,91 @@ public class HexTile {
      */
     public HexTile addFA(){
        // return new HexTile(parent,F.getX(),(center.getY() - (radius + (radius - canopyHeight))),radius);
-        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius);
+        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius,model);
     }
 
-    //Getters & setters
-
-    public void setA(Point a) {
-        A = a;
+    public Point getCenter() {
+        return center;
     }
 
-    public void setB(Point b) {
-        B = b;
+    public void setCenter(Point center) {
+        this.center = center;
     }
 
-    public void setC(Point c) {
-        C = c;
-    }
-
-    public void setD(Point d) {
-        D = d;
-    }
-
-    public void setE(Point e) {
-        E = e;
-    }
-
-    public void setF(Point f) {
-        F = f;
-    }
-
-    public Point getA() {
+    public HexPoint getA() {
         return A;
     }
 
-    public Point getB() {
+    public void setA(HexPoint a) {
+        A = a;
+    }
+
+    public HexPoint getB() {
         return B;
     }
 
-    public Point getC() {
+    public void setB(HexPoint b) {
+        B = b;
+    }
+
+    public HexPoint getC() {
         return C;
     }
 
-    public Point getD() {
+    public void setC(HexPoint c) {
+        C = c;
+    }
+
+    public HexPoint getD() {
         return D;
     }
 
-    public Point getE() {
+    public void setD(HexPoint d) {
+        D = d;
+    }
+
+    public HexPoint getE() {
         return E;
     }
 
-    public Point getF() {
+    public void setE(HexPoint e) {
+        E = e;
+    }
+
+    public HexPoint getF() {
         return F;
+    }
+
+    public void setF(HexPoint f) {
+        F = f;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    public int getSideToSide() {
+        return sideToSide;
+    }
+
+    public void setSideToSide(int sideToSide) {
+        this.sideToSide = sideToSide;
+    }
+
+    public int getCanopyHeight() {
+        return canopyHeight;
+    }
+
+    public void setCanopyHeight(int canopyHeight) {
+        this.canopyHeight = canopyHeight;
+    }
+
+    public BoardData getModel() {
+        return model;
     }
 
 
@@ -201,5 +279,44 @@ public class HexTile {
                 "\nD: " + D.toString() +
                 "\nE: " + E.toString() +
                 "\nF: " + F.toString();
+    }
+
+    public void pointDebug(){
+        this.A.display();
+        this.B.display();
+        this.C.display();
+        this.D.display();
+        this.E.display();
+        this.F.display();
+    }
+
+
+    public boolean checkPoints(){
+        if(A.overPoint()){
+            A.mapNeigbors();
+            return true;
+        }
+        if(B.overPoint()){
+            B.mapNeigbors();
+            return true;
+        }
+        if(C.overPoint()){
+            C.mapNeigbors();
+            return true;
+        }
+        if(D.overPoint()){
+            D.mapNeigbors();
+            return true;
+        }
+        if(E.overPoint()){
+            E.mapNeigbors();
+            return true;
+        }
+        if(F.overPoint()){
+            F.mapNeigbors();
+            return true;
+        } else {
+            return false;
+        }
     }
 }
