@@ -25,31 +25,22 @@ public class Board extends PApplet {
         smooth(8);
         this.center= new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, new BoardData());
         center.getModel().buildBoard(center);
+        fill(0);
+        text("Prototype 2", 20,20);
 
     }
 
 
 
     public void draw() {
-        //hex(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 50f);
 
 
-        //center.getModel().drawCoast(this);
         fill(255,0,0,0);
-
 
         fill(0);
         center.getModel().displayBoard();
 
 
-        loop();
-
-//        text("A", (int) center.getA().getX(), (int) center.getA().getY());
-//        text("B", (int) center.getB().getX(), (int) center.getB().getY());
-//        text("C", (int) center.getC().getX(), (int) center.getC().getY());
-//        text("D", (int)center.getD().getX(), (int) center.getD().getY());
-//        text("E", (int)center.getE().getX(), (int)center.getE().getY());
-//        text("F", (int) center.getF().getX(), (int) center.getF().getY());
 
 
     }
