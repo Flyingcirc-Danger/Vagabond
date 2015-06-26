@@ -24,26 +24,28 @@ public class Board extends PApplet {
 
     public void draw() {
         //hex(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 50f);
-        HexTile center = new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50);
-        //center.display();
+        HexTile center = new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,35);
         HexTile one =  center.addAB();
-        System.out.println("CENTER: " + center.getD().toString());
-        System.out.println(one.getF().toString());
-        System.out.println("CENTER: " + center.getC().toString());
-        System.out.println(one.getA().toString());
         HexTile two =  center.addBC();
         HexTile three =  center.addCD();
+        HexTile four =  center.addDE();
+        HexTile five = center.addEF();
+        HexTile six =  center.addFA();
         fill(255);
+        center.display();
         one.display();
-        //two.display();
-        //three.display();
+        two.display();
+        three.display();
+        four.display();
+        five.display();
+        six.display();
         fill(0);
-        text("A", (int) one.getA().getX(), (int) one.getA().getY());
-        text("B", (int)one.getB().getX(), (int)one.getB().getY());
-        text("C", (int)one.getC().getX(), (int)one.getC().getY());
-        text("D", (int)one.getD().getX(), (int)one.getD().getY());
-        text("E", (int)one.getE().getX(), (int)one.getE().getY());
-        text("F", (int)one.getF().getX(), (int)one.getF().getY());
+        text("A", (int) center.getA().getX(), (int) center.getA().getY());
+        text("B", (int) center.getB().getX(), (int) center.getB().getY());
+        text("C", (int) center.getC().getX(), (int) center.getC().getY());
+        text("D", (int)center.getD().getX(), (int) center.getD().getY());
+        text("E", (int)center.getE().getX(), (int)center.getE().getY());
+        text("F", (int) center.getF().getX(), (int) center.getF().getY());
 
 
     }

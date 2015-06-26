@@ -35,23 +35,30 @@ public class HexTile {
 
     }
 
+    /**
+     * Initializes the points based on the given
+     * center coords and radius
+     */
     private void initPoints(){
         this.sideToSide = decideRound((Math.sqrt(3) * this.radius) / 2);
-        this.canopyHeight = 1+ decideRound(radius - Math.sqrt((Math.pow(radius, 2) - Math.pow(sideToSide, 2))));
+        this.canopyHeight = decideRound(radius - Math.sqrt((Math.pow(radius, 2) - Math.pow(sideToSide, 2))));
         this.A = new Point();
-        A.setLocation(center.getX(), center.getY() + radius);
+        A.setLocation(center.getX(), center.getY() - radius);
         this.B = new Point();
-        B.setLocation(center.getX() + sideToSide, center.getY() + canopyHeight);
+        B.setLocation(center.getX() + sideToSide, center.getY() - canopyHeight);
         this.C = new Point();
-        C.setLocation(center.getX() + sideToSide, center.getY() - canopyHeight);
+        C.setLocation(center.getX() + sideToSide, center.getY() + canopyHeight);
         this.D = new Point();
-        D.setLocation(center.getX(), center.getY() - radius);
+        D.setLocation(center.getX(), center.getY() + radius);
         this.E = new Point();
-        E.setLocation(center.getX() - sideToSide, center.getY() - canopyHeight);
+        E.setLocation(center.getX() - sideToSide, center.getY() + canopyHeight);
         this.F = new Point();
-        F.setLocation(center.getX() - sideToSide, center.getY() + canopyHeight);
+        F.setLocation(center.getX() - sideToSide, center.getY() - canopyHeight);
     }
 
+    /**
+     * Draws the hex on the parent canvas
+     */
     public void display(){
         parent.smooth(8);
         parent.stroke(0, 0, 0,20);
@@ -65,29 +72,57 @@ public class HexTile {
         parent.endShape();
     }
 
+    /**
+     * Adds a tile along the AB side
+     * @return the new HexTile
+     */
     public HexTile addAB(){
-        return new HexTile(parent,B.getX(),(center.getY() - (radius + (radius - canopyHeight))),radius);
+        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius);
     }
 
+    /**
+     * Adds a tile along the BC side
+     * @return the new HexTile
+     */
     public HexTile addBC(){
         return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius);
     }
 
+    /**
+     * Adds a tile along the CD side
+     * @return the new HexTile
+     */
     public HexTile addCD(){
-        return new HexTile(parent,C.getX(),(center.getY() + (radius + (radius - canopyHeight))),radius);
+        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius);
     }
 
+    /**
+     * Adds a tile along the DE side
+     * @return the new HexTile
+     */
     public HexTile addDE(){
-        return new HexTile(parent,E.getX(),(center.getY() + (radius + (radius - canopyHeight))),radius);
+        //return new HexTile(parent,E.getX(),(center.getY() + (radius + (radius - canopyHeight))),radius);
+        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius);
     }
 
+    /**
+     * Adds a tile along the EF side
+     * @return the new HexTile
+     */
     public HexTile addEF(){
         return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius);
     }
 
+    /**
+     * Adds a tile along the FA side
+     * @return the new HexTile
+     */
     public HexTile addFA(){
-        return new HexTile(parent,F.getX(),(center.getY() - (radius + (radius - canopyHeight))),radius);
+       // return new HexTile(parent,F.getX(),(center.getY() - (radius + (radius - canopyHeight))),radius);
+        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius);
     }
+
+    //Getters & setters
 
     public void setA(Point a) {
         A = a;
@@ -137,6 +172,13 @@ public class HexTile {
         return F;
     }
 
+
+    /**
+     * Decides how to round a double
+     * when converting to int
+     * @param toRound the double to round
+     * @return the rounded number
+     */
     private int decideRound(double toRound){
         double result = ((toRound % (int) toRound));
         int firstDigit = Integer.parseInt(Double.toString(result).substring(0, 1));
@@ -148,6 +190,10 @@ public class HexTile {
         }
     }
 
+    /**
+     * A toString method for only the coordinates
+     * @return
+     */
     public String coordsToString(){
         return "A: " + A.toString() +
                 "\nB: " + B.toString() +
