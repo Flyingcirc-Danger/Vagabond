@@ -156,12 +156,7 @@ public class BoardData {
             return chooseSide(maxIndex, R);
         }
         //Screen bounds checking
-        if((toBuild.getCenter().getX() < (toBuild.getRadius() * 2))
-                || (toBuild.getCenter().getX() > Board.SCREEN_WIDTH - (toBuild.getRadius() * 2))
-                || (toBuild.getCenter().getY() > Board.SCREEN_HEIGHT - (toBuild.getRadius() * 2))
-                ||(toBuild.getCenter().getY() < (toBuild.getRadius() * 2))){
-            return chooseSide(maxIndex, R);
-        }
+
         else {
             //choose a random side
             String[] instructions = new String[]{"AB","BC","CD","DE","EF","FA"};
@@ -174,6 +169,14 @@ public class BoardData {
                 } else {
                     rS--;
                 }
+            }
+            if(((toBuild.getCenter().getX() < (toBuild.getRadius() * 2)) && instructions[rS].equals("EF"))
+                    || ((toBuild.getCenter().getX() > Board.SCREEN_WIDTH - (toBuild.getRadius() * 2))&& instructions[rS].equals("BC"))
+                    || ((toBuild.getCenter().getY() > Board.SCREEN_HEIGHT - (toBuild.getRadius() * 2))&& instructions[rS].equals("CD"))
+                    || ((toBuild.getCenter().getY() > Board.SCREEN_HEIGHT - (toBuild.getRadius() * 2))&& instructions[rS].equals("DE"))
+                    || ((toBuild.getCenter().getY() < (toBuild.getRadius() * 2)) && instructions[rS].equals("FA"))
+                    || ((toBuild.getCenter().getY() < (toBuild.getRadius() * 2)) && instructions[rS].equals("AB"))){
+                return chooseSide(maxIndex, R);
             }
 
             return toBuild.expand(instructions[rS]);

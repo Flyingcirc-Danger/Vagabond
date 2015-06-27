@@ -7,7 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f28f63ae-1344-4579-ab5b-77e189cbc3ad" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -31,24 +30,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7758985">
+            <state vertical-scroll-proportion="0.0">
               <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BoardData.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BoardData.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.851851">
-              <caret line="161" column="48" selection-start-line="161" selection-start-column="48" selection-end-line="161" selection-end-column="48" />
-              <folding>
-                <marker date="1435425728000" expanded="true" signature="4543:4936" placeholder="..." />
-              </folding>
+            <state vertical-scroll-proportion="0.83856505">
+              <caret line="177" column="114" selection-start-line="177" selection-start-column="114" selection-end-line="177" selection-end-column="114" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -122,8 +119,8 @@
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_2/Board.java" />
         <option value="$PROJECT_DIR$/src/Prototype4/Board.java" />
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexTile.java" />
-        <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java" />
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java" />
+        <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java" />
       </list>
     </option>
   </component>
@@ -1054,16 +1051,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.851851">
-          <caret line="161" column="48" selection-start-line="161" selection-start-column="48" selection-end-line="161" selection-end-column="48" />
-          <folding>
-            <marker date="1435425728000" expanded="true" signature="4543:4936" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexTile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.0">
@@ -1074,8 +1061,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7758985">
+        <state vertical-scroll-proportion="0.0">
           <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.83856505">
+          <caret line="177" column="114" selection-start-line="177" selection-start-column="114" selection-end-line="177" selection-end-column="114" />
           <folding />
         </state>
       </provider>
