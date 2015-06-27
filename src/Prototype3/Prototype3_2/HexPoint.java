@@ -21,7 +21,13 @@ public class HexPoint implements Comparable<HexPoint> {
     private boolean edge;
     private Point centerCoords;
 
-
+    /**
+     *
+     * @param coords The coordinate of this point
+     * @param centerCoords the centerCoordinate of the hex this belongs to
+     * @param id the id of this hexpoint
+     * @param parent the canvas to draw on
+     */
     public HexPoint(Point coords, Point centerCoords, int id, PApplet parent){
         this.coords = coords;
         this.id = id;

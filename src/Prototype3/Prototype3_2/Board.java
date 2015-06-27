@@ -2,6 +2,8 @@ package Prototype3.Prototype3_2;
 
 import processing.core.PApplet;
 
+import java.awt.*;
+
 /**
  * Created by Tom_Bryant on 6/25/15.
  */
@@ -36,7 +38,9 @@ public class Board extends PApplet {
 
         fill(0);
         center.getModel().displayBoard();
-
+        boxLine(center.getA().getCoords(), center.getB().getCoords());
+        boxLine(center.getB().getCoords(), center.getC().getCoords());
+        fill(0);
 
 
 
@@ -58,6 +62,25 @@ public class Board extends PApplet {
         endShape();
 
     }
+
+
+    public void boxLine(Point a, Point b){
+        int slopeX = b.x - a.x;
+        slopeX = slopeX/10;
+        int slopeY = b.y - a.y;
+        slopeY = slopeY/10;
+        stroke(0,0,0,0);
+        beginShape();
+        vertex(b.x +slopeY, b.y + -slopeX);
+        vertex(a.x +slopeY, a.y + -slopeX);
+        vertex(a.x -slopeY, a.y + slopeX);
+        vertex(b.x -slopeY, b.y + slopeX);
+        endShape();
+        //line(b.x + slopeY, b.y + -slopeX, b.x -slopeY, b.y + slopeX);
+        //line(a.x +slopeY, a.y+ -slopeX,a.x -slopeY, a.y + slopeX);
+        }
+
+
 
     public static void main(String args[]) {
         PApplet.main(new String[] { "--present", "Prototype3.Prototype3_2.Board" });
