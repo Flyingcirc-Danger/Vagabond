@@ -20,6 +20,14 @@ public class HexTile {
     private HexPoint E;
     private HexPoint F;
 
+    //sides
+    private HexSide AB;
+    private HexSide BC;
+    private HexSide CD;
+    private HexSide DE;
+    private HexSide EF;
+    private HexSide FA;
+
     //measurements
     private int radius;
     private int sideToSide;
@@ -28,13 +36,19 @@ public class HexTile {
     //board data
     private BoardData model;
 
+    private int[] hexColor;
+    private boolean highlighted;
+
     public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model){
         this.parent = parent;
         this.center = new Point();
         this.center.setLocation(centerX, centerY);
         this.radius = radius;
         this.model = model;
+        this.hexColor = new int[] {255,255,255};
+        this.highlighted = false;
         initPoints();
+        initSides();
 
     }
 
@@ -90,16 +104,80 @@ public class HexTile {
      * Creates a new HexPoint if one doesn't already
      * Exist
      * @param toAdd the co-ordinate to create a new HexPoint
-     * @return the new HexPoint;
+     * @return the new or shared HexPoint;
      */
     private HexPoint addToPointMap(Point toAdd){
         if(model.getPointMap().containsKey(toAdd)){
             return model.getPointMap().get(toAdd);
         } else {
-            HexPoint newPoint = new HexPoint(toAdd, center, model.assignID(),parent);
+            HexPoint newPoint = new HexPoint(toAdd, center, model.assignPointID(),parent);
             model.getPointMap().put(toAdd,newPoint);
             return newPoint;
         }
+    }
+
+    /**
+     * Initializes this hexagons sides.
+     */
+    private void initSides(){
+        this.AB = addToSideMap(this.A, this.B);
+        this.BC = addToSideMap(this.B, this.C);
+        this.CD = addToSideMap(this.C, this.D);
+        this.DE = addToSideMap(this.D, this.E);
+        this.EF = addToSideMap(this.E, this.F);
+        this.FA = addToSideMap(this.F, this.A);
+        configureSideBorders();
+    }
+
+    /**
+     * Creates a new HexSide if one doesn't already exist
+     * @param start The start of this side
+     * @param end The end of this side
+     * @return The new or shared HexSide
+     */
+    private HexSide addToSideMap( HexPoint start, HexPoint end){
+        Point midPoint = findMidPoint(start, end);
+        if(model.getSideMap().containsKey(midPoint)){
+            return model.getSideMap().get(midPoint);
+        } else {
+            HexSide newSide = new HexSide(start,end,midPoint,model.assignSideID(),parent);
+            return newSide;
+        }
+    }
+
+    /**
+     * Populates the neigbors and borders of each side.
+     */
+    private void configureSideBorders(){
+        //neighbors are the sides which connect to this side
+        this.AB.getNeighbors().add(FA);
+        this.AB.getNeighbors().add(BC);
+        this.BC.getNeighbors().add(AB);
+        this.BC.getNeighbors().add(CD);
+        this.CD.getNeighbors().add(BC);
+        this.CD.getNeighbors().add(DE);
+        this.DE.getNeighbors().add(CD);
+        this.DE.getNeighbors().add(EF);
+        this.EF.getNeighbors().add(DE);
+        this.EF.getNeighbors().add(FA);
+        this.FA.getNeighbors().add(EF);
+        this.FA.getNeighbors().add(AB);
+        //borders are the hex tiles which this side borders
+        this.AB.getBorders().add(this);
+        this.BC.getBorders().add(this);
+        this.CD.getBorders().add(this);
+        this.DE.getBorders().add(this);
+        this.EF.getBorders().add(this);
+        this.FA.getBorders().add(this);
+    }
+
+    /**
+     * Finds the midpoint between two points
+     */
+    private Point findMidPoint(HexPoint start, HexPoint end){
+        int tempX = (int)((start.getX() + end.getX())/2);
+        int tempY = (int)((start.getY() + end.getY())/2);
+        return new Point(tempX,tempY);
     }
 
     /**
@@ -107,7 +185,11 @@ public class HexTile {
      */
     public void display(){
         parent.smooth(8);
-        parent.fill(255);
+        if(this.isHighlighted()){
+            parent.fill(244,67,54);
+        }else {
+            parent.fill(255);
+        }
         parent.stroke(0,0,0,40);
         parent.beginShape();
         parent.vertex((float) A.getX(),(float) A.getY());
@@ -257,6 +339,62 @@ public class HexTile {
         return parent;
     }
 
+    public HexSide getAB() {
+        return AB;
+    }
+
+    public void setAB(HexSide AB) {
+        this.AB = AB;
+    }
+
+    public HexSide getBC() {
+        return BC;
+    }
+
+    public void setBC(HexSide BC) {
+        this.BC = BC;
+    }
+
+    public HexSide getCD() {
+        return CD;
+    }
+
+    public void setCD(HexSide CD) {
+        this.CD = CD;
+    }
+
+    public HexSide getDE() {
+        return DE;
+    }
+
+    public void setDE(HexSide DE) {
+        this.DE = DE;
+    }
+
+    public HexSide getEF() {
+        return EF;
+    }
+
+    public void setEF(HexSide EF) {
+        this.EF = EF;
+    }
+
+    public HexSide getFA() {
+        return FA;
+    }
+
+    public void setFA(HexSide FA) {
+        this.FA = FA;
+    }
+
+    public boolean isHighlighted() {
+        return highlighted;
+    }
+
+    public void setHighlighted(boolean highlighted) {
+        this.highlighted = highlighted;
+    }
+
     /**
      * Decides how to round a double
      * when converting to int
@@ -300,6 +438,19 @@ public class HexTile {
         this.F.display();
     }
 
+    /**
+     * A method for displaying sides
+     * on the hex. Calls the display method of each side.
+     */
+    public void sideDebug(){
+        this.AB.display();
+        this.BC.display();
+        this.CD.display();
+        this.DE.display();
+        this.EF.display();
+        this.FA.display();
+    }
+
 
     /**
      * A method for checking the mouse position
@@ -335,6 +486,47 @@ public class HexTile {
         }
     }
 
+    /**
+     * A method for checking the mouse position
+     * relative to the sides on this hex
+     * @return
+     */
+    public boolean checkSides(){
+        if(AB.overSide()){
+            this.setHighlighted(true);
+            AB.mapNeighbors();
+            return true;
+        }
+        if(BC.overSide()){
+            this.setHighlighted(true);
+            BC.mapNeighbors();
+            return true;
+        }
+        if(CD.overSide()){
+            this.setHighlighted(true);
+            CD.mapNeighbors();
+            return true;
+        }
+        if(DE.overSide()){
+            this.setHighlighted(true);
+            DE.mapNeighbors();
+            return true;
+        }
+        if(EF.overSide()){
+            this.setHighlighted(true);
+            EF.mapNeighbors();
+            return true;
+        }
+        if(FA.overSide()){
+            this.setHighlighted(true);
+            FA.mapNeighbors();
+            return true;
+        }
+        this.setHighlighted(false);
+            return false;
+    }
+
+
     public HexTile expand(String instruction) throws IllegalArgumentException{
         if(instruction.equals("AB")){
             return this.addAB();
@@ -356,4 +548,8 @@ public class HexTile {
         }
         else throw new IllegalArgumentException();
     }
+
+
+
+
 }

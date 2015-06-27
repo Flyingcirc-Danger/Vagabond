@@ -18,10 +18,14 @@ public class BoardData {
     private String[] buildOrder;
     private HexTile[] hexDeck;
 
+    private ArrayList<HexSide> sides;
+    private HashMap<Point, HexSide> sideMap;
+
 
     public BoardData(){
         pointMap = new HashMap<Point, HexPoint>();
         edges = new ArrayList<HexPoint>();
+        sideMap = new HashMap<Point,HexSide>();
         buildOrder = new String[] {"NA","AB", "CD", "DE","EF","FA","AB","AB","BC","CD","CD","DE","DE","EF","EF","FA","FA","AB","AB"};
         hexDeck = new HexTile[19];
     }
@@ -34,15 +38,41 @@ public class BoardData {
         this.pointMap = pointMap;
     }
 
+    public HashMap<Point, HexSide> getSideMap() {
+        return sideMap;
+    }
+
+    public void setSideMap(HashMap<Point, HexSide> sideMap) {
+        this.sideMap = sideMap;
+    }
+
+    public ArrayList<HexSide> getSides() {
+        return sides;
+    }
+
+    public void setSides(ArrayList<HexSide> sides) {
+        this.sides = sides;
+    }
+
     /**
      * IDs are assigned to each point for
      * debugging purposes. They are assigned
      * based on the size of the current HashMap
      * @return the ID of a new point.
      */
-    public int assignID(){
+    public int assignPointID(){
         return this.pointMap.size();
     }
+
+    /**
+     * IDs are assigned to each side for
+     * debugging purposes. They are assigned
+     * based on the size of the current HashMap
+     * @return the ID of a new side.
+     */
+    public int assignSideID() { return this.sideMap.size();}
+
+
 
     public void makeEdge(){
         if(edges.size() == 0) {
@@ -86,12 +116,34 @@ public class BoardData {
         }
     }
 
-    public void displayBoard(){
-       // drawCoast(hexDeck[0].getParent());
+
+    /**
+     * A method for redrawing the board.
+     * OPTIONS:
+     * 0 = no debug
+     * 1 = point debug
+     * 2 = display debug
+     * 3 = debug all
+     * @param option the display mode
+     */
+    public void displayBoard(int option){
         for(int i =0; i< hexDeck.length; i++){
             hexDeck[i].display();
-            hexDeck[i].pointDebug();
-            hexDeck[i].checkPoints();
+            if(option == 1) {
+                hexDeck[i].pointDebug();
+                hexDeck[i].checkPoints();
+            }
+            if(option == 2) {
+                hexDeck[i].sideDebug();
+                hexDeck[i].checkSides();
+            }
+            if(option == 3){
+                hexDeck[i].pointDebug();
+                hexDeck[i].sideDebug();
+                hexDeck[i].checkPoints();
+                hexDeck[i].checkSides();
+            }
+
         }
     }
 }

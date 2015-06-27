@@ -127,8 +127,6 @@ public class HexPoint implements Comparable<HexPoint> {
      * point.
      * @return
      */
-
-
     boolean overPoint() {
         float disX = coords.x - parent.mouseX;
         float disY = coords.y - parent.mouseY;

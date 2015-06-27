@@ -25,7 +25,7 @@ public class Board extends PApplet {
         this.center= new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, new BoardData());
         center.getModel().buildBoard(center);
         fill(0);
-        text("Prototype 3.1", 20,20);
+        text("Prototype 3.2", 20,20);
 
     }
 
@@ -37,9 +37,8 @@ public class Board extends PApplet {
         fill(255,0,0,0);
 
         fill(0);
-        center.getModel().displayBoard();
-        boxLine(center.getA().getCoords(), center.getB().getCoords());
-        boxLine(center.getB().getCoords(), center.getC().getCoords());
+        center.getModel().displayBoard(2);
+
         fill(0);
 
 
@@ -64,21 +63,7 @@ public class Board extends PApplet {
     }
 
 
-    public void boxLine(Point a, Point b){
-        int slopeX = b.x - a.x;
-        slopeX = slopeX/10;
-        int slopeY = b.y - a.y;
-        slopeY = slopeY/10;
-        stroke(0,0,0,0);
-        beginShape();
-        vertex(b.x +slopeY, b.y + -slopeX);
-        vertex(a.x +slopeY, a.y + -slopeX);
-        vertex(a.x -slopeY, a.y + slopeX);
-        vertex(b.x -slopeY, b.y + slopeX);
-        endShape();
-        //line(b.x + slopeY, b.y + -slopeX, b.x -slopeY, b.y + slopeX);
-        //line(a.x +slopeY, a.y+ -slopeX,a.x -slopeY, a.y + slopeX);
-        }
+
 
 
 
