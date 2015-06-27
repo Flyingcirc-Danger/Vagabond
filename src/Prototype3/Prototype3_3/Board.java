@@ -1,8 +1,6 @@
-package Prototype3.Prototype3_2;
+package Prototype3.Prototype3_3;
 
 import processing.core.PApplet;
-
-import java.awt.*;
 
 /**
  * Created by Tom_Bryant on 6/25/15.
@@ -23,9 +21,10 @@ public class Board extends PApplet {
         background(0, 188, 212);
         smooth(8);
         this.center= new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, new BoardData());
-        center.getModel().buildBoard(center);
+        center.getModel().buildRandomBoard((center));
+        //center.getModel().buildBoard((center));
         fill(0);
-        text("Prototype 3.2.0", 20,20);
+        text("Prototype 3.3", 20,20);
 
     }
 
@@ -37,7 +36,8 @@ public class Board extends PApplet {
         fill(255,0,0,0);
 
         fill(0);
-        center.getModel().displayBoard(2);
+        center.getModel().displayBoard(3);
+        //System.out.println(center.checkNeighbor("AB"));
 
         fill(0);
 
@@ -68,6 +68,6 @@ public class Board extends PApplet {
 
 
     public static void main(String args[]) {
-        PApplet.main(new String[] { "--present", "Prototype3.Prototype3_2.Board" });
+        PApplet.main(new String[] { "--present", "Prototype3.Prototype3_3.Board" });
     }
 }

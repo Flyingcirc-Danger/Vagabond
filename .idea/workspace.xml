@@ -2,19 +2,20 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="CatanBoard3-2:jar" />
+      <artifact name="CatanBoard3-3:jar" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f28f63ae-1344-4579-ab5b-77e189cbc3ad" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexPoint.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexSide.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexTile.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_3/README.txt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/artifacts/CatanBoard_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/CatanBoard3_1_jar.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype3/Prototype3_2/Board.java" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_2/Board.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype3/Prototype3_2/BoardData.java" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_2/BoardData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexPoint.java" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexPoint.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexSide.java" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexSide.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexTile.java" afterPath="$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexTile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CatanBoard.iws" />
@@ -37,121 +38,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HexSide.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexSide.java">
+      <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="124" column="38" selection-start-line="124" selection-start-column="38" selection-end-line="124" selection-end-column="38" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1579#1580#0" expanded="true" />
-                <element signature="e#1607#1608#0" expanded="true" />
-                <element signature="e#1651#1652#0" expanded="true" />
-                <element signature="e#1685#1686#0" expanded="true" />
-                <element signature="e#1717#1718#0" expanded="true" />
-                <element signature="e#1743#1744#0" expanded="true" />
-                <element signature="e#1783#1784#0" expanded="true" />
-                <element signature="e#1813#1814#0" expanded="true" />
-                <element signature="e#1847#1848#0" expanded="true" />
-                <element signature="e#1878#1879#0" expanded="true" />
-                <element signature="e#1925#1926#0" expanded="true" />
-                <element signature="e#1965#1966#0" expanded="true" />
-                <element signature="e#2011#2012#0" expanded="true" />
-                <element signature="e#2043#2044#0" expanded="true" />
-                <element signature="e#2103#2104#0" expanded="true" />
-                <element signature="e#2145#2146#0" expanded="true" />
-                <element signature="e#2189#2190#0" expanded="true" />
-                <element signature="e#2219#2220#0" expanded="true" />
-                <element signature="e#2275#2276#0" expanded="true" />
-                <element signature="e#2313#2314#0" expanded="true" />
-                <element signature="e#2347#2348#0" expanded="true" />
-                <element signature="e#2376#2377#0" expanded="true" />
-                <element signature="e#2421#2422#0" expanded="true" />
-                <element signature="e#2457#2458#0" expanded="true" />
-              </folding>
+              <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HexPoint.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexPoint.java">
+      <file leaf-file-name="BoardData.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="120" column="35" selection-start-line="117" selection-start-column="12" selection-end-line="120" selection-end-column="35" />
-              <folding>
-                <element signature="e#2263#2264#0" expanded="true" />
-                <element signature="e#2298#2299#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BoardData.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/BoardData.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
-              <folding>
-                <element signature="e#1102#1103#0" expanded="true" />
-                <element signature="e#1132#1133#0" expanded="true" />
-                <element signature="e#1195#1196#0" expanded="true" />
-                <element signature="e#1233#1234#0" expanded="true" />
-                <element signature="e#1277#1278#0" expanded="true" />
-                <element signature="e#1305#1306#0" expanded="true" />
-                <element signature="e#1359#1360#0" expanded="true" />
-                <element signature="e#1393#1394#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/Board.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6938776">
-              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="4.630021">
+              <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="HexTile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexTile.java">
+        <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexTile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.444445">
-              <caret line="524" column="35" selection-start-line="524" selection-start-column="35" selection-end-line="524" selection-end-column="35" />
-              <folding>
-                <element signature="e#9447#9448#0" expanded="true" />
-                <element signature="e#9472#9473#0" expanded="true" />
-                <element signature="e#9509#9510#0" expanded="true" />
-                <element signature="e#9537#9538#0" expanded="true" />
-                <element signature="e#9567#9568#0" expanded="true" />
-                <element signature="e#9592#9593#0" expanded="true" />
-                <element signature="e#9629#9630#0" expanded="true" />
-                <element signature="e#9657#9658#0" expanded="true" />
-                <element signature="e#9687#9688#0" expanded="true" />
-                <element signature="e#9712#9713#0" expanded="true" />
-                <element signature="e#9749#9750#0" expanded="true" />
-                <element signature="e#9777#9778#0" expanded="true" />
-                <element signature="e#9807#9808#0" expanded="true" />
-                <element signature="e#9832#9833#0" expanded="true" />
-                <element signature="e#9869#9870#0" expanded="true" />
-                <element signature="e#9897#9898#0" expanded="true" />
-                <element signature="e#9927#9928#0" expanded="true" />
-                <element signature="e#9952#9953#0" expanded="true" />
-                <element signature="e#9989#9990#0" expanded="true" />
-                <element signature="e#10017#10018#0" expanded="true" />
-                <element signature="e#10047#10048#0" expanded="true" />
-                <element signature="e#10072#10073#0" expanded="true" />
-                <element signature="e#10109#10110#0" expanded="true" />
-                <element signature="e#10137#10138#0" expanded="true" />
-                <element signature="e#10175#10176#0" expanded="true" />
-                <element signature="e#10209#10210#0" expanded="true" />
-                <element signature="e#10264#10265#0" expanded="true" />
-                <element signature="e#10310#10311#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-8.888889">
+              <caret line="139" column="53" selection-start-line="139" selection-start-column="53" selection-end-line="139" selection-end-column="53" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HexSide.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexSide.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -200,7 +122,13 @@
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_2/BoardData.java" />
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexTile.java" />
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexSide.java" />
+        <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/README.txt" />
+        <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/RandomMap.java" />
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_2/Board.java" />
+        <option value="$PROJECT_DIR$/src/Prototype4/Board.java" />
+        <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexTile.java" />
+        <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java" />
+        <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java" />
       </list>
     </option>
   </component>
@@ -299,6 +227,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Prototype3_3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CatanBoard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CatanBoard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Prototype3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Prototype3_2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -328,92 +278,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="out" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="production" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CatanBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Prototype3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CatanBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CatanBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="out" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="production" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CatanBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Prototype3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Prototype3_2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CatanBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CatanBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="out" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="production" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CatanBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CatanBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CatanBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="out" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="artifacts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CatanBoard_jar" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -462,37 +326,19 @@
       <recent name="junit.framework.TestCase" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Prototype3/Prototype3_3" />
       <recent name="$PROJECT_DIR$/src/Prototype3/Prototype3_2" />
       <recent name="$PROJECT_DIR$/src/Prototype3/Prototype3_1" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Prototype3/Prototype3_3" />
+      <recent name="$PROJECT_DIR$/src/Prototype4" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="Prototype2" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Board (2)">
-    <configuration default="false" name="Board" type="Applet" factoryName="Applet" temporary="true">
-      <option name="WIDTH" value="800" />
-      <option name="MAIN_CLASS_NAME" value="Prototype2.Board" />
-      <option name="HEIGHT" value="600" />
-      <option name="POLICY_FILE" value="file://$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <module name="CatanBoard" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="Prototype3.Board" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="CatanBoard" />
-      <envs />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Application.Unnamed">
     <configuration default="false" name="CatanDeckTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="CatanBoard" />
@@ -512,46 +358,6 @@
       </option>
       <envs />
       <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="Board (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="Prototype3.Prototype3_1.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="Prototype3.Prototype3_1.Board" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="CatanBoard" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="Board (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="Prototype3.Prototype3_2.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="Prototype3.Prototype3_2.Board" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="CatanBoard" />
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -702,20 +508,28 @@
       <listeners />
       <method />
     </configuration>
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Applet.Board" />
-      <item index="1" class="java.lang.String" itemvalue="Application.Board" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.CatanDeckTest" />
-      <item index="3" class="java.lang.String" itemvalue="Application.Board (1)" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Board (2)" />
+    <configuration default="false" name="Unnamed" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="Prototype3.Prototype3_3.Board" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="CatanBoard" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Application.Unnamed" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.CatanDeckTest" />
     </list>
     <recent_temporary>
-      <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.Board (2)" />
-        <item index="1" class="java.lang.String" itemvalue="Application.Board (1)" />
-        <item index="2" class="java.lang.String" itemvalue="Application.Board" />
-        <item index="3" class="java.lang.String" itemvalue="Applet.Board" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.CatanDeckTest" />
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="JUnit.CatanDeckTest" />
       </list>
     </recent_temporary>
   </component>
@@ -761,7 +575,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24958813" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3133236" sideWeight="0.4967051" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26647145" sideWeight="0.4967051" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329429" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1120,43 +934,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexTile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.444445">
-          <caret line="524" column="35" selection-start-line="524" selection-start-column="35" selection-end-line="524" selection-end-column="35" />
-          <folding>
-            <element signature="e#9447#9448#0" expanded="true" />
-            <element signature="e#9472#9473#0" expanded="true" />
-            <element signature="e#9509#9510#0" expanded="true" />
-            <element signature="e#9537#9538#0" expanded="true" />
-            <element signature="e#9567#9568#0" expanded="true" />
-            <element signature="e#9592#9593#0" expanded="true" />
-            <element signature="e#9629#9630#0" expanded="true" />
-            <element signature="e#9657#9658#0" expanded="true" />
-            <element signature="e#9687#9688#0" expanded="true" />
-            <element signature="e#9712#9713#0" expanded="true" />
-            <element signature="e#9749#9750#0" expanded="true" />
-            <element signature="e#9777#9778#0" expanded="true" />
-            <element signature="e#9807#9808#0" expanded="true" />
-            <element signature="e#9832#9833#0" expanded="true" />
-            <element signature="e#9869#9870#0" expanded="true" />
-            <element signature="e#9897#9898#0" expanded="true" />
-            <element signature="e#9927#9928#0" expanded="true" />
-            <element signature="e#9952#9953#0" expanded="true" />
-            <element signature="e#9989#9990#0" expanded="true" />
-            <element signature="e#10017#10018#0" expanded="true" />
-            <element signature="e#10047#10048#0" expanded="true" />
-            <element signature="e#10072#10073#0" expanded="true" />
-            <element signature="e#10109#10110#0" expanded="true" />
-            <element signature="e#10137#10138#0" expanded="true" />
-            <element signature="e#10175#10176#0" expanded="true" />
-            <element signature="e#10209#10210#0" expanded="true" />
-            <element signature="e#10264#10265#0" expanded="true" />
-            <element signature="e#10310#10311#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexPoint.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1219,13 +996,90 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/HexTile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.76296294">
+          <caret line="524" column="35" selection-start-line="524" selection-start-column="35" selection-end-line="524" selection-end-column="35" />
+          <folding>
+            <element signature="e#9447#9448#0" expanded="true" />
+            <element signature="e#9472#9473#0" expanded="true" />
+            <element signature="e#9509#9510#0" expanded="true" />
+            <element signature="e#9537#9538#0" expanded="true" />
+            <element signature="e#9567#9568#0" expanded="true" />
+            <element signature="e#9592#9593#0" expanded="true" />
+            <element signature="e#9629#9630#0" expanded="true" />
+            <element signature="e#9657#9658#0" expanded="true" />
+            <element signature="e#9687#9688#0" expanded="true" />
+            <element signature="e#9712#9713#0" expanded="true" />
+            <element signature="e#9749#9750#0" expanded="true" />
+            <element signature="e#9777#9778#0" expanded="true" />
+            <element signature="e#9807#9808#0" expanded="true" />
+            <element signature="e#9832#9833#0" expanded="true" />
+            <element signature="e#9869#9870#0" expanded="true" />
+            <element signature="e#9897#9898#0" expanded="true" />
+            <element signature="e#9927#9928#0" expanded="true" />
+            <element signature="e#9952#9953#0" expanded="true" />
+            <element signature="e#9989#9990#0" expanded="true" />
+            <element signature="e#10017#10018#0" expanded="true" />
+            <element signature="e#10047#10048#0" expanded="true" />
+            <element signature="e#10072#10073#0" expanded="true" />
+            <element signature="e#10109#10110#0" expanded="true" />
+            <element signature="e#10137#10138#0" expanded="true" />
+            <element signature="e#10175#10176#0" expanded="true" />
+            <element signature="e#10209#10210#0" expanded="true" />
+            <element signature="e#10264#10265#0" expanded="true" />
+            <element signature="e#10310#10311#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/README.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.06802721">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6938776">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.9183673">
+          <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexTile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.888889">
+          <caret line="139" column="53" selection-start-line="139" selection-start-column="53" selection-end-line="139" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexSide.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="4.630021">
+          <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
