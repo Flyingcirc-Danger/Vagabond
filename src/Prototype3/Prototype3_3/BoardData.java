@@ -130,8 +130,7 @@ public class BoardData {
         hexDeck[0] = center;
         for(int i = 1; i < 19; i++){
             hexDeck[i] = chooseSide(i,-1);
-            System.out.println(i + " " + hexDeck[i].getA().getCoords().toString());
-            System.out.println("------");
+
         }
     }
 
@@ -153,8 +152,17 @@ public class BoardData {
         HexTile toBuild = hexDeck[R];
         //check to see if tile is landlocked.
         if (toBuild.landLocked()) {
+
             return chooseSide(maxIndex, R);
-        } else {
+        }
+        //Screen bounds checking
+        if((toBuild.getCenter().getX() < (toBuild.getRadius() * 2))
+                || (toBuild.getCenter().getX() > Board.SCREEN_WIDTH - (toBuild.getRadius() * 2))
+                || (toBuild.getCenter().getY() > Board.SCREEN_HEIGHT - (toBuild.getRadius() * 2))
+                ||(toBuild.getCenter().getY() < (toBuild.getRadius() * 2))){
+            return chooseSide(maxIndex, R);
+        }
+        else {
             //choose a random side
             String[] instructions = new String[]{"AB","BC","CD","DE","EF","FA"};
             Random side = new Random();

@@ -7,16 +7,16 @@ import processing.core.PApplet;
  */
 public class Board extends PApplet {
 
-    public int SCREEN_HEIGHT;
-    public int SCREEN_WIDTH;
+    public static int SCREEN_HEIGHT;
+    public static int SCREEN_WIDTH;
     public HexTile center;
 
 
 
     public void setup() {
 
-        this.SCREEN_HEIGHT = 600 ;
-        this.SCREEN_WIDTH = 800;
+        SCREEN_HEIGHT = 600 ;
+        SCREEN_WIDTH = 800;
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
         background(0, 188, 212);
         smooth(8);
@@ -36,7 +36,7 @@ public class Board extends PApplet {
         fill(255,0,0,0);
 
         fill(0);
-        center.getModel().displayBoard(3);
+        center.getModel().displayBoard(1);
         //System.out.println(center.checkNeighbor("AB"));
 
         fill(0);
