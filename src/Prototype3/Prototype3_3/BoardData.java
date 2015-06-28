@@ -22,9 +22,11 @@ public class BoardData {
 
     private ArrayList<HexSide> sides;
     private HashMap<Point, HexSide> sideMap;
+    private int displayMode;
 
 
     public BoardData() {
+        this.displayMode = 0;
         pointMap = new HashMap<Point, HexPoint>();
         edges = new ArrayList<HexPoint>();
         sideMap = new HashMap<Point, HexSide>();
@@ -54,6 +56,14 @@ public class BoardData {
 
     public void setSides(ArrayList<HexSide> sides) {
         this.sides = sides;
+    }
+
+    public int getDisplayMode() {
+        return displayMode;
+    }
+
+    public void setDisplayMode(int displayMode) {
+        this.displayMode = displayMode;
     }
 
     /**
@@ -194,9 +204,9 @@ public class BoardData {
      * 1 = point debug
      * 2 = display debug
      * 3 = debug all
-     * @param option the display mode
      */
-    public void displayBoard(int option){
+    public void displayBoard(){
+        int option = this.displayMode;
         for(int i =0; i< hexDeck.length; i++){
             hexDeck[i].display();
             if(option == 1) {
