@@ -28,6 +28,8 @@ public class BoardData {
 
     private String[] resourceTiles;
 
+    private int[] tokens;
+
 
     public BoardData() {
         this.displayMode = 0;
@@ -45,7 +47,8 @@ public class BoardData {
                 "brick","brick","brick",
                 "desert"
         };
-        shuffleTerrain();
+        tokens = new int[19];
+        findDesert(shuffleTerrain());
     }
 
     public HashMap<Point, HexPoint> getPointMap() {
@@ -88,6 +91,14 @@ public class BoardData {
         this.displayMode = displayMode;
     }
 
+    public int[] getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(int[] tokens) {
+        this.tokens = tokens;
+    }
+
     /**
      * IDs are assigned to each point for
      * debugging purposes. They are assigned
@@ -123,7 +134,7 @@ public class BoardData {
         hexDeck[0] = center;
         center.display();
         for (int i = 1; i < hexDeck.length; i++) {
-            HexTile temp = hexDeck[i - 1].expand(buildOrder[i],resourceTiles[i]);
+            HexTile temp = hexDeck[i - 1].expand(buildOrder[i],resourceTiles[i],tokens[i]);
             hexDeck[i] = temp;
         }
         configureEdges();
@@ -190,7 +201,7 @@ public class BoardData {
                 return chooseSide(maxIndex, R);
             }
 
-            return toBuild.expand(instructions[rS],resourceTiles[maxIndex+1]);
+            return toBuild.expand(instructions[rS],resourceTiles[maxIndex+1],tokens[maxIndex+1]);
         }
     }
 
@@ -246,7 +257,7 @@ public class BoardData {
                         ct.getCenter().x,
                         ct.getCenter().y,
                         (int)(ct.getRadius() * 1.3),
-                        this,"coast"));
+                        this,"coast",55));
             }
         }
     }
@@ -273,6 +284,38 @@ public class BoardData {
             }
         }
         return desertIndex;
+
+    }
+
+
+
+    /**
+     * A method for fixing the temp tokens array.
+     * This method places the desert token (55) into
+     * the list of tokens. This will not be rendered
+     * by the front-end.
+     * @param desertIndex the index where the desert is located.
+     */
+    public void findDesert(int desertIndex){
+        int[] tempTokens = new int[] {11,3,6,5,4,9,10,8,4,11,12,9,10,8,3,6,2,5};
+        int[] resultTokens = new int[19];
+        int counter = 0;
+        if(desertIndex == 0){
+            resultTokens[0] = 55;
+            for(int i=0; i <tempTokens.length;i++){
+                resultTokens[i+1] = tempTokens[i];
+            }
+        } else {
+            for (int i = 0; i < desertIndex; i++) {
+                resultTokens[i] = tempTokens[i];
+                counter = i;
+            }
+            resultTokens[counter + 1] = 55;
+            for (int i = counter + 2; i < 19; i++) {
+                resultTokens[i] = tempTokens[i - 1];
+            }
+        }
+        this.tokens = resultTokens;
 
     }
 }

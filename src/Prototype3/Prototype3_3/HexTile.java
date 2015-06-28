@@ -1,5 +1,6 @@
 package Prototype3.Prototype3_3;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import processing.core.PApplet;
 
 import java.awt.*;
@@ -41,12 +42,14 @@ public class HexTile {
     private int[] hexColor;
     private boolean highlighted;
 
-    //resource info
+    //resource & roll info
     String resource;
+    int value;
 
 
-    public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model, String resource){
+    public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model, String resource,int value){
         this.parent = parent;
+        this.value = value;
         this.center = new Point();
         this.center.setLocation(centerX, centerY);
         this.radius = radius;
@@ -221,6 +224,7 @@ public class HexTile {
             parent.vertex((float) E.getX(), (float) E.getY());
             parent.vertex((float) F.getX(), (float) F.getY());
             parent.endShape();
+        displayToken();
 
     }
 
@@ -228,50 +232,50 @@ public class HexTile {
      * Adds a tile along the AB side
      * @return the new HexTile
      */
-    public HexTile addAB(String resource){
-        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius,model,resource);
+    public HexTile addAB(String resource,int value){
+        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius,model,resource,value);
     }
 
     /**
      * Adds a tile along the BC side
      * @return the new HexTile
      */
-    public HexTile addBC(String resource){
-        return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius,model,resource);
+    public HexTile addBC(String resource,int value){
+        return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius,model,resource,value);
     }
 
     /**
      * Adds a tile along the CD side
      * @return the new HexTile
      */
-    public HexTile addCD(String resource){
-        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius,model,resource);
+    public HexTile addCD(String resource, int value){
+        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius,model,resource,value);
     }
 
     /**
      * Adds a tile along the DE side
      * @return the new HexTile
      */
-    public HexTile addDE(String resource){
+    public HexTile addDE(String resource,int value){
         //return new HexTile(parent,E.getX(),(center.getY() + (radius + (radius - canopyHeight))),radius);
-        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius,model,resource);
+        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius,model,resource,value);
     }
 
     /**
      * Adds a tile along the EF side
      * @return the new HexTile
      */
-    public HexTile addEF(String resource){
-        return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius,model,resource);
+    public HexTile addEF(String resource, int value){
+        return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius,model,resource,value);
     }
 
     /**
      * Adds a tile along the FA side
      * @return the new HexTile
      */
-    public HexTile addFA(String resource){
+    public HexTile addFA(String resource,int value){
        // return new HexTile(parent,F.getX(),(center.getY() - (radius + (radius - canopyHeight))),radius);
-        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius,model,resource);
+        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius,model,resource,value);
     }
 
     public Point getCenter() {
@@ -477,7 +481,7 @@ public class HexTile {
     public void resourceDebug(){
         parent.fill(0);
         int textX = this.center.x - (int)(parent.textWidth("" + this.resource)/2);
-        parent.text("" + this.resource, textX,(int)center.getY());
+        parent.text("" + this.resource, textX,(int)center.getY() - 25);
     }
 
 
@@ -556,24 +560,24 @@ public class HexTile {
     }
 
 
-    public HexTile expand(String instruction,String resource) throws IllegalArgumentException{
+    public HexTile expand(String instruction,String resource,int value) throws IllegalArgumentException{
         if(instruction.equals("AB")){
-            return this.addAB(resource);
+            return this.addAB(resource,value);
         }
         if(instruction.equals("BC")) {
-            return this.addBC(resource);
+            return this.addBC(resource,value);
         }
         if(instruction.equals("CD")){
-            return this.addCD(resource);
+            return this.addCD(resource,value);
         }
         if(instruction.equals("DE")){
-            return this.addDE(resource);
+            return this.addDE(resource,value);
         }
         if(instruction.equals("EF")){
-            return this.addEF(resource);
+            return this.addEF(resource,value);
         }
         if(instruction.equals("FA")){
-            return this.addFA(resource);
+            return this.addFA(resource,value);
         }
         else throw new IllegalArgumentException();
     }
@@ -735,6 +739,17 @@ public class HexTile {
             return new int[]{255,243,224};
         }
 
+    }
+
+    public void displayToken(){
+        if(value < 13) {
+            parent.fill(255, 243, 224);
+            parent.stroke(0,0,0,0);
+            parent.ellipse(center.x, center.y, 30, 30);
+            parent.fill(0);
+            parent.textSize(14);
+            parent.text("" + value, center.x - (int) (parent.textWidth(Integer.toString(value)) / 2), center.y + 7);
+        }
     }
 
 
