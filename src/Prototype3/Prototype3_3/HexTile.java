@@ -20,6 +20,7 @@ public class HexTile {
     private HexPoint E;
     private HexPoint F;
 
+
     //sides
     private HexSide AB;
     private HexSide BC;
@@ -36,10 +37,15 @@ public class HexTile {
     //board data
     private BoardData model;
 
+    //color stats
     private int[] hexColor;
     private boolean highlighted;
 
-    public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model){
+    //resource info
+    String resource;
+
+
+    public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model, String resource){
         this.parent = parent;
         this.center = new Point();
         this.center.setLocation(centerX, centerY);
@@ -47,6 +53,7 @@ public class HexTile {
         this.model = model;
         this.hexColor = new int[] {255,255,255};
         this.highlighted = false;
+        this.resource = resource;
         initPoints();
         initSides();
 
@@ -186,71 +193,85 @@ public class HexTile {
      * Draws the hex on the parent canvas
      */
     public void display(){
-        parent.smooth(8);
-        if(this.isHighlighted()){
-            parent.fill(244,67,54);
-        }else {
-            parent.fill(255);
+        int[] color = tileColor();
+        if(!landLocked()) {
+            parent.smooth(8);
+            parent.fill(color[0],color[1],color[2]);
+            parent.beginShape();
+            parent.vertex((float) A.getX(), (float) A.getY());
+            parent.vertex((float) B.getX(), (float) B.getY());
+            parent.vertex((float) C.getX(), (float) C.getY());
+            parent.vertex((float) D.getX(), (float) D.getY());
+            parent.vertex((float) E.getX(), (float) E.getY());
+            parent.vertex((float) F.getX(), (float) F.getY());
+            parent.endShape();
         }
-        parent.stroke(0,0,0,40);
-        parent.beginShape();
-        parent.vertex((float) A.getX(),(float) A.getY());
-        parent.vertex((float) B.getX(), (float) B.getY());
-        parent.vertex((float) C.getX(), (float) C.getY());
-        parent.vertex((float) D.getX(), (float) D.getY());
-        parent.vertex((float) E.getX(), (float) E.getY());
-        parent.vertex((float) F.getX(), (float) F.getY());
-        parent.endShape();
+
+            parent.smooth(8);
+            if (this.isHighlighted()) {
+                parent.fill(21,101,192);
+            } else {
+                parent.fill(color[0],color[1],color[2]);
+            }
+            parent.beginShape();
+            parent.vertex((float) A.getX(), (float) A.getY());
+            parent.vertex((float) B.getX(), (float) B.getY());
+            parent.vertex((float) C.getX(), (float) C.getY());
+            parent.vertex((float) D.getX(), (float) D.getY());
+            parent.vertex((float) E.getX(), (float) E.getY());
+            parent.vertex((float) F.getX(), (float) F.getY());
+            parent.endShape();
+
     }
 
     /**
      * Adds a tile along the AB side
      * @return the new HexTile
      */
-    public HexTile addAB(){
-        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius,model);
+    public HexTile addAB(String resource){
+        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius,model,resource);
     }
 
     /**
      * Adds a tile along the BC side
      * @return the new HexTile
      */
-    public HexTile addBC(){
-        return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius,model);
+    public HexTile addBC(String resource){
+        return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius,model,resource);
     }
 
     /**
      * Adds a tile along the CD side
      * @return the new HexTile
      */
-    public HexTile addCD(){
-        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius,model);
+    public HexTile addCD(String resource){
+        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius,model,resource);
     }
 
     /**
      * Adds a tile along the DE side
      * @return the new HexTile
      */
-    public HexTile addDE(){
+    public HexTile addDE(String resource){
         //return new HexTile(parent,E.getX(),(center.getY() + (radius + (radius - canopyHeight))),radius);
-        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius,model);
+        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius,model,resource);
     }
 
     /**
      * Adds a tile along the EF side
      * @return the new HexTile
      */
-    public HexTile addEF(){
-        return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius,model);
+    public HexTile addEF(String resource){
+        return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius,model,resource);
     }
 
     /**
      * Adds a tile along the FA side
      * @return the new HexTile
      */
-    public HexTile addFA(){
+    public HexTile addFA(String resource){
        // return new HexTile(parent,F.getX(),(center.getY() - (radius + (radius - canopyHeight))),radius);
-        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius,model);
+        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius,model,resource);
     }
 
     public Point getCenter() {
@@ -453,6 +474,12 @@ public class HexTile {
         this.FA.display();
     }
 
+    public void resourceDebug(){
+        parent.fill(0);
+        int textX = this.center.x - (int)(parent.textWidth("" + this.resource)/2);
+        parent.text("" + this.resource, textX,(int)center.getY());
+    }
+
 
     /**
      * A method for checking the mouse position
@@ -529,24 +556,24 @@ public class HexTile {
     }
 
 
-    public HexTile expand(String instruction) throws IllegalArgumentException{
+    public HexTile expand(String instruction,String resource) throws IllegalArgumentException{
         if(instruction.equals("AB")){
-            return this.addAB();
+            return this.addAB(resource);
         }
         if(instruction.equals("BC")) {
-            return this.addBC();
+            return this.addBC(resource);
         }
         if(instruction.equals("CD")){
-            return this.addCD();
+            return this.addCD(resource);
         }
         if(instruction.equals("DE")){
-            return this.addDE();
+            return this.addDE(resource);
         }
         if(instruction.equals("EF")){
-            return this.addEF();
+            return this.addEF(resource);
         }
         if(instruction.equals("FA")){
-            return this.addFA();
+            return this.addFA(resource);
         }
         else throw new IllegalArgumentException();
     }
@@ -670,6 +697,50 @@ public class HexTile {
         }
         else return false;
     }
+
+
+
+    /**
+     * Returns the color of this tile based on
+     * it's assigned resource
+     * @return the RGB Fill value
+     */
+    public int[] tileColor(){
+        if(resource.equals("forest")){
+            parent.stroke(0, 0, 0, 50);
+            return new int[] {76,175,80};
+        }
+        if(resource.equals("pasture")){
+            parent.stroke(0,0,0,50);
+            return new int[] {139,195,74};
+        }
+        if(resource.equals("mine")){
+            parent.stroke(0,0,0,50);
+            return new int[] {158,158,158};
+        }
+        if(resource.equals("grain")){
+            parent.stroke(0,0,0,50);
+            return new int[] {255,193,7};
+        }
+        if(resource.equals("brick")){
+            parent.stroke(0,0,0,50);
+            return new int[] {255,87,34};
+            //desert
+        }if((resource.equals("desert")))  {
+            parent.stroke(0,0,0,50);
+            return new int[] {255,235,59};
+        } else {
+            //coast
+            parent.stroke(0,0,0,0);
+            return new int[]{255,243,224};
+        }
+
+    }
+
+
+
+
+
 
 
 

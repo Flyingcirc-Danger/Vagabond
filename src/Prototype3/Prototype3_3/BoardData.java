@@ -24,6 +24,10 @@ public class BoardData {
     private HashMap<Point, HexSide> sideMap;
     private int displayMode;
 
+    private ArrayList<HexTile> coast;
+
+    private String[] resourceTiles;
+
 
     public BoardData() {
         this.displayMode = 0;
@@ -32,6 +36,16 @@ public class BoardData {
         sideMap = new HashMap<Point, HexSide>();
         buildOrder = new String[]{"NA", "AB", "CD", "DE", "EF", "FA", "AB", "AB", "BC", "CD", "CD", "DE", "DE", "EF", "EF", "FA", "FA", "AB", "AB"};
         hexDeck = new HexTile[19];
+        this.coast = new ArrayList<HexTile>();
+        this.resourceTiles = new String[] {
+                "forest", "forest","forest","forest",
+                "grain", "grain","grain","grain",
+                "pasture","pasture","pasture","pasture",
+                "mine","mine","mine",
+                "brick","brick","brick",
+                "desert"
+        };
+        shuffleTerrain();
     }
 
     public HashMap<Point, HexPoint> getPointMap() {
@@ -62,6 +76,14 @@ public class BoardData {
         return displayMode;
     }
 
+    public String[] getResourceTiles() {
+        return resourceTiles;
+    }
+
+    public void setResourceTiles(String[] resourceTiles) {
+        this.resourceTiles = resourceTiles;
+    }
+
     public void setDisplayMode(int displayMode) {
         this.displayMode = displayMode;
     }
@@ -89,38 +111,8 @@ public class BoardData {
     }
 
 
-    public void makeEdge() {
-        if (edges.size() == 0) {
-            for (Point key : pointMap.keySet()) {
-                if (pointMap.get(key).isEdge()) {
-                    edges.add((HexPoint) edgeToCoast(pointMap.get(key)));
-                }
-            }
-            edges.sort(Comparator.<HexPoint>naturalOrder());
-        }
-    }
 
-    public HexPoint edgeToCoast(HexPoint edge) {
-        Point transform = new Point();
-        transform.x = (int) (edge.getX() + ((edge.getX() + edge.getCenterCoords().getX()) / 10));
-        transform.y = (int) (edge.getY() + ((edge.getY() + edge.getCenterCoords().getY()) / 10));
-        return new HexPoint(edge.getCoords(), edge.getCenterCoords(), edge.getId(), edge.getParent());
-    }
 
-    public void drawCoast(PApplet canvas) {
-        makeEdge();
-        canvas.fill(255, 243, 224);
-        canvas.stroke(0, 0, 0);
-        canvas.beginShape();
-        for (HexPoint pt : edges) {
-            canvas.vertex((float) pt.getX(), (float) pt.getY());
-        }
-        canvas.endShape();
-
-        for (HexPoint pt : edges) {
-            //pt.display();
-        }
-    }
 
     /**
      * Reads the build order, expands accordingly
@@ -131,17 +123,23 @@ public class BoardData {
         hexDeck[0] = center;
         center.display();
         for (int i = 1; i < hexDeck.length; i++) {
-            HexTile temp = hexDeck[i - 1].expand(buildOrder[i]);
+            HexTile temp = hexDeck[i - 1].expand(buildOrder[i],resourceTiles[i]);
             hexDeck[i] = temp;
         }
+        configureEdges();
     }
 
+    /**
+     * Randomly generates a board given a center tile
+     * @param center
+     */
     public void buildRandomBoard(HexTile center) {
         hexDeck[0] = center;
         for(int i = 1; i < 19; i++){
             hexDeck[i] = chooseSide(i-1,-1);
 
         }
+        configureEdges();
     }
 
 
@@ -192,9 +190,11 @@ public class BoardData {
                 return chooseSide(maxIndex, R);
             }
 
-            return toBuild.expand(instructions[rS]);
+            return toBuild.expand(instructions[rS],resourceTiles[maxIndex+1]);
         }
     }
+
+
 
 
     /**
@@ -203,10 +203,14 @@ public class BoardData {
      * 0 = no debug
      * 1 = point debug
      * 2 = display debug
-     * 3 = debug all
+     * 3 = resource debug
+     * 4 = debug all
      */
     public void displayBoard(){
         int option = this.displayMode;
+        for(int i = 0; i < coast.size(); i++){
+            coast.get(i).display();
+        }
         for(int i =0; i< hexDeck.length; i++){
             hexDeck[i].display();
             if(option == 1) {
@@ -218,6 +222,9 @@ public class BoardData {
                 hexDeck[i].checkSides();
             }
             if(option == 3){
+                hexDeck[i].resourceDebug();
+            }
+            if(option == 4){
                 hexDeck[i].pointDebug();
                 hexDeck[i].sideDebug();
                 hexDeck[i].checkPoints();
@@ -225,6 +232,48 @@ public class BoardData {
             }
 
         }
+    }
+
+    /**
+     * Figures out which tiles are edge tiles
+     * and populates the coast arrayList.
+     */
+    public void configureEdges(){
+        for(int i = 0; i < hexDeck.length; i++){
+            if(!hexDeck[i].landLocked()){
+                HexTile ct = hexDeck[i];
+                coast.add(new HexTile(ct.getParent(),
+                        ct.getCenter().x,
+                        ct.getCenter().y,
+                        (int)(ct.getRadius() * 1.3),
+                        this,"coast"));
+            }
+        }
+    }
+
+    /**
+     * A method for shuffling the deck of terrain
+     * this helps generate the random map.
+     * It returns the int index of the desert to
+     * fix the tokens
+     * adapted from:
+     * http://stackoverflow.com/questions/1519736/random-shuffling-of-an-array
+     */
+    public int shuffleTerrain(){
+        int desertIndex = 0;
+        Random seed = new Random();
+        for (int i = resourceTiles.length - 1; i > 0; i--)
+        {
+            int index = seed.nextInt(i + 1);
+            String temp = resourceTiles[index];
+            resourceTiles[index] = resourceTiles[i];
+            resourceTiles[i] = temp;
+            if(temp.equals("desert")){
+                desertIndex = i;
+            }
+        }
+        return desertIndex;
+
     }
 }
 

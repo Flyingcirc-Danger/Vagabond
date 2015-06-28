@@ -19,9 +19,12 @@ public class Board extends PApplet {
         SCREEN_WIDTH = 800;
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
         backgroundAndRandButton();
-        this.center= new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, new BoardData());
+        BoardData init = new BoardData();
+        this.center= new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, init,init.getResourceTiles()[0]);
         center.getModel().buildRandomBoard((center));
         //center.getModel().buildBoard((center));
+       // fill(0);
+       // text("center", center.getCenter().x, center.getCenter().y);
 
 
     }
@@ -35,7 +38,9 @@ public class Board extends PApplet {
         int dPButtonY = 10;
         int dSButtonX = (int) (dPButtonX - 10 - textWidth("   Debug Sides   "));
         int dSButtonY = 10 ;
-        int noDebugButtonX = (int) (dSButtonX - 10 - textWidth("   Debug Off   "));
+        int dRButtonX = (int) (dSButtonX - 10 - textWidth("   Debug Resources   "));
+        int dRButtonY = 10 ;
+        int noDebugButtonX = (int) (dRButtonX - 10 - textWidth("   Debug Off   "));
         int noDebugButtonY = 10 ;
 
         background(0, 188, 212);
@@ -46,12 +51,10 @@ public class Board extends PApplet {
         rect(randButtonX,randButtonY , textWidth("   Random   "), 30);
         fill(0);
         text("   Random   ", randButtonX, 30 );
-
         fill(76,175,80);
         rect(classicButtonX,classicButtonY , textWidth("   Classic   "), 30);
         fill(0);
         text("   Classic   ", classicButtonX, 30 );
-
         fill(255,243,224);
         rect(dPButtonX,dPButtonY , textWidth("   Debug Points   "), 30);
         fill(0);
@@ -64,6 +67,10 @@ public class Board extends PApplet {
         rect(noDebugButtonX,noDebugButtonY , textWidth("   Debug Off   "), 30);
         fill(0);
         text("   Debug Off   ", noDebugButtonX, 30 );
+        fill(255,243,224);
+        rect(dRButtonX, dRButtonY , textWidth("   Debug Resources   "), 30);
+        fill(0);
+        text("   Debug Resources   ", dRButtonX, 30 );
     }
 
 
@@ -77,6 +84,7 @@ public class Board extends PApplet {
         center.getModel().displayBoard();
         //System.out.println(center.checkNeighbor("AB"));
 
+
         fill(0);
 
 
@@ -84,21 +92,7 @@ public class Board extends PApplet {
     }
 
 
-    public void hex(float cX, float cY, float radius){
-        smooth(8);
-        float sideToSide = (float)(Math.sqrt(3) * radius) / 2f;
-        float canopyBase = (float) Math.sqrt((Math.pow(radius, 2)) - Math.pow(sideToSide,2));
-        stroke(0,0,0,0);
-        beginShape();
-        vertex(cX, cY + radius);
-        vertex(cX + sideToSide, cY +  (radius -canopyBase));
-        vertex(cX + sideToSide, cY - (radius -canopyBase));
-        vertex(cX, cY - radius);
-        vertex(cX - sideToSide, cY - (radius -canopyBase));
-        vertex(cX - sideToSide, cY +  (radius -canopyBase));
-        endShape();
 
-    }
 
     boolean overRect(int x, int y, int width, int height)  {
         if (mouseX >= x && mouseX <= x+width &&
@@ -115,18 +109,21 @@ public class Board extends PApplet {
         int classicButtonX = (int) (randButtonX - 10 - textWidth("   Classic   "));
         int dPButtonX =(int) (classicButtonX - 10 - textWidth("   Debug Points   "));
         int dSButtonX = (int) (dPButtonX - 10 - textWidth("   Debug Sides   "));
-        int noDebugButtonX = (int) (dSButtonX - 10 - textWidth("   Debug Off   "));
+        int dRButtonX = (int) (dSButtonX - 10 - textWidth("   Debug Resources   "));
+        int noDebugButtonX = (int) (dRButtonX - 10 - textWidth("   Debug Off   "));
         if (overRect(randButtonX, 10,(int)textWidth("   Random   ") ,30)) {
             clear();
             backgroundAndRandButton();
-            center = new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, new BoardData());
-            center.getModel().buildRandomBoard((center));
+            BoardData reInit = new BoardData();
+            this.center = new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, reInit,reInit.getResourceTiles()[0]);
+            this.center.getModel().buildRandomBoard((center));
         }
         if (overRect(classicButtonX,10,(int)textWidth("   Classic   "),30)) {
             clear();
             backgroundAndRandButton();
-            center = new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, new BoardData());
-            center.getModel().buildBoard(center);
+            BoardData reInit = new BoardData();
+            this.center = new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, reInit,reInit.getResourceTiles()[0]);
+            this.center.getModel().buildBoard(center);
         }
         if (overRect(dPButtonX,10,(int)textWidth("   Debug Points   "),30)) {
             center.getModel().setDisplayMode(1);
@@ -137,6 +134,9 @@ public class Board extends PApplet {
         }
         if (overRect(noDebugButtonX,10,(int)textWidth("   Debug Off   "),30)) {
             center.getModel().setDisplayMode(0);
+        }
+        if (overRect(dRButtonX,10,(int)textWidth("   Debug Resources   "),30)) {
+            center.getModel().setDisplayMode(3);
         }
     }
 
