@@ -129,7 +129,7 @@ public class BoardData {
     public void buildRandomBoard(HexTile center) {
         hexDeck[0] = center;
         for(int i = 1; i < 19; i++){
-            hexDeck[i] = chooseSide(i,-1);
+            hexDeck[i] = chooseSide(i-1,-1);
 
         }
     }
@@ -146,7 +146,10 @@ public class BoardData {
     public HexTile chooseSide(int maxIndex, int excludeTile) {
         Random index = new Random();
         //chose a random int between 0 and the current index.
-        int R = index.nextInt(maxIndex - 0) + 0;
+        int R = 0;
+        if(maxIndex != 0){
+             R = index.nextInt(maxIndex);
+        }
         //deal with excluded index.
         if (R == excludeTile) {if (R == 0) {R = maxIndex;} else {R--; }}
         HexTile toBuild = hexDeck[R];
