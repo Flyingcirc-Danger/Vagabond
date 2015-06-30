@@ -15,6 +15,10 @@ public class Board extends PApplet {
     public Debug debugger;
     public BoardData model;
 
+    public BottomMenu bottom;
+
+    public int currentTool;
+
 
 
     public void setup() {
@@ -29,6 +33,8 @@ public class Board extends PApplet {
         textSize(14);
         background(0, 188, 212);
         debugger.displayClosed();
+        this.bottom = new BottomMenu(this);
+        this.currentTool = 0;
 
 
     }
@@ -50,14 +56,14 @@ public class Board extends PApplet {
         }
         if(!debugger.open){
             background(0, 188, 212);
+
             debugger.displayClosed();
             center.getModel().displayBoard();
         }
 
         fill(0);
 
-
-
+        bottom.display();
     }
 
 
@@ -75,9 +81,8 @@ public class Board extends PApplet {
     @Override
     public void mousePressed() {
         debugger.mouseDebug();
-        model.checkSelected();
-
-
+        model.checkSelected(this.currentTool);
+        bottom.checkSelected();
     }
 
 

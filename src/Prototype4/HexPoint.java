@@ -13,11 +13,12 @@ import java.util.HashSet;
  */
 public class HexPoint implements Comparable<HexPoint> {
 
-    private PApplet parent;
+    private Board parent;
 
     private Point coords;
     private HashSet<HexPoint> neigbors;
     private int id;
+    private HashSet<HexSide> roads;
 
     private Point centerCoords;
     private boolean settled;
@@ -28,18 +29,20 @@ public class HexPoint implements Comparable<HexPoint> {
      * @param id the id of this hexpoint
      * @param parent the canvas to draw on
      */
-    public HexPoint(Point coords, Point centerCoords, int id, PApplet parent){
+    public HexPoint(Point coords, Point centerCoords, int id, Board parent){
         this.coords = coords;
         this.id = id;
         this.parent = parent;
         this.neigbors = new HashSet<HexPoint>();
         this.centerCoords = centerCoords;
+        this.roads = new HashSet<HexSide>();
     }
 
     /**
      * A method for displaying this point on the hex.
      */
     public void display(){
+        //check if a structure is already built
         if(this.isSettled()){
           parent.fill(246,255,0);
         } else {
@@ -110,6 +113,14 @@ public class HexPoint implements Comparable<HexPoint> {
         this.settled = settled;
     }
 
+    public HashSet<HexSide> getRoads() {
+        return roads;
+    }
+
+    public void setRoads(HashSet<HexSide> roads) {
+        this.roads = roads;
+    }
+
     @Override
     public String toString() {
         return "HexPoint{" +
@@ -163,10 +174,12 @@ public class HexPoint implements Comparable<HexPoint> {
      * (test build)
      */
     public void drawTown(){
-            if(this.isSettled() || (overPoint() && validBuild())) {
+            /*check if a point is settled, if your mouse is over the point, if it's valid to build
+             and if the current tool selected is town building */
+            if(this.isSettled() || (overPoint() && validBuild() && parent.currentTool == 1)) {
             int height = 20;
             int width = 20;
-            parent.stroke(0, 0, 0, 100);
+
                 if(!this.isSettled()){
                     parent.fill(255, 0, 0,80);
                 } else {
@@ -188,9 +201,22 @@ public class HexPoint implements Comparable<HexPoint> {
      * Check to see it this is a valid place to build
      * @return true if no neighbors are settled
      */
-    public boolean validBuild(){
-        for(HexPoint pt: neigbors){
-            if(pt.isSettled()){
+    public boolean validBuild() {
+        for (HexPoint pt : neigbors) {
+            if (pt.isSettled()) {
+                return false;
+            }
+        }
+        if (parent.model.settlementQuota >= 2) {
+            int counter = roads.size();
+            for (HexSide sd : roads) {
+                if (sd.isBuilt()) {
+                    return true;
+                }
+                counter--;
+            }
+            //if all sides contain no road
+            if (counter == 0) {
                 return false;
             }
         }

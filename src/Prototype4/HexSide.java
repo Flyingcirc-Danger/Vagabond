@@ -16,12 +16,14 @@ public class HexSide {
     private HexPoint end;
     private Point midPoint;
     private HashSet<HexSide> neighbors;
-    private HashSet<Prototype4.HexTile> borders;
-    private PApplet parent;
+    private HashSet<HexTile> borders;
+    private Board parent;
+
+    private boolean built;
 
 
 
-    public HexSide(HexPoint start, HexPoint end, Point midPoint, int id, PApplet canvas){
+    public HexSide(HexPoint start, HexPoint end, Point midPoint, int id, Board canvas){
         this.parent = canvas;
         this.id = id;
         this.start = start;
@@ -29,6 +31,9 @@ public class HexSide {
         this.midPoint = midPoint;
         this.neighbors = new HashSet<HexSide>();
         this.borders = new HashSet<Prototype4.HexTile>();
+        this.built = false;
+        this.start.getRoads().add(this);
+        this.end.getRoads().add(this);
 
 
     }
@@ -50,6 +55,30 @@ public class HexSide {
         parent.vertex(aStart.x - slopeY, aStart.y + slopeX);
         parent.vertex(bStart.x - slopeY, bStart.y + slopeX);
         parent.endShape();
+    }
+
+    public void drawRoad(){
+        if(isBuilt() || (overSide() && validBuild() && parent.currentTool == 2)){
+            Point aStart = new Point(((int) start.getX() + midPoint.x) / 2, (int) (start.getY() + midPoint.y) / 2);
+            Point bStart = new Point((int) (end.getX() + midPoint.x) / 2, (int) (end.getY() + midPoint.y) / 2);
+            int slopeX = (int) (end.getX() - start.getX());
+            slopeX = slopeX / 10;
+            int slopeY = (int) (end.getY() - start.getY());
+            slopeY = slopeY / 10;
+            if(!this.isBuilt()){
+                parent.fill(255, 0, 0,80);
+            } else{
+                parent.fill(1,87, 155);
+            }
+            parent.stroke(0, 0, 0, 0);
+
+            parent.beginShape();
+            parent.vertex(bStart.x + slopeY, bStart.y + -slopeX);
+            parent.vertex(aStart.x + slopeY, aStart.y + -slopeX);
+            parent.vertex(aStart.x - slopeY, aStart.y + slopeX);
+            parent.vertex(bStart.x - slopeY, bStart.y + slopeX);
+            parent.endShape();
+        }
     }
 
     public HexPoint getStart() {
@@ -96,11 +125,17 @@ public class HexSide {
         return parent;
     }
 
-    public void setParent(PApplet parent) {
+    public void setParent(Board parent) {
         this.parent = parent;
     }
 
+    public boolean isBuilt() {
+        return built;
+    }
 
+    public void setBuilt(boolean built) {
+        this.built = built;
+    }
 
     /**
      * A method for checking to see if the mouse is over this
@@ -127,6 +162,23 @@ public class HexSide {
             parent.line(midPoint.x, midPoint.y, (float)sd.getMidPoint().x,(float)sd.getMidPoint().y);
             parent.strokeWeight(1);
         }
+    }
+
+    /**
+     * Checks to see if it is valid to
+     * build a road on this side.
+     * @return true if it is valid
+     */
+    public boolean validBuild(){
+        if(start.isSettled() || end.isSettled()){
+            return true;
+        }
+        for(HexSide ne : neighbors){
+            if(ne.isBuilt()){
+                return true;
+            }
+        }
+        return false;
     }
 
 

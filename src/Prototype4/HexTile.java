@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public class HexTile {
 
-    private PApplet parent;
+    private Board parent;
 
     //points
     private Point center;
@@ -49,7 +49,7 @@ public class HexTile {
 
 
 
-    public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model, String resource,int value){
+    public HexTile(Board parent, double centerX, double centerY, int radius, BoardData model, String resource,int value){
         this.parent = parent;
         this.value = value;
         this.center = new Point();
@@ -199,18 +199,7 @@ public class HexTile {
      */
     public void display(){
         int[] color = tileColor();
-        if(!landLocked()) {
-            parent.smooth(8);
-            parent.fill(color[0],color[1],color[2]);
-            parent.beginShape();
-            parent.vertex((float) A.getX(), (float) A.getY());
-            parent.vertex((float) B.getX(), (float) B.getY());
-            parent.vertex((float) C.getX(), (float) C.getY());
-            parent.vertex((float) D.getX(), (float) D.getY());
-            parent.vertex((float) E.getX(), (float) E.getY());
-            parent.vertex((float) F.getX(), (float) F.getY());
-            parent.endShape();
-        }
+
         parent.smooth(8);
         if (this.isHighlighted()) {
             parent.fill(21,101,192);
@@ -231,8 +220,13 @@ public class HexTile {
         D.drawTown();
         E.drawTown();
         F.drawTown();
+        AB.drawRoad();
+        BC.drawRoad();
+        CD.drawRoad();
+        DE.drawRoad();
+        EF.drawRoad();
+        FA.drawRoad();
         displayToken();
-
     }
 
     /**
@@ -509,7 +503,7 @@ public class HexTile {
             if (A.overPoint()) {
                 if (mode == 1 || mode == 4) {
                     A.mapNeigbors();
-                } else if (A.validBuild()) {
+                } else if (A.validBuild() && parent.currentTool == 1) {
                     A.drawTown();
                 }
                 return true;
@@ -517,23 +511,23 @@ public class HexTile {
             if (B.overPoint()) {
                 if (mode == 1 || mode == 4) {
                     B.mapNeigbors();
-                } else if (B.validBuild()) {
+                } else if (B.validBuild() && parent.currentTool == 1) {
                     B.drawTown();
                 }
                 return true;
             }
             if (C.overPoint()) {
-                if (mode == 1 || mode == 4) {
+                if (mode == 1 || mode == 4 ) {
                     C.mapNeigbors();
-                } else if (B.validBuild()) {
-                    B.drawTown();
+                } else if (C.validBuild()  && parent.currentTool == 1) {
+                    C.drawTown();
                 }
                 return true;
             }
             if (D.overPoint()) {
                 if (mode == 1 || mode == 4) {
                     D.mapNeigbors();
-                } else if (D.validBuild()) {
+                } else if (D.validBuild() && parent.currentTool == 1) {
                     D.drawTown();
                 }
                 return true;
@@ -541,7 +535,7 @@ public class HexTile {
             if (E.overPoint()) {
                 if (mode == 1 || mode == 4) {
                     E.mapNeigbors();
-                } else if (E.validBuild()) {
+                } else if (E.validBuild() && parent.currentTool == 1) {
                     E.drawTown();
                 }
                 return true;
@@ -549,7 +543,7 @@ public class HexTile {
             if (F.overPoint()) {
                 if (mode == 1 || mode == 4) {
                     F.mapNeigbors();
-                } else if (F.validBuild()) {
+                } else if (F.validBuild() && parent.currentTool == 1) {
                     F.drawTown();
                 }
                 return true;
@@ -565,34 +559,61 @@ public class HexTile {
      * @return
      */
     public boolean checkSides(){
+        //mode is for debugging purposes only.
+        int mode = this.model.getDisplayMode();
         if(AB.overSide()){
-            this.setHighlighted(true);
-            AB.mapNeighbors();
+            if (mode == 2 || mode == 4) {
+                this.setHighlighted(true);
+                AB.mapNeighbors();
+            } else if (AB.validBuild() && parent.currentTool == 2) {
+            AB.drawRoad();
+        }
             return true;
         }
         if(BC.overSide()){
-            this.setHighlighted(true);
-            BC.mapNeighbors();
+            if (mode == 2 || mode == 4) {
+                this.setHighlighted(true);
+                BC.mapNeighbors();
+            }else if (BC.validBuild() && parent.currentTool == 2) {
+                BC.drawRoad();
+            }
             return true;
         }
         if(CD.overSide()){
-            this.setHighlighted(true);
-            CD.mapNeighbors();
+            if (mode == 2 || mode == 4) {
+                this.setHighlighted(true);
+                CD.mapNeighbors();
+            }else if (CD.validBuild() && parent.currentTool == 2) {
+                CD.drawRoad();
+            }
             return true;
         }
         if(DE.overSide()){
-            this.setHighlighted(true);
-            DE.mapNeighbors();
+            if (mode == 2 || mode == 4) {
+                this.setHighlighted(true);
+                DE.mapNeighbors();
+            }else if (DE.validBuild() && parent.currentTool == 2) {
+                DE.drawRoad();
+            }
             return true;
         }
         if(EF.overSide()){
-            this.setHighlighted(true);
-            EF.mapNeighbors();
+            if (mode == 2 || mode == 4) {
+                this.setHighlighted(true);
+                EF.mapNeighbors();
+            }else if (EF.validBuild() && parent.currentTool == 2) {
+                EF.drawRoad();
+            }
             return true;
         }
         if(FA.overSide()){
-            this.setHighlighted(true);
-            FA.mapNeighbors();
+            if (mode == 2 || mode == 4) {
+                this.setHighlighted(true);
+                FA.mapNeighbors();
+            }
+            else if (FA.validBuild() && parent.currentTool == 2) {
+                FA.drawRoad();
+            }
             return true;
         }
         this.setHighlighted(false);
@@ -811,42 +832,87 @@ public class HexTile {
      */
     public void checkSettledPoints() {
 
-            if (A.overPoint()) {
+            if (A.overPoint() && parent.currentTool == 1) {
                 if (!A.isSettled() && A.validBuild()) {
                     A.setSettled(true);
+                    parent.model.settlementQuota++;
                 }
             }
-            if (B.overPoint() && B.validBuild()) {
-                System.out.println("B " + B.getId());
+            if (B.overPoint() && B.validBuild() && parent.currentTool == 1) {
                 if (!B.isSettled()) {
                     B.setSettled(true);
+                    parent.model.settlementQuota++;
                 }
                 return;
             }
-            if (C.overPoint() && C.validBuild()) {
+            if (C.overPoint() && C.validBuild() && parent.currentTool == 1) {
                 if (!C.isSettled()) {
                     C.setSettled(true);
+                    parent.model.settlementQuota++;
                 }
                 return;
             }
-            if (D.overPoint() && D.validBuild()) {
+            if (D.overPoint() && D.validBuild() && parent.currentTool == 1) {
                 if (!D.isSettled()) {
                     D.setSettled(true);
+                    parent.model.settlementQuota++;
                 }
                 return;
             }
-            if (E.overPoint() && E.validBuild()) {
+            if (E.overPoint() && E.validBuild() && parent.currentTool == 1) {
                 if (!E.isSettled()) {
                     E.setSettled(true);
+                    parent.model.settlementQuota++;
                 }
                 return;
             }
-            if (F.overPoint() && F.validBuild()) {
+            if (F.overPoint() && F.validBuild() && parent.currentTool == 1) {
                 if (!F.isSettled()) {
                     F.setSettled(true);
+                    parent.model.settlementQuota++;
                 }
                 return;
             }
+
+    }
+
+    public void checkBuiltRoads(){
+        if (AB.overSide() && parent.currentTool == 2) {
+            if (!AB.isBuilt() && AB.validBuild()) {
+                AB.setBuilt(true);
+            }
+            return;
+        }
+        if (BC.overSide()  && parent.currentTool == 2) {
+            if (!BC.isBuilt() && BC.validBuild()) {
+                BC.setBuilt(true);
+            }
+            return;
+        }
+        if (CD.overSide()  && parent.currentTool == 2) {
+            if (!CD.isBuilt() && CD.validBuild()) {
+                CD.setBuilt(true);
+            }
+            return;
+        }
+        if (DE.overSide()  && parent.currentTool == 2) {
+            if (!DE.isBuilt() && DE.validBuild()) {
+                DE.setBuilt(true);
+            }
+            return;
+        }
+        if (EF.overSide()  && parent.currentTool == 2) {
+            if (!EF.isBuilt() && EF.validBuild()) {
+                EF.setBuilt(true);
+            }
+            return;
+        }
+        if (FA.overSide()  && parent.currentTool == 2) {
+            if (!FA.isBuilt() && FA.validBuild()) {
+                FA.setBuilt(true);
+            }
+            return;
+        }
 
     }
 

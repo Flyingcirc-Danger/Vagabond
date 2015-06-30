@@ -26,6 +26,9 @@ public class BoardData {
 
     private int[] tokens;
 
+    public int settlementQuota;
+
+
 
     public BoardData() {
         this.displayMode = 0;
@@ -45,6 +48,7 @@ public class BoardData {
         };
         tokens = new int[19];
         findDesert(shuffleTerrain());
+        settlementQuota = 0;
     }
 
     public HashMap<Point, HexPoint> getPointMap() {
@@ -224,6 +228,7 @@ public class BoardData {
         for(int i =0; i< hexDeck.length; i++){
             hexDeck[i].display();
             hexDeck[i].checkPoints();
+            hexDeck[i].checkSides();
             if(option == 1) {
                 hexDeck[i].pointDebug();
                 hexDeck[i].checkPoints();
@@ -245,9 +250,16 @@ public class BoardData {
         }
     }
 
-    public void checkSelected(){
-        for(int i =0; i< hexDeck.length; i++) {
-            hexDeck[i].checkSettledPoints();
+    public void checkSelected(int tool){
+        if(tool == 1) {
+            for (int i = 0; i < hexDeck.length; i++) {
+                hexDeck[i].checkSettledPoints();
+            }
+        }
+        if(tool == 2){
+            for(int i = 0; i < hexDeck.length; i++){
+                hexDeck[i].checkBuiltRoads();
+            }
         }
     }
 
@@ -260,11 +272,6 @@ public class BoardData {
             if(!hexDeck[i].landLocked()){
                 HexTile ct = hexDeck[i];
                 coast.add(new HexCoast(ct));
-//                coast.add(new HexTile(ct.getParent(),
-//                        ct.getCenter().x,
-//                        ct.getCenter().y,
-//                        (int)(ct.getRadius() * 1.3),
-//                        this,"coast",55,true));
             }
         }
     }
