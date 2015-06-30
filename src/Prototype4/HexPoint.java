@@ -18,9 +18,10 @@ public class HexPoint implements Comparable<HexPoint> {
     private Point coords;
     private HashSet<HexPoint> neigbors;
     private int id;
-    private boolean edge;
-    private Point centerCoords;
 
+    private Point centerCoords;
+    private boolean settled;
+    private boolean coast;
     /**
      *
      * @param coords The coordinate of this point
@@ -28,20 +29,24 @@ public class HexPoint implements Comparable<HexPoint> {
      * @param id the id of this hexpoint
      * @param parent the canvas to draw on
      */
-    public HexPoint(Point coords, Point centerCoords, int id, PApplet parent){
+    public HexPoint(Point coords, Point centerCoords, int id, PApplet parent,boolean coast){
         this.coords = coords;
         this.id = id;
-        this.edge = true;
         this.parent = parent;
         this.neigbors = new HashSet<HexPoint>();
         this.centerCoords = centerCoords;
+        this.coast = coast;
     }
 
     /**
      * A method for displaying this point on the hex.
      */
     public void display(){
-        parent.fill(255);
+        if(this.isSettled()){
+          parent.fill(246,255,0);
+        } else {
+            parent.fill(255);
+        }
         parent.stroke(0,0,0);
         parent.strokeWeight(1);
         if(!this.isEdge()) {
@@ -75,15 +80,13 @@ public class HexPoint implements Comparable<HexPoint> {
     }
 
     public boolean isEdge() {
-        if(neigbors.size() > 2){
+        if(neigbors.size() == 3){
             return false;
         }
         return true;
     }
 
-    public void setEdge(boolean edge) {
-        this.edge = edge;
-    }
+
 
     public double getX(){
         return this.coords.getX();
@@ -101,12 +104,20 @@ public class HexPoint implements Comparable<HexPoint> {
         return parent;
     }
 
+    public boolean isSettled() {
+        return settled;
+    }
+
+    public void setSettled(boolean settled) {
+        this.settled = settled;
+    }
+
     @Override
     public String toString() {
         return "HexPoint{" +
                 "id=" + id +
+                ", settled=" + settled +
                 ", coords=" + coords +
-                ", edge=" + edge +
                 '}';
     }
 
@@ -128,6 +139,9 @@ public class HexPoint implements Comparable<HexPoint> {
      * @return
      */
     boolean overPoint() {
+        if(coast){
+            return false;
+        }
         float disX = coords.x - parent.mouseX;
         float disY = coords.y - parent.mouseY;
         if(parent.sqrt(parent.sq(disX) + parent.sq(disY)) < 20 ) {
@@ -146,6 +160,46 @@ public class HexPoint implements Comparable<HexPoint> {
             return -1;
         }
         return 0;
+    }
+
+    /**
+     * Draws a town icon centered on the point
+     * Colors according to if it's a click (build) or hover
+     * (test build)
+     */
+    public void drawTown(){
+            if(this.isSettled() || (overPoint() && validBuild())) {
+            int height = 20;
+            int width = 20;
+            parent.stroke(0, 0, 0, 100);
+                if(!this.isSettled()){
+                    parent.fill(255, 0, 0,80);
+                } else {
+                    parent.fill(1,87, 155);
+                }
+            parent.beginShape();
+            parent.vertex(coords.x, coords.y - (height / 2));
+            parent.vertex(coords.x - (width / 2), coords.y);
+            parent.vertex(coords.x - ((width / 2) - (width / 8)), coords.y);
+            parent.vertex(coords.x - ((width / 2) - (width / 8)), coords.y + (height / 2));
+            parent.vertex(coords.x + ((width / 2) - (width / 8)), coords.y + (height / 2));
+            parent.vertex(coords.x + ((width / 2) - (width / 8)), coords.y);
+            parent.vertex(coords.x + (width / 2), coords.y);
+            parent.endShape();
+        }
+    }
+
+    /**
+     * Check to see it this is a valid place to build
+     * @return true if no neighbors are settled
+     */
+    public boolean validBuild(){
+        for(HexPoint pt: neigbors){
+            if(pt.isSettled()){
+                return false;
+            }
+        }
+        return true;
     }
 }
 

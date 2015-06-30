@@ -13,6 +13,7 @@ public class Board extends PApplet {
     public static int SCREEN_WIDTH;
     public HexTile center;
     public Debug debugger;
+    public BoardData model;
 
 
 
@@ -21,8 +22,8 @@ public class Board extends PApplet {
         SCREEN_HEIGHT = 600 ;
         SCREEN_WIDTH = 800;
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
-        BoardData init = new BoardData();
-        this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, init,init.getResourceTiles()[0],init.getTokens()[0]);
+        model = new BoardData();
+        this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, model,model.getResourceTiles()[0],model.getTokens()[0],false);
         center.getModel().buildBoard((center));
         this.debugger = new Debug(this,center);
         textSize(14);
@@ -43,7 +44,7 @@ public class Board extends PApplet {
 
 
 
-        fill(255,0,0,0);
+        fill(255, 0, 0, 0);
 
         fill(0);
         center.getModel().displayBoard();
@@ -77,6 +78,8 @@ public class Board extends PApplet {
     @Override
     public void mousePressed() {
         debugger.mouseDebug();
+        model.checkSelected();
+
 
     }
 

@@ -201,8 +201,8 @@ public class Debug {
                 parent.background(0, 188, 212);
                 this.displayClosed();
                 this.open = false;
-                BoardData reInit = new BoardData();
-                parent.center = new HexTile(parent, parent.SCREEN_WIDTH / 2, parent.SCREEN_HEIGHT / 2, 50, reInit, reInit.getResourceTiles()[0], reInit.getTokens()[0]);
+                parent.model = new BoardData();
+                parent.center = new HexTile(parent, parent.SCREEN_WIDTH / 2, parent.SCREEN_HEIGHT / 2, 50, parent.model, parent.model.getResourceTiles()[0], parent.model.getTokens()[0],false);
                 parent.center.getModel().buildRandomBoard((parent.center));
             }
             if (result == 2) {
@@ -210,8 +210,8 @@ public class Debug {
                 parent.background(0, 188, 212);
                 this.displayClosed();
                 this.open = false;
-                BoardData reInit = new BoardData();
-                parent.center = new HexTile(parent, parent.SCREEN_WIDTH / 2, parent.SCREEN_HEIGHT / 2, 50, reInit, reInit.getResourceTiles()[0], reInit.getTokens()[0]);
+                parent.model = new BoardData();
+                parent.center = new HexTile(parent, parent.SCREEN_WIDTH / 2, parent.SCREEN_HEIGHT / 2, 50, parent.model, parent.model.getResourceTiles()[0], parent.model.getTokens()[0],false);
                 parent.center.getModel().buildBoard(parent.center);
             }
             if (result == 3) {

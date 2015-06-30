@@ -44,9 +44,10 @@ public class HexTile {
     //resource & roll info
     String resource;
     int value;
+    private boolean coast;
 
 
-    public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model, String resource,int value){
+    public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model, String resource,int value,boolean coast){
         this.parent = parent;
         this.value = value;
         this.center = new Point();
@@ -56,6 +57,7 @@ public class HexTile {
         this.hexColor = new int[] {255,255,255};
         this.highlighted = false;
         this.resource = resource;
+        this.coast = coast;
         initPoints();
         initSides();
 
@@ -119,7 +121,7 @@ public class HexTile {
         if(model.getPointMap().containsKey(toAdd)){
             return model.getPointMap().get(toAdd);
         } else {
-            HexPoint newPoint = new HexPoint(toAdd, center, model.assignPointID(),parent);
+            HexPoint newPoint = new HexPoint(toAdd, center, model.assignPointID(),parent,coast);
             model.getPointMap().put(toAdd,newPoint);
             return newPoint;
         }
@@ -208,21 +210,26 @@ public class HexTile {
             parent.vertex((float) F.getX(), (float) F.getY());
             parent.endShape();
         }
-
-            parent.smooth(8);
-            if (this.isHighlighted()) {
-                parent.fill(21,101,192);
-            } else {
-                parent.fill(color[0],color[1],color[2]);
-            }
-            parent.beginShape();
-            parent.vertex((float) A.getX(), (float) A.getY());
-            parent.vertex((float) B.getX(), (float) B.getY());
-            parent.vertex((float) C.getX(), (float) C.getY());
-            parent.vertex((float) D.getX(), (float) D.getY());
-            parent.vertex((float) E.getX(), (float) E.getY());
-            parent.vertex((float) F.getX(), (float) F.getY());
-            parent.endShape();
+        parent.smooth(8);
+        if (this.isHighlighted()) {
+            parent.fill(21,101,192);
+        } else {
+            parent.fill(color[0],color[1],color[2]);
+        }
+        parent.beginShape();
+        parent.vertex((float) A.getX(), (float) A.getY());
+        parent.vertex((float) B.getX(), (float) B.getY());
+        parent.vertex((float) C.getX(), (float) C.getY());
+        parent.vertex((float) D.getX(), (float) D.getY());
+        parent.vertex((float) E.getX(), (float) E.getY());
+        parent.vertex((float) F.getX(), (float) F.getY());
+        parent.endShape();
+        A.drawTown();
+        B.drawTown();
+        C.drawTown();
+        D.drawTown();
+        E.drawTown();
+        F.drawTown();
         displayToken();
 
     }
@@ -232,7 +239,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addAB(String resource,int value){
-        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius,model,resource,value);
+        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius,model,resource,value,coast);
     }
 
     /**
@@ -240,7 +247,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addBC(String resource,int value){
-        return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius,model,resource,value);
+        return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius,model,resource,value,coast);
     }
 
     /**
@@ -248,7 +255,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addCD(String resource, int value){
-        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius,model,resource,value);
+        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius,model,resource,value,coast);
     }
 
     /**
@@ -257,7 +264,7 @@ public class HexTile {
      */
     public HexTile addDE(String resource,int value){
         //return new HexTile(parent,E.getX(),(center.getY() + (radius + (radius - canopyHeight))),radius);
-        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius,model,resource,value);
+        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius,model,resource,value,coast);
     }
 
     /**
@@ -265,7 +272,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addEF(String resource, int value){
-        return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius,model,resource,value);
+        return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius,model,resource,value,coast);
     }
 
     /**
@@ -274,7 +281,7 @@ public class HexTile {
      */
     public HexTile addFA(String resource,int value){
        // return new HexTile(parent,F.getX(),(center.getY() - (radius + (radius - canopyHeight))),radius);
-        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius,model,resource,value);
+        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius,model,resource,value,coast);
     }
 
     public Point getCenter() {
@@ -421,6 +428,14 @@ public class HexTile {
         this.highlighted = highlighted;
     }
 
+    public boolean isCoast() {
+        return coast;
+    }
+
+    public void setCoast(boolean coast) {
+        this.coast = coast;
+    }
+
     /**
      * Decides how to round a double
      * when converting to int
@@ -477,6 +492,10 @@ public class HexTile {
         this.FA.display();
     }
 
+    /**
+     * A method for displaying the string resource
+     * applied to this tile
+     */
     public void resourceDebug(){
         parent.fill(0);
         int textX = this.center.x - (int)(parent.textWidth("" + this.resource)/2);
@@ -490,31 +509,61 @@ public class HexTile {
      * @return
      */
     public boolean checkPoints(){
-        if(A.overPoint()){
-            A.mapNeigbors();
-            return true;
-        }
-        if(B.overPoint()){
-            B.mapNeigbors();
-            return true;
-        }
-        if(C.overPoint()){
-            C.mapNeigbors();
-            return true;
-        }
-        if(D.overPoint()){
-            D.mapNeigbors();
-            return true;
-        }
-        if(E.overPoint()){
-            E.mapNeigbors();
-            return true;
-        }
-        if(F.overPoint()){
-            F.mapNeigbors();
-            return true;
-        } else {
+        if(isCoast()){
             return false;
+        } else {
+            //mode is for debugging purposes only.
+            int mode = this.model.getDisplayMode();
+            if (A.overPoint()) {
+                if (mode == 1 || mode == 4) {
+                    A.mapNeigbors();
+                } else if (A.validBuild()) {
+                    A.drawTown();
+                }
+                return true;
+            }
+            if (B.overPoint()) {
+                if (mode == 1 || mode == 4) {
+                    B.mapNeigbors();
+                } else if (B.validBuild()) {
+                    B.drawTown();
+                }
+                return true;
+            }
+            if (C.overPoint()) {
+                if (mode == 1 || mode == 4) {
+                    C.mapNeigbors();
+                } else if (B.validBuild()) {
+                    B.drawTown();
+                }
+                return true;
+            }
+            if (D.overPoint()) {
+                if (mode == 1 || mode == 4) {
+                    D.mapNeigbors();
+                } else if (D.validBuild()) {
+                    D.drawTown();
+                }
+                return true;
+            }
+            if (E.overPoint()) {
+                if (mode == 1 || mode == 4) {
+                    E.mapNeigbors();
+                } else if (E.validBuild()) {
+                    E.drawTown();
+                }
+                return true;
+            }
+            if (F.overPoint()) {
+                if (mode == 1 || mode == 4) {
+                    F.mapNeigbors();
+                } else if (F.validBuild()) {
+                    F.drawTown();
+                }
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -558,7 +607,16 @@ public class HexTile {
             return false;
     }
 
-
+    /**
+     * A method for building the map, takes a build order and
+     * an adjacent tile, along with the normal HexTile construction
+     * params
+     * @param instruction the string representation of the side to expand to eg "AB"
+     * @param resource the resource of the new tile
+     * @param value the value of the new tile
+     * @return a new hextile adjacent to this tile.
+     * @throws IllegalArgumentException
+     */
     public HexTile expand(String instruction,String resource,int value) throws IllegalArgumentException{
         if(instruction.equals("AB")){
             return this.addAB(resource,value);
@@ -740,6 +798,10 @@ public class HexTile {
 
     }
 
+
+    /**
+     * A method for displaying the token on the tile
+     */
     public void displayToken(){
         if(value < 13) {
             parent.fill(255, 243, 224);
@@ -750,6 +812,54 @@ public class HexTile {
             parent.text("" + value, center.x - (int) (parent.textWidth(Integer.toString(value)) / 2), center.y + 7);
         }
     }
+
+
+    /**
+     * Turns on the settle status of points.
+     */
+    public void checkSettledPoints() {
+
+            if (A.overPoint()) {
+                if (!A.isSettled() && A.validBuild()) {
+                    A.setSettled(true);
+                }
+            }
+            if (B.overPoint() && B.validBuild()) {
+                System.out.println("B " + B.getId());
+                if (!B.isSettled()) {
+                    B.setSettled(true);
+                }
+                return;
+            }
+            if (C.overPoint() && C.validBuild()) {
+                if (!C.isSettled()) {
+                    C.setSettled(true);
+                }
+                return;
+            }
+            if (D.overPoint() && D.validBuild()) {
+                if (!D.isSettled()) {
+                    D.setSettled(true);
+                }
+                return;
+            }
+            if (E.overPoint() && E.validBuild()) {
+                if (!E.isSettled()) {
+                    E.setSettled(true);
+                }
+                return;
+            }
+            if (F.overPoint() && F.validBuild()) {
+                if (!F.isSettled()) {
+                    F.setSettled(true);
+                }
+                return;
+            }
+
+    }
+
+
+
 
 
 

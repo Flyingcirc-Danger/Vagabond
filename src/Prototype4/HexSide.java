@@ -132,21 +132,6 @@ public class HexSide {
 
 
 
-    //    public void boxLine(Point a, Point b){
-//        Point midPoint = new Point((a.x + b.x)/2, (a.y + b.y)/2);
-//        Point aStart = new Point((a.x +midPoint.x)/2, (a.y + midPoint.y)/2);
-//        Point bStart = new Point((b.x + midPoint.x)/2, (b.y + midPoint.y)/2);
-//        int slopeX = b.x - a.x;
-//        slopeX = slopeX/10;
-//        int slopeY = b.y - a.y;
-//        slopeY = slopeY/10;
-//        stroke(0,0,0,0);
-//        beginShape();
-//        vertex(bStart.x +slopeY, bStart.y + -slopeX);
-//        vertex(aStart.x +slopeY, aStart.y + -slopeX);
-//        vertex(aStart.x -slopeY, aStart.y + slopeX);
-//        vertex(bStart.x -slopeY, bStart.y + slopeX);
-//        endShape();
-//    }
+
 
 }

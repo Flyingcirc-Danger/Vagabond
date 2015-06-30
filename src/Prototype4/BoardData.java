@@ -220,6 +220,7 @@ public class BoardData {
         }
         for(int i =0; i< hexDeck.length; i++){
             hexDeck[i].display();
+            hexDeck[i].checkPoints();
             if(option == 1) {
                 hexDeck[i].pointDebug();
                 hexDeck[i].checkPoints();
@@ -241,6 +242,12 @@ public class BoardData {
         }
     }
 
+    public void checkSelected(){
+        for(int i =0; i< hexDeck.length; i++) {
+            hexDeck[i].checkSettledPoints();
+        }
+    }
+
     /**
      * Figures out which tiles are edge tiles
      * and populates the coast arrayList.
@@ -253,7 +260,7 @@ public class BoardData {
                         ct.getCenter().x,
                         ct.getCenter().y,
                         (int)(ct.getRadius() * 1.3),
-                        this,"coast",55));
+                        this,"coast",55,true));
             }
         }
     }
