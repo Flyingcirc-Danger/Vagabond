@@ -21,7 +21,6 @@ public class HexPoint implements Comparable<HexPoint> {
 
     private Point centerCoords;
     private boolean settled;
-    private boolean coast;
     /**
      *
      * @param coords The coordinate of this point
@@ -29,13 +28,12 @@ public class HexPoint implements Comparable<HexPoint> {
      * @param id the id of this hexpoint
      * @param parent the canvas to draw on
      */
-    public HexPoint(Point coords, Point centerCoords, int id, PApplet parent,boolean coast){
+    public HexPoint(Point coords, Point centerCoords, int id, PApplet parent){
         this.coords = coords;
         this.id = id;
         this.parent = parent;
         this.neigbors = new HashSet<HexPoint>();
         this.centerCoords = centerCoords;
-        this.coast = coast;
     }
 
     /**
@@ -139,9 +137,6 @@ public class HexPoint implements Comparable<HexPoint> {
      * @return
      */
     boolean overPoint() {
-        if(coast){
-            return false;
-        }
         float disX = coords.x - parent.mouseX;
         float disY = coords.y - parent.mouseY;
         if(parent.sqrt(parent.sq(disX) + parent.sq(disY)) < 20 ) {

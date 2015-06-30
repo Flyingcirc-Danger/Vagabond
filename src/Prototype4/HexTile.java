@@ -6,6 +6,8 @@ import java.awt.*;
 
 /**
  * Created by Tom_Bryant on 6/25/15.
+ * A class containing the a node in the datastructure behind the board.
+ * This object holds all information necessary for the hex to function
  */
 public class HexTile {
 
@@ -44,10 +46,10 @@ public class HexTile {
     //resource & roll info
     String resource;
     int value;
-    private boolean coast;
 
 
-    public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model, String resource,int value,boolean coast){
+
+    public HexTile(PApplet parent, double centerX, double centerY, int radius, BoardData model, String resource,int value){
         this.parent = parent;
         this.value = value;
         this.center = new Point();
@@ -57,7 +59,6 @@ public class HexTile {
         this.hexColor = new int[] {255,255,255};
         this.highlighted = false;
         this.resource = resource;
-        this.coast = coast;
         initPoints();
         initSides();
 
@@ -121,7 +122,7 @@ public class HexTile {
         if(model.getPointMap().containsKey(toAdd)){
             return model.getPointMap().get(toAdd);
         } else {
-            HexPoint newPoint = new HexPoint(toAdd, center, model.assignPointID(),parent,coast);
+            HexPoint newPoint = new HexPoint(toAdd, center, model.assignPointID(),parent);
             model.getPointMap().put(toAdd,newPoint);
             return newPoint;
         }
@@ -239,7 +240,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addAB(String resource,int value){
-        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius,model,resource,value,coast);
+        return new HexTile(parent,B.getX(), A.getY() - radius - (A.getY() - B.getY() ), radius,model,resource,value);
     }
 
     /**
@@ -247,7 +248,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addBC(String resource,int value){
-        return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius,model,resource,value,coast);
+        return new HexTile(parent,center.getX() + (sideToSide * 2),(center.getY()),radius,model,resource,value);
     }
 
     /**
@@ -255,7 +256,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addCD(String resource, int value){
-        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius,model,resource,value,coast);
+        return new HexTile(parent,C.getX(), D.getY() + radius - (D.getY() - C.getY() ), radius,model,resource,value);
     }
 
     /**
@@ -264,7 +265,7 @@ public class HexTile {
      */
     public HexTile addDE(String resource,int value){
         //return new HexTile(parent,E.getX(),(center.getY() + (radius + (radius - canopyHeight))),radius);
-        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius,model,resource,value,coast);
+        return new HexTile(parent,E.getX(), D.getY() + radius - (D.getY() - E.getY() ), radius,model,resource,value);
     }
 
     /**
@@ -272,7 +273,7 @@ public class HexTile {
      * @return the new HexTile
      */
     public HexTile addEF(String resource, int value){
-        return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius,model,resource,value,coast);
+        return new HexTile(parent,center.getX() - (sideToSide * 2),(center.getY()),radius,model,resource,value);
     }
 
     /**
@@ -281,7 +282,7 @@ public class HexTile {
      */
     public HexTile addFA(String resource,int value){
        // return new HexTile(parent,F.getX(),(center.getY() - (radius + (radius - canopyHeight))),radius);
-        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius,model,resource,value,coast);
+        return new HexTile(parent,F.getX(), A.getY() - radius - (A.getY() - F.getY() ), radius,model,resource,value);
     }
 
     public Point getCenter() {
@@ -428,13 +429,6 @@ public class HexTile {
         this.highlighted = highlighted;
     }
 
-    public boolean isCoast() {
-        return coast;
-    }
-
-    public void setCoast(boolean coast) {
-        this.coast = coast;
-    }
 
     /**
      * Decides how to round a double
@@ -509,9 +503,7 @@ public class HexTile {
      * @return
      */
     public boolean checkPoints(){
-        if(isCoast()){
-            return false;
-        } else {
+
             //mode is for debugging purposes only.
             int mode = this.model.getDisplayMode();
             if (A.overPoint()) {
@@ -565,7 +557,7 @@ public class HexTile {
                 return false;
             }
         }
-    }
+
 
     /**
      * A method for checking the mouse position

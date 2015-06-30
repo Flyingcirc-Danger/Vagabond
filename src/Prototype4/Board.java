@@ -19,19 +19,16 @@ public class Board extends PApplet {
 
     public void setup() {
 
-        SCREEN_HEIGHT = 600 ;
-        SCREEN_WIDTH = 800;
+        SCREEN_HEIGHT = 768 ;
+        SCREEN_WIDTH = 1024;
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
         model = new BoardData();
-        this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, model,model.getResourceTiles()[0],model.getTokens()[0],false);
+        this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, model,model.getResourceTiles()[0],model.getTokens()[0]);
         center.getModel().buildBoard((center));
         this.debugger = new Debug(this,center);
         textSize(14);
         background(0, 188, 212);
         debugger.displayClosed();
-
-
-
 
 
     }

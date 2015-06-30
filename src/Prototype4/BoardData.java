@@ -20,7 +20,7 @@ public class BoardData {
     private HashMap<Point, HexSide> sideMap;
     private int displayMode;
 
-    private ArrayList<HexTile> coast;
+    private ArrayList<HexCoast> coast;
 
     private String[] resourceTiles;
 
@@ -34,7 +34,7 @@ public class BoardData {
         sideMap = new HashMap<Point, HexSide>();
         buildOrder = new String[]{"NA", "AB", "CD", "DE", "EF", "FA", "AB", "AB", "BC", "CD", "CD", "DE", "DE", "EF", "EF", "FA", "FA", "AB", "AB"};
         hexDeck = new HexTile[19];
-        this.coast = new ArrayList<HexTile>();
+        this.coast = new ArrayList<HexCoast>();
         this.resourceTiles = new String[] {
                 "forest", "forest","forest","forest",
                 "grain", "grain","grain","grain",
@@ -216,6 +216,9 @@ public class BoardData {
     public void displayBoard(){
         int option = this.displayMode;
         for(int i = 0; i < coast.size(); i++){
+            coast.get(i).shadow(2);
+        }
+        for(int i = 0; i < coast.size(); i++){
             coast.get(i).display();
         }
         for(int i =0; i< hexDeck.length; i++){
@@ -256,11 +259,12 @@ public class BoardData {
         for(int i = 0; i < hexDeck.length; i++){
             if(!hexDeck[i].landLocked()){
                 HexTile ct = hexDeck[i];
-                coast.add(new HexTile(ct.getParent(),
-                        ct.getCenter().x,
-                        ct.getCenter().y,
-                        (int)(ct.getRadius() * 1.3),
-                        this,"coast",55,true));
+                coast.add(new HexCoast(ct));
+//                coast.add(new HexTile(ct.getParent(),
+//                        ct.getCenter().x,
+//                        ct.getCenter().y,
+//                        (int)(ct.getRadius() * 1.3),
+//                        this,"coast",55,true));
             }
         }
     }

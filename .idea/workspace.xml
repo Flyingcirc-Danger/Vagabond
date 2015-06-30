@@ -10,8 +10,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/Board.java" afterPath="$PROJECT_DIR$/src/Prototype4/Board.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/BoardData.java" afterPath="$PROJECT_DIR$/src/Prototype4/BoardData.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/Debug.java" afterPath="$PROJECT_DIR$/src/Prototype4/Debug.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/HexCoast.java" afterPath="$PROJECT_DIR$/src/Prototype4/HexCoast.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/HexPoint.java" afterPath="$PROJECT_DIR$/src/Prototype4/HexPoint.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/HexSide.java" afterPath="$PROJECT_DIR$/src/Prototype4/HexSide.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/HexTile.java" afterPath="$PROJECT_DIR$/src/Prototype4/HexTile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -35,14 +35,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Prototype4/Board.java">
+      <file leaf-file-name="HexCoast.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Prototype4/HexCoast.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.888889">
-              <caret line="25" column="134" selection-start-line="25" selection-start-column="134" selection-end-line="25" selection-end-column="134" />
+            <state vertical-scroll-proportion="-1.8797468">
+              <caret line="34" column="47" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
               <folding>
-                <element signature="e#1656#1657#0" expanded="true" />
-                <element signature="e#1734#1735#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -51,8 +50,8 @@
       <file leaf-file-name="Debug.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Prototype4/Debug.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.962963">
-              <caret line="204" column="190" selection-start-line="204" selection-start-column="190" selection-end-line="204" selection-end-column="190" />
+            <state vertical-scroll-proportion="-118.333336">
+              <caret line="213" column="184" selection-start-line="213" selection-start-column="184" selection-end-line="213" selection-end-column="184" />
               <folding>
                 <element signature="e#3143#3144#0" expanded="true" />
                 <element signature="e#3193#3194#0" expanded="true" />
@@ -68,26 +67,26 @@
       <file leaf-file-name="BoardData.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Prototype4/BoardData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.6296296">
-              <caret line="262" column="44" selection-start-line="262" selection-start-column="44" selection-end-line="262" selection-end-column="44" />
+            <state vertical-scroll-proportion="-2.7777777">
+              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <marker date="1435658592000" expanded="true" signature="7643:7873" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HexPoint.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HexPoint.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Prototype4/HexPoint.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.30379745">
-              <caret line="167" column="8" selection-start-line="167" selection-start-column="8" selection-end-line="167" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="138" column="25" selection-start-line="138" selection-start-column="25" selection-end-line="138" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2453#2454#0" expanded="true" />
-                <element signature="e#2483#2484#0" expanded="true" />
-                <element signature="e#2530#2531#0" expanded="true" />
-                <element signature="e#2568#2569#0" expanded="true" />
+                <element signature="e#2384#2385#0" expanded="true" />
+                <element signature="e#2414#2415#0" expanded="true" />
+                <element signature="e#2461#2462#0" expanded="true" />
+                <element signature="e#2499#2500#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -96,16 +95,12 @@
       <file leaf-file-name="HexTile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Prototype4/HexTile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.0">
-              <caret line="817" column="44" selection-start-line="817" selection-start-column="44" selection-end-line="817" selection-end-column="44" />
+            <state vertical-scroll-proportion="-5.0">
+              <caret line="9" column="70" selection-start-line="9" selection-start-column="70" selection-end-line="9" selection-end-column="70" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#9634#9635#0" expanded="true" />
-                <element signature="e#9655#9656#0" expanded="true" />
-                <element signature="e#11729#11730#0" expanded="true" />
-                <element signature="e#11757#11758#0" expanded="true" />
-                <element signature="e#11800#11801#0" expanded="true" />
-                <element signature="e#11834#11835#0" expanded="true" />
+                <element signature="e#9667#9668#0" expanded="true" />
+                <element signature="e#9688#9689#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -164,13 +159,13 @@
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java" />
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexTile.java" />
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java" />
-        <option value="$PROJECT_DIR$/src/Prototype4/HexCoast.java" />
         <option value="$PROJECT_DIR$/src/Prototype4/HexSide.java" />
         <option value="$PROJECT_DIR$/src/Prototype4/BoardData.java" />
+        <option value="$PROJECT_DIR$/src/Prototype4/HexPoint.java" />
         <option value="$PROJECT_DIR$/src/Prototype4/Board.java" />
         <option value="$PROJECT_DIR$/src/Prototype4/Debug.java" />
         <option value="$PROJECT_DIR$/src/Prototype4/HexTile.java" />
-        <option value="$PROJECT_DIR$/src/Prototype4/HexPoint.java" />
+        <option value="$PROJECT_DIR$/src/Prototype4/HexCoast.java" />
       </list>
     </option>
   </component>
@@ -1037,14 +1032,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype4/HexCoast.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.045801528">
-          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype4/HexSide.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8101266">
@@ -1055,31 +1042,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype4/BoardData.java">
+    <entry file="file://$PROJECT_DIR$/src/Prototype4/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.6296296">
-          <caret line="262" column="44" selection-start-line="262" selection-start-column="44" selection-end-line="262" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.7278481">
+          <caret line="25" column="128" selection-start-line="25" selection-start-column="128" selection-end-line="25" selection-end-column="128" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype4/HexTile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.0">
+          <caret line="9" column="70" selection-start-line="9" selection-start-column="70" selection-end-line="9" selection-end-column="70" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#9667#9668#0" expanded="true" />
+            <element signature="e#9688#9689#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype4/Board.java">
+    <entry file="file://$PROJECT_DIR$/src/Prototype4/HexPoint.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.888889">
-          <caret line="25" column="134" selection-start-line="25" selection-start-column="134" selection-end-line="25" selection-end-column="134" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="138" column="25" selection-start-line="138" selection-start-column="25" selection-end-line="138" selection-end-column="25" />
           <folding>
-            <element signature="e#1656#1657#0" expanded="true" />
-            <element signature="e#1734#1735#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#2384#2385#0" expanded="true" />
+            <element signature="e#2414#2415#0" expanded="true" />
+            <element signature="e#2461#2462#0" expanded="true" />
+            <element signature="e#2499#2500#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype4/BoardData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.7777777">
+          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+          <folding>
+            <marker date="1435658592000" expanded="true" signature="7643:7873" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype4/Debug.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.962963">
-          <caret line="204" column="190" selection-start-line="204" selection-start-column="190" selection-end-line="204" selection-end-column="190" />
+        <state vertical-scroll-proportion="-118.333336">
+          <caret line="213" column="184" selection-start-line="213" selection-start-column="184" selection-end-line="213" selection-end-column="184" />
           <folding>
             <element signature="e#3143#3144#0" expanded="true" />
             <element signature="e#3193#3194#0" expanded="true" />
@@ -1091,32 +1101,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype4/HexTile.java">
+    <entry file="file://$PROJECT_DIR$/src/Prototype4/HexCoast.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.0">
-          <caret line="817" column="44" selection-start-line="817" selection-start-column="44" selection-end-line="817" selection-end-column="44" />
+        <state vertical-scroll-proportion="-1.8797468">
+          <caret line="34" column="47" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9634#9635#0" expanded="true" />
-            <element signature="e#9655#9656#0" expanded="true" />
-            <element signature="e#11729#11730#0" expanded="true" />
-            <element signature="e#11757#11758#0" expanded="true" />
-            <element signature="e#11800#11801#0" expanded="true" />
-            <element signature="e#11834#11835#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype4/HexPoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30379745">
-          <caret line="167" column="8" selection-start-line="167" selection-start-column="8" selection-end-line="167" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2453#2454#0" expanded="true" />
-            <element signature="e#2483#2484#0" expanded="true" />
-            <element signature="e#2530#2531#0" expanded="true" />
-            <element signature="e#2568#2569#0" expanded="true" />
           </folding>
         </state>
       </provider>
