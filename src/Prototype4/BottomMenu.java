@@ -44,8 +44,10 @@ public class BottomMenu {
      * populating all it's values
      */
     public void initMenu(){
+        buttons.add(new MenuItem(30,30,"noTool",this.parent));
         buttons.add(new MenuItem(30,30,"town",this.parent));
         buttons.add(new MenuItem(30,30,"road",this.parent));
+        buttons.add(new MenuItem(30,30,"city",this.parent));
         spaceMenu();
     }
 

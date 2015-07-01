@@ -505,6 +505,8 @@ public class HexTile {
                     A.mapNeigbors();
                 } else if (A.validBuild() && parent.currentTool == 1) {
                     A.drawTown();
+                } else if(A.validUpgrade() && parent.currentTool == 3){
+                    A.drawCity();
                 }
                 return true;
             }
@@ -513,6 +515,8 @@ public class HexTile {
                     B.mapNeigbors();
                 } else if (B.validBuild() && parent.currentTool == 1) {
                     B.drawTown();
+                }else if(B.validUpgrade() && parent.currentTool == 3){
+                    B.drawCity();
                 }
                 return true;
             }
@@ -521,6 +525,8 @@ public class HexTile {
                     C.mapNeigbors();
                 } else if (C.validBuild()  && parent.currentTool == 1) {
                     C.drawTown();
+                }else if(C.validUpgrade() && parent.currentTool == 3){
+                    C.drawCity();
                 }
                 return true;
             }
@@ -529,6 +535,8 @@ public class HexTile {
                     D.mapNeigbors();
                 } else if (D.validBuild() && parent.currentTool == 1) {
                     D.drawTown();
+                } else if(D.validUpgrade() && parent.currentTool == 3){
+                    D.drawCity();
                 }
                 return true;
             }
@@ -537,6 +545,8 @@ public class HexTile {
                     E.mapNeigbors();
                 } else if (E.validBuild() && parent.currentTool == 1) {
                     E.drawTown();
+                }else if(E.validUpgrade() && parent.currentTool == 3){
+                    E.drawCity();
                 }
                 return true;
             }
@@ -545,6 +555,8 @@ public class HexTile {
                     F.mapNeigbors();
                 } else if (F.validBuild() && parent.currentTool == 1) {
                     F.drawTown();
+                }else if(F.validUpgrade() && parent.currentTool == 3){
+                    F.drawCity();
                 }
                 return true;
             } else {
@@ -831,48 +843,90 @@ public class HexTile {
      * Turns on the settle status of points.
      */
     public void checkSettledPoints() {
+            if(parent.currentTool == 1) {
 
-            if (A.overPoint() && parent.currentTool == 1) {
-                if (!A.isSettled() && A.validBuild()) {
-                    A.setSettled(true);
-                    parent.model.settlementQuota++;
+                if (A.overPoint() && A.validBuild()) {
+                    if (!A.isSettled()) {
+                        A.setSettled(true);
+                        parent.model.settlementQuota++;
+                    }
+                }
+                if (B.overPoint() && B.validBuild()) {
+                    if (!B.isSettled()) {
+                        B.setSettled(true);
+                        parent.model.settlementQuota++;
+                    }
+                    return;
+                }
+                if (C.overPoint() && C.validBuild()) {
+                    if (!C.isSettled()) {
+                        C.setSettled(true);
+                        parent.model.settlementQuota++;
+                    }
+                    return;
+                }
+                if (D.overPoint() && D.validBuild()) {
+                    if (!D.isSettled()) {
+                        D.setSettled(true);
+                        parent.model.settlementQuota++;
+                    }
+                    return;
+                }
+                if (E.overPoint() && E.validBuild()) {
+                    if (!E.isSettled()) {
+                        E.setSettled(true);
+                        parent.model.settlementQuota++;
+                    }
+                    return;
+                }
+                if (F.overPoint() && F.validBuild()) {
+                    if (!F.isSettled()) {
+                        F.setSettled(true);
+                        parent.model.settlementQuota++;
+                    }
                 }
             }
-            if (B.overPoint() && B.validBuild() && parent.currentTool == 1) {
-                if (!B.isSettled()) {
-                    B.setSettled(true);
-                    parent.model.settlementQuota++;
+                if(parent.currentTool == 3){
+                    if (A.overPoint() && A.validUpgrade()) {
+                        if (!A.isCity()) {
+                            A.setCity(true);
+                            System.out.println(A.isCity());
+                        }
+                        return;
+                    }
+                    if (B.overPoint() && B.validUpgrade()) {
+                        if (!B.isCity()) {
+                            B.setCity(true);
+                        }
+                        return;
+                    }
+                    if (C.overPoint() && C.validUpgrade()) {
+                        if (!C.isCity()) {
+                            C.setCity(true);
+                        }
+                        return;
+                    }
+                    if (D.overPoint() && D.validUpgrade()) {
+                        if (!D.isCity()) {
+                            D.setCity(true);
+                        }
+                        return;
+                    }
+                    if (E.overPoint() && E.validUpgrade()) {
+                        if (!E.isCity()) {
+                            E.setCity(true);
+                        }
+                        return;
+                    }
+                    if (F.overPoint() && F.validUpgrade()) {
+                        if (!F.isCity()) {
+                            F.setCity(true);
+                        }
+                        return;
+                    }
                 }
-                return;
-            }
-            if (C.overPoint() && C.validBuild() && parent.currentTool == 1) {
-                if (!C.isSettled()) {
-                    C.setSettled(true);
-                    parent.model.settlementQuota++;
-                }
-                return;
-            }
-            if (D.overPoint() && D.validBuild() && parent.currentTool == 1) {
-                if (!D.isSettled()) {
-                    D.setSettled(true);
-                    parent.model.settlementQuota++;
-                }
-                return;
-            }
-            if (E.overPoint() && E.validBuild() && parent.currentTool == 1) {
-                if (!E.isSettled()) {
-                    E.setSettled(true);
-                    parent.model.settlementQuota++;
-                }
-                return;
-            }
-            if (F.overPoint() && F.validBuild() && parent.currentTool == 1) {
-                if (!F.isSettled()) {
-                    F.setSettled(true);
-                    parent.model.settlementQuota++;
-                }
-                return;
-            }
+
+        return;
 
     }
 

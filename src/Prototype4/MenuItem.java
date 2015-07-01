@@ -30,16 +30,18 @@ public class MenuItem {
      * Checks the tooltip and displays accordingly.
      */
     public void display(){
+        int tempX = startingPos.x;
+        int tempY = startingPos.y;
         if(!highlighted){
             parent.stroke(0,0,0,0);
             parent.fill(62,39,35);
         } else {
             parent.stroke(0,0,0,0);
-            parent.fill(245,127,23,80);
+            parent.fill(245,127,23);
         }
         if(parent.currentTool == getTool()){
             parent.stroke(0,0,0,0);
-            parent.fill(245,127,23,80);
+            parent.fill(245,127,23);
         }
         if(toolTip.equals("town")){
             Point coords = new Point(startingPos.x + (width/2), startingPos.y + (height/2));
@@ -68,6 +70,47 @@ public class MenuItem {
             parent.vertex(aStart.x - slopeY, aStart.y + slopeX);
             parent.vertex(bStart.x - slopeY, bStart.y + slopeX);
             parent.endShape();
+        }
+        if(toolTip.equals("noTool")){
+            Point end = new Point(startingPos.x + width - 9, startingPos.y + height -9);
+            Point start = new Point(startingPos.x + 9, startingPos.y + 9);
+            Point midPoint = new Point((start.x + end.x) /2, (start.y + end.y)/2);
+            Point aStart = new Point((start.x + midPoint.x)/2, (start.y + midPoint.y)/2);
+            Point bStart = new Point((end.x + midPoint.x)/2, (end.y + midPoint.y)/2);
+            int slopeX = (end.x - start.x) * -1;
+            int slopeY = (end.y - start.y) * -1;
+            parent.beginShape();
+            parent.vertex(bStart.x + slopeY, bStart.y + -slopeX);
+            parent.vertex(aStart.x + slopeY, aStart.y + -slopeX);
+            parent.vertex(aStart.x - slopeY, aStart.y + slopeX);
+            parent.vertex(bStart.x - slopeY, bStart.y + slopeX);
+            parent.endShape();
+            end = new Point(startingPos.x +  9, startingPos.y + height -9);
+            start = new Point(startingPos.x + width - 9, startingPos.y + 9);
+            midPoint = new Point((start.x + end.x) /2, (start.y + end.y)/2);
+            aStart = new Point((start.x + midPoint.x)/2, (start.y + midPoint.y)/2);
+            bStart = new Point((end.x + midPoint.x)/2, (end.y + midPoint.y)/2);
+            slopeX = (end.x - start.x);
+            slopeY = (end.y - start.y);
+            parent.beginShape();
+            parent.vertex(bStart.x + slopeY, bStart.y + -slopeX);
+            parent.vertex(aStart.x + slopeY, aStart.y + -slopeX);
+            parent.vertex(aStart.x - slopeY, aStart.y + slopeX);
+            parent.vertex(bStart.x - slopeY, bStart.y + slopeX);
+            parent.endShape();
+        }
+        if(toolTip.equals("city")){
+            parent.beginShape();
+            parent.vertex(tempX, (tempY + (height/2)));
+            parent.vertex(tempX, (tempY + height));
+            parent.vertex(tempX + width, (tempY + height));
+            parent.vertex(tempX + width, (tempY + (height/2)));
+            parent.vertex(tempX + width, (tempY + (height/4)));
+            parent.vertex(tempX + width - (width/4), tempY);
+            parent.vertex(tempX + (width/2), (tempY + (height/4)));
+            parent.vertex(tempX + (width/2), (tempY + (height/2)));
+            parent.endShape();
+
         }
     }
 
@@ -130,12 +173,23 @@ public class MenuItem {
 
     }
 
+    /**
+     * Returns the tool id of this button
+     * 0 = No Tool
+     * 1 = town
+     * 2 = road
+     * 3 = city
+     * @return
+     */
     public int getTool(){
         if(toolTip.equals("town")){
             return 1;
         }
         if(toolTip.equals("road")){
             return 2;
+        }
+        if(toolTip.equals("city")){
+            return 3;
         }
         else return 0;
     }

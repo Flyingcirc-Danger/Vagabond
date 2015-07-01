@@ -251,7 +251,7 @@ public class BoardData {
     }
 
     public void checkSelected(int tool){
-        if(tool == 1) {
+        if(tool == 1 || tool == 3) {
             for (int i = 0; i < hexDeck.length; i++) {
                 hexDeck[i].checkSettledPoints();
             }

@@ -22,6 +22,9 @@ public class HexPoint implements Comparable<HexPoint> {
 
     private Point centerCoords;
     private boolean settled;
+    private boolean city;
+    //build status = 0: nobuild, 1:town, 2:city
+    private int buildStatus;
     /**
      *
      * @param coords The coordinate of this point
@@ -36,6 +39,7 @@ public class HexPoint implements Comparable<HexPoint> {
         this.neigbors = new HashSet<HexPoint>();
         this.centerCoords = centerCoords;
         this.roads = new HashSet<HexSide>();
+        this.buildStatus = 0;
     }
 
     /**
@@ -106,11 +110,20 @@ public class HexPoint implements Comparable<HexPoint> {
     }
 
     public boolean isSettled() {
-        return settled;
+        if (this.buildStatus > 0){
+            return true;
+        }
+        return false;
     }
 
     public void setSettled(boolean settled) {
-        this.settled = settled;
+        if(settled) {
+            if (this.buildStatus < 2) {
+                this.buildStatus = 1;
+            }
+        } else{
+            this.buildStatus = 0;
+        }
     }
 
     public HashSet<HexSide> getRoads() {
@@ -119,6 +132,21 @@ public class HexPoint implements Comparable<HexPoint> {
 
     public void setRoads(HashSet<HexSide> roads) {
         this.roads = roads;
+    }
+
+    public boolean isCity() {
+        if(this.buildStatus == 2){
+            return true;
+        }
+        return false;
+    }
+
+    public void setCity(boolean city) {
+        if(city){
+            if(this.buildStatus > 0){
+                this.buildStatus = 2;
+            }
+        }
     }
 
     @Override
@@ -174,6 +202,10 @@ public class HexPoint implements Comparable<HexPoint> {
      * (test build)
      */
     public void drawTown(){
+            if(buildStatus > 1){
+                drawCity();
+                return;
+            }
             /*check if a point is settled, if your mouse is over the point, if it's valid to build
              and if the current tool selected is town building */
             if(this.isSettled() || (overPoint() && validBuild() && parent.currentTool == 1)) {
@@ -194,6 +226,31 @@ public class HexPoint implements Comparable<HexPoint> {
             parent.vertex(coords.x + ((width / 2) - (width / 8)), coords.y);
             parent.vertex(coords.x + (width / 2), coords.y);
             parent.endShape();
+        }
+    }
+
+
+    public void drawCity(){
+        if(this.isCity() || (overPoint() && validUpgrade() && parent.currentTool == 3)) {
+                if (!this.isCity()) {
+                    parent.fill(255, 0, 0, 80);
+                } else {
+                    parent.fill(1, 87, 155);
+                }
+                int tempX = coords.x - 10;
+                int tempY = coords.y - 10;
+                int height = 20;
+                int width = 20;
+                parent.beginShape();
+                parent.vertex(tempX, (tempY + (height / 2)));
+                parent.vertex(tempX, (tempY + height));
+                parent.vertex(tempX + width, (tempY + height));
+                parent.vertex(tempX + width, (tempY + (height / 2)));
+                parent.vertex(tempX + width, (tempY + (height / 4)));
+                parent.vertex(tempX + width - (width / 4), tempY);
+                parent.vertex(tempX + (width / 2), (tempY + (height / 4)));
+                parent.vertex(tempX + (width / 2), (tempY + (height / 2)));
+                parent.endShape();
         }
     }
 
@@ -221,6 +278,14 @@ public class HexPoint implements Comparable<HexPoint> {
             }
         }
         return true;
+    }
+
+    public boolean validUpgrade(){
+        if(this.isSettled()){
+            return true;
+        } else{
+            return false;
+        }
     }
 }
 

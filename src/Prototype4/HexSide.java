@@ -62,9 +62,9 @@ public class HexSide {
             Point aStart = new Point(((int) start.getX() + midPoint.x) / 2, (int) (start.getY() + midPoint.y) / 2);
             Point bStart = new Point((int) (end.getX() + midPoint.x) / 2, (int) (end.getY() + midPoint.y) / 2);
             int slopeX = (int) (end.getX() - start.getX());
-            slopeX = slopeX / 10;
+            slopeX = slopeX / 15;
             int slopeY = (int) (end.getY() - start.getY());
-            slopeY = slopeY / 10;
+            slopeY = slopeY / 15;
             if(!this.isBuilt()){
                 parent.fill(255, 0, 0,80);
             } else{

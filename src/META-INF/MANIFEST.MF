@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: Prototype3.Prototype3_3.Board
-
