@@ -13,16 +13,15 @@ import java.util.HashSet;
  */
 public class HexPoint implements Comparable<HexPoint> {
 
-    private Board parent;
+    private Board parent; //the canvas to draw on
 
-    private Point coords;
-    private HashSet<HexPoint> neigbors;
-    private int id;
-    private HashSet<HexSide> roads;
+    private Point coords; //specific location
+    private HashSet<HexPoint> neigbors; //neighbors within 1 side of this point
+    private int id; //point ID for debugging and uniquness checking
+    private HashSet<HexSide> roads; //roads that lead off of this point
 
-    private Point centerCoords;
-    private boolean settled;
-    private boolean city;
+    private Point centerCoords; //the center of the hex on which this point occupies
+
     //build status = 0: nobuild, 1:town, 2:city
     private int buildStatus;
     /**
@@ -84,6 +83,13 @@ public class HexPoint implements Comparable<HexPoint> {
         return id;
     }
 
+    /**
+     * Checks to see if a point is along an edge
+     * Each point is on a hexagon so it follows
+     * that if a point has 3 neighbor points, it
+     * is not an edge
+     * @return
+     */
     public boolean isEdge() {
         if(neigbors.size() == 3){
             return false;
@@ -116,6 +122,14 @@ public class HexPoint implements Comparable<HexPoint> {
         return false;
     }
 
+    /**
+     * Sets the build status of a tile
+     * A town is 1
+     * A city is 2
+     * If true and not a city, buildstatus is 1, or town
+     * else it's not settled.
+     * @param settled
+     */
     public void setSettled(boolean settled) {
         if(settled) {
             if (this.buildStatus < 2) {
@@ -134,6 +148,12 @@ public class HexPoint implements Comparable<HexPoint> {
         this.roads = roads;
     }
 
+    /**
+     * Checks the buildstatus to determine
+     * if a city has been built. Only a buildstatus of
+     * 2 will return a true
+     * @return
+     */
     public boolean isCity() {
         if(this.buildStatus == 2){
             return true;
@@ -141,6 +161,13 @@ public class HexPoint implements Comparable<HexPoint> {
         return false;
     }
 
+    /**
+     * Sets the city status of a point.
+     * True = 2;
+     * A point only becomes a city if it's buildstatus
+     * is greater than 0;
+     * @param city
+     */
     public void setCity(boolean city) {
         if(city){
             if(this.buildStatus > 0){
@@ -153,7 +180,7 @@ public class HexPoint implements Comparable<HexPoint> {
     public String toString() {
         return "HexPoint{" +
                 "id=" + id +
-                ", settled=" + settled +
+                ", settled=" + isSettled() +
                 ", coords=" + coords +
                 '}';
     }
@@ -229,7 +256,9 @@ public class HexPoint implements Comparable<HexPoint> {
         }
     }
 
-
+    /**
+     * Draws a city icon, centered on the point
+     */
     public void drawCity(){
         if(this.isCity() || (overPoint() && validUpgrade() && parent.currentTool == 3)) {
                 if (!this.isCity()) {
@@ -280,6 +309,12 @@ public class HexPoint implements Comparable<HexPoint> {
         return true;
     }
 
+    /**
+     * Checks to see if building a city here
+     * is valid (a city can only be an upgrade
+     * from a town)
+     * @return
+     */
     public boolean validUpgrade(){
         if(this.isSettled()){
             return true;

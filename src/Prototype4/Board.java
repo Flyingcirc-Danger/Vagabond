@@ -69,15 +69,6 @@ public class Board extends PApplet {
 
 
 
-    boolean overRect(int x, int y, int width, int height)  {
-        if (mouseX >= x && mouseX <= x+width &&
-                mouseY >= y && mouseY <= y+height) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     @Override
     public void mousePressed() {
         debugger.mouseDebug();

@@ -9,9 +9,9 @@ import processing.core.PApplet;
 
 public class Debug {
 
-    public Board parent;
-    public boolean open;
-    public int width;
+    public Board parent; //canvas to draw on
+    public boolean open; //check to see if the menu is open/closed
+    public int width; //the baseline width of this menu
 
 
     public Debug(Board parent, HexTile center) {

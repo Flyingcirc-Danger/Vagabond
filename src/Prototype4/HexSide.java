@@ -11,15 +11,15 @@ import java.util.HashSet;
  */
 public class HexSide {
 
-    private int id;
-    private HexPoint start;
-    private HexPoint end;
-    private Point midPoint;
-    private HashSet<HexSide> neighbors;
-    private HashSet<HexTile> borders;
-    private Board parent;
+    private int id; //id for debugging and uniqueness purposes
+    private HexPoint start; //start point of this side
+    private HexPoint end; //end point of this side
+    private Point midPoint; //middle point of this side
+    private HashSet<HexSide> neighbors; //set of sides immediatley touching this side
+    private HashSet<HexTile> borders; //set of tiles either side of this side (borders)
+    private Board parent; //canvas to draw on
 
-    private boolean built;
+    private boolean built; //check to see if a road exists on this side.
 
 
 
@@ -57,6 +57,9 @@ public class HexSide {
         parent.endShape();
     }
 
+    /**
+     * Draws a road centered on the side with 1/10 spacer either end.
+     */
     public void drawRoad(){
         if(isBuilt() || (overSide() && validBuild() && parent.currentTool == 2)){
             Point aStart = new Point(((int) start.getX() + midPoint.x) / 2, (int) (start.getY() + midPoint.y) / 2);

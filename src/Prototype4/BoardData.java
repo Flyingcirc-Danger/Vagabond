@@ -11,22 +11,22 @@ import java.util.Random;
  */
 public class BoardData {
 
-    private HashMap<Point, HexPoint> pointMap;
-    private ArrayList<HexPoint> edges;
-    private String[] buildOrder;
-    private HexTile[] hexDeck;
+    private HashMap<Point, HexPoint> pointMap; //the map of all hexpoints, no duplicates.
+    private ArrayList<HexPoint> edges; //the arraylist of edge points
+    private String[] buildOrder; //an array of the build order of
+    private HexTile[] hexDeck; //the array of all tiles in the standard deck of catan (19 tiles)
 
-    private ArrayList<HexSide> sides;
-    private HashMap<Point, HexSide> sideMap;
-    private int displayMode;
+    private ArrayList<HexSide> sides; //the arraylist of all sides (no duplicates)
+    private HashMap<Point, HexSide> sideMap; //the map of all sides (no duplicates)
+    private int displayMode; //the current map display mode (for debugging purposes)
 
-    private ArrayList<HexCoast> coast;
+    private ArrayList<HexCoast> coast; //the arraylist of all coast pieces.
 
-    private String[] resourceTiles;
+    private String[] resourceTiles; //array of standard resources in tournament catan (19 resources)
 
-    private int[] tokens;
+    private int[] tokens; //array of standard tokens in tournament catan
 
-    public int settlementQuota;
+    public int settlementQuota; //the number of settlments (towns/cities) on the board
 
 
 
@@ -250,6 +250,12 @@ public class BoardData {
         }
     }
 
+    /**
+     * Checks which items (points/tiles/sides)
+     * are selected. Only checks the items
+     * that the specific tool requires
+     * @param tool the tool currently selected.
+     */
     public void checkSelected(int tool){
         if(tool == 1 || tool == 3) {
             for (int i = 0; i < hexDeck.length; i++) {

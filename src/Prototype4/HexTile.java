@@ -772,6 +772,11 @@ public class HexTile {
         return true;
     }
 
+    /**
+     * A method to check to see if a tile is landlocked
+     * If a tile has neighbors on all sides, it's landlocked.
+     * @return
+     */
     public boolean landLocked(){
         if(ABNeighbor() &&
                 BCNeighbor() &&
@@ -930,6 +935,10 @@ public class HexTile {
 
     }
 
+    /**
+     * A method for checking all sides on this tile to test
+     * if you can build a road.
+     */
     public void checkBuiltRoads(){
         if (AB.overSide() && parent.currentTool == 2) {
             if (!AB.isBuilt() && AB.validBuild()) {

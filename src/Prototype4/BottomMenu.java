@@ -9,10 +9,10 @@ import java.util.ArrayList;
  */
 public class BottomMenu {
 
-    private Board parent;
-    private int width;
-    private int height;
-    private ArrayList<MenuItem> buttons;
+    private Board parent; //canvas to draw on
+    private int width; //width of the menu
+    private int height; //height of the menu
+    private ArrayList<MenuItem> buttons; //buttons on the menu
 
     public BottomMenu(Board parent){
         this.parent = parent;

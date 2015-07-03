@@ -10,6 +10,7 @@ import java.awt.*;
  */
 public class HexCoast {
 
+    //coords of the hex
     public Point A;
     public Point B;
     public Point C;
@@ -18,7 +19,7 @@ public class HexCoast {
     public Point F;
     public Point center;
 
-
+    //canvas
     private PApplet parent;
 
     public HexCoast(HexTile coastTile){
