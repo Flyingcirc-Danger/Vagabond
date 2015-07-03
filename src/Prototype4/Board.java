@@ -1,6 +1,11 @@
 package Prototype4;
 
+import org.xml.sax.SAXException;
 import processing.core.PApplet;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * The main board class. Builds the datastructure
@@ -35,6 +40,21 @@ public class Board extends PApplet {
         debugger.displayClosed();
         this.bottom = new BottomMenu(this);
         this.currentTool = 0;
+        try (PrintWriter writer = new PrintWriter("points.xml", "UTF-8")) {
+            writer.println(ObjectParser.parsePoints(model));
+            writer.close();
+        } catch (IOException e){
+            System.out.println("nope");
+        }
+        try {
+            ObjectParser.readPoints(model,"points.xml");
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
 
 
     }

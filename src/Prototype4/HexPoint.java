@@ -42,6 +42,13 @@ public class HexPoint implements Comparable<HexPoint> {
     }
 
     /**
+     * Temporary empty constructor
+     */
+    public HexPoint(){
+
+    }
+
+    /**
      * A method for displaying this point on the hex.
      */
     public void display(){
@@ -81,6 +88,26 @@ public class HexPoint implements Comparable<HexPoint> {
 
     public int getId() {
         return id;
+    }
+
+    public int getBuildStatus() {
+        return buildStatus;
+    }
+
+    public void setParent(Board parent) {
+        this.parent = parent;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCenterCoords(Point centerCoords) {
+        this.centerCoords = centerCoords;
+    }
+
+    public void setBuildStatus(int buildStatus) {
+        this.buildStatus = buildStatus;
     }
 
     /**
