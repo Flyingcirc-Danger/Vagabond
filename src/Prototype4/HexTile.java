@@ -47,6 +47,8 @@ public class HexTile {
     String resource;
     int value;
 
+    int id;
+
 
 
     public HexTile(Board parent, double centerX, double centerY, int radius, BoardData model, String resource,int value){
@@ -61,6 +63,7 @@ public class HexTile {
         this.resource = resource;
         initPoints();
         initSides();
+        this.model.getTileMap().put(this.center, this);
 
     }
 
@@ -189,9 +192,9 @@ public class HexTile {
      * Finds the midpoint between two points
      */
     private Point findMidPoint(HexPoint start, HexPoint end){
-        int tempX = (int)((start.getX() + end.getX())/2);
-        int tempY = (int)((start.getY() + end.getY())/2);
-        return new Point(tempX,tempY);
+        int tempX = ((start.getX() + end.getX())/2);
+        int tempY = ((start.getY() + end.getY())/2);
+        return new Point((int)tempX,(int)tempY);
     }
 
     /**
@@ -423,6 +426,22 @@ public class HexTile {
         this.highlighted = highlighted;
     }
 
+
+    public String getResource() {
+        return resource;
+    }
+
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
 
     /**
      * Decides how to round a double

@@ -140,6 +140,14 @@ public class HexSide {
         this.built = built;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     /**
      * A method for checking to see if the mouse is over this
      * point.

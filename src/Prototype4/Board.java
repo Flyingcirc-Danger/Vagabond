@@ -41,20 +41,20 @@ public class Board extends PApplet {
         this.bottom = new BottomMenu(this);
         this.currentTool = 0;
         try (PrintWriter writer = new PrintWriter("points.xml", "UTF-8")) {
-            writer.println(ObjectParser.parsePoints(model));
+            writer.println(ObjectParser.parseModel(model));
             writer.close();
         } catch (IOException e){
             System.out.println("nope");
         }
-        try {
-            ObjectParser.readPoints(model,"points.xml");
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        }
+//        try {
+//          ObjectParser.readSides(model,"points.xml");
+//        } catch (ParserConfigurationException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (SAXException e) {
+//            e.printStackTrace();
+//        }
 
 
     }

@@ -126,12 +126,12 @@ public class HexPoint implements Comparable<HexPoint> {
 
 
 
-    public double getX(){
-        return this.coords.getX();
+    public int getX(){
+        return (int)this.coords.getX();
     }
 
-    public double getY(){
-        return this.coords.getY();
+    public int getY(){
+        return (int)this.coords.getY();
     }
 
     public Point getCenterCoords() {

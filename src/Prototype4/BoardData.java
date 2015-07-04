@@ -20,6 +20,8 @@ public class BoardData {
     private HashMap<Point, HexSide> sideMap; //the map of all sides (no duplicates)
     private int displayMode; //the current map display mode (for debugging purposes)
 
+    private HashMap<Point,HexTile> tileMap; //the map of all hexTiles (no duplicates)
+
     private ArrayList<HexCoast> coast; //the arraylist of all coast pieces.
 
     private String[] resourceTiles; //array of standard resources in tournament catan (19 resources)
@@ -28,11 +30,14 @@ public class BoardData {
 
     public int settlementQuota; //the number of settlments (towns/cities) on the board
 
+    private String identityToken;
+
 
 
     public BoardData() {
         this.displayMode = 0;
         pointMap = new HashMap<Point, HexPoint>();
+        tileMap = new HashMap<Point, HexTile>();
         edges = new ArrayList<HexPoint>();
         sideMap = new HashMap<Point, HexSide>();
         buildOrder = new String[]{"NA", "AB", "CD", "DE", "EF", "FA", "AB", "AB", "BC", "CD", "CD", "DE", "DE", "EF", "EF", "FA", "FA", "AB", "AB"};
@@ -49,6 +54,7 @@ public class BoardData {
         tokens = new int[19];
         findDesert(shuffleTerrain());
         settlementQuota = 0;
+        generateIdentity();
     }
 
     public HashMap<Point, HexPoint> getPointMap() {
@@ -97,6 +103,22 @@ public class BoardData {
 
     public void setTokens(int[] tokens) {
         this.tokens = tokens;
+    }
+
+    public HashMap<Point, HexTile> getTileMap() {
+        return tileMap;
+    }
+
+    public void setTileMap(HashMap<Point, HexTile> tileMap) {
+        this.tileMap = tileMap;
+    }
+
+    public String getIdentityToken() {
+        return identityToken;
+    }
+
+    public void setIdentityToken(String identityToken) {
+        this.identityToken = identityToken;
     }
 
     /**
@@ -337,6 +359,28 @@ public class BoardData {
         }
         this.tokens = resultTokens;
 
+    }
+
+    /**
+     * Generates a random identity token of length 20.
+     */
+    private void generateIdentity(){
+        StringBuffer possibleChars = new StringBuffer();
+        for(int i = 48; i <= 57; i++){
+            possibleChars.append((char) i);
+        }
+        for(int i = 65; i <= 90; i++){
+            possibleChars.append((char) i);
+        }
+        for(int i = 97; i <= 122; i++){
+            possibleChars.append((char) i);
+        }
+        Random select = new Random();
+        StringBuffer result = new StringBuffer();
+        for(int i = 0; i < 20; i++){
+            result.append(possibleChars.charAt(select.nextInt(possibleChars.length())));
+        }
+        this.identityToken = result.toString();
     }
 }
 
