@@ -32,9 +32,39 @@ public class BoardData {
 
     private String identityToken;
 
+    private Board parent;
 
 
-    public BoardData() {
+
+    public BoardData(Board parent) {
+        this.displayMode = 0;
+        pointMap = new HashMap<Point, HexPoint>();
+        tileMap = new HashMap<Point, HexTile>();
+        edges = new ArrayList<HexPoint>();
+        sideMap = new HashMap<Point, HexSide>();
+        buildOrder = new String[]{"NA", "AB", "CD", "DE", "EF", "FA", "AB", "AB", "BC", "CD", "CD", "DE", "DE", "EF", "EF", "FA", "FA", "AB", "AB"};
+        hexDeck = new HexTile[19];
+        this.coast = new ArrayList<HexCoast>();
+        this.resourceTiles = new String[] {
+                "forest", "forest","forest","forest",
+                "grain", "grain","grain","grain",
+                "pasture","pasture","pasture","pasture",
+                "mine","mine","mine",
+                "brick","brick","brick",
+                "desert"
+        };
+        tokens = new int[19];
+        findDesert(shuffleTerrain());
+        settlementQuota = 0;
+        this.parent = parent;
+        generateIdentity();
+    }
+
+    /**
+     * Builds an OldBoard given a XMLstring.
+     * @param oldBoard
+     */
+    public BoardData(String oldBoard){
         this.displayMode = 0;
         pointMap = new HashMap<Point, HexPoint>();
         tileMap = new HashMap<Point, HexTile>();
@@ -55,6 +85,7 @@ public class BoardData {
         findDesert(shuffleTerrain());
         settlementQuota = 0;
         generateIdentity();
+
     }
 
     public HashMap<Point, HexPoint> getPointMap() {
@@ -119,6 +150,14 @@ public class BoardData {
 
     public void setIdentityToken(String identityToken) {
         this.identityToken = identityToken;
+    }
+
+    public Board getParent() {
+        return parent;
+    }
+
+    public void setParent(Board parent) {
+        this.parent = parent;
     }
 
     /**

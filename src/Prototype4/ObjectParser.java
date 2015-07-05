@@ -11,6 +11,7 @@ import org.w3c.dom.Node;
 
 import java.awt.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class ObjectParser {
         StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
         result.append("<model>");
         result.append("<identity>" + model.getIdentityToken() + "</identity>");
+        result.append(initMaps(model, false));
         result.append(parseTiles(model, false));
         result.append(parsePoints(model, false));
         result.append(parseSides(model, false));
@@ -55,28 +57,22 @@ public class ObjectParser {
             result.append("<coordsY>" + tile.getCenter().y +  "</coordsY>");
             result.append("</center>");
             result.append("<A>");
-            result.append("<coordsX>" + tile.getA().getX() +  "</coordsX>");
-            result.append("<coordsY>" + tile.getB().getX() +  "</coordsY>");
+            result.append(parseSinglePoint(model, tile.getA(),false));
             result.append("</A>");
             result.append("<B>");
-            result.append("<coordsX>" + tile.getB().getX() +  "</coordsX>");
-            result.append("<coordsY>" + tile.getB().getY() +  "</coordsY>");
+            result.append(parseSinglePoint(model, tile.getB(),false));
             result.append("</B>");
             result.append("<C>");
-            result.append("<coordsX>" + tile.getC().getX() +  "</coordsX>");
-            result.append("<coordsY>" + tile.getC().getY() +  "</coordsY>");
+            result.append(parseSinglePoint(model, tile.getC(),false));
             result.append("</C>");
             result.append("<D>");
-            result.append("<coordsX>" + tile.getD().getX() +  "</coordsX>");
-            result.append("<coordsY>" + tile.getD().getY() +  "</coordsY>");
+            result.append(parseSinglePoint(model, tile.getD(),false));
             result.append("</D>");
             result.append("<E>");
-            result.append("<coordsX>" + tile.getE().getX() +  "</coordsX>");
-            result.append("<coordsY>" + tile.getE().getY() +  "</coordsY>");
+            result.append(parseSinglePoint(model, tile.getE(),false));
             result.append("</E>");
             result.append("<F>");
-            result.append("<coordsX>" + tile.getF().getX() +  "</coordsX>");
-            result.append("<coordsY>" + tile.getF().getY() +  "</coordsY>");
+            result.append(parseSinglePoint(model, tile.getF(),false));
             result.append("</F>");
             result.append("</tilepoints>");
             //sides
@@ -212,10 +208,15 @@ public class ObjectParser {
         for(HexSide sd : model.getSideMap().values()){
             result.append("<hexside><midpoint><coordsX>" + sd.getMidPoint().x + "</coordsX><coordsY>" +
                     sd.getMidPoint().y +"</coordsY></midpoint>");
-            result.append("<start><coordsX>" + sd.getStart().getX() + "</coordsX><coordsY>" +
-                    sd.getStart().getY() +"</coordsY></start>");
-            result.append("<end><coordsX>" + sd.getEnd().getX() + "</coordsX><coordsY>" +
-                    sd.getEnd().getY() +"</coordsY></end>");
+            result.append("<start>");
+            result.append("<coordsX>" + sd.getStart().getX() + "</coordsX><coordsY>" +
+                    sd.getStart().getY() +"</coordsY>");
+            result.append("</start>");
+
+            result.append("<end>");
+            result.append("<coordsX>" + sd.getEnd().getX() + "</coordsX><coordsY>" +
+                    sd.getEnd().getY() +"</coordsY>");
+            result.append("</end>");
             result.append("<id>"+ sd.getId() + "</id>");
             result.append("<neighbors>");
             for(HexSide ns : sd.getNeighbors()) {
@@ -273,17 +274,24 @@ public class ObjectParser {
     /**
      * Reads a side XML string and updates the board accordingly
       * @param model the model to update
-     * @param filename the string or filename to use
+     * @param XML the string or filename to use
      * @throws ParserConfigurationException
      * @throws IOException
      * @throws SAXException
      */
-    public static void readSides(BoardData model,String filename) throws ParserConfigurationException, IOException, SAXException {
-        //setup the document reader
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        //TODO change from filename
-        Document doc = db.parse(new File(filename));
+    public static void readSides(BoardData model,String XML) {
+        Document doc = null;
+        try {
+            doc = stringToDom(XML);
+            //initializeSideMap.
+            NodeList pointMap = doc.getElementsByTagName("side-map");
+            NodeList mapChildren = pointMap.item(0).getChildNodes();
+            for(int i = 0; i < mapChildren.getLength(); i++){
+                NodeList sd = mapChildren.item(i).getChildNodes();
+                HexPoint initPoint = generatePointFromNode(pt,model);
+                model.getPointMap().put(initPoint.getCoords(), initPoint);
+            }
+
         NodeList hexSides = doc.getElementsByTagName("hexside");
         for (int i = 0; i < hexSides.getLength(); i++) {
             Node hexSide = hexSides.item(i);
@@ -291,9 +299,9 @@ public class ObjectParser {
             Point midpoint = new Point(Integer.parseInt(sideData.item(0).getFirstChild().getTextContent()),
                     Integer.parseInt(sideData.item(0).getLastChild().getTextContent()));
             HexSide update = model.getSideMap().get(midpoint);
-            HexPoint start = findHexPoint(model, new Point(Integer.parseInt(sideData.item(1).getFirstChild().getTextContent()),
+            HexPoint start = model.getPointMap().get(new Point(Integer.parseInt(sideData.item(1).getFirstChild().getTextContent()),
                     Integer.parseInt(sideData.item(1).getLastChild().getTextContent())));
-            HexPoint end = findHexPoint(model,new Point(Integer.parseInt(sideData.item(2).getFirstChild().getTextContent()),
+            HexPoint end = model.getPointMap().get(new Point(Integer.parseInt(sideData.item(2).getFirstChild().getTextContent()),
                     Integer.parseInt(sideData.item(2).getLastChild().getTextContent())));
             int id = Integer.parseInt(sideData.item(3).getTextContent());
             HashSet<HexSide> neighbors = new HashSet<HexSide>();
@@ -315,6 +323,13 @@ public class ObjectParser {
             update.setNeighbors(neighbors);
             update.setBorders(borders);
             update.setBuilt(built);
+        }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
         }
     }
 
@@ -339,6 +354,9 @@ public class ObjectParser {
             result.append("<neighbor>");
             result.append("<coordsX>" + n.getCoords().x + "</coordsX>");
             result.append("<coordsY>" + n.getCoords().y + "</coordsY>");
+            result.append("<id>" + n.getId() + "</id>");
+            result.append("<center-coordsX>" + n.getCenterCoords().x + "</center-coordsX>");
+            result.append("<center-coordsY>" + n.getCenterCoords().y + "</center-coordsY>");
             result.append("</neighbor>");
         }
         result.append("</neighbors>");
@@ -354,7 +372,56 @@ public class ObjectParser {
         result.append("<center-point><coordsX>" + point.getCenterCoords().getX() + "</coordsX>" +
                 "<coordsY>" + point.getCenterCoords().getY() + "</coordsY></center-point>");
         result.append("</hexpoint>");
-        result.append("</hexpoint>");
+        return result.toString();
+    }
+
+
+    public static String initMaps(BoardData model, boolean independent){
+        StringBuffer result = new StringBuffer();
+        if(independent) {
+            result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        }
+        //coords, center, id, parent
+        result.append("<point-map>");
+        for(HexPoint pt: model.getPointMap().values()){
+            result.append("<point>");
+            result.append("<coordsX>" + pt.getCoords().x + "</coordsX>");
+            result.append("<coordsY>" + pt.getCoords().y + "</coordsY>");
+            result.append("<id>" + pt.getId() + "</id>");
+            result.append("<center-coordsX>" + pt.getCenterCoords().getX() + "</center-coordsX>" +
+                    "<center-coordsY>" + pt.getCenterCoords().getY() + "</center-coordsY>");
+            result.append("</point>");
+        }
+        result.append("</point-map><side-map>");
+        for(HexSide sd : model.getSideMap().values()){
+            //start, end,midpoint,id,parent
+            result.append("<side>");
+            result.append("<start>");
+            result.append("<coordsX>" + sd.getStart().getX() + "</coordsX><coordsY>" +
+                    sd.getStart().getY() +"</coordsY>");
+            result.append("</start>");
+            result.append("<end>");
+            result.append("<coordsX>" + sd.getEnd().getX() + "</coordsX><coordsY>" +
+                    sd.getEnd().getY() +"</coordsY>");
+            result.append("</end>");
+            result.append("<midpoint><coordsX>" + sd.getMidPoint().x + "</coordsX><coordsY>" +
+                    sd.getMidPoint().y +"</coordsY></midpoint>");
+            result.append("<id>" + sd.getId() + "</id>");
+            result.append("</side>");
+        }
+        result.append("</side-map>");
+        result.append("<tile-map>");
+        for(HexTile tile : model.getTileMap().values()){
+            //parent, center x, center y, radius, model, resource value
+            result.append("<tile>");
+            result.append("<center-point><coordsX>" + tile.getCenter().x + "</coordsX>" +
+                    "<coordsY>" + tile.getCenter().y + "</coordsY></center-point>");
+            result.append("<radius>" + tile.getRadius() + "</radius>");
+            result.append("<resource>" + tile.getResource() + "</resource>");
+            result.append("<value>" + tile.getValue() + "</value>");
+            result.append("</tile>");
+        }
+        result.append("</tile-map>");
         return result.toString();
     }
 
@@ -375,7 +442,6 @@ public class ObjectParser {
             result.append("<hexpoint>");
             result.append("<coordsX>" + pt.getCoords().x + "</coordsX>");
             result.append("<coordsY>" + pt.getCoords().y + "</coordsY>");
-            result.append("<id>" + pt.getId() + "</id>");
             result.append("<neighbors>");
             for(HexPoint n : pt.getNeigbors()){
                 result.append("<neighbor>");
@@ -393,8 +459,6 @@ public class ObjectParser {
             }
             result.append("</roads>");
             result.append("<build-status>" + pt.getBuildStatus() + "</build-status>");
-            result.append("<center-point><coordsX>" + pt.getCenterCoords().getX() + "</coordsX>" +
-                    "<coordsY>" + pt.getCenterCoords().getY() + "</coordsY></center-point>");
             result.append("</hexpoint>");
             current++;
             if(current < size){
@@ -403,65 +467,120 @@ public class ObjectParser {
         }
         result.append("</points>");
         return result.toString().trim();
-
     }
 
     /**
      * Reads a point XML file and updates the model accordingly
      * @param model the model to update
-     * @param filename the filename location of the XML file
      * @throws ParserConfigurationException
      * @throws IOException
      * @throws SAXException
      */
-    public static void readPoints(BoardData model,String filename) throws ParserConfigurationException, IOException, SAXException {
-        //setup the document reader
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        //TODO change from filename
-        Document doc = db.parse(new File(filename));
-        NodeList hexPoints = doc.getElementsByTagName("hexpoint");
-        for (int i = 0; i < hexPoints.getLength(); i++) {
-            Node hexPoint = (Node) hexPoints.item(i);
-            NodeList hexData = hexPoint.getChildNodes();
-            Point coords = new Point(Integer.parseInt(hexData.item(0).getTextContent()), Integer.parseInt(hexData.item(1).getTextContent()));
-            int id = Integer.parseInt(hexData.item(2).getTextContent());
-            int buildStatus = Integer.parseInt(hexData.item(5).getTextContent());
-            Point centerCoords = new Point(Integer.parseInt(hexData.item(6).getFirstChild().getTextContent()),
-            Integer.parseInt(hexData.item(6).getLastChild().getTextContent()));
-            HashSet<HexPoint> n = new HashSet<HexPoint>();
-            HashSet<HexSide> s = new HashSet<HexSide>();
-            NodeList neighbors = hexData.item(3).getChildNodes();
-            NodeList roads = hexData.item(4).getChildNodes();
-            for (int j = 0; j < neighbors.getLength(); j++) {
-                int tempX = Integer.parseInt(neighbors.item(j).getFirstChild().getTextContent());
-                int tempY = Integer.parseInt(neighbors.item(j).getLastChild().getTextContent());
-                n.add(findHexPoint(model, new Point(tempX, tempY)));
+    public static void readPoints(BoardData model,String XML)  {
+        Document doc = null;
+        try {
+            doc = stringToDom(XML);
+            //initializePointMap.
+            NodeList pointMap = doc.getElementsByTagName("point-map");
+            NodeList mapChildren = pointMap.item(0).getChildNodes();
+            for(int i = 0; i < mapChildren.getLength(); i++){
+                NodeList pt = mapChildren.item(i).getChildNodes();
+                HexPoint initPoint = generatePointFromNode(pt,model);
+                model.getPointMap().put(initPoint.getCoords(), initPoint);
             }
-            for (int j = 0; j < roads.getLength(); j++) {
-                int tempX = Integer.parseInt(roads.item(j).getFirstChild().getTextContent());
-                int tempY = Integer.parseInt(roads.item(j).getLastChild().getTextContent());
-                s.add(findHexSide(model, new Point(tempX, tempY)));
-            }
-            HexPoint update = findHexPoint(model,coords);
-            update.setId(id);
-            update.setBuildStatus(buildStatus);
-            update.setNeigbors(n);
-            update.setRoads(s);
-            update.setCenterCoords(centerCoords);
+            NodeList hexPoints = doc.getElementsByTagName("hexpoint");
+            for (int i = 0; i < hexPoints.getLength(); i++) {
+                Node hexPoint = (Node) hexPoints.item(i);
+                NodeList hexData = hexPoint.getChildNodes();
+                //identifier point
+                Point coords = new Point(Integer.parseInt(hexData.item(0).getTextContent()), Integer.parseInt(hexData.item(1).getTextContent()));
+                int id = Integer.parseInt(hexData.item(2).getTextContent());
+                int buildStatus = Integer.parseInt(hexData.item(5).getTextContent());
+                Point centerCoords = new Point(Integer.parseInt(hexData.item(6).getFirstChild().getTextContent()),
+                        Integer.parseInt(hexData.item(6).getLastChild().getTextContent()));
+                HashSet<HexPoint> n = new HashSet<HexPoint>();
+                HashSet<HexSide> s = new HashSet<HexSide>();
+                NodeList neighbors = hexData.item(3).getChildNodes();
+                NodeList roads = hexData.item(4).getChildNodes();
+                for (int j = 0; j < neighbors.getLength(); j++) {
+                    NodeList ne = neighbors.item(j).getChildNodes();
+                    Point key = new Point(Integer.parseInt(ne.item(0).getTextContent()),
+                            Integer.parseInt(ne.item(1).getTextContent()));
+                    n.add(model.getPointMap().get(key));
+                }
+                for (int j = 0; j < roads.getLength(); j++) {
+                    int tempX = Integer.parseInt(roads.item(j).getFirstChild().getTextContent());
+                    int tempY = Integer.parseInt(roads.item(j).getLastChild().getTextContent());
+                    s.add(findHexSide(model, new Point(tempX, tempY)));
+                }
+                HexPoint update = new HexPoint(coords,centerCoords,id,model.getParent());
+                updateHexPoint(model, update);
+                update.setBuildStatus(buildStatus);
+                update.setNeigbors(n);
+                update.setRoads(s);
+        }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
         }
     }
 
-    /**
-     * Finds a specific HexPoint given the the point key that
-     * is used in it's models hashmap
-     * @param model the model to operate on
-     * @param point the point key where the HexPoint is located.
-     * @return
-     */
-    public static HexPoint findHexPoint(BoardData model, Point point){
-        return model.getPointMap().get(point);
+
+    public static void readModel(BoardData model, String XML) {
+        Document doc = null;
+        try {
+            doc = stringToDom(XML);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        NodeList identity = doc.getElementsByTagName("identity");
+        //setup model identity
+        model.setIdentityToken(identity.item(0).getTextContent());
+        //parse points
+
+
     }
+
+    /**
+     * Converts an XML string to a DOM
+     * object
+     * @param XML the XML string
+     * @return a dom Object
+     */
+    public static Document stringToDom(String XML) throws IOException, SAXException, ParserConfigurationException {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(true);
+        DocumentBuilder db = null;
+        db = dbf.newDocumentBuilder();
+        return db.parse(new ByteArrayInputStream(XML.getBytes()));
+    }
+
+
+
+
+
+
+    /**
+     * Places the HexPoint in the models
+     * pont map. If it already exists, the point
+     * is updated. Returns the inserted point
+     */
+    public static HexPoint updateHexPoint(BoardData model, HexPoint toUpdate){
+            HexPoint result = model.getPointMap().get(toUpdate.getCoords());
+            result.setId(toUpdate.getId());
+            result.setBuildStatus(toUpdate.getBuildStatus());
+            result.setNeigbors(toUpdate.getNeigbors());
+            result.setRoads(toUpdate.getRoads());
+            return result;
+    }
+
 
     /**
      * Finds a specific HexSide given the the point key that
@@ -470,7 +589,6 @@ public class ObjectParser {
      * @param point the point key where the HexSide is located.
      * @return
      */
-
     public static HexSide findHexSide(BoardData model, Point point){
         return model.getSideMap().get(point);
     }
@@ -479,6 +597,33 @@ public class ObjectParser {
         return model.getTileMap().get(point);
     }
 
+    /**
+     * Given a point NodeList, this method generates a HexPoint from
+     * the data
+     * @param point the node list containing the data
+     * @param model the model containing the points
+     * @return a new HexPoint
+     */
+    private static HexPoint generatePointFromNode(NodeList point, BoardData model){
+        Point tempXY = new Point(Integer.parseInt(point.item(0).getTextContent()),
+                Integer.parseInt(point.item(1).getTextContent()));
+        int nId = Integer.parseInt(point.item(2).getTextContent());
+        Point tempCXY = new Point(Integer.parseInt(point.item(3).getTextContent()),
+                Integer.parseInt(point.item(4).getTextContent()));
+        return new HexPoint(tempXY, tempCXY, nId, model.getParent());
+    }
+
+
+    /**
+     * Given a point NodeList, this method generates a HexSide from
+     * the data
+     * @param side the node list containing the data
+     * @param model the model containing the points
+     * @return a new HexPoint
+     */
+    private static HexSide generateSideFromNode(NodeList side, BoardData model){
+
+    }
 
 
 

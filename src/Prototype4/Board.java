@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 
 /**
  * The main board class. Builds the datastructure
- * displays the board
+ * displays & read/writesGIG the board
  * Created by Tom_Bryant on 6/25/15.
  */
 public class Board extends PApplet {
@@ -31,7 +31,7 @@ public class Board extends PApplet {
         SCREEN_HEIGHT = 768 ;
         SCREEN_WIDTH = 1024;
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
-        model = new BoardData();
+        model = new BoardData(this);
         this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, model,model.getResourceTiles()[0],model.getTokens()[0]);
         center.getModel().buildBoard((center));
         this.debugger = new Debug(this,center);

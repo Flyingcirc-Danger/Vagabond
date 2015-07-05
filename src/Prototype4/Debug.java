@@ -201,7 +201,7 @@ public class Debug {
                 parent.background(0, 188, 212);
                 this.displayClosed();
                 this.open = false;
-                parent.model = new BoardData();
+                parent.model = new BoardData(this.parent);
                 parent.center = new HexTile(parent, parent.SCREEN_WIDTH / 2, parent.SCREEN_HEIGHT / 2, 50, parent.model, parent.model.getResourceTiles()[0], parent.model.getTokens()[0]);
                 parent.center.getModel().buildRandomBoard((parent.center));
             }
@@ -210,7 +210,7 @@ public class Debug {
                 parent.background(0, 188, 212);
                 this.displayClosed();
                 this.open = false;
-                parent.model = new BoardData();
+                parent.model = new BoardData(this.parent);
                 parent.center = new HexTile(parent, parent.SCREEN_WIDTH / 2, parent.SCREEN_HEIGHT / 2, 50, parent.model, parent.model.getResourceTiles()[0], parent.model.getTokens()[0]);
                 parent.center.getModel().buildBoard(parent.center);
             }
