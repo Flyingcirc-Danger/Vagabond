@@ -7,12 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f28f63ae-1344-4579-ab5b-77e189cbc3ad" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/Board.java" afterPath="$PROJECT_DIR$/src/Prototype4/Board.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/BoardData.java" afterPath="$PROJECT_DIR$/src/Prototype4/BoardData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/Debug.java" afterPath="$PROJECT_DIR$/src/Prototype4/Debug.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype4/ObjectParser.java" afterPath="$PROJECT_DIR$/src/Prototype4/ObjectParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CatanBoard.iws" />
@@ -38,7 +33,7 @@
       <file leaf-file-name="HexSide.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Prototype4/HexSide.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.2222223">
+            <state vertical-scroll-proportion="1.6666666">
               <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
               <folding />
             </state>
@@ -62,7 +57,7 @@
       <file leaf-file-name="HexTile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Prototype4/HexTile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-175.55556">
+            <state vertical-scroll-proportion="-175.0">
               <caret line="429" column="33" selection-start-line="429" selection-start-column="33" selection-end-line="429" selection-end-column="33" />
               <folding>
                 <element signature="e#11437#11438#0" expanded="true" />
@@ -80,18 +75,18 @@
       <file leaf-file-name="ObjectParser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Prototype4/ObjectParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.482">
-              <caret line="286" column="62" selection-start-line="286" selection-start-column="62" selection-end-line="286" selection-end-column="62" />
+            <state vertical-scroll-proportion="0.59866965">
+              <caret line="666" column="74" selection-start-line="666" selection-start-column="74" selection-end-line="666" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#14801#14810#0" expanded="true" />
-                <element signature="e#14864#14873#0" expanded="true" />
-                <element signature="e#24224#24234#0" expanded="true" />
-                <element signature="e#24286#24295#0" expanded="true" />
-                <element signature="e#27607#27608#0" expanded="true" />
-                <element signature="e#27659#27660#0" expanded="true" />
-                <element signature="e#27729#27730#0" expanded="true" />
-                <element signature="e#27781#27782#0" expanded="true" />
+                <element signature="e#14835#14844#0" expanded="true" />
+                <element signature="e#14898#14907#0" expanded="true" />
+                <element signature="e#24727#24737#0" expanded="true" />
+                <element signature="e#24789#24798#0" expanded="true" />
+                <element signature="e#30612#30613#0" expanded="true" />
+                <element signature="e#30664#30665#0" expanded="true" />
+                <element signature="e#30734#30735#0" expanded="true" />
+                <element signature="e#30786#30787#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -110,7 +105,7 @@
       <file leaf-file-name="BoardData.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Prototype4/BoardData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.4444447">
+            <state vertical-scroll-proportion="-21.666666">
               <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -569,7 +564,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3762811" sideWeight="0.4934102" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20497803" sideWeight="0.4934102" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39970717" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32650074" sideWeight="0.5065898" order="7" side_tool="true" content_ui="tabs" />
@@ -581,7 +576,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24876441" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18155198" sideWeight="0.4934102" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2591508" sideWeight="0.4934102" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329429" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1057,38 +1052,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype4/BoardData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4444447">
-          <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4382#4383#0" expanded="true" />
-            <element signature="e#4412#4413#0" expanded="true" />
-            <element signature="e#4475#4476#0" expanded="true" />
-            <element signature="e#4513#4514#0" expanded="true" />
-            <element signature="e#4553#4554#0" expanded="true" />
-            <element signature="e#4589#4590#0" expanded="true" />
-            <element signature="e#4647#4648#0" expanded="true" />
-            <element signature="e#4697#4698#0" expanded="true" />
-            <element signature="e#4729#4730#0" expanded="true" />
-            <element signature="e#4758#4759#0" expanded="true" />
-            <element signature="e#4801#4802#0" expanded="true" />
-            <element signature="e#4837#4838#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype4/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype4/Debug.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1111,15 +1074,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype4/HexSide.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.2222223">
+        <state vertical-scroll-proportion="1.6666666">
           <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype4/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype4/BoardData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.666666">
+          <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4382#4383#0" expanded="true" />
+            <element signature="e#4412#4413#0" expanded="true" />
+            <element signature="e#4475#4476#0" expanded="true" />
+            <element signature="e#4513#4514#0" expanded="true" />
+            <element signature="e#4553#4554#0" expanded="true" />
+            <element signature="e#4589#4590#0" expanded="true" />
+            <element signature="e#4647#4648#0" expanded="true" />
+            <element signature="e#4697#4698#0" expanded="true" />
+            <element signature="e#4729#4730#0" expanded="true" />
+            <element signature="e#4758#4759#0" expanded="true" />
+            <element signature="e#4801#4802#0" expanded="true" />
+            <element signature="e#4837#4838#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype4/HexTile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-175.55556">
+        <state vertical-scroll-proportion="-175.0">
           <caret line="429" column="33" selection-start-line="429" selection-start-column="33" selection-end-line="429" selection-end-column="33" />
           <folding>
             <element signature="e#11437#11438#0" expanded="true" />
@@ -1135,18 +1130,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype4/ObjectParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.482">
-          <caret line="286" column="62" selection-start-line="286" selection-start-column="62" selection-end-line="286" selection-end-column="62" />
+        <state vertical-scroll-proportion="0.59866965">
+          <caret line="666" column="74" selection-start-line="666" selection-start-column="74" selection-end-line="666" selection-end-column="74" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#14801#14810#0" expanded="true" />
-            <element signature="e#14864#14873#0" expanded="true" />
-            <element signature="e#24224#24234#0" expanded="true" />
-            <element signature="e#24286#24295#0" expanded="true" />
-            <element signature="e#27607#27608#0" expanded="true" />
-            <element signature="e#27659#27660#0" expanded="true" />
-            <element signature="e#27729#27730#0" expanded="true" />
-            <element signature="e#27781#27782#0" expanded="true" />
+            <element signature="e#14835#14844#0" expanded="true" />
+            <element signature="e#14898#14907#0" expanded="true" />
+            <element signature="e#24727#24737#0" expanded="true" />
+            <element signature="e#24789#24798#0" expanded="true" />
+            <element signature="e#30612#30613#0" expanded="true" />
+            <element signature="e#30664#30665#0" expanded="true" />
+            <element signature="e#30734#30735#0" expanded="true" />
+            <element signature="e#30786#30787#0" expanded="true" />
           </folding>
         </state>
       </provider>
