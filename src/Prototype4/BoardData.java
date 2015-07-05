@@ -58,6 +58,7 @@ public class BoardData {
         settlementQuota = 0;
         this.parent = parent;
         generateIdentity();
+        System.out.println("Build Model: " + this.identityToken);
     }
 
     /**
@@ -158,6 +159,14 @@ public class BoardData {
 
     public void setParent(Board parent) {
         this.parent = parent;
+    }
+
+    public HexTile[] getHexDeck() {
+        return hexDeck;
+    }
+
+    public void setHexDeck(HexTile[] hexDeck) {
+        this.hexDeck = hexDeck;
     }
 
     /**
@@ -420,6 +429,15 @@ public class BoardData {
             result.append(possibleChars.charAt(select.nextInt(possibleChars.length())));
         }
         this.identityToken = result.toString();
+    }
+
+
+    public void clearMaps() {
+        pointMap = new HashMap<Point, HexPoint>();
+        sideMap = new HashMap<Point, HexSide>();
+        tileMap = new HashMap<Point, HexTile>();
+        hexDeck = new HexTile[19];
+        coast = new ArrayList<HexCoast>();
     }
 }
 

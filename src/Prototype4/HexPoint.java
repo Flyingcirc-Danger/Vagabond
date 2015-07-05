@@ -256,9 +256,24 @@ public class HexPoint implements Comparable<HexPoint> {
      * (test build)
      */
     public void drawTown(){
-            if(buildStatus > 1){
+            if(buildStatus > 1) {
                 drawCity();
                 return;
+            }
+            if(buildStatus == 1){
+                int height = 20;
+                int width = 20;
+                parent.fill(255, 0, 0,80);
+                parent.beginShape();
+                parent.vertex(coords.x, coords.y - (height / 2));
+                parent.vertex(coords.x - (width / 2), coords.y);
+                parent.vertex(coords.x - ((width / 2) - (width / 8)), coords.y);
+                parent.vertex(coords.x - ((width / 2) - (width / 8)), coords.y + (height / 2));
+                parent.vertex(coords.x + ((width / 2) - (width / 8)), coords.y + (height / 2));
+                parent.vertex(coords.x + ((width / 2) - (width / 8)), coords.y);
+                parent.vertex(coords.x + (width / 2), coords.y);
+                parent.endShape();
+
             }
             /*check if a point is settled, if your mouse is over the point, if it's valid to build
              and if the current tool selected is town building */

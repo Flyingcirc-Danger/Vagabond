@@ -2,6 +2,8 @@ package Prototype4;
 
 import processing.core.PApplet;
 
+import java.io.*;
+
 /**
  * A class to contain the  debug dropdown
  * Created by Tom_Bryant on 6/29/15.
@@ -106,6 +108,24 @@ public class Debug {
         parent.textSize(14);
         parent.text("  Clear Debug ", 35, cLHeight);
 
+        //option 7 = save
+        parent.fill(255, 243, 224);
+        int saveY = cLY + 30;
+        int saveHeight = cLHeight + 30;
+        parent.rect(x, saveY, width, 30);
+        parent.fill(0);
+        parent.textSize(14);
+        parent.text("  Save ", 35, saveHeight);
+
+        //option 8 = load
+        parent.fill(255, 243, 224);
+        int loadY = saveY + 30;
+        int loadHeight = saveHeight + 30;
+        parent.rect(x, loadY, width, 30);
+        parent.fill(0);
+        parent.textSize(14);
+        parent.text("  Load ", 35, loadHeight);
+
     }
 
     /**
@@ -148,6 +168,16 @@ public class Debug {
         if (overRect(30, 190, width, 30)) {
             return 6;
         }
+        //option 7 = save
+        if (overRect(30, 220, width, 30)) {
+            return 7;
+        }
+        //option 8 = load
+        if (overRect(30, 250, width, 30)) {
+            return 8;
+        }
+
+
         return 0;
     }
 
@@ -242,7 +272,43 @@ public class Debug {
                 parent.center.getModel().displayBoard();
                 parent.center.getModel().setDisplayMode(0);
             }
+            if (result == 7) {
+                parent.background(0, 188, 212);
+                this.displayClosed();
+                this.open = false;
+                parent.center.getModel().displayBoard();
+                try (PrintWriter writer = new PrintWriter("points.xml", "UTF-8")) {
+                    writer.println(ObjectParser.parseModel(parent.center.getModel()));
+                    writer.close();
+                    System.out.println("Saved Model: " + parent.center.getModel().getIdentityToken());
+                } catch (IOException e) {
+                    System.out.println("could not save");
+                }
+            }
+            if (result == 8) {
+                parent.background(0, 188, 212);
+                this.displayClosed();
+                this.open = false;
+                parent.center.getModel().displayBoard();
+                try {
+                BufferedReader in =
+                    new BufferedReader( new FileReader("points.xml"));
+                    StringBuffer xml = new StringBuffer();
+                    String line = null;
+                    while( (line = in.readLine()) != null){
+                        xml.append(line);
+                    }
+                    ObjectParser.readModel(parent.center.getModel(), xml.toString());
+                    System.out.println("Loaded Model: " + parent.center.getModel().getIdentityToken());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e){
+
+                }
+
+
+            }
+
         }
     }
-
 }

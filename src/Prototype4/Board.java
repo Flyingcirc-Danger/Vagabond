@@ -40,12 +40,7 @@ public class Board extends PApplet {
         debugger.displayClosed();
         this.bottom = new BottomMenu(this);
         this.currentTool = 0;
-        try (PrintWriter writer = new PrintWriter("points.xml", "UTF-8")) {
-            writer.println(ObjectParser.parseModel(model));
-            writer.close();
-        } catch (IOException e){
-            System.out.println("nope");
-        }
+
 //        try {
 //          ObjectParser.readSides(model,"points.xml");
 //        } catch (ParserConfigurationException e) {
