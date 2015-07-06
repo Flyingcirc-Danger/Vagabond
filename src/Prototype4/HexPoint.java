@@ -67,7 +67,7 @@ public class HexPoint implements Comparable<HexPoint> {
         }
         parent.fill(0);
         parent.textSize(12);
-        parent.text("" + id, coords.x - (parent.textWidth("id")/2), coords.y + 6);
+        parent.text("" + this.id, coords.x - (parent.textWidth("id")/2), coords.y + 6);
     }
 
     public Point getCoords() {
@@ -221,6 +221,8 @@ public class HexPoint implements Comparable<HexPoint> {
             parent.strokeWeight(5);
             parent.line(coords.x, coords.y, (float)pt.getX(),(float)pt.getY());
             parent.strokeWeight(1);
+            parent.textSize(10);
+            parent.text("Bld St: " + this.buildStatus + "\nID: " + this.id, coords.x + 10, coords.y + 30);
         }
     }
 

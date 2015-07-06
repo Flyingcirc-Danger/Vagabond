@@ -24,6 +24,8 @@ public class Board extends PApplet {
 
     public int currentTool;
 
+    public GameMenu gMenu;
+
 
 
     public void setup() {
@@ -40,6 +42,7 @@ public class Board extends PApplet {
         debugger.displayClosed();
         this.bottom = new BottomMenu(this);
         this.currentTool = 0;
+        this.gMenu = new GameMenu(this, 300,400);
 
 //        try {
 //          ObjectParser.readSides(model,"points.xml");

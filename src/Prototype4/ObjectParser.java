@@ -56,43 +56,55 @@ public class ObjectParser {
             result.append("<coordsY>" + tile.getCenter().y +  "</coordsY>");
             result.append("</center>");
             result.append("<A>");
-            result.append(parseSinglePoint(model, tile.getA(),false));
+            result.append("<coordsX>" + tile.getA().getCoords().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getA().getCoords().y + "</coordsY>");
             result.append("</A>");
             result.append("<B>");
-            result.append(parseSinglePoint(model, tile.getB(),false));
+            result.append("<coordsX>" + tile.getB().getCoords().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getB().getCoords().y + "</coordsY>");
             result.append("</B>");
             result.append("<C>");
-            result.append(parseSinglePoint(model, tile.getC(),false));
+            result.append("<coordsX>" + tile.getC().getCoords().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getC().getCoords().y + "</coordsY>");
             result.append("</C>");
             result.append("<D>");
-            result.append(parseSinglePoint(model, tile.getD(),false));
+            result.append("<coordsX>" + tile.getD().getCoords().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getD().getCoords().y + "</coordsY>");
             result.append("</D>");
             result.append("<E>");
-            result.append(parseSinglePoint(model, tile.getE(),false));
+            result.append("<coordsX>" + tile.getE().getCoords().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getE().getCoords().y + "</coordsY>");
             result.append("</E>");
             result.append("<F>");
-            result.append(parseSinglePoint(model, tile.getF(),false));
+            result.append("<coordsX>" + tile.getF().getCoords().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getF().getCoords().y + "</coordsY>");
             result.append("</F>");
             result.append("</tilepoints>");
             //sides
             result.append("<tilesides>");
             result.append("<AB>");
-            result.append(parseSingleSide(model, tile.getAB(),false));
+            result.append("<coordsX>" + tile.getAB().getMidPoint().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getAB().getMidPoint().y + "</coordsY>");
             result.append("</AB>");
             result.append("<BC>");
-            result.append(parseSingleSide(model, tile.getBC(),false));
+            result.append("<coordsX>" + tile.getBC().getMidPoint().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getBC().getMidPoint().y + "</coordsY>");
             result.append("</BC>");
             result.append("<CD>");
-            result.append(parseSingleSide(model, tile.getCD(),false));
+            result.append("<coordsX>" + tile.getCD().getMidPoint().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getCD().getMidPoint().y + "</coordsY>");
             result.append("</CD>");
             result.append("<DE>");
-            result.append(parseSingleSide(model, tile.getDE(),false));
+            result.append("<coordsX>" + tile.getDE().getMidPoint().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getDE().getMidPoint().y + "</coordsY>");
             result.append("</DE>");
             result.append("<EF>");
-            result.append(parseSingleSide(model, tile.getEF(),false));
+            result.append("<coordsX>" + tile.getEF().getMidPoint().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getEF().getMidPoint().y + "</coordsY>");
             result.append("</EF>");
             result.append("<FA>");
-            result.append(parseSingleSide(model, tile.getFA(),false));
+            result.append("<coordsX>" + tile.getFA().getMidPoint().x +  "</coordsX>");
+            result.append("<coordsY>" + tile.getFA().getMidPoint().y + "</coordsY>");
             result.append("</FA>");
             result.append("</tilesides>");
             result.append("<radius>" + tile.getRadius() + "</radius>");
@@ -503,6 +515,73 @@ public class ObjectParser {
         return result.toString().trim();
     }
 
+
+
+    public static void readTiles(BoardData model, Document doc){
+        NodeList hexTiles = doc.getElementsByTagName("hextile");
+        for(int i = 0; i < hexTiles.getLength(); i++){
+            NodeList tile = hexTiles.item(i).getChildNodes();
+            //points
+            NodeList tilePoints = tile.item(0).getChildNodes();
+            Point center = new Point(Integer.parseInt(tilePoints.item(0).getFirstChild().getTextContent())
+                    , Integer.parseInt(tilePoints.item(0).getLastChild().getTextContent()));
+            HexPoint a = model.getPointMap().get(new Point(Integer.parseInt(tilePoints.item(1).getFirstChild().getTextContent())
+                    , Integer.parseInt(tilePoints.item(1).getLastChild().getTextContent())));
+            HexPoint b = model.getPointMap().get(new Point(Integer.parseInt(tilePoints.item(2).getFirstChild().getTextContent())
+                    , Integer.parseInt(tilePoints.item(2).getLastChild().getTextContent())));
+            HexPoint c = model.getPointMap().get(new Point(Integer.parseInt(tilePoints.item(3).getFirstChild().getTextContent())
+                    , Integer.parseInt(tilePoints.item(3).getLastChild().getTextContent())));
+            HexPoint d = model.getPointMap().get(new Point(Integer.parseInt(tilePoints.item(4).getFirstChild().getTextContent())
+                    , Integer.parseInt(tilePoints.item(4).getLastChild().getTextContent())));
+            HexPoint e = model.getPointMap().get(new Point(Integer.parseInt(tilePoints.item(5).getFirstChild().getTextContent())
+                    , Integer.parseInt(tilePoints.item(5).getLastChild().getTextContent())));
+            HexPoint f = model.getPointMap().get(new Point(Integer.parseInt(tilePoints.item(6).getFirstChild().getTextContent())
+                    , Integer.parseInt(tilePoints.item(6).getLastChild().getTextContent())));
+            //sides
+            NodeList sidePoints = tile.item(1).getChildNodes();
+            HexSide mAB = model.getSideMap().get(new Point(Integer.parseInt(sidePoints.item(0).getFirstChild().getTextContent())
+                    , Integer.parseInt(sidePoints.item(0).getLastChild().getTextContent())));
+            HexSide mBC = model.getSideMap().get(new Point(Integer.parseInt(sidePoints.item(1).getFirstChild().getTextContent())
+                    , Integer.parseInt(sidePoints.item(1).getLastChild().getTextContent())));
+            HexSide mCD = model.getSideMap().get(new Point(Integer.parseInt(sidePoints.item(2).getFirstChild().getTextContent())
+                    , Integer.parseInt(sidePoints.item(2).getLastChild().getTextContent())));
+            HexSide mDE = model.getSideMap().get(new Point(Integer.parseInt(sidePoints.item(3).getFirstChild().getTextContent())
+                    , Integer.parseInt(sidePoints.item(3).getLastChild().getTextContent())));
+            HexSide mEF = model.getSideMap().get(new Point(Integer.parseInt(sidePoints.item(4).getFirstChild().getTextContent())
+                    , Integer.parseInt(sidePoints.item(4).getLastChild().getTextContent())));
+            HexSide mFA = model.getSideMap().get(new Point(Integer.parseInt(sidePoints.item(5).getFirstChild().getTextContent())
+                    , Integer.parseInt(sidePoints.item(5).getLastChild().getTextContent())));
+            //draw values
+            int radius = Integer.parseInt(tile.item(2).getTextContent());
+            int sideToSide = Integer.parseInt(tile.item(3).getTextContent());
+            int canopyHeight = Integer.parseInt(tile.item(4).getTextContent());
+            String resource = tile.item(5).getTextContent();
+            int value = Integer.parseInt(tile.item(6).getTextContent());
+            HexTile update = model.getTileMap().get(center);
+            update.setA(a);
+            update.setB(b);
+            update.setC(c);
+            update.setD(d);
+            update.setE(e);
+            update.setF(f);
+            update.setAB(mAB);
+            update.setBC(mBC);
+            update.setCD(mCD);
+            update.setDE(mDE);
+            update.setEF(mEF);
+            update.setFA(mFA);
+            update.setRadius(radius);
+            update.setSideToSide(sideToSide);
+            update.setCanopyHeight(canopyHeight);
+            update.setResource(resource);
+            update.setValue(value);
+
+        }
+    }
+
+
+
+
     /**
      * Helper method that makes a doc out of an
      * XML string if a DOM doc isn't avaliable
@@ -565,10 +644,16 @@ public class ObjectParser {
                     s.add(findHexSide(model, new Point(tempX, tempY)));
                 }
                 HexPoint update = model.getPointMap().get(coords);
+                if(buildStatus == 1){
+                    System.out.println("new id: " + id + " current id: " + update.getId());
+                }
                 update.setId(id);
                 update.setBuildStatus(buildStatus);
                 update.setNeigbors(n);
                 update.setRoads(s);
+                if(buildStatus == 1){
+                    System.out.println("new id: " + id + " current id: " + update.getId() + " buildStatus: " + update.getBuildStatus());
+                }
         }
 
     }
@@ -580,12 +665,15 @@ public class ObjectParser {
             doc = stringToDom(XML);
             //initialize the maps
             readMaps(model,doc);
+            //fix the tiles
+            readTiles(model,doc);
             //fix the points
             readPoints(model,doc);
             //fix sides
             readSides(model,doc);
             model.setIdentityToken(doc.getElementsByTagName("identity").item(0).getTextContent());
             HexTile[] temp = model.getTileMap().values().toArray(new HexTile[19]);
+
             model.setHexDeck(temp);
             model.configureEdges();
         } catch (IOException e) {

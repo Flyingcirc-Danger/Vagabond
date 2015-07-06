@@ -286,6 +286,7 @@ public class BoardData {
      * 2 = display debug
      * 3 = resource debug
      * 4 = debug all
+     * 5 = ESC menu
      */
     public void displayBoard(){
         int option = this.displayMode;
@@ -315,6 +316,9 @@ public class BoardData {
                 hexDeck[i].sideDebug();
                 hexDeck[i].checkPoints();
                 hexDeck[i].checkSides();
+            }
+            if(option == 5){
+                parent.gMenu.display();
             }
 
         }
