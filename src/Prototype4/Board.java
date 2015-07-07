@@ -2,10 +2,12 @@ package Prototype4;
 
 import org.xml.sax.SAXException;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.channels.Pipe;
 
 /**
  * The main board class. Builds the datastructure
@@ -26,6 +28,8 @@ public class Board extends PApplet {
 
     public GameMenu gMenu;
 
+    public PImage img;
+
 
 
     public void setup() {
@@ -43,6 +47,8 @@ public class Board extends PApplet {
         this.bottom = new BottomMenu(this);
         this.currentTool = 0;
         this.gMenu = new GameMenu(this, 300,400);
+        this.img = loadImage("assets/logoSM.png");
+
 
 //        try {
 //          ObjectParser.readSides(model,"points.xml");
@@ -79,9 +85,11 @@ public class Board extends PApplet {
             center.getModel().displayBoard();
         }
 
+
         fill(0);
 
         bottom.display();
+        image(img, SCREEN_WIDTH - 220, SCREEN_HEIGHT - 70);
     }
 
 
