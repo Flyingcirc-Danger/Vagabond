@@ -1,5 +1,7 @@
 package ServerPrototype1;
 
+import Prototype4.BoardData;
+
 import java.io.*;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -15,8 +17,8 @@ public class Client {
     public ServerConnection server;
 
 
-    public Client(int port){
-        this.server = new ServerConnection(port);
+    public Client(int port, BoardData model){
+        this.server = new ServerConnection(port,model);
         /**
          * Automatically sends messages recieved from the server
          * back to the server. (HeartBeat).
@@ -33,11 +35,5 @@ public class Client {
     }
 
 
-    public static void main(String[] args){
-        Client test = new Client(4001);
-        while(true){
 
-        }
-
-    }
 }

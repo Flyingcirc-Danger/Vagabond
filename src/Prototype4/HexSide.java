@@ -192,6 +192,21 @@ public class HexSide {
         return false;
     }
 
+    /**
+     * Generates the XML for this specific side.
+     * This will only be called once an action (like building)
+     * is performed on this tile. It adds this sides info
+     * to the Manifest which once sent, will update the datastructure
+     * on the server & all clients
+     */
+    public void generateManifest(){
+        BoardData model = parent.center.getModel();
+        if(model.getManifest().length() == 0){
+            model.initManifest();
+        }
+        model.getManifest().append(ObjectParser.parseSingleSide(model, this, false));
+    }
+
 
 
 

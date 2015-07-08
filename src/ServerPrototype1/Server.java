@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
+import Prototype4.*;
 
 /**
  * Created by Tom_Bryant on 7/7/15.
@@ -19,6 +20,9 @@ public class Server {
     public LinkedBlockingQueue<String> messages;
     public ServerSocket serverSocket;
     int startID = 0;
+    public String XMLboard;
+    public BoardData mainBoard;
+    public String updateMessage;
 
 
     public Server(int port) {
@@ -30,6 +34,13 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.mainBoard = new BoardData();
+        int SCREEN_HEIGHT = 768;
+        int SCREEN_WIDTH = 1024;
+        HexTile center=new HexTile(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, mainBoard,mainBoard.getResourceTiles()[0],mainBoard.getTokens()[0]);
+        center.getModel().buildRandomBoard((center));
+        this.XMLboard = ObjectParser.parseModel(mainBoard);
+
 
         /**
          * Accepts socket connections, makes new connection objects.
@@ -40,10 +51,11 @@ public class Server {
                 try {
                     while (true) {
                         Socket s = serverSocket.accept();
-                        ClientConnection temp = new ClientConnection(s, heartBeat, startID++ );
+                        ClientConnection temp = new ClientConnection(s, heartBeat, startID++, mainBoard );
                         clientConnections.add(temp);
                         heartBeat.put(temp.getId(), "START");
                         System.out.println("Client " + temp.getId() + "  has connected" );
+                        temp.write(XMLboard);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -64,11 +76,19 @@ public class Server {
                 try {
                     while (true) {
                         if (clientConnections.size() > 0) {
-                            String message = generateRandString();
+                                String message = "";
+                                String temp = "";
+                                if((temp = mainBoard.getUpdateMessage()).length() > 0){
+                                    message = temp;
+                                } else {
+                                    message = generateRandString();
+                                }
                             System.out.println("Sent message: " + message);
                             for (ClientConnection con : clientConnections) {
                                 con.write(message);
                             }
+                            message = "";
+                            temp = "";
                             sleep(2000);
                             if(clientConnections.size() > 0) {
                                ArrayList<ClientConnection> toRemove = new ArrayList<ClientConnection>();

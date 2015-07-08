@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import Prototype4.*;
 
 /**
  * Created by Tom_Bryant on 7/7/15.
@@ -18,13 +19,15 @@ public class ServerConnection {
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private String message;
+    private BoardData model;
 
-    public ServerConnection(int port){
+    public ServerConnection(int port, BoardData model){
         try {
             this.con = new Socket("127.0.0.1", port);
             this.out = new ObjectOutputStream(con.getOutputStream());
             this.in = new ObjectInputStream(con.getInputStream());
             this.message = new String("START");
+            this.model = model;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,7 +40,7 @@ public class ServerConnection {
                 while(true){
                     try {
                         String msg = (String) in.readObject();
-                        System.out.println("Message recieved: " + msg);
+                        evaluateMessage(msg);
                         message = msg;
                     } catch (java.io.EOFException e){
                         
@@ -61,6 +64,7 @@ public class ServerConnection {
      */
     public void write(String msg){
         try {
+            System.out.println("send : " + msg);
             out.writeObject(msg);
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,5 +77,16 @@ public class ServerConnection {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+
+    public void evaluateMessage(String message){
+        if(message.length() < 2){
+            System.out.println("HeartBeat message: " + message);
+        } else if(message.substring(0,5).equals("<?xml")){
+            ObjectParser.parseRequest(model, message);
+            System.out.println("Read Model: " + model.getIdentityToken());
+
+        }
     }
 }

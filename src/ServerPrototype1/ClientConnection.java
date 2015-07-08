@@ -1,9 +1,12 @@
 package ServerPrototype1;
 
+import Prototype4.ObjectParser;
+
 import java.io.*;
 import java.net.Socket;
+import java.sql.ResultSet;
 import java.util.HashMap;
-import java.util.concurrent.LinkedBlockingQueue;
+import Prototype4.*;
 
 /**
  * Created by Tom_Bryant on 7/7/15.
@@ -21,13 +24,15 @@ public class ClientConnection {
     private int id;
     private int strikes;
     private int connectionStrength;
+    private BoardData model;
 
 
-    public ClientConnection(Socket conn, HashMap<Integer, String> heartBeat, int id){
+    public ClientConnection(Socket conn, HashMap<Integer, String> heartBeat, int id, BoardData model){
         this.conn = conn;
         this.heartBeat = heartBeat;
         this.id = id;
         this.strikes = 5;
+        this.model = model;
         try {
             //out before in
             this.out = new ObjectOutputStream(conn.getOutputStream());
@@ -44,9 +49,13 @@ public class ClientConnection {
                     while(true) {
                             Object omsg = in.readObject();
                             String msg = (String) omsg;
+                            evaluateMessage(msg);
                             heartBeat.put(id, (String) msg);
                     }
-                }  catch (IOException e) {
+                } catch(EOFException e ){
+
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -68,7 +77,7 @@ public class ClientConnection {
         try {
             out.writeObject(msg);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -130,6 +139,24 @@ public class ClientConnection {
             this.conn.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public String getUpdateMessage(){
+        String result = model.updateMessage;
+        model.updateMessage = "";
+        return result;
+
+    }
+
+    public void evaluateMessage(String message){
+        if(message.length() < 2){
+            System.out.println("HeartBeat message: " + message);
+        } else if(message.substring(0,5).equals("<?xml")){
+            ObjectParser.parseRequest(model, message);
+            System.out.println("Read Model: " + model.getIdentityToken());
+            model.updateMessage = message;
         }
     }
 }

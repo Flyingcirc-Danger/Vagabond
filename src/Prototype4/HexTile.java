@@ -68,6 +68,29 @@ public class HexTile {
     }
 
     /**
+     * Constructor for no display
+     * @param centerX
+     * @param centerY
+     * @param radius
+     * @param model
+     * @param resource
+     * @param value
+     */
+    public HexTile(double centerX, double centerY, int radius, BoardData model, String resource,int value){
+        this.value = value;
+        this.center = new Point();
+        this.center.setLocation(centerX, centerY);
+        this.radius = radius;
+        this.model = model;
+        this.hexColor = new int[] {255,255,255};
+        this.highlighted = false;
+        this.resource = resource;
+        initPoints();
+        initSides();
+        this.model.getTileMap().put(this.center, this);
+    }
+
+    /**
      * Initializes the points based on the given
      * center coords and radius
      */
@@ -865,6 +888,7 @@ public class HexTile {
 
     /**
      * Turns on the settle status of points.
+     * Adds to the manifest
      */
     public void checkSettledPoints() {
             if(parent.currentTool == 1) {
@@ -873,12 +897,14 @@ public class HexTile {
                     if (!A.isSettled()) {
                         A.setSettled(true);
                         parent.model.settlementQuota++;
+                        A.generateManifest();
                     }
                 }
                 if (B.overPoint() && B.validBuild()) {
                     if (!B.isSettled()) {
                         B.setSettled(true);
                         parent.model.settlementQuota++;
+                        B.generateManifest();
                     }
                     return;
                 }
@@ -886,6 +912,7 @@ public class HexTile {
                     if (!C.isSettled()) {
                         C.setSettled(true);
                         parent.model.settlementQuota++;
+                        C.generateManifest();
                     }
                     return;
                 }
@@ -893,6 +920,7 @@ public class HexTile {
                     if (!D.isSettled()) {
                         D.setSettled(true);
                         parent.model.settlementQuota++;
+                        D.generateManifest();
                     }
                     return;
                 }
@@ -900,6 +928,7 @@ public class HexTile {
                     if (!E.isSettled()) {
                         E.setSettled(true);
                         parent.model.settlementQuota++;
+                        E.generateManifest();
                     }
                     return;
                 }
@@ -907,6 +936,7 @@ public class HexTile {
                     if (!F.isSettled()) {
                         F.setSettled(true);
                         parent.model.settlementQuota++;
+                        F.generateManifest();
                     }
                 }
             }
@@ -914,37 +944,42 @@ public class HexTile {
                     if (A.overPoint() && A.validUpgrade()) {
                         if (!A.isCity()) {
                             A.setCity(true);
-                            System.out.println(A.isCity());
+                            A.generateManifest();
                         }
                         return;
                     }
                     if (B.overPoint() && B.validUpgrade()) {
                         if (!B.isCity()) {
                             B.setCity(true);
+                            B.generateManifest();
                         }
                         return;
                     }
                     if (C.overPoint() && C.validUpgrade()) {
                         if (!C.isCity()) {
                             C.setCity(true);
+                            C.generateManifest();
                         }
                         return;
                     }
                     if (D.overPoint() && D.validUpgrade()) {
                         if (!D.isCity()) {
                             D.setCity(true);
+                            D.generateManifest();
                         }
                         return;
                     }
                     if (E.overPoint() && E.validUpgrade()) {
                         if (!E.isCity()) {
                             E.setCity(true);
+                            E.generateManifest();
                         }
                         return;
                     }
                     if (F.overPoint() && F.validUpgrade()) {
                         if (!F.isCity()) {
                             F.setCity(true);
+                            F.generateManifest();
                         }
                         return;
                     }
@@ -962,36 +997,42 @@ public class HexTile {
         if (AB.overSide() && parent.currentTool == 2) {
             if (!AB.isBuilt() && AB.validBuild()) {
                 AB.setBuilt(true);
+                AB.generateManifest();
             }
             return;
         }
         if (BC.overSide()  && parent.currentTool == 2) {
             if (!BC.isBuilt() && BC.validBuild()) {
                 BC.setBuilt(true);
+                BC.generateManifest();
             }
             return;
         }
         if (CD.overSide()  && parent.currentTool == 2) {
             if (!CD.isBuilt() && CD.validBuild()) {
                 CD.setBuilt(true);
+                CD.generateManifest();
             }
             return;
         }
         if (DE.overSide()  && parent.currentTool == 2) {
             if (!DE.isBuilt() && DE.validBuild()) {
                 DE.setBuilt(true);
+                DE.generateManifest();
             }
             return;
         }
         if (EF.overSide()  && parent.currentTool == 2) {
             if (!EF.isBuilt() && EF.validBuild()) {
                 EF.setBuilt(true);
+                EF.generateManifest();
             }
             return;
         }
         if (FA.overSide()  && parent.currentTool == 2) {
             if (!FA.isBuilt() && FA.validBuild()) {
                 FA.setBuilt(true);
+                FA.generateManifest();
             }
             return;
         }

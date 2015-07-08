@@ -48,6 +48,7 @@ public class BottomMenu {
         buttons.add(new MenuItem(30,30,"town",this.parent));
         buttons.add(new MenuItem(30,30,"road",this.parent));
         buttons.add(new MenuItem(30,30,"city",this.parent));
+        buttons.add(new MenuItem(30,30,"END", this.parent));
         spaceMenu();
     }
 

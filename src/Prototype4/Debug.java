@@ -288,7 +288,6 @@ public class Debug {
                     writer.println(ObjectParser.parseModel(parent.center.getModel()));
                     writer.close();
                     System.out.println("Saved Model: " + parent.center.getModel().getIdentityToken());
-                    printMaps();
                 } catch (IOException e) {
                     System.out.println("could not save");
                 }
@@ -308,7 +307,6 @@ public class Debug {
                     }
                     ObjectParser.readModel(parent.center.getModel(), xml.toString());
                     System.out.println("Loaded Model: " + parent.center.getModel().getIdentityToken());
-                    printMaps();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e){

@@ -1,6 +1,8 @@
 package Prototype4;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -34,6 +36,12 @@ public class BoardData {
 
     private Board parent;
 
+    private StringBuffer manifest;
+
+    public boolean displayToggle;
+
+    public String updateMessage;
+
 
 
     public BoardData(Board parent) {
@@ -59,13 +67,15 @@ public class BoardData {
         this.parent = parent;
         generateIdentity();
         System.out.println("Build Model: " + this.identityToken);
+        initManifest();
+        displayToggle = false;
+        updateMessage = "";
     }
 
     /**
      * Builds an OldBoard given a XMLstring.
-     * @param oldBoard
      */
-    public BoardData(String oldBoard){
+    public BoardData(){
         this.displayMode = 0;
         pointMap = new HashMap<Point, HexPoint>();
         tileMap = new HashMap<Point, HexTile>();
@@ -86,6 +96,9 @@ public class BoardData {
         findDesert(shuffleTerrain());
         settlementQuota = 0;
         generateIdentity();
+        generateIdentity();
+        System.out.println("Build Model: " + this.identityToken);
+        initManifest();
 
     }
 
@@ -202,7 +215,9 @@ public class BoardData {
      */
     public void buildBoard(HexTile center) {
         hexDeck[0] = center;
-        center.display();
+        if(center.getParent() != null) {
+            center.display();
+        }
         for (int i = 1; i < hexDeck.length; i++) {
             HexTile temp = hexDeck[i - 1].expand(buildOrder[i],resourceTiles[i],tokens[i]);
             hexDeck[i] = temp;
@@ -289,6 +304,7 @@ public class BoardData {
      * 5 = ESC menu
      */
     public void displayBoard(){
+
         int option = this.displayMode;
         for(int i = 0; i < coast.size(); i++){
             coast.get(i).shadow(2);
@@ -340,6 +356,17 @@ public class BoardData {
             for(int i = 0; i < hexDeck.length; i++){
                 hexDeck[i].checkBuiltRoads();
             }
+        }
+        if(tool == 4){
+            System.out.println("Turn End");
+            try (PrintWriter writer = new PrintWriter("manifest.xml", "UTF-8")) {
+                writer.println(getManifestString());
+                writer.close();
+                System.out.println("Saved Manifest: " + parent.center.getModel().getIdentityToken());
+            } catch (IOException e) {
+                System.out.println("could not save");
+            }
+            this.getParent().currentTool = 0;
         }
     }
 
@@ -435,7 +462,9 @@ public class BoardData {
         this.identityToken = result.toString();
     }
 
-
+    /**
+     * Clears all the hashmaps (for use on update)
+     */
     public void clearMaps() {
         pointMap = new HashMap<Point, HexPoint>();
         sideMap = new HashMap<Point, HexSide>();
@@ -443,6 +472,55 @@ public class BoardData {
         hexDeck = new HexTile[19];
         coast = new ArrayList<HexCoast>();
     }
+
+
+    /**
+     * Initializes the manifest (move record) file
+     * Clears the last manifest, adds the header info to the new
+     * manifest.
+     */
+    public void initManifest(){
+        manifest = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        manifest.append("<manifest><identity>" + this.identityToken +"</identity>");
+    }
+
+
+    public StringBuffer getManifest(){
+        return this.manifest;
+    }
+
+
+    /**
+     * To be called ONLY when ready to send the manifest.
+     * This method appends the closing XML to the manifest stringbuffer,
+     * converts it to a string and clears the buffer.
+     * @return
+     */
+    public String getManifestString(){
+        if(manifest.length() == 0){
+            initManifest();
+        }
+        manifest.append("</manifest>");
+        String result = manifest.toString();
+        manifest = new StringBuffer();
+        return result;
+    }
+
+
+    public String getUpdateMessage(){
+        String result = this.updateMessage;
+        this.updateMessage = "";
+        return result;
+    }
+
+
+    public void processManifest(){
+
+    }
+
+
+
+
 }
 
 

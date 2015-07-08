@@ -39,6 +39,7 @@ public class MenuItem {
             parent.stroke(0,0,0,0);
             parent.fill(245,127,23);
         }
+        //check to see it it's highligted
         if(parent.currentTool == getTool()){
             parent.stroke(0,0,0,0);
             parent.fill(245,127,23);
@@ -112,6 +113,14 @@ public class MenuItem {
             parent.endShape();
 
         }
+        if(toolTip.equals("END")){
+            parent.rect(tempX, tempY, width, height);
+            parent.textSize(13);
+            parent.fill(121, 85, 72);
+            int beginX = (int)(tempX + (((width /2)) - (parent.textWidth("END")/2)));
+            int beginY = ((tempY + ((height/2)) + 5));
+            parent.text("END", beginX,beginY );
+        }
     }
 
 
@@ -179,6 +188,7 @@ public class MenuItem {
      * 1 = town
      * 2 = road
      * 3 = city
+     * 4 = END TURN
      * @return
      */
     public int getTool(){
@@ -190,6 +200,9 @@ public class MenuItem {
         }
         if(toolTip.equals("city")){
             return 3;
+        }
+        if(toolTip.equals("END")){
+            return 4;
         }
         else return 0;
     }

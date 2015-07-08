@@ -644,16 +644,10 @@ public class ObjectParser {
                     s.add(findHexSide(model, new Point(tempX, tempY)));
                 }
                 HexPoint update = model.getPointMap().get(coords);
-                if(buildStatus == 1){
-                    System.out.println("new id: " + id + " current id: " + update.getId());
-                }
                 update.setId(id);
                 update.setBuildStatus(buildStatus);
                 update.setNeigbors(n);
                 update.setRoads(s);
-                if(buildStatus == 1){
-                    System.out.println("new id: " + id + " current id: " + update.getId() + " buildStatus: " + update.getBuildStatus());
-                }
         }
 
     }
@@ -664,7 +658,7 @@ public class ObjectParser {
         try {
             doc = stringToDom(XML);
             //initialize the maps
-            readMaps(model,doc);
+            readMaps(model, doc);
             //fix the tiles
             readTiles(model,doc);
             //fix the points
@@ -843,6 +837,63 @@ public class ObjectParser {
         String resource = tile.item(2).getTextContent();
         int value = Integer.parseInt(tile.item(3).getTextContent());
         return new HexTile(model.getParent(), center.getX(), center.getY(),radius,model,resource,value);
+    }
+
+
+    /**
+     * Reads a manifest and updates the board accordingly
+     * @param model the model to update
+     * @param XML the manifest string
+     */
+    public static void readManifest(BoardData model, String XML){
+        try {
+            Document doc = stringToDom(XML);
+            NodeList updatePoints = doc.getElementsByTagName("hexpoint");
+            NodeList updateSides = doc.getElementsByTagName("hexside");
+            if(updatePoints.getLength() > 0){
+                for(int i = 0; i < updatePoints.getLength(); i++){
+                    NodeList point = updatePoints.item(i).getChildNodes();
+                    Point key = new Point (Integer.parseInt(point.item(0).getTextContent()),
+                    Integer.parseInt(point.item(1).getTextContent()));
+                    HexPoint temp = model.getPointMap().get(key);
+                    temp.setBuildStatus(Integer.parseInt(point.item(5).getTextContent()));
+                }
+            }
+            if(updateSides.getLength() > 0){
+                for(int i = 0; i < updateSides.getLength(); i++){
+                    NodeList side = updatePoints.item(i).getChildNodes();
+                    Point key = new Point(Integer.parseInt(side.item(0).getFirstChild().getTextContent()),
+                            Integer.parseInt(side.item(0).getLastChild().getTextContent()));
+                    HexSide temp = findHexSide(model,key);
+                    temp.setBuilt(Boolean.parseBoolean(side.item(6).getTextContent()));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public static void parseRequest(BoardData model, String XML){
+        try{
+            Document doc = stringToDom(XML);
+            if(doc.getFirstChild().getLocalName().equals("model")){
+                readModel(model,XML);
+            } else {
+                readManifest(model,XML);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
 
