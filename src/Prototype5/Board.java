@@ -1,9 +1,9 @@
-package Prototype4;
+package Prototype5;
 
 
+import ServerPrototype1.Client;
 import processing.core.PApplet;
 import processing.core.PImage;
-import ServerPrototype1.*;
 
 /**
  * The main board class. Builds the datastructure
@@ -26,6 +26,7 @@ public class Board extends PApplet {
 
     public PImage img;
 
+    public Client client;
 
 
 
@@ -37,8 +38,9 @@ public class Board extends PApplet {
 
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
         model = new BoardData(this);
+        this.client = new Client(4001,model);
         this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, model,model.getResourceTiles()[0],model.getTokens()[0]);
-        center.getModel().buildBoard((center));
+        //center.getModel().buildBoard((center));
         this.debugger = new Debug(this,center);
         textSize(14);
         background(0, 188, 212);
@@ -106,6 +108,7 @@ public class Board extends PApplet {
 
 
     public static void main(String args[]) {
-        PApplet.main(new String[] {  "--present", "Prototype4.Board" });
+        PApplet.main(new String[] {  "Prototype5.Board" });
     }
+    //"--present",
 }

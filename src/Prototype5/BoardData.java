@@ -1,8 +1,6 @@
-package Prototype4;
+package Prototype5;
 
 import java.awt.*;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -22,7 +20,7 @@ public class BoardData {
     private HashMap<Point, HexSide> sideMap; //the map of all sides (no duplicates)
     private int displayMode; //the current map display mode (for debugging purposes)
 
-    private HashMap<Point,HexTile> tileMap; //the map of all hexTiles (no duplicates)
+    private HashMap<Point, HexTile> tileMap; //the map of all hexTiles (no duplicates)
 
     private ArrayList<HexCoast> coast; //the arraylist of all coast pieces.
 
@@ -279,7 +277,7 @@ public class BoardData {
                 }
             }
             if(((toBuild.getCenter().getX() < (toBuild.getRadius() * 2)) && instructions[rS].equals("EF"))
-                    || ((toBuild.getCenter().getX() > Prototype4.Board.SCREEN_WIDTH - (toBuild.getRadius() * 2))&& instructions[rS].equals("BC"))
+                    || ((toBuild.getCenter().getX() > Board.SCREEN_WIDTH - (toBuild.getRadius() * 2))&& instructions[rS].equals("BC"))
                     || ((toBuild.getCenter().getY() > Prototype3.Prototype3_3.Board.SCREEN_HEIGHT - (toBuild.getRadius() * 2))&& instructions[rS].equals("CD"))
                     || ((toBuild.getCenter().getY() > Board.SCREEN_HEIGHT - (toBuild.getRadius() * 2))&& instructions[rS].equals("DE"))
                     || ((toBuild.getCenter().getY() < (toBuild.getRadius() * 2)) && instructions[rS].equals("FA"))

@@ -1,12 +1,10 @@
 package ServerPrototype1;
 
-import Prototype4.ObjectParser;
 
 import java.io.*;
 import java.net.Socket;
-import java.sql.ResultSet;
 import java.util.HashMap;
-import Prototype4.*;
+import Prototype5.*;
 
 /**
  * Created by Tom_Bryant on 7/7/15.
@@ -15,7 +13,7 @@ import Prototype4.*;
  * for every message it misses, it looses a strike. When it has 0 strikes
  * it is disconnected. After 10 sucessful messages, it gains a strike back (up to a max of 5).
  */
-public class ClientConnection {
+public class ServerToClientConnection {
 
     private Socket conn;
     private ObjectInputStream in;
@@ -25,14 +23,16 @@ public class ClientConnection {
     private int strikes;
     private int connectionStrength;
     private BoardData model;
+    private MessageRecord record;
 
 
-    public ClientConnection(Socket conn, HashMap<Integer, String> heartBeat, int id, BoardData model){
+    public ServerToClientConnection(Socket conn, HashMap<Integer, String> heartBeat, int id, BoardData model, MessageRecord record){
         this.conn = conn;
         this.heartBeat = heartBeat;
         this.id = id;
         this.strikes = 5;
         this.model = model;
+        this.record = record;
         try {
             //out before in
             this.out = new ObjectOutputStream(conn.getOutputStream());
@@ -143,20 +143,14 @@ public class ClientConnection {
     }
 
 
-    public String getUpdateMessage(){
-        String result = model.updateMessage;
-        model.updateMessage = "";
-        return result;
-
-    }
 
     public void evaluateMessage(String message){
-        if(message.length() < 2){
-            System.out.println("HeartBeat message: " + message);
-        } else if(message.substring(0,5).equals("<?xml")){
-            ObjectParser.parseRequest(model, message);
-            System.out.println("Read Model: " + model.getIdentityToken());
-            model.updateMessage = message;
+        if(message.length() > 2) {
+            if (message.substring(0, 5).equals("<?xml")) {
+                ObjectParser.parseRequest(model, message);
+                System.out.println("Read Model: " + model.getIdentityToken());
+                record.setCurrent(message);
+            }
         }
     }
 }

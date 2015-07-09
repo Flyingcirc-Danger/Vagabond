@@ -1,32 +1,37 @@
 package ServerPrototype1;
 
-import Prototype4.BoardData;
-
-import java.io.*;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import Prototype5.*;
 
 /**
  * Created by Tom_Bryant on 7/7/15.
- * Client class for sending/recieving messages from the server
+ * Client class for sending/recieving messages from the connection
  */
 public class Client {
 
-    public ServerConnection server;
+    public ClientToServerConnection connection;
+    public BoardData model;
 
 
     public Client(int port, BoardData model){
-        this.server = new ServerConnection(port,model);
+        this.model = model;
+        this.connection = new ClientToServerConnection(port,model);
         /**
-         * Automatically sends messages recieved from the server
-         * back to the server. (HeartBeat).
+         * Automatically sends messages recieved from the connection
+         * back to the connection. (HeartBeat).
          */
         Thread reply = new Thread(){
             public void run() {
                 while (true) {
-                    server.write(server.getMessage());
+                    if(model.manifestReady){
+                        connection.write(model.getManifestString());
+                    } else {
+                        connection.write(connection.getMessage());
+                    }
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };

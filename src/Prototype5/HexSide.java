@@ -1,4 +1,4 @@
-package Prototype4;
+package Prototype5;
 
 import processing.core.PApplet;
 
@@ -30,7 +30,7 @@ public class HexSide {
         this.end = end;
         this.midPoint = midPoint;
         this.neighbors = new HashSet<HexSide>();
-        this.borders = new HashSet<Prototype4.HexTile>();
+        this.borders = new HashSet<HexTile>();
         this.built = false;
         this.start.getRoads().add(this);
         this.end.getRoads().add(this);
@@ -116,11 +116,11 @@ public class HexSide {
         this.neighbors = neighbors;
     }
 
-    public HashSet<Prototype4.HexTile> getBorders() {
+    public HashSet<HexTile> getBorders() {
         return borders;
     }
 
-    public void setBorders(HashSet<Prototype4.HexTile> borders) {
+    public void setBorders(HashSet<HexTile> borders) {
         this.borders = borders;
     }
 

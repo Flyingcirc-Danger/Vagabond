@@ -1,19 +1,19 @@
 package ServerPrototype1;
 
-import com.sun.corba.se.spi.ior.ObjectKey;
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import Prototype4.*;
+import Prototype5.*;
 
 /**
  * Created by Tom_Bryant on 7/7/15.
  * A class that contains the input and output steams
- * for the client to server
+ * for the client to connection
  */
-public class ServerConnection {
+public class ClientToServerConnection {
 
     private Socket con;
     private ObjectInputStream in;
@@ -21,7 +21,7 @@ public class ServerConnection {
     private String message;
     private BoardData model;
 
-    public ServerConnection(int port, BoardData model){
+    public ClientToServerConnection(int port, BoardData model){
         try {
             this.con = new Socket("127.0.0.1", port);
             this.out = new ObjectOutputStream(con.getOutputStream());
@@ -33,7 +33,7 @@ public class ServerConnection {
         }
 
         /**
-         * Continually reads the objects sent from the server
+         * Continually reads the objects sent from the connection
          */
         Thread heartBeat = new Thread(){
             public void run(){
@@ -59,12 +59,11 @@ public class ServerConnection {
 
     /**
      * A method for writing and sending objects
-     * to the server
+     * to the connection
      * @param msg the message to write
      */
     public void write(String msg){
         try {
-            System.out.println("send : " + msg);
             out.writeObject(msg);
         } catch (IOException e) {
             e.printStackTrace();

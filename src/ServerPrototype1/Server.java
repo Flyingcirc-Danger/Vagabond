@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
-import Prototype4.*;
+import Prototype5.*;
 
 /**
  * Created by Tom_Bryant on 7/7/15.
@@ -15,7 +15,7 @@ import Prototype4.*;
  */
 public class Server {
 
-    public ArrayList<ClientConnection> clientConnections;
+    public ArrayList<ServerToClientConnection> serverToClientConnections;
     public HashMap<Integer, String> heartBeat;
     public LinkedBlockingQueue<String> messages;
     public ServerSocket serverSocket;
@@ -23,12 +23,14 @@ public class Server {
     public String XMLboard;
     public BoardData mainBoard;
     public String updateMessage;
+    public MessageRecord record;
 
 
     public Server(int port) {
-        clientConnections = new ArrayList<ClientConnection>();
+        serverToClientConnections = new ArrayList<ServerToClientConnection>();
         messages = new LinkedBlockingQueue<String>();
         heartBeat = new HashMap<Integer, String>();
+        record = new MessageRecord();
         try {
             this.serverSocket = new ServerSocket(port);
         } catch (IOException e) {
@@ -51,8 +53,8 @@ public class Server {
                 try {
                     while (true) {
                         Socket s = serverSocket.accept();
-                        ClientConnection temp = new ClientConnection(s, heartBeat, startID++, mainBoard );
-                        clientConnections.add(temp);
+                        ServerToClientConnection temp = new ServerToClientConnection(s, heartBeat, startID++, mainBoard, record);
+                        serverToClientConnections.add(temp);
                         heartBeat.put(temp.getId(), "START");
                         System.out.println("Client " + temp.getId() + "  has connected" );
                         temp.write(XMLboard);
@@ -75,24 +77,19 @@ public class Server {
             public void run() {
                 try {
                     while (true) {
-                        if (clientConnections.size() > 0) {
-                                String message = "";
-                                String temp = "";
-                                if((temp = mainBoard.getUpdateMessage()).length() > 0){
-                                    message = temp;
-                                } else {
-                                    message = generateRandString();
+                        if (serverToClientConnections.size() > 0) {
+                                String message = generateRandString();
+                                if(record.isCurrent()){
+                                    message = record.getCurrent();
                                 }
                             System.out.println("Sent message: " + message);
-                            for (ClientConnection con : clientConnections) {
+                            for (ServerToClientConnection con : serverToClientConnections) {
                                 con.write(message);
                             }
-                            message = "";
-                            temp = "";
                             sleep(2000);
-                            if(clientConnections.size() > 0) {
-                               ArrayList<ClientConnection> toRemove = new ArrayList<ClientConnection>();
-                                for (ClientConnection con : clientConnections) {
+                            if(serverToClientConnections.size() > 0) {
+                               ArrayList<ServerToClientConnection> toRemove = new ArrayList<ServerToClientConnection>();
+                                for (ServerToClientConnection con : serverToClientConnections) {
                                     if (!heartBeat.get(con.getId()).equals(message)) {
                                         System.out.println(con.getId() + ": message mismatch");
                                         con.strike();
@@ -104,8 +101,8 @@ public class Server {
                                         toRemove.add(con);
                                     }
                                 }
-                                for(ClientConnection con : toRemove){
-                                    clientConnections.remove(con);
+                                for(ServerToClientConnection con : toRemove){
+                                    serverToClientConnections.remove(con);
                                     heartBeat.remove(con.getId());
                                     con.closeConnection();
                                 }

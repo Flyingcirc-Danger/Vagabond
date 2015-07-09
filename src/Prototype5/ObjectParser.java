@@ -1,18 +1,15 @@
-package Prototype4;
+package Prototype5;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Node;
-
 import java.awt.*;
-
 import java.io.ByteArrayInputStream;
-
 import java.io.IOException;
 import java.util.HashSet;
 
