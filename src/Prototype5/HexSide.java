@@ -23,6 +23,9 @@ public class HexSide {
 
     private boolean built; //check to see if a road exists on this side.
 
+    //the ID of the player that has built on this side
+    private int owner;
+
 
 
     public HexSide(HexPoint start, HexPoint end, Point midPoint, int id, Board canvas, BoardData model){
@@ -37,6 +40,7 @@ public class HexSide {
         this.start.getRoads().add(this);
         this.end.getRoads().add(this);
         this.model = model;
+        this.owner = 0;
 
 
     }
@@ -71,10 +75,11 @@ public class HexSide {
             slopeX = slopeX / 15;
             int slopeY = (int) (end.getY() - start.getY());
             slopeY = slopeY / 15;
-            if(!this.isBuilt()){
-                parent.fill(255, 0, 0,80);
+            if(this.isBuilt()){
+                int[] color = model.getColor(owner);
+                parent.fill(color[0], color[1],color[2]);
             } else{
-                parent.fill(1,87, 155);
+                parent.fill(255, 0, 0,80);
             }
             parent.stroke(0, 0, 0, 0);
 
@@ -151,6 +156,14 @@ public class HexSide {
         this.id = id;
     }
 
+    public int getOwner() {
+        return owner;
+    }
+
+    public void setOwner(int owner) {
+        this.owner = owner;
+    }
+
     /**
      * A method for checking to see if the mouse is over this
      * point.
@@ -179,6 +192,11 @@ public class HexSide {
     }
 
 
+    /**
+     * Populates the neighbors of this side
+     * based on the midpoint keys provided by the
+     * point neighbors of it's start and end points
+     */
     public void populateNeighbors(){
         HashSet<HexPoint> startNeighbors = start.getNeigbors();
         for(HexPoint pt : startNeighbors){

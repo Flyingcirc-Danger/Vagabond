@@ -79,12 +79,18 @@ public class ClientToServerConnection {
     }
 
 
+    /**
+     * Evaluates the message. If it's a random char
+     * it's a heartbeat. If it begins with <?xml
+     * then it's an update
+     * @param message the message to evaluate
+     */
     public void evaluateMessage(String message){
         if(message.length() < 2){
             System.out.println("HeartBeat message: " + message);
         } else if(message.substring(0,5).equals("<?xml")){
             ObjectParser.parseRequest(model, message);
-            System.out.println("Read Model: " + model.getIdentityToken());
+            System.out.println("Read XML: " + model.getIdentityToken());
 
         }
     }

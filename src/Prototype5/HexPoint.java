@@ -24,6 +24,11 @@ public class HexPoint implements Comparable<HexPoint> {
 
     //build status = 0: nobuild, 1:town, 2:city
     private int buildStatus;
+
+    //the ID of the player that has built on this point
+    private int owner;
+
+    private BoardData model;
     /**
      *
      * @param coords The coordinate of this point
@@ -31,7 +36,7 @@ public class HexPoint implements Comparable<HexPoint> {
      * @param id the id of this hexpoint
      * @param parent the canvas to draw on
      */
-    public HexPoint(Point coords, Point centerCoords, int id, Board parent){
+    public HexPoint(Point coords, Point centerCoords, int id, Board parent, BoardData model){
         this.coords = coords;
         this.id = id;
         this.parent = parent;
@@ -39,6 +44,8 @@ public class HexPoint implements Comparable<HexPoint> {
         this.centerCoords = centerCoords;
         this.roads = new HashSet<HexSide>();
         this.buildStatus = 0;
+        this.owner = 0;
+        this.model = model;
     }
 
     /**
@@ -140,6 +147,14 @@ public class HexPoint implements Comparable<HexPoint> {
 
     public PApplet getParent() {
         return parent;
+    }
+
+    public int getOwner() {
+        return owner;
+    }
+
+    public void setOwner(int id){
+        this.owner = id;
     }
 
     public boolean isSettled() {
@@ -265,6 +280,8 @@ public class HexPoint implements Comparable<HexPoint> {
             if(buildStatus == 1){
                 int height = 20;
                 int width = 20;
+                int[] color = model.getColor(owner);
+                parent.fill(color[0], color[1],color[2]);
                 parent.fill(255, 0, 0,80);
                 parent.beginShape();
                 parent.vertex(coords.x, coords.y - (height / 2));
@@ -286,7 +303,9 @@ public class HexPoint implements Comparable<HexPoint> {
                 if(!this.isSettled()){
                     parent.fill(255, 0, 0,80);
                 } else {
-                    parent.fill(1,87, 155);
+                    int[] color = model.getColor(owner);
+                    parent.fill(color[0], color[1],color[2]);
+
                 }
             parent.beginShape();
             parent.vertex(coords.x, coords.y - (height / 2));
@@ -308,7 +327,8 @@ public class HexPoint implements Comparable<HexPoint> {
                 if (!this.isCity()) {
                     parent.fill(255, 0, 0, 80);
                 } else {
-                    parent.fill(1, 87, 155);
+                    int[] color = model.getColor(owner);
+                    parent.fill(color[0], color[1],color[2]);
                 }
                 int tempX = coords.x - 10;
                 int tempY = coords.y - 10;

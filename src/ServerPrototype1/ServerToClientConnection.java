@@ -144,6 +144,12 @@ public class ServerToClientConnection {
 
 
 
+    /**
+     * Evaluates the message. If it's a random char
+     * it's a heartbeat. If it begins with <?xml
+     * then it's an update
+     * @param message the message to evaluate
+     */
     public void evaluateMessage(String message){
         if(message.length() > 2) {
             if (message.substring(0, 5).equals("<?xml")) {

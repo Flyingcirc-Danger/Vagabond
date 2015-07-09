@@ -149,7 +149,7 @@ public class HexTile {
         if(model.getPointMap().containsKey(toAdd)){
             return model.getPointMap().get(toAdd);
         } else {
-            HexPoint newPoint = new HexPoint(toAdd, center, model.assignPointID(),parent);
+            HexPoint newPoint = new HexPoint(toAdd, center, model.assignPointID(),parent,model);
             model.getPointMap().put(toAdd,newPoint);
             return newPoint;
         }
@@ -549,13 +549,16 @@ public class HexTile {
 
             //mode is for debugging purposes only.
             int mode = this.model.getDisplayMode();
+            int id = model.getPlayer().getId();
             if (A.overPoint()) {
                 if (mode == 1 || mode == 4) {
                     A.mapNeigbors();
                 } else if (A.validBuild() && parent.currentTool == 1) {
                     A.drawTown();
-                } else if(A.validUpgrade() && parent.currentTool == 3){
+                    A.setOwner(id);
+                } else if(A.validUpgrade() && parent.currentTool == 3 && id == A.getOwner() ){
                     A.drawCity();
+                    A.setOwner(id);
                 }
                 return true;
             }
@@ -564,8 +567,10 @@ public class HexTile {
                     B.mapNeigbors();
                 } else if (B.validBuild() && parent.currentTool == 1) {
                     B.drawTown();
-                }else if(B.validUpgrade() && parent.currentTool == 3){
+                    B.setOwner(id);
+                }else if(B.validUpgrade() && parent.currentTool == 3 && id == B.getOwner()){
                     B.drawCity();
+                    B.setOwner(id);
                 }
                 return true;
             }
@@ -574,8 +579,10 @@ public class HexTile {
                     C.mapNeigbors();
                 } else if (C.validBuild()  && parent.currentTool == 1) {
                     C.drawTown();
-                }else if(C.validUpgrade() && parent.currentTool == 3){
+                    C.setOwner(id);
+                }else if(C.validUpgrade() && parent.currentTool == 3 && id == C.getOwner()){
                     C.drawCity();
+                    C.setOwner(id);
                 }
                 return true;
             }
@@ -584,8 +591,10 @@ public class HexTile {
                     D.mapNeigbors();
                 } else if (D.validBuild() && parent.currentTool == 1) {
                     D.drawTown();
-                } else if(D.validUpgrade() && parent.currentTool == 3){
+                    D.setOwner(id);
+                } else if(D.validUpgrade() && parent.currentTool == 3 && id == D.getOwner()){
                     D.drawCity();
+                    D.setOwner(id);
                 }
                 return true;
             }
@@ -594,18 +603,22 @@ public class HexTile {
                     E.mapNeigbors();
                 } else if (E.validBuild() && parent.currentTool == 1) {
                     E.drawTown();
-                }else if(E.validUpgrade() && parent.currentTool == 3){
+                    E.setOwner(id);
+                }else if(E.validUpgrade() && parent.currentTool == 3 && id == E.getOwner()){
                     E.drawCity();
+                    E.setOwner(id);
                 }
                 return true;
             }
             if (F.overPoint()) {
                 if (mode == 1 || mode == 4) {
                     F.mapNeigbors();
-                } else if (F.validBuild() && parent.currentTool == 1) {
+                } else if (F.validBuild() && parent.currentTool == 1 ) {
                     F.drawTown();
-                }else if(F.validUpgrade() && parent.currentTool == 3){
+                    F.setOwner(id);
+                }else if(F.validUpgrade() && parent.currentTool == 3 && id == F.getOwner()){
                     F.drawCity();
+                    F.setOwner(id);
                 }
                 return true;
             } else {
@@ -622,12 +635,14 @@ public class HexTile {
     public boolean checkSides(){
         //mode is for debugging purposes only.
         int mode = this.model.getDisplayMode();
+        int id = model.getPlayer().getId();
         if(AB.overSide()){
             if (mode == 2 || mode == 4) {
                 this.setHighlighted(true);
                 AB.mapNeighbors();
             } else if (AB.validBuild() && parent.currentTool == 2) {
-            AB.drawRoad();
+                AB.drawRoad();
+                AB.setOwner(id);
         }
             return true;
         }
@@ -637,6 +652,7 @@ public class HexTile {
                 BC.mapNeighbors();
             }else if (BC.validBuild() && parent.currentTool == 2) {
                 BC.drawRoad();
+                BC.setOwner(id);
             }
             return true;
         }
@@ -646,6 +662,7 @@ public class HexTile {
                 CD.mapNeighbors();
             }else if (CD.validBuild() && parent.currentTool == 2) {
                 CD.drawRoad();
+                CD.setOwner(id);
             }
             return true;
         }
@@ -655,6 +672,7 @@ public class HexTile {
                 DE.mapNeighbors();
             }else if (DE.validBuild() && parent.currentTool == 2) {
                 DE.drawRoad();
+                DE.setOwner(id);
             }
             return true;
         }
@@ -664,6 +682,7 @@ public class HexTile {
                 EF.mapNeighbors();
             }else if (EF.validBuild() && parent.currentTool == 2) {
                 EF.drawRoad();
+                EF.setOwner(id);
             }
             return true;
         }
@@ -674,6 +693,7 @@ public class HexTile {
             }
             else if (FA.validBuild() && parent.currentTool == 2) {
                 FA.drawRoad();
+                FA.setOwner(id);
             }
             return true;
         }

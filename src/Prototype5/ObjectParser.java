@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 
 
@@ -30,6 +31,7 @@ public class ObjectParser {
         result.append(parsePoints(model, false));
         result.append(parseSides(model, false));
         result.append("</model>");
+
         return result.toString();
     }
 
@@ -237,7 +239,9 @@ public class ObjectParser {
             }
             result.append("</borders>");
             //index 6: build status
-            result.append("<build-status>" + sd.isBuilt() + "</build-status></hexside>");
+            result.append("<build-status>" + sd.isBuilt() + "</build-status>");
+            //index 7: owner
+            result.append("<owner>" + sd.getOwner() + "</owner></hexside>");
 
         }
         result.append("</sides>");
@@ -284,7 +288,9 @@ public class ObjectParser {
             }
             result.append("</borders>");
             //index 6: build status
-            result.append("<build-status>" + sd.isBuilt() + "</build-status></hexside>");
+            result.append("<build-status>" + sd.isBuilt() + "</build-status>");
+            //index 7: owner
+            result.append("<owner>" + sd.getOwner() + "</owner></hexside>");
         return result.toString();
     }
 
@@ -352,12 +358,15 @@ public class ObjectParser {
             }
             //index 6: built
             boolean built = Boolean.parseBoolean(sideData.item(6).getTextContent());
+            //index 7: owner
+            int owner = Integer.parseInt(sideData.item(7).getTextContent());
             update.setStart(start);
             update.setEnd(end);
             update.setId(id);
             update.setNeighbors(neighbors);
             update.setBorders(borders);
             update.setBuilt(built);
+            update.setOwner(owner);
         }
 
     }
@@ -404,6 +413,7 @@ public class ObjectParser {
             result.append("<coordsX>"+ pt.getCenterCoords().x + "</coordsX>");
             result.append("<coordsY>"+ pt.getCenterCoords().y + "</coordsY>");
             result.append("</center-coords>");
+            result.append("<owner>"+ pt.getOwner() + "</owner>");
             result.append("</hexpoint>");
         return result.toString().trim();
     }
@@ -502,6 +512,7 @@ public class ObjectParser {
             result.append("<coordsX>"+ pt.getCenterCoords().x + "</coordsX>");
             result.append("<coordsY>"+ pt.getCenterCoords().y + "</coordsY>");
             result.append("</center-coords>");
+            result.append("<owner>"+ pt.getOwner() + "</owner>");
             result.append("</hexpoint>");
             current++;
             if(current < size){
@@ -640,11 +651,13 @@ public class ObjectParser {
                     int tempY = Integer.parseInt(roads.item(j).getLastChild().getTextContent());
                     s.add(findHexSide(model, new Point(tempX, tempY)));
                 }
+                int owner = Integer.parseInt(hexData.item(7).getTextContent());
                 HexPoint update = model.getPointMap().get(coords);
                 update.setId(id);
                 update.setBuildStatus(buildStatus);
                 update.setNeigbors(n);
                 update.setRoads(s);
+                update.setOwner(owner);
         }
 
     }
@@ -795,7 +808,7 @@ public class ObjectParser {
         int nId = Integer.parseInt(point.item(2).getTextContent());
         Point tempCXY = new Point(Integer.parseInt(point.item(3).getTextContent()),
                 Integer.parseInt(point.item(4).getTextContent()));
-        return new HexPoint(tempXY, tempCXY, nId, model.getParent());
+        return new HexPoint(tempXY, tempCXY, nId, model.getParent(),model);
     }
 
 
@@ -857,6 +870,7 @@ public class ObjectParser {
                     Integer.parseInt(point.item(1).getTextContent()));
                     HexPoint temp = model.getPointMap().get(key);
                     temp.setBuildStatus(Integer.parseInt(point.item(5).getTextContent()));
+                    temp.setOwner(Integer.parseInt(point.item(7).getTextContent()));
                 }
             }
             if(updateSides.getLength() > 0){
@@ -866,6 +880,7 @@ public class ObjectParser {
                             Integer.parseInt(side.item(0).getLastChild().getTextContent()));
                     HexSide temp = findHexSide(model,key);
                     boolean indigo = Boolean.parseBoolean(side.item(6).getTextContent());
+                    temp.setOwner(Integer.parseInt(side.item(7).getTextContent()));
                     temp.setBuilt(indigo);
                 }
             }
@@ -880,14 +895,24 @@ public class ObjectParser {
 
     }
 
-
+    /**
+     * Decides how to parse an XML request
+     * Could be a complete model update, or
+     * just a manifest.
+     * @param model the model to perform on
+     * @param XML the XML containing instructions.
+     */
     public static void parseRequest(BoardData model, String XML){
         try{
             Document doc = stringToDom(XML);
-            if(doc.getFirstChild().getLocalName().equals("model")){
+            if(doc.getElementsByTagName("model").getLength() > 0){
+                System.out.println("request recieved model");
                 readModel(model,XML);
-            } else {
+            } else  if(doc.getElementsByTagName("manifest").getLength() > 0){
                 readManifest(model,XML);
+            } else {
+                System.out.println("request recieved player");
+                readPlayer(model,XML);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -896,6 +921,82 @@ public class ObjectParser {
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * Parses a player Object.
+     * @param model
+     * @param independent
+     * @return
+     */
+    public static String parsePlayer(BoardData model, boolean independent){
+        PlayerInfo player = model.getPlayer();
+        StringBuffer result = new StringBuffer();
+        if(independent) {
+            result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        }
+        result.append("<playerinfo>");
+        result.append("<username>" + player.getUname() + "</username>");
+        result.append("<score>" + player.getScore() + "</score>");
+        result.append("<id>" + player.getId() + "</id>");
+        result.append("</playerinfo>");
+        return result.toString();
+
+    }
+
+    /**
+     * Creates a new player XML string
+     * @param id
+     * @param independent
+     * @return
+     */
+    public static String parseNewPlayer(int id, boolean independent){
+        StringBuffer result = new StringBuffer();
+        if(independent){
+            result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        }
+        result.append("<playerinfo>");
+        result.append("<username>" + "tom" +  "</username>");
+        result.append("<score>" + 0 + "</score>");
+        result.append("<id>" + id + "</id>");
+        result.append("</playerinfo>");
+        return result.toString();
+
+    }
+
+    /**
+     * Reads player info.
+     * @param model
+     * @param XML
+     */
+    public static void readPlayer(BoardData model, String XML){
+        try {
+            Document doc = stringToDom(XML);
+            PlayerInfo old = model.getPlayer();
+            NodeList info = doc.getElementsByTagName("playerinfo");
+            NodeList infoChild = info.item(0).getChildNodes();
+            old.setUname(infoChild.item(0).getTextContent());
+            old.setScore(Integer.parseInt(infoChild.item(1).getTextContent()));
+            old.setId(Integer.parseInt(infoChild.item(2).getTextContent()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void saveOutput(String XML){
+        try (PrintWriter writer = new PrintWriter("test.xml", "UTF-8")) {
+            writer.println(XML);
+            writer.close();
+        }catch(IOException e){
+            System.out.println("Could not save");
+        }
+
     }
 
 

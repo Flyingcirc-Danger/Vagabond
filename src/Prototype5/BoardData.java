@@ -1,5 +1,7 @@
 package Prototype5;
 
+import Prototype4.*;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +42,10 @@ public class BoardData {
 
     public boolean manifestReady;
 
+    private HashMap<Integer, int[]> playerColors;
+
+    private PlayerInfo player;
+
 
 
 
@@ -69,6 +75,8 @@ public class BoardData {
         initManifest();
         displayToggle = false;
         manifestReady = false;
+        initPlayerColors();
+        this.player = new PlayerInfo(0);
     }
 
     /**
@@ -98,6 +106,8 @@ public class BoardData {
         generateIdentity();
         System.out.println("Build Model: " + this.identityToken);
         initManifest();
+        initPlayerColors();
+        this.player = new PlayerInfo(0);
 
     }
 
@@ -504,6 +514,7 @@ public class BoardData {
             initManifest();
         }
         manifest.append("</manifest>");
+        ObjectParser.saveOutput(manifest.toString());
         String result = manifest.toString();
         manifest = new StringBuffer();
         manifestReady = false;
@@ -522,11 +533,48 @@ public class BoardData {
         return  this.displayToggle;
     }
 
+    public PlayerInfo getPlayer() {
+        return player;
+    }
 
+    public void setPlayer(PlayerInfo player) {
+        this.player = player;
+    }
 
+    public HashMap<Integer, int[]> getPlayerColors() {
+        return playerColors;
+    }
 
+    public void setPlayerColors(HashMap<Integer,int[]> playerColors) {
+        this.playerColors = playerColors;
+    }
 
+    /**
+     * Inits the playerColor map.
+     * Maps colors to ids
+     */
+    public void initPlayerColors(){
+        this.playerColors =  new HashMap<Integer, int[] >();
+        //player1 = blue
+        playerColors.put(0,new int[]{1,87,155});
+        //player2 = red
+        playerColors.put(1,new int[]{183,28,28});
+        //player3 = green
+        playerColors.put(2,new int[]{51,105,30});
+        //player4 = yellow/Orange
+        playerColors.put(3,new int[]{245,127,23});
 
+    }
+
+    /**
+     * Returns the color related to the
+     * given id of a player
+     * @param id
+     * @return
+     */
+    public int[] getColor(int id){
+        return this.getPlayerColors().get(id);
+    }
 
 
 }
