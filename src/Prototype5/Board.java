@@ -23,6 +23,7 @@ public class Board extends PApplet {
     public int currentTool;
 
     public GameMenu gMenu;
+    public ConnectMenu cMenu;
 
     public PImage img;
 
@@ -38,17 +39,18 @@ public class Board extends PApplet {
 
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
         model = new BoardData(this);
-        this.client = new Client(4001,model);
-        this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, model,model.getResourceTiles()[0],model.getTokens()[0]);
-        //center.getModel().buildBoard((center));
-        this.debugger = new Debug(this,center);
+
         textSize(14);
         background(0, 188, 212);
-        debugger.displayClosed();
         this.bottom = new BottomMenu(this);
         this.currentTool = 0;
         this.gMenu = new GameMenu(this, 300,400);
+        this.cMenu = new ConnectMenu(this, 300,200);
         this.img = loadImage("assets/logoSM.png");
+        this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, model,model.getResourceTiles()[0],model.getTokens()[0]);
+        this.debugger = new Debug(this,center);
+        debugger.displayClosed();
+        this.model.setDisplayMode(10);
 
 
 //        try {
@@ -71,26 +73,29 @@ public class Board extends PApplet {
     public void draw() {
 
 
+        if(model.getDisplayMode() <= 5) {
+            fill(255, 0, 0, 0);
+            fill(0);
+            model.displayBoard();
+            if (debugger.open) {
+                debugger.displayOpen();
+            }
+            if (!debugger.open) {
+                background(0, 188, 212);
 
-        fill(255, 0, 0, 0);
-
-        fill(0);
-        center.getModel().displayBoard();
-        if(debugger.open){
-            debugger.displayOpen();
+                debugger.displayClosed();
+                center.getModel().displayBoard();
+            }
+            bottom.display();
+            image(img, SCREEN_WIDTH - 220, SCREEN_HEIGHT - 70);
         }
-        if(!debugger.open){
-            background(0, 188, 212);
-
-            debugger.displayClosed();
-            center.getModel().displayBoard();
+        if(model.getDisplayMode() == 10) {
+            model.displayConnect();
         }
+            fill(0);
 
 
-        fill(0);
 
-        bottom.display();
-        image(img, SCREEN_WIDTH - 220, SCREEN_HEIGHT - 70);
     }
 
 
@@ -98,9 +103,34 @@ public class Board extends PApplet {
 
     @Override
     public void mousePressed() {
-        debugger.mouseDebug();
-        bottom.checkSelected();
-        model.checkSelected(this.currentTool);
+        if(model.getDisplayMode() <= 5) {
+            debugger.mouseDebug();
+            bottom.checkSelected();
+            model.checkSelected(this.currentTool);
+        }
+        if(model.getDisplayMode() == 10){
+            cMenu.checkButtons();
+        }
+    }
+
+    public void keyPressed(){
+        if(model.getDisplayMode() ==10){
+            if (cMenu.isTyping()){
+                cMenu.addText(key);
+            }
+        }
+    }
+
+
+    /**
+     * Initiates the connection of this board and sets up
+     * the game mode and debugging
+     * @param ip
+     */
+    public void initiateConnection(String ip){
+        this.client = new Client(4001,model,ip);
+        model.setToggle();
+        model.setDisplayMode(0);
     }
 
 

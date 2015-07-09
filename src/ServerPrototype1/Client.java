@@ -12,9 +12,9 @@ public class Client {
     public BoardData model;
 
 
-    public Client(int port, BoardData model){
+    public Client(int port, BoardData model,String ip){
         this.model = model;
-        this.connection = new ClientToServerConnection(port,model);
+        this.connection = new ClientToServerConnection(port,model,ip);
         /**
          * Automatically sends messages recieved from the connection
          * back to the connection. (HeartBeat).

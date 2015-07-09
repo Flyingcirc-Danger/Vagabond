@@ -5,4 +5,8 @@ package Prototype5;
  * Created by Tom_Bryant on 7/6/15.
  */
 public class GameMenuButton {
+
+
+
+
 }

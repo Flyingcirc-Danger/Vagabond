@@ -22,9 +22,10 @@ public class GameMenu {
     }
 
     public void display(){
+        parent.background(0, 188, 212);
         parent.stroke(0,0,0,0);
         parent.smooth(8);
-        parent.fill(0,0,0,3);
+        parent.fill(0,0,0,70);
         parent.rect(0, 0, parent.SCREEN_WIDTH, parent.SCREEN_HEIGHT);
         parent.rect(center.x - (width/2)+2, center.y - (height/2)+2, width, height);
         parent.stroke(0, 0, 0, 0);

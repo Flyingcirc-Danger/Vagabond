@@ -9,9 +9,6 @@ import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import Prototype5.*;
-import Prototype5.BoardData;
-import Prototype5.HexTile;
-import Prototype5.ObjectParser;
 
 /**
  * Created by Tom_Bryant on 7/7/15.
@@ -61,8 +58,11 @@ public class Server {
                         serverToClientConnections.add(temp);
                         heartBeat.put(temp.getId(), "START");
                         System.out.println("Client " + temp.getId() + "  has connected" );
-                        String playerXML = ObjectParser.parseNewPlayer(temp.getId(), true);
-                        System.out.println("Player: " +playerXML);
+                        int tempID = temp.getId();
+                        if(temp.getId() > 3){
+                            tempID = 0;
+                        }
+                        String playerXML = ObjectParser.parseNewPlayer(tempID, true);
                         temp.write(XMLboard);
                         temp.write(playerXML);
                     }

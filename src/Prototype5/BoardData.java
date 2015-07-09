@@ -310,7 +310,6 @@ public class BoardData {
      * 2 = display debug
      * 3 = resource debug
      * 4 = debug all
-     * 5 = ESC menu
      */
     public void displayBoard(){
         if(!this.checkToggle()) {
@@ -343,10 +342,19 @@ public class BoardData {
                     hexDeck[i].checkPoints();
                     hexDeck[i].checkSides();
                 }
-                if (option == 5) {
-                    parent.gMenu.display();
-                }
 
+            }
+        }
+    }
+
+    /**
+     * Display mode 10 = connect menu
+     */
+    public void displayConnect(){
+        int option = this.displayMode;
+        if(!this.checkToggle()) {
+            if (option == 10) {
+                parent.cMenu.display();
             }
         }
     }

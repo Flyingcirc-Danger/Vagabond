@@ -21,9 +21,9 @@ public class ClientToServerConnection {
     private String message;
     private BoardData model;
 
-    public ClientToServerConnection(int port, BoardData model){
+    public ClientToServerConnection(int port, BoardData model,String ip){
         try {
-            this.con = new Socket("127.0.0.1", port);
+            this.con = new Socket(ip, port);
             this.out = new ObjectOutputStream(con.getOutputStream());
             this.in = new ObjectInputStream(con.getInputStream());
             this.message = new String("START");

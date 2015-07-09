@@ -6,7 +6,7 @@ import java.awt.*;
  * Created by Tom_Bryant on 6/30/15.
  * A menu item interface. Menu items exist on the menu bar
  */
-public class MenuItem {
+public class BottomMenuButton {
 
     public int width;
     public int height;
@@ -17,7 +17,7 @@ public class MenuItem {
     Board parent;
 
 
-    public MenuItem(int width, int height, String toolTip,  Board parent){
+    public BottomMenuButton(int width, int height, String toolTip, Board parent){
         this.startingPos = new Point(0,0);
         this.width = width;
         this.height = height;
