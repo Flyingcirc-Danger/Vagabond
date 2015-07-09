@@ -1,5 +1,6 @@
 package Prototype5;
 
+
 import processing.core.PApplet;
 
 import java.awt.*;
@@ -18,12 +19,13 @@ public class HexSide {
     private HashSet<HexSide> neighbors; //set of sides immediatley touching this side
     private HashSet<HexTile> borders; //set of tiles either side of this side (borders)
     private Board parent; //canvas to draw on
+    private BoardData model; //main board datastructure
 
     private boolean built; //check to see if a road exists on this side.
 
 
 
-    public HexSide(HexPoint start, HexPoint end, Point midPoint, int id, Board canvas){
+    public HexSide(HexPoint start, HexPoint end, Point midPoint, int id, Board canvas, BoardData model){
         this.parent = canvas;
         this.id = id;
         this.start = start;
@@ -34,6 +36,7 @@ public class HexSide {
         this.built = false;
         this.start.getRoads().add(this);
         this.end.getRoads().add(this);
+        this.model = model;
 
 
     }
@@ -175,6 +178,25 @@ public class HexSide {
         }
     }
 
+
+    public void populateNeighbors(){
+        HashSet<HexPoint> startNeighbors = start.getNeigbors();
+        for(HexPoint pt : startNeighbors){
+            Point tempMid = findMidPoint(start, pt);
+            HexSide newNei = model.getSideMap().get(tempMid);
+            neighbors.add(newNei);
+            newNei.neighbors.add(this);
+
+        }
+        HashSet<HexPoint> endNeighbors = end.getNeigbors();
+        for(HexPoint pt : endNeighbors){
+            Point tempMid = findMidPoint(end, pt);
+            HexSide newNei = model.getSideMap().get(tempMid);
+            neighbors.add(newNei);
+            newNei.neighbors.add(this);
+        }
+    }
+
     /**
      * Checks to see if it is valid to
      * build a road on this side.
@@ -205,6 +227,16 @@ public class HexSide {
             model.initManifest();
         }
         model.getManifest().append(ObjectParser.parseSingleSide(model, this, false));
+    }
+
+
+    /**
+     * Finds the midpoint between two points
+     */
+    private Point findMidPoint(HexPoint start, HexPoint end){
+        int tempX = ((start.getX() + end.getX())/2);
+        int tempY = ((start.getY() + end.getY())/2);
+        return new Point((int)tempX,(int)tempY);
     }
 
 

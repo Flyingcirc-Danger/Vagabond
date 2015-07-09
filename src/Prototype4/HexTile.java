@@ -192,16 +192,22 @@ public class HexTile {
         //neighbors are the sides which connect to this side
         this.AB.getNeighbors().add(FA);
         this.AB.getNeighbors().add(BC);
+        this.AB.populateNeighbors();
         this.BC.getNeighbors().add(AB);
         this.BC.getNeighbors().add(CD);
+        this.BC.populateNeighbors();
         this.CD.getNeighbors().add(BC);
         this.CD.getNeighbors().add(DE);
+        this.CD.populateNeighbors();
         this.DE.getNeighbors().add(CD);
         this.DE.getNeighbors().add(EF);
+        this.DE.populateNeighbors();
         this.EF.getNeighbors().add(DE);
         this.EF.getNeighbors().add(FA);
+        this.EF.populateNeighbors();
         this.FA.getNeighbors().add(EF);
         this.FA.getNeighbors().add(AB);
+        this.FA.populateNeighbors();
         //borders are the hex tiles which this side borders
         this.AB.getBorders().add(this);
         this.BC.getBorders().add(this);

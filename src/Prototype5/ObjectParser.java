@@ -817,7 +817,7 @@ public class ObjectParser {
         Point midPoint = new Point(Integer.parseInt(mp.getFirstChild().getTextContent()),
                 Integer.parseInt(mp.getLastChild().getTextContent()));
         int id = Integer.parseInt(side.item(3).getTextContent());
-        return new HexSide(startXY,endXY,midPoint,id,model.getParent());
+        return new HexSide(startXY,endXY,midPoint,id,model.getParent(),model);
 
     }
 

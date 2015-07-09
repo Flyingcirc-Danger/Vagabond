@@ -379,7 +379,7 @@ public class HexPoint implements Comparable<HexPoint> {
         if(model.getManifest().length() == 0){
             model.initManifest();
         }
-        model.getManifest().append(ObjectParser.parseSinglePoint(model, this, false));
+        model.getManifest().append(ObjectParser.parseSinglePoint(model,this,false));
     }
 }
 

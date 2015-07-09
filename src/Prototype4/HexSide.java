@@ -175,6 +175,25 @@ public class HexSide {
         }
     }
 
+
+    public void populateNeighbors(){
+        HashSet<HexPoint> startNeighbors = start.getNeigbors();
+        for(HexPoint pt : startNeighbors){
+            Point tempMid = findMidPoint(start, pt);
+            HexSide newNei = parent.model.getSideMap().get(tempMid);
+            neighbors.add(newNei);
+            newNei.neighbors.add(this);
+
+        }
+        HashSet<HexPoint> endNeighbors = end.getNeigbors();
+        for(HexPoint pt : endNeighbors){
+            Point tempMid = findMidPoint(end, pt);
+            HexSide newNei = parent.model.getSideMap().get(tempMid);
+            neighbors.add(newNei);
+            newNei.neighbors.add(this);
+        }
+    }
+
     /**
      * Checks to see if it is valid to
      * build a road on this side.
@@ -205,6 +224,16 @@ public class HexSide {
             model.initManifest();
         }
         model.getManifest().append(ObjectParser.parseSingleSide(model, this, false));
+    }
+
+
+    /**
+     * Finds the midpoint between two points
+     */
+    private Point findMidPoint(HexPoint start, HexPoint end){
+        int tempX = ((start.getX() + end.getX())/2);
+        int tempY = ((start.getY() + end.getY())/2);
+        return new Point((int)tempX,(int)tempY);
     }
 
 
