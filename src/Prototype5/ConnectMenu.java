@@ -17,23 +17,31 @@ public class ConnectMenu {
     private PImage img;
     private StringBuffer ip;
     private boolean typing;
+    private boolean error;
 
 
-    public ConnectMenu(Board parent,int width, int height){
+    public ConnectMenu(Board parent,int width, int height,boolean error){
         this.parent = parent;
         this.center = new Point (parent.SCREEN_WIDTH/2, parent.SCREEN_HEIGHT/2);
         this.width = width;
         this.height = height;
         this.img = parent.loadImage("assets/logoSM.png");
         this.ip = new StringBuffer("Enter IP to Connect");
+        this.error = error;
     }
 
     public void display(){
+
         parent.background(0, 188, 212);
         parent.stroke(0,0,0,0);
         parent.smooth(8);
         parent.fill(0,0,0,70);
         parent.rect(0, 0, parent.SCREEN_WIDTH, parent.SCREEN_HEIGHT);
+        //check to see if this menu is built after an error has occured
+        if(error) {
+            errorMessage("Server not found");
+        }
+        parent.fill(0,0,0,70);
         parent.rect(center.x - (width/2)+2, center.y - (height/2)+2, width, height);
         parent.stroke(0, 0, 0, 0);
         parent.fill(255, 243, 224);
@@ -59,10 +67,32 @@ public class ConnectMenu {
         int textWidth = (int) parent.textWidth("CONNECT");
         parent.textSize(20);
         parent.fill(255,145,0);
+        parent.textFont(parent.fonts[1]);
         parent.text("CONNECT", center.x - (textWidth / 2), center.y + ((height / 2) / 3) + ((height/2)/3) + 7);
+        parent.textFont(parent.fonts[0]);
         parent.fill(0,0,0,90);
         int centerTextY = (center.y - (height/2) + (sectionHeight) + 5) + (sectionHeight /2);
         parent.text(ip.toString(), center.x - (width/2) + 10, centerTextY);
+    }
+
+    /**
+     * Displays an error message above the menu.
+     * @param message the error message to display.
+     */
+    public void errorMessage(String message) {
+        parent.stroke(0,0,0,0);
+        int startX = (center.x - width / 2);
+        int startY = (center.y - height / 2) - 40;
+        int messageWidth = (int) parent.textWidth(message);
+        parent.fill(0, 0, 0, 70);
+        parent.rect(startX + 2, startY + 2, width, 40);
+        parent.fill(211, 47, 47);
+        parent.rect(startX, startY, width, 40);
+        parent.fill(255);
+        parent.textSize(20);
+        parent.text(message, startX + (width / 2) - (messageWidth / 2), startY + (27));
+
+
     }
 
 

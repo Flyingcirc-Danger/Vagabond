@@ -961,6 +961,7 @@ public class ObjectParser {
         result.append("<score>" + 0 + "</score>");
         result.append("<id>" + id + "</id>");
         result.append("</playerinfo>");
+        saveOutput(result.toString(), "player.xml");
         return result.toString();
 
     }
@@ -989,8 +990,8 @@ public class ObjectParser {
 
     }
 
-    public static void saveOutput(String XML){
-        try (PrintWriter writer = new PrintWriter("test.xml", "UTF-8")) {
+    public static void saveOutput(String XML,String filename){
+        try (PrintWriter writer = new PrintWriter(filename, "UTF-8")) {
             writer.println(XML);
             writer.close();
         }catch(IOException e){

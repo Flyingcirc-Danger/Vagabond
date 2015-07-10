@@ -21,16 +21,13 @@ public class ClientToServerConnection {
     private String message;
     private BoardData model;
 
-    public ClientToServerConnection(int port, BoardData model,String ip){
-        try {
+    public ClientToServerConnection(int port, BoardData model,String ip) throws IOException {
             this.con = new Socket(ip, port);
             this.out = new ObjectOutputStream(con.getOutputStream());
             this.in = new ObjectInputStream(con.getInputStream());
             this.message = new String("START");
             this.model = model;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         /**
          * Continually reads the objects sent from the connection

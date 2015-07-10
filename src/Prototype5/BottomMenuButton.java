@@ -119,7 +119,9 @@ public class BottomMenuButton {
             parent.fill(121, 85, 72);
             int beginX = (int)(tempX + (((width /2)) - (parent.textWidth("END")/2)));
             int beginY = ((tempY + ((height/2)) + 5));
+            parent.textFont(parent.fonts[1],13);
             parent.text("END", beginX,beginY );
+            parent.textFont(parent.fonts[0]);
         }
     }
 

@@ -2,6 +2,8 @@ package ServerPrototype1;
 
 import Prototype5.*;
 
+import java.io.IOException;
+
 /**
  * Created by Tom_Bryant on 7/7/15.
  * Client class for sending/recieving messages from the connection
@@ -12,7 +14,7 @@ public class Client {
     public BoardData model;
 
 
-    public Client(int port, BoardData model,String ip){
+    public Client(int port, BoardData model,String ip) throws IOException {
         this.model = model;
         this.connection = new ClientToServerConnection(port,model,ip);
         /**

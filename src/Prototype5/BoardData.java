@@ -522,7 +522,7 @@ public class BoardData {
             initManifest();
         }
         manifest.append("</manifest>");
-        ObjectParser.saveOutput(manifest.toString());
+        ObjectParser.saveOutput(manifest.toString(),"manifest.xml");
         String result = manifest.toString();
         manifest = new StringBuffer();
         manifestReady = false;

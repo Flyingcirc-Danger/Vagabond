@@ -54,14 +54,14 @@ public class Server {
                 try {
                     while (true) {
                         Socket s = serverSocket.accept();
+                        if(startID > 3){
+                            startID = 0;
+                        }
                         ServerToClientConnection temp = new ServerToClientConnection(s, heartBeat, startID++, mainBoard, record);
                         serverToClientConnections.add(temp);
                         heartBeat.put(temp.getId(), "START");
                         System.out.println("Client " + temp.getId() + "  has connected" );
                         int tempID = temp.getId();
-                        if(temp.getId() > 3){
-                            tempID = 0;
-                        }
                         String playerXML = ObjectParser.parseNewPlayer(tempID, true);
                         temp.write(XMLboard);
                         temp.write(playerXML);

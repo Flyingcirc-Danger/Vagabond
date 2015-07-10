@@ -1,9 +1,12 @@
 package Prototype5;
 
 
-import ServerPrototype1.Client;
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
+import ServerPrototype1.*;
+
+import java.io.IOException;
 
 /**
  * The main board class. Builds the datastructure
@@ -29,6 +32,8 @@ public class Board extends PApplet {
 
     public Client client;
 
+    public PFont[] fonts;
+
 
 
 
@@ -45,12 +50,14 @@ public class Board extends PApplet {
         this.bottom = new BottomMenu(this);
         this.currentTool = 0;
         this.gMenu = new GameMenu(this, 300,400);
-        this.cMenu = new ConnectMenu(this, 300,200);
+        this.cMenu = new ConnectMenu(this, 300,200,false);
         this.img = loadImage("assets/logoSM.png");
         this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, model,model.getResourceTiles()[0],model.getTokens()[0]);
         this.debugger = new Debug(this,center);
         debugger.displayClosed();
         this.model.setDisplayMode(10);
+        fonts = new PFont[]{createFont("assets/Verdana.ttf",20),createFont("assets/merit4.ttf", 20)};
+        textFont(fonts[0]);
 
 
 //        try {
@@ -124,18 +131,19 @@ public class Board extends PApplet {
 
     /**
      * Initiates the connection of this board and sets up
-     * the game mode and debugging
+     * the game mode and debugging. If the connection cannot be found
+     * an error message appears.
      * @param ip
      */
     public void initiateConnection(String ip){
-        this.client = new Client(4001,model,ip);
-        model.setToggle();
-        model.setDisplayMode(0);
+        try {
+            this.client = new Client(4001,model,ip);
+            model.setToggle();
+            model.setDisplayMode(0);
+        } catch (IOException e) {
+            this.cMenu = new ConnectMenu(this,300,200,true);
+        }
     }
-
-
-
-
 
     public static void main(String args[]) {
         PApplet.main(new String[] {  "Prototype5.Board" });
