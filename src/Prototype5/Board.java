@@ -27,8 +27,9 @@ public class Board extends PApplet {
 
     public GameMenu gMenu;
     public ConnectMenu cMenu;
+    public ResourceBar rBar;
 
-    public PImage img;
+    public PImage [] images;
 
     public Client client;
 
@@ -51,7 +52,18 @@ public class Board extends PApplet {
         this.currentTool = 0;
         this.gMenu = new GameMenu(this, 300,400);
         this.cMenu = new ConnectMenu(this, 300,200,false);
-        this.img = loadImage("assets/logoSM.png");
+        this.images = new PImage[6];
+        this.rBar = new ResourceBar(this);
+        this.images[0] = loadImage("assets/logoSM.png");
+        this.images[1] = loadImage("assets/grainSM.png");
+        this.images[2] = loadImage("assets/oreSM.png");
+        this.images[3] = loadImage("assets/woolSM.png");
+        this.images[4] = loadImage("assets/brickSM.png");
+        this.images[5] = loadImage("assets/logsSM.png");
+
+
+
+
         this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, model,model.getResourceTiles()[0],model.getTokens()[0]);
         this.debugger = new Debug(this,center);
         debugger.displayClosed();
@@ -94,10 +106,12 @@ public class Board extends PApplet {
                 center.getModel().displayBoard();
             }
             bottom.display();
-            image(img, SCREEN_WIDTH - 220, SCREEN_HEIGHT - 70);
+            rBar.display();
+            image(images[0], SCREEN_WIDTH - 220, SCREEN_HEIGHT - 70);
         }
         if(model.getDisplayMode() == 10) {
             model.displayConnect();
+            rBar.display();
         }
             fill(0);
 
