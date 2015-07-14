@@ -1,6 +1,5 @@
 package Prototype5;
 
-import Prototype4.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -46,11 +45,14 @@ public class BoardData {
 
     private PlayerInfo player;
 
+    private Menus menus;
+
 
 
 
     public BoardData(Board parent) {
         this.displayMode = 0;
+        this.menus = new Menus(parent);
         pointMap = new HashMap<Point, HexPoint>();
         tileMap = new HashMap<Point, HexTile>();
         edges = new ArrayList<HexPoint>();
@@ -191,6 +193,14 @@ public class BoardData {
         this.hexDeck = hexDeck;
     }
 
+    public Menus getMenus() {
+        return menus;
+    }
+
+    public void setMenus(Menus menus) {
+        this.menus = menus;
+    }
+
     /**
      * IDs are assigned to each point for
      * debugging purposes. They are assigned
@@ -310,6 +320,8 @@ public class BoardData {
      * 2 = display debug
      * 3 = resource debug
      * 4 = debug all
+     * 6 = diceRoll
+     * 10 = connect menu
      */
     public void displayBoard(){
         if(!this.checkToggle()) {
@@ -354,7 +366,7 @@ public class BoardData {
         int option = this.displayMode;
         if(!this.checkToggle()) {
             if (option == 10) {
-                parent.cMenu.display();
+                getMenus().getConnect().display();
             }
         }
     }
@@ -582,6 +594,41 @@ public class BoardData {
      */
     public int[] getColor(int id){
         return this.getPlayerColors().get(id);
+    }
+
+
+    /**
+     * Handles what menus to display in
+     * each given display mode
+     */
+    public void displayMenus(){
+        if(displayMode == 10){
+            menus.getConnect().display();
+            return;
+        }
+        if(displayMode == 6){
+            menus.getDie().display();
+            return;
+        }
+        if(displayMode <=5){
+            menus.getBottomMenu().display();
+            menus.getResourceBar().display();
+            parent.image(parent.images[0], parent.SCREEN_WIDTH - 220, parent.SCREEN_HEIGHT - 70);
+            return;
+        }
+    }
+
+    /**
+     * Checks the mouse coords in relation to specific
+     * menus, determined by the display mode
+     */
+    public void checkMenus(){
+        if(displayMode == 10){
+            menus.getConnect().checkButtons();
+        }
+        if(displayMode <= 5){
+           menus.getBottomMenu().checkSelected();
+        }
     }
 
 

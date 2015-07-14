@@ -21,13 +21,9 @@ public class Board extends PApplet {
     public Debug debugger;
     public BoardData model;
 
-    public BottomMenu bottom;
 
     public int currentTool;
 
-    public GameMenu gMenu;
-    public ConnectMenu cMenu;
-    public ResourceBar rBar;
 
     public PImage [] images;
 
@@ -35,7 +31,7 @@ public class Board extends PApplet {
 
     public PFont[] fonts;
 
-    public Dice die;
+
 
 
 
@@ -50,19 +46,14 @@ public class Board extends PApplet {
 
         textSize(14);
         background(0, 188, 212);
-        this.bottom = new BottomMenu(this);
         this.currentTool = 0;
-        this.gMenu = new GameMenu(this, 300,400);
-        this.cMenu = new ConnectMenu(this, 300,200,false);
         this.images = new PImage[6];
-        this.rBar = new ResourceBar(this);
         this.images[0] = loadImage("assets/logoSM.png");
         this.images[1] = loadImage("assets/grainSM.png");
         this.images[2] = loadImage("assets/oreSM.png");
         this.images[3] = loadImage("assets/woolSM.png");
         this.images[4] = loadImage("assets/brickSM.png");
         this.images[5] = loadImage("assets/logsSM.png");
-        this.die = new Dice(6,5,this);
 
 
 
@@ -86,7 +77,7 @@ public class Board extends PApplet {
     public void draw() {
 
 
-        if(model.getDisplayMode() <= 5) {
+        if (model.getDisplayMode() <= 5) {
             fill(255, 0, 0, 0);
             fill(0);
             model.displayBoard();
@@ -99,16 +90,9 @@ public class Board extends PApplet {
                 debugger.displayClosed();
                 center.getModel().displayBoard();
             }
-            bottom.display();
-            rBar.display();
-            image(images[0], SCREEN_WIDTH - 220, SCREEN_HEIGHT - 70);
-            rBar.display();
-            die.display();
         }
-        if(model.getDisplayMode() == 10) {
-            model.displayConnect();
+            model.displayMenus();
 
-        }
             fill(0);
 
 
@@ -116,24 +100,26 @@ public class Board extends PApplet {
     }
 
 
+        @Override
+        public void mousePressed () {
+            model.checkMenus();
+            //regular board with debugging
+            if (model.getDisplayMode() <= 5) {
+                model.checkMenus();
+                debugger.mouseDebug();
+                model.checkSelected(this.currentTool);
+            }
+            //dice roll
+            if (model.getDisplayMode() == 6) {
 
+            }
+        }
 
-    @Override
-    public void mousePressed() {
-        if(model.getDisplayMode() <= 5) {
-            debugger.mouseDebug();
-            bottom.checkSelected();
-            model.checkSelected(this.currentTool);
-        }
-        if(model.getDisplayMode() == 10){
-            cMenu.checkButtons();
-        }
-    }
 
     public void keyPressed(){
         if(model.getDisplayMode() ==10){
-            if (cMenu.isTyping()){
-                cMenu.addText(key);
+            if (model.getMenus().getConnect().isTyping()){
+                model.getMenus().getConnect().addText(key);
             }
         }
     }
@@ -151,7 +137,7 @@ public class Board extends PApplet {
             model.setToggle();
             model.setDisplayMode(0);
         } catch (IOException e) {
-            this.cMenu = new ConnectMenu(this,300,200,true);
+            this.model.getMenus().setConnect(new ConnectMenu(this,300,200,true));
         }
     }
 
