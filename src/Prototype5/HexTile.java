@@ -907,6 +907,7 @@ public class HexTile {
             parent.stroke(0,0,0,0);
             parent.ellipse(center.x, center.y, 30, 30);
             parent.fill(0);
+            parent.textFont(parent.fonts[0]);
             parent.textSize(14);
             parent.text("" + value, center.x - (int) (parent.textWidth(Integer.toString(value)) / 2), center.y + 7);
         }

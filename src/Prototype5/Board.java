@@ -35,6 +35,8 @@ public class Board extends PApplet {
 
     public PFont[] fonts;
 
+    public Dice die;
+
 
 
 
@@ -60,6 +62,7 @@ public class Board extends PApplet {
         this.images[3] = loadImage("assets/woolSM.png");
         this.images[4] = loadImage("assets/brickSM.png");
         this.images[5] = loadImage("assets/logsSM.png");
+        this.die = new Dice(6,5,this);
 
 
 
@@ -72,15 +75,6 @@ public class Board extends PApplet {
         textFont(fonts[0]);
 
 
-//        try {
-//          ObjectParser.readSides(model,"points.xml");
-//        } catch (ParserConfigurationException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (SAXException e) {
-//            e.printStackTrace();
-//        }
 
 
     }
@@ -108,10 +102,12 @@ public class Board extends PApplet {
             bottom.display();
             rBar.display();
             image(images[0], SCREEN_WIDTH - 220, SCREEN_HEIGHT - 70);
+            rBar.display();
+            die.display();
         }
         if(model.getDisplayMode() == 10) {
             model.displayConnect();
-            rBar.display();
+
         }
             fill(0);
 
@@ -160,7 +156,7 @@ public class Board extends PApplet {
     }
 
     public static void main(String args[]) {
-        PApplet.main(new String[] {  "Prototype5.Board" });
+        PApplet.main(new String[] { "--present","Prototype5.Board" });
     }
     //"--present",
 }

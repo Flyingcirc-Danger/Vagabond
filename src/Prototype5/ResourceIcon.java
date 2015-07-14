@@ -3,7 +3,6 @@ package Prototype5;
 import processing.core.PImage;
 
 import java.awt.*;
-import java.awt.image.PixelGrabber;
 
 /**
  * Created by Tom_Bryant on 7/13/15.
@@ -50,7 +49,12 @@ public class ResourceIcon {
         this.amount = amount;
     }
 
-    public PImage getImg(){
+    /**
+     * Returns a PImage that
+     * is loaded in the parent board
+     * based on the resource type
+     */
+    private PImage getImg(){
         if(resource.equals("grain")){
             return parent.images[1];
         }

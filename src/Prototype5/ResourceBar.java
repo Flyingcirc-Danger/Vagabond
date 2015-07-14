@@ -29,15 +29,11 @@ public class ResourceBar {
 
     }
 
-    public void container(int x, int y){
-        parent.fill(78,52,46);
-        parent.stroke(0,0,0,30);
-        parent.rect(x,y+2, 30,25,5,5,5,5);
-        parent.fill(255);
-        parent.text("0", x + 15 - (parent.textWidth("0")/2), y + 15 + 7 );
-    }
 
 
+    /**
+     * Adds resource Icons and their counts to the resource bar
+     */
     public void populateResources(){
         this.resources.add(new ResourceIcon(parent,"grain"));
         this.resources.add(new ResourceIcon(parent, "ore"));
@@ -47,6 +43,9 @@ public class ResourceBar {
         spaceResources();
     }
 
+    /**
+     * Spaces resources out on the bar
+     */
     public void spaceResources(){
         int tempCounter = (parent.SCREEN_WIDTH/2) - (350/2);
         for(ResourceIcon icon : resources){
