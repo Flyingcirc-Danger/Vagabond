@@ -13,6 +13,7 @@ public class PlayerInfo {
     public PlayerInfo(String uname, int score,int id){
         this.uname = uname;
         this.score = score;
+        this.id = id;
     }
 
 

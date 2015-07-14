@@ -910,9 +910,34 @@ public class ObjectParser {
                 readModel(model,XML);
             } else  if(doc.getElementsByTagName("manifest").getLength() > 0){
                 readManifest(model,XML);
-            } else {
+            }
+            else if(doc.getElementsByTagName("playerinfo").getLength() > 0){
                 System.out.println("request recieved player");
                 readPlayer(model,XML);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    /**
+     * Decides how to parse an XML request
+     * Could be a complete model update, or
+     * just a manifest.
+     * @param model the model to perform on
+     * @param XML the XML containing instructions.
+     */
+    public static void serverParseRequest(BoardData model, String XML){
+        try{
+            Document doc = stringToDom(XML);
+            if(doc.getElementsByTagName("manifest").getLength() > 0){
+                readManifest(model,XML);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -975,11 +1000,13 @@ public class ObjectParser {
         try {
             Document doc = stringToDom(XML);
             PlayerInfo old = model.getPlayer();
+            System.out.println("Old ID: " + old.getId());
             NodeList info = doc.getElementsByTagName("playerinfo");
             NodeList infoChild = info.item(0).getChildNodes();
             old.setUname(infoChild.item(0).getTextContent());
             old.setScore(Integer.parseInt(infoChild.item(1).getTextContent()));
             old.setId(Integer.parseInt(infoChild.item(2).getTextContent()));
+            System.out.println("New ID: " + old.getId());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {

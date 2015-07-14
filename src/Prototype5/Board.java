@@ -62,7 +62,7 @@ public class Board extends PApplet {
         this.debugger = new Debug(this,center);
         debugger.displayClosed();
         this.model.setDisplayMode(10);
-        fonts = new PFont[]{createFont("assets/Verdana.ttf",20),createFont("assets/merit4.ttf", 20)};
+        fonts = new PFont[]{createFont("assets/Verdana.ttf", 20),createFont("assets/merit4.ttf", 20)};
         textFont(fonts[0]);
 
 
@@ -142,7 +142,7 @@ public class Board extends PApplet {
     }
 
     public static void main(String args[]) {
-        PApplet.main(new String[] { "--present","Prototype5.Board" });
+        PApplet.main(new String[] {"Prototype5.Board" });
     }
     //"--present",
 }
