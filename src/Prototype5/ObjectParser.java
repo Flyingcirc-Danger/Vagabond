@@ -933,12 +933,14 @@ public class ObjectParser {
      * @param model the model to perform on
      * @param XML the XML containing instructions.
      */
-    public static void serverParseRequest(BoardData model, String XML){
+    public static boolean serverParseRequest(BoardData model, String XML){
         try{
             Document doc = stringToDom(XML);
             if(doc.getElementsByTagName("manifest").getLength() > 0){
-                readManifest(model,XML);
+                readManifest(model, XML);
+                return true;
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -946,6 +948,7 @@ public class ObjectParser {
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 

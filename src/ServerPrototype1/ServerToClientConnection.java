@@ -153,9 +153,10 @@ public class ServerToClientConnection {
     public void evaluateMessage(String message){
         if(message.length() > 2) {
             if (message.substring(0, 5).equals("<?xml")) {
-                ObjectParser.serverParseRequest(model, message);
-                System.out.println("Read Model: " + model.getIdentityToken());
-                record.setCurrent(message);
+                if(ObjectParser.serverParseRequest(model, message)) {
+                    System.out.println("Read Model: " + model.getIdentityToken());
+                    record.setCurrent(message);
+                }
             }
         }
     }

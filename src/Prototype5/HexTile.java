@@ -554,8 +554,9 @@ public class HexTile {
                 if (mode == 1 || mode == 4) {
                     A.mapNeigbors();
                 } else if (A.validBuild() && parent.currentTool == 1) {
-                    A.drawTown();
                     A.setOwner(id);
+                    A.drawTown();
+
                 } else if(A.validUpgrade() && parent.currentTool == 3 && id == A.getOwner() ){
                     A.drawCity();
                     A.setOwner(id);
@@ -923,6 +924,7 @@ public class HexTile {
 
                 if (A.overPoint() && A.validBuild()) {
                     if (!A.isSettled()) {
+                        A.setOwner(model.getPlayer().getId());
                         A.setSettled(true);
                         parent.model.settlementQuota++;
                         A.generateManifest();
@@ -930,6 +932,7 @@ public class HexTile {
                 }
                 if (B.overPoint() && B.validBuild()) {
                     if (!B.isSettled()) {
+                        B.setOwner(model.getPlayer().getId());
                         B.setSettled(true);
                         parent.model.settlementQuota++;
                         B.generateManifest();
@@ -938,6 +941,7 @@ public class HexTile {
                 }
                 if (C.overPoint() && C.validBuild()) {
                     if (!C.isSettled()) {
+                        C.setOwner(model.getPlayer().getId());
                         C.setSettled(true);
                         parent.model.settlementQuota++;
                         C.generateManifest();
@@ -946,6 +950,7 @@ public class HexTile {
                 }
                 if (D.overPoint() && D.validBuild()) {
                     if (!D.isSettled()) {
+                        D.setOwner(model.getPlayer().getId());
                         D.setSettled(true);
                         parent.model.settlementQuota++;
                         D.generateManifest();
@@ -954,6 +959,7 @@ public class HexTile {
                 }
                 if (E.overPoint() && E.validBuild()) {
                     if (!E.isSettled()) {
+                        E.setOwner(model.getPlayer().getId());
                         E.setSettled(true);
                         parent.model.settlementQuota++;
                         E.generateManifest();
@@ -962,6 +968,7 @@ public class HexTile {
                 }
                 if (F.overPoint() && F.validBuild()) {
                     if (!F.isSettled()) {
+                        F.setOwner(model.getPlayer().getId());
                         F.setSettled(true);
                         parent.model.settlementQuota++;
                         F.generateManifest();
@@ -1024,6 +1031,7 @@ public class HexTile {
     public void checkBuiltRoads(){
         if (AB.overSide() && parent.currentTool == 2) {
             if (!AB.isBuilt() && AB.validBuild()) {
+                AB.setOwner(model.getPlayer().getId());
                 AB.setBuilt(true);
                 AB.generateManifest();
             }
@@ -1031,6 +1039,7 @@ public class HexTile {
         }
         if (BC.overSide()  && parent.currentTool == 2) {
             if (!BC.isBuilt() && BC.validBuild()) {
+                BC.setOwner(model.getPlayer().getId());
                 BC.setBuilt(true);
                 BC.generateManifest();
             }
@@ -1038,6 +1047,7 @@ public class HexTile {
         }
         if (CD.overSide()  && parent.currentTool == 2) {
             if (!CD.isBuilt() && CD.validBuild()) {
+                CD.setOwner(model.getPlayer().getId());
                 CD.setBuilt(true);
                 CD.generateManifest();
             }
@@ -1045,6 +1055,7 @@ public class HexTile {
         }
         if (DE.overSide()  && parent.currentTool == 2) {
             if (!DE.isBuilt() && DE.validBuild()) {
+                DE.setOwner(model.getPlayer().getId());
                 DE.setBuilt(true);
                 DE.generateManifest();
             }
@@ -1052,6 +1063,7 @@ public class HexTile {
         }
         if (EF.overSide()  && parent.currentTool == 2) {
             if (!EF.isBuilt() && EF.validBuild()) {
+                EF.setOwner(model.getPlayer().getId());
                 EF.setBuilt(true);
                 EF.generateManifest();
             }
@@ -1059,6 +1071,7 @@ public class HexTile {
         }
         if (FA.overSide()  && parent.currentTool == 2) {
             if (!FA.isBuilt() && FA.validBuild()) {
+                FA.setOwner(model.getPlayer().getId());
                 FA.setBuilt(true);
                 FA.generateManifest();
             }

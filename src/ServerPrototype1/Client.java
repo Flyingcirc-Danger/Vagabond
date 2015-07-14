@@ -25,6 +25,7 @@ public class Client {
             public void run() {
                 while (true) {
                     if(model.manifestReady){
+                        System.out.println("Player " + model.getPlayer().getId() + " sent");
                         connection.write(model.getManifestString());
                     } else {
                         connection.write(connection.getMessage());

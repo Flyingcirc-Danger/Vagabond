@@ -335,8 +335,8 @@ public class BoardData {
             }
             for (int i = 0; i < hexDeck.length; i++) {
                 hexDeck[i].display();
-                hexDeck[i].checkPoints();
-                hexDeck[i].checkSides();
+                //hexDeck[i].checkPoints();
+                //hexDeck[i].checkSides();
                 if (option == 1) {
                     hexDeck[i].pointDebug();
                     hexDeck[i].checkPoints();
@@ -599,7 +599,6 @@ public class BoardData {
 
     /**
      * Handles what menus to display in
-     * each given display mode
      */
     public void displayMenus(){
         if(displayMode == 10){
