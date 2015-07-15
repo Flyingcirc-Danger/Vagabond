@@ -92,6 +92,10 @@ public class Board extends PApplet {
             }
         }
             model.displayMenus();
+        if(model.getDisplayMode() == 7) {
+            model.getMenus().getWaitScreen().checkButton();
+        }
+
 
             fill(0);
 
@@ -135,7 +139,8 @@ public class Board extends PApplet {
         try {
             this.client = new Client(4001,model,ip);
             model.setToggle();
-            model.setDisplayMode(0);
+            background(0, 188, 212);
+            model.setDisplayMode(7);
         } catch (IOException e) {
             this.model.getMenus().setConnect(new ConnectMenu(this,300,200,true));
         }

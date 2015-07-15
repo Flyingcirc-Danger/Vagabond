@@ -22,16 +22,16 @@ public class ServerToClientConnection {
     private int id;
     private int strikes;
     private int connectionStrength;
-    private BoardData model;
+    private Game currentGame;
     private MessageRecord record;
 
 
-    public ServerToClientConnection(Socket conn, HashMap<Integer, String> heartBeat, int id, BoardData model, MessageRecord record){
+    public ServerToClientConnection(Socket conn, HashMap<Integer, String> heartBeat, int id, Game currentGame, MessageRecord record){
         this.conn = conn;
         this.heartBeat = heartBeat;
         this.id = id;
         this.strikes = 5;
-        this.model = model;
+        this.currentGame = currentGame;
         this.record = record;
         try {
             //out before in
@@ -153,8 +153,8 @@ public class ServerToClientConnection {
     public void evaluateMessage(String message){
         if(message.length() > 2) {
             if (message.substring(0, 5).equals("<?xml")) {
-                if(ObjectParser.serverParseRequest(model, message)) {
-                    System.out.println("Read Model: " + model.getIdentityToken());
+                if(ObjectParser.serverParseRequest(currentGame, message) == 1) {
+                    System.out.println("Read Model: " + currentGame.mainBoard.getIdentityToken());
                     record.setCurrent(message);
                 }
             }

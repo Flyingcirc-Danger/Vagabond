@@ -16,6 +16,7 @@ public class Menus {
     private ResourceBar resourceBar;
     private BottomMenu bottomMenu;
     private Dice die;
+    private StatusMenu waitScreen;
 
 
     public Menus(Board parent){
@@ -24,6 +25,8 @@ public class Menus {
         this.resourceBar = new ResourceBar(parent);
         this.die = new Dice(6,5,parent);
         this.bottomMenu = new BottomMenu(parent);
+        this.waitScreen = new StatusMenu("Waiting For More Players. Click below to ready up", parent, true);
+
     }
 
     public GameMenu getGameMenu() {
@@ -64,5 +67,13 @@ public class Menus {
 
     public void setBottomMenu(BottomMenu bottomMenu) {
         this.bottomMenu = bottomMenu;
+    }
+
+    public StatusMenu getWaitScreen() {
+        return waitScreen;
+    }
+
+    public void setWaitScreen(StatusMenu waitScreen) {
+        this.waitScreen = waitScreen;
     }
 }

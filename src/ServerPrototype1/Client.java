@@ -27,7 +27,11 @@ public class Client {
                     if(model.manifestReady){
                         System.out.println("Player " + model.getPlayer().getId() + " sent");
                         connection.write(model.getManifestString());
-                    } else {
+                    } else if(model.alertReady){
+                        System.out.println("Sent Alert");
+                        connection.write(model.getAlertString());
+                    }
+                    else {
                         connection.write(connection.getMessage());
                     }
                     try {

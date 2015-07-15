@@ -1,6 +1,8 @@
 package Prototype5;
 
 
+import javafx.beans.binding.ObjectExpression;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +38,10 @@ public class BoardData {
     private Board parent;
 
     private StringBuffer manifest;
+
+    private String alert;
+
+    public boolean alertReady;
 
     private boolean displayToggle;
 
@@ -110,6 +116,7 @@ public class BoardData {
         initManifest();
         initPlayerColors();
         this.player = new PlayerInfo(0);
+        this.alert = new String();
 
     }
 
@@ -321,6 +328,7 @@ public class BoardData {
      * 3 = resource debug
      * 4 = debug all
      * 6 = diceRoll
+     * 7 = waitScreen
      * 10 = connect menu
      */
     public void displayBoard(){
@@ -541,6 +549,16 @@ public class BoardData {
         return result;
     }
 
+
+    public String getAlertString(){
+        String result = this.alert;
+        alert = new String();
+        alertReady = false;
+        return result;
+    }
+
+
+
     public void setToggle(){
         this.displayToggle = true;
     }
@@ -605,6 +623,9 @@ public class BoardData {
             menus.getConnect().display();
             return;
         }
+        if(displayMode == 7){
+            menus.getWaitScreen().display();
+        }
         if(displayMode == 6){
             menus.getDie().display();
             return;
@@ -625,9 +646,24 @@ public class BoardData {
         if(displayMode == 10){
             menus.getConnect().checkButtons();
         }
+        if(displayMode == 7){
+            if(menus.getWaitScreen().checkButton()){
+                this.alert = ObjectParser.generateAlert("ready");
+                this.alertReady = true;
+                parent.background(0, 188, 212);
+                menus.setWaitScreen(new StatusMenu("Waiting For Other Players",parent, false));
+            }
+        }
         if(displayMode <= 5){
            menus.getBottomMenu().checkSelected();
         }
+    }
+
+    public void checkHoverMenus(){
+        if(displayMode == 7){
+            menus.getWaitScreen().checkButton();
+        }
+
     }
 
 

@@ -25,6 +25,7 @@ public class Game implements Runnable {
     public MessageRecord record;
     public int currentID;
     public boolean gameBegin;
+    public int readyPlayers;
 
 
     public Game(){
@@ -92,7 +93,7 @@ public class Game implements Runnable {
     public void run() {
         while(true){
             if(!gameBegin) {
-                if (players.size() >= 2) {
+                if (readyPlayers == players.size() && players.size() > 1) {
                         beginGame();
                     System.out.println("Game has begun");
                 }
@@ -113,7 +114,7 @@ public class Game implements Runnable {
         }
         int setID = currentID;
         this.currentID +=1;
-        ServerToClientConnection temp = new ServerToClientConnection(s, this.heartBeat, setID, this.mainBoard, this.record);
+        ServerToClientConnection temp = new ServerToClientConnection(s, this.heartBeat, setID, this, this.record);
         Player newPlayer = new Player(temp,setID,"Tom", 0);
         players.add(newPlayer);
         heartBeat.put(newPlayer.getId(), "START");

@@ -1,5 +1,6 @@
 package Prototype5;
 
+import ServerPrototype1.Game;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -689,6 +690,7 @@ public class ObjectParser {
             e.printStackTrace();
         }
         model.releaseToggle();
+        model.setDisplayMode(0);
     }
 
     /**
@@ -925,20 +927,14 @@ public class ObjectParser {
     }
 
 
-
-    /**
-     * Decides how to parse an XML request
-     * Could be a complete model update, or
-     * just a manifest.
-     * @param model the model to perform on
-     * @param XML the XML containing instructions.
-     */
-    public static boolean serverParseRequest(BoardData model, String XML){
-        try{
+    public static void readAlert(Game currentGame, String XML){
+        try {
             Document doc = stringToDom(XML);
-            if(doc.getElementsByTagName("manifest").getLength() > 0){
-                readManifest(model, XML);
-                return true;
+            NodeList alerts = doc.getElementsByTagName("alert");
+            String alert = alerts.item(0).getFirstChild().getTextContent();
+            if(alert.equals("ready")){
+                currentGame.readyPlayers++;
+                System.out.println("Players ready = " + currentGame.readyPlayers);
             }
 
         } catch (IOException e) {
@@ -948,7 +944,40 @@ public class ObjectParser {
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
-        return false;
+
+    }
+
+
+
+    /**
+     * Decides how to parse an XML request
+     * Could be a complete model update, or
+     * just a manifest.
+     * Returns an integer based on the type of XML
+     * Return 1 = manifest
+     * @param currentGame the game that the player is currently in.
+     * @param XML the XML containing instructions.
+     */
+    public static int serverParseRequest(Game currentGame, String XML){
+        try{
+            Document doc = stringToDom(XML);
+            if(doc.getElementsByTagName("manifest").getLength() > 0){
+                readManifest(currentGame.mainBoard, XML);
+                return 1;
+            }
+            if(doc.getElementsByTagName("alert").getLength() > 0){
+                readAlert(currentGame, XML);
+                return 0;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 
@@ -1020,6 +1049,12 @@ public class ObjectParser {
 
     }
 
+    /**
+     * Saves the XML output string to XML file
+     * for debuggin
+     * @param XML the XML output string
+     * @param filename the filename to save it to.
+     */
     public static void saveOutput(String XML,String filename){
         try (PrintWriter writer = new PrintWriter(filename, "UTF-8")) {
             writer.println(XML);
@@ -1028,6 +1063,16 @@ public class ObjectParser {
             System.out.println("Could not save");
         }
 
+    }
+
+    /**
+     * One time generation of an alert message
+     * @return the XML alert.
+     */
+    public static String generateAlert(String alert){
+        StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        result.append("<alert>" + alert + "</alert>");
+        return result.toString();
     }
 
 
