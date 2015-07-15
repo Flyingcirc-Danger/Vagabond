@@ -1,7 +1,7 @@
 package ServerPrototype1;
 
-import Prototype4.*;
-import Prototype5.*;
+
+
 import Prototype5.BoardData;
 import Prototype5.HexTile;
 import Prototype5.ObjectParser;
@@ -56,10 +56,15 @@ public class Game implements Runnable {
                             String message = Server.generateRandString();
                             if(record.isCurrent()){
                                 message = record.getCurrent();
+
                             }
-                            System.out.println("Sent message from Game: " + message);
+                            //System.out.println("Sent message from Game: " + message);
                             for (Player con : players) {
                                 con.send(message);
+
+                            }
+                            if(message.length() > 1){
+                                turnSequence();
                             }
                             sleep(2000);
                             if(players.size() > 0) {
@@ -101,7 +106,6 @@ public class Game implements Runnable {
             if(!gameBegin) {
                 if (readyPlayers == players.size() && players.size() > 1) {
                         beginGame();
-
                 }
             }
             try {
@@ -155,7 +159,6 @@ public class Game implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
             }
             this.gameBegin = true;
         }
@@ -170,15 +173,25 @@ public class Game implements Runnable {
      */
     public int advanceTurn(){
         int result = players.get(turnSeq).getId();
-        turnSeq++;
+        this.turnSeq = turnSeq + 1;
         if(turnSeq >= players.size()){
-            turnSeq = 0;
+            this.turnSeq = 0;
         }
+        System.out.println("PLAYER " + result + " turn");
         return result;
     }
 
 
     public void turnSequence(){
+        Random dice = new Random();
+        int d1 = dice.nextInt((6 - 1) + 1) + 1;
+        int d2 = dice.nextInt((6 - 1) + 1) + 1;
+        String turn = ObjectParser.generateTurnBegin(d1,d2,this);
+        for(Player play : players) {
+                play.send(turn);
+            }
+
+
         //send turn begin -
 
         //send dice roll

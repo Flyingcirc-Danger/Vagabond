@@ -50,6 +50,11 @@ public class ServerToClientConnection {
                             Object omsg = in.readObject();
                             String msg = (String) omsg;
                             evaluateMessage(msg);
+                            if(msg.length() > 1) {
+                                if (msg.substring(0, 4).equals("REPLY")) {
+                                    msg = msg.substring(5, msg.length() - 1);
+                                }
+                            }
                             heartBeat.put(id, (String) msg);
                     }
                 } catch(EOFException e ){

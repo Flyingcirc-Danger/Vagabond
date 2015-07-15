@@ -32,7 +32,14 @@ public class Client {
                         connection.write(model.getAlertString());
                     }
                     else {
-                        connection.write(connection.getMessage());
+                        //HANDLES Replies. If the message is an XML reply
+                        String sendMessage = connection.getMessage();
+                        if(connection.getMessage().length() > 1){
+                            StringBuffer reply = new StringBuffer("REPLY");
+                            reply.append(connection.getMessage());
+                            sendMessage = reply.toString();
+                        }
+                        connection.write(sendMessage);
                     }
                     try {
                         sleep(1000);

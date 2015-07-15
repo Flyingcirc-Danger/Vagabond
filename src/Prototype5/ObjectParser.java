@@ -911,6 +911,7 @@ public class ObjectParser {
                 System.out.println("request recieved model");
                 readModel(model,XML);
             } else  if(doc.getElementsByTagName("manifest").getLength() > 0){
+                System.out.println("request recieved manifest");
                 readManifest(model,XML);
             }
             else if(doc.getElementsByTagName("playerinfo").getLength() > 0){
@@ -1040,6 +1041,7 @@ public class ObjectParser {
             old.setUname(infoChild.item(0).getTextContent());
             old.setScore(Integer.parseInt(infoChild.item(1).getTextContent()));
             old.setId(Integer.parseInt(infoChild.item(2).getTextContent()));
+            model.getParent().frame.setTitle("Player " + model.getPlayer().getId());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -1086,7 +1088,9 @@ public class ObjectParser {
     public static String generateTurnBegin(int d1, int d2, Game currentGame){
         StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
         result.append("<turn-begin>");
+        System.out.println("CURRENT PLAYERS TURN: " + currentGame.turnSeq);
         result.append("<player-id>" + currentGame.advanceTurn() + "</player-id>");
+        System.out.println("NEXT PLAYERS TURN: " + currentGame.turnSeq);
         result.append("<d1>" + d1 + "</d1>");
         result.append("<d2>" + d1 + "</d2>");
         result.append("</turn-begin>");

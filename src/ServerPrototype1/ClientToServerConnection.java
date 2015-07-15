@@ -84,7 +84,7 @@ public class ClientToServerConnection {
      */
     public void evaluateMessage(String message){
         if(message.length() < 2){
-            System.out.println("HeartBeat message: " + message);
+            //System.out.println("HeartBeat message: " + message);
         } else if(message.substring(0,5).equals("<?xml")){
             ObjectParser.parseRequest(model, message);
             System.out.println("Read XML: " + model.getIdentityToken());

@@ -36,8 +36,14 @@ public class Dice {
         if(counter > 0){
             if(counter % 10  == 0) {
                 Random numb = new Random();
-                lastD1 = numb.nextInt((6 - 1 - 1) + 1);
-                lastD2 = numb.nextInt((6 - 1 - 1) + 1);
+                lastD1 = numb.nextInt(((7 - 1) + 1));
+                if(lastD1 == 0){
+                    lastD1 += 1;
+                }
+                lastD2 = numb.nextInt(((7 - 1) + 1));
+                if(lastD2 == 0){
+                    lastD2 += 1;
+                }
             }
         } else {
             lastD1 = dieOne;
@@ -72,7 +78,7 @@ public class Dice {
         parent.fill(0,0,0,30);
         parent.rect(start.x+2, start.y+2, 60, 60, 15, 15, 15, 15);
         parent.fill(38,50,56);
-        if(value == 1){
+        if(value < 2){
            parent.ellipse(start.x + 30, start.y + 30, 10,10);
         }
         if(value == 2){
