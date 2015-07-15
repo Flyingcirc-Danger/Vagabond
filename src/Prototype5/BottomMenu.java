@@ -13,24 +13,33 @@ public class BottomMenu {
     private int width; //width of the menu
     private int height; //height of the menu
     private ArrayList<BottomMenuButton> buttons; //buttons on the menu
+    private boolean myTurn;
 
     public BottomMenu(Board parent){
         this.parent = parent;
         this.width = parent.SCREEN_WIDTH;
         this.height = 50;
         this.buttons = new ArrayList<BottomMenuButton>();
+        this.myTurn = false;
         initMenu();
 
     }
 
     /**
      * Displays the bottom menu bar
+     * Won't display if not myTurn
      */
     public void display(){
         parent.fill(255, 235, 59);
         parent.rect(0,parent.SCREEN_HEIGHT - height - 2, width, height);
         parent.fill(121, 85, 72);
         parent.rect(0,parent.SCREEN_HEIGHT - height, width, height);
+        if(parent.model.getPlayer().getId() == parent.model.getPlayerTurn()){
+            myTurn = true;
+        } else {
+            myTurn = false;
+            return;
+        }
         for(BottomMenuButton bt : buttons){
             parent.fill(0);
             bt.checkHover();
@@ -67,8 +76,12 @@ public class BottomMenu {
 
     /**
      * Checks which part of the menu is selected.
+     * Won't check if not my turn;
      */
     public void checkSelected(){
+        if(!myTurn){
+            return;
+        }
         for(BottomMenuButton bt : buttons)
             if (bt.checkHover()) {
                 parent.currentTool = bt.getTool();

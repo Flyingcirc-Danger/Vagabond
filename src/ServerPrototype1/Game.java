@@ -1,10 +1,15 @@
 package ServerPrototype1;
 
+import Prototype4.*;
 import Prototype5.*;
+import Prototype5.BoardData;
+import Prototype5.HexTile;
+import Prototype5.ObjectParser;
 
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -26,6 +31,7 @@ public class Game implements Runnable {
     public int currentID;
     public boolean gameBegin;
     public int readyPlayers;
+    public int turnSeq;
 
 
     public Game(){
@@ -95,7 +101,7 @@ public class Game implements Runnable {
             if(!gameBegin) {
                 if (readyPlayers == players.size() && players.size() > 1) {
                         beginGame();
-                    System.out.println("Game has begun");
+
                 }
             }
             try {
@@ -107,7 +113,10 @@ public class Game implements Runnable {
 
     }
 
-
+    /**
+     * Given a socket, adds a player to this game.
+     * @param s
+     */
     public void addPlayer(Socket s){
         if(this.currentID > 3){
             this.currentID = 0;
@@ -119,9 +128,6 @@ public class Game implements Runnable {
         players.add(newPlayer);
         heartBeat.put(newPlayer.getId(), "START");
         System.out.println("Player " + newPlayer.getId() + " has entered the game");
-        System.out.println("current id: " + this.currentID);
-        //newPlayer.send(XMLboard);
-        //newPlayer.send(newPlayer.getPlayerXML());
     }
 
     public String getGameID(){
@@ -129,14 +135,55 @@ public class Game implements Runnable {
     }
 
 
+    /**
+     * Starts the game, sends players their
+     * player information and the board layout.
+     */
     public void beginGame(){
         if(players.size() >= 2){
+            Random dice = new Random();
+            int d1 = dice.nextInt((6 - 1) + 1) + 1;
+            int d2 = dice.nextInt((6 - 1) + 1) + 1;
+            String turn = ObjectParser.generateTurnBegin(d1,d2,this);
             for(Player play : players) {
-                play.send(XMLboard);
-                play.send(play.getPlayerXML());
+                try {
+                    play.send(XMLboard);
+                    Thread.sleep(100);
+                    play.send(play.getPlayerXML());
+                    Thread.sleep(1000);
+                    play.send(turn);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
             this.gameBegin = true;
         }
 
+    }
+
+    /**
+     * Returns the id of the player whose turn it currently is
+     * Advances the turn sequence counter to the next player
+     * so that the next call will return the next player.
+     * @return the id of the player whose turn it is.
+     */
+    public int advanceTurn(){
+        int result = players.get(turnSeq).getId();
+        turnSeq++;
+        if(turnSeq >= players.size()){
+            turnSeq = 0;
+        }
+        return result;
+    }
+
+
+    public void turnSequence(){
+        //send turn begin -
+
+        //send dice roll
+        //send player turn info
+
+        //recieve turn end -
     }
 }

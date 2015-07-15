@@ -53,6 +53,12 @@ public class BoardData {
 
     private Menus menus;
 
+    //the ID of the player whose turn it is
+    private int playerTurn;
+
+    //the number of the die roll in this current turn
+    private int turnRoll;
+
 
 
 
@@ -85,6 +91,8 @@ public class BoardData {
         manifestReady = false;
         initPlayerColors();
         this.player = new PlayerInfo(0);
+        this.playerTurn = 0;
+        this.turnRoll = 1;
     }
 
     /**
@@ -206,6 +214,22 @@ public class BoardData {
 
     public void setMenus(Menus menus) {
         this.menus = menus;
+    }
+
+    public int getPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(int playerTurn) {
+        this.playerTurn = playerTurn;
+    }
+
+    public int getTurnRoll() {
+        return turnRoll;
+    }
+
+    public void setTurnRoll(int turnRoll) {
+        this.turnRoll = turnRoll;
     }
 
     /**
@@ -657,13 +681,27 @@ public class BoardData {
         if(displayMode <= 5){
            menus.getBottomMenu().checkSelected();
         }
+        if(displayMode == 6){
+           if(menus.getDie().checkButton()){
+               setDisplayMode(0);
+           }
+        }
     }
 
+    /**
+     * Checks the mouse coords for hovering over menus
+     */
     public void checkHoverMenus(){
         if(displayMode == 7){
             menus.getWaitScreen().checkButton();
         }
 
+    }
+
+    public void handleTurn(int playerID, int d1, int d2){
+        menus.setDie(new Dice(d1,d2,parent));
+        this.playerTurn = playerID;
+        this.setDisplayMode(6);
     }
 
 

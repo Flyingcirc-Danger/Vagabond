@@ -916,6 +916,9 @@ public class ObjectParser {
             else if(doc.getElementsByTagName("playerinfo").getLength() > 0){
                 System.out.println("request recieved player");
                 readPlayer(model,XML);
+            } else if(doc.getElementsByTagName("turn-begin").getLength() > 0){
+                System.out.println("request recieved turn");
+                readTurnBegin(model,XML);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1032,13 +1035,11 @@ public class ObjectParser {
         try {
             Document doc = stringToDom(XML);
             PlayerInfo old = model.getPlayer();
-            System.out.println("Old ID: " + old.getId());
             NodeList info = doc.getElementsByTagName("playerinfo");
             NodeList infoChild = info.item(0).getChildNodes();
             old.setUname(infoChild.item(0).getTextContent());
             old.setScore(Integer.parseInt(infoChild.item(1).getTextContent()));
             old.setId(Integer.parseInt(infoChild.item(2).getTextContent()));
-            System.out.println("New ID: " + old.getId());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -1074,6 +1075,52 @@ public class ObjectParser {
         result.append("<alert>" + alert + "</alert>");
         return result.toString();
     }
+
+    /**
+     * Generates the beginning of a turn phase
+     * @param d1 the first dice roll
+     * @param d2 the second dice roll
+     * @param currentGame the current game
+     * @return the XML turn begin string
+     */
+    public static String generateTurnBegin(int d1, int d2, Game currentGame){
+        StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        result.append("<turn-begin>");
+        result.append("<player-id>" + currentGame.advanceTurn() + "</player-id>");
+        result.append("<d1>" + d1 + "</d1>");
+        result.append("<d2>" + d1 + "</d2>");
+        result.append("</turn-begin>");
+        return result.toString();
+    }
+
+    /**
+     * A method for reading the begin turn message and
+     * applying it to the game model
+     * @param model the model to apply it to
+     * @param XML the XML string to apply
+     */
+    public static void readTurnBegin(BoardData model, String XML){
+        try {
+            Document dom = stringToDom(XML);
+            NodeList data = dom.getElementsByTagName("turn-begin");
+            NodeList turn =  data.item(0).getChildNodes();
+            int playerId = Integer.parseInt(turn.item(0).getTextContent());
+            int d1 = Integer.parseInt(turn.item(1).getTextContent());
+            int d2 = Integer.parseInt(turn.item(2).getTextContent());
+            model.setToggle();
+            model.handleTurn(playerId,d1,d2);
+            model.releaseToggle();
+            System.out.println("Player Turn: " + model.getPlayerTurn());
+            System.out.println("My Player: " + model.getPlayer().getId());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 

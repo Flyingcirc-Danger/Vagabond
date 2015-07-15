@@ -26,6 +26,7 @@ public class Board extends PApplet {
 
 
     public PImage [] images;
+    public PImage [] resourceIMG;
 
     public Client client;
 
@@ -48,12 +49,23 @@ public class Board extends PApplet {
         background(0, 188, 212);
         this.currentTool = 0;
         this.images = new PImage[6];
+        this.resourceIMG = new PImage[10];
         this.images[0] = loadImage("assets/logoSM.png");
         this.images[1] = loadImage("assets/grainSM.png");
         this.images[2] = loadImage("assets/oreSM.png");
         this.images[3] = loadImage("assets/woolSM.png");
         this.images[4] = loadImage("assets/brickSM.png");
         this.images[5] = loadImage("assets/logsSM.png");
+        this.resourceIMG[0] = loadImage("assets/grainLG1.png");
+        this.resourceIMG[1] = loadImage("assets/oreLG1.png");
+        this.resourceIMG[2] = loadImage("assets/woolLG1.png");
+        this.resourceIMG[3] = loadImage("assets/brickLG1.png");
+        this.resourceIMG[4] = loadImage("assets/logsLG1.png");
+        this.resourceIMG[5] = loadImage("assets/grainLG2.png");
+        this.resourceIMG[6] = loadImage("assets/oreLG2.png");
+        this.resourceIMG[7] = loadImage("assets/woolLG2.png");
+        this.resourceIMG[8] = loadImage("assets/brickLG2.png");
+        this.resourceIMG[9] = loadImage("assets/logsLG2.png");
 
 
 
@@ -77,7 +89,7 @@ public class Board extends PApplet {
     public void draw() {
 
 
-        if (model.getDisplayMode() <= 5) {
+        if (model.getDisplayMode() <= 6) {
             fill(255, 0, 0, 0);
             fill(0);
             model.displayBoard();
@@ -91,6 +103,7 @@ public class Board extends PApplet {
                 center.getModel().displayBoard();
             }
         }
+
             model.displayMenus();
         if(model.getDisplayMode() == 7) {
             model.getMenus().getWaitScreen().checkButton();

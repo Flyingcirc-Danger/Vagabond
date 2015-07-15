@@ -24,7 +24,7 @@ public class Dice {
         this.dieTwo = dieTwo;
         this.parent = parent;
         Random numb = new Random();
-        counter = numb.nextInt((25 - 10 - 1) + 10) * 10;
+        counter = numb.nextInt((15 - 7 - 1) + 10) * 10;
         lastD1 = 6;
         lastD2 = 6;
 
@@ -32,8 +32,7 @@ public class Dice {
 
 
     public void display(){
-        parent.fill(0,0,0,70);
-        parent.rect(0, 0, parent.SCREEN_WIDTH, parent.SCREEN_HEIGHT);
+
         if(counter > 0){
             if(counter % 10  == 0) {
                 Random numb = new Random();
@@ -46,7 +45,13 @@ public class Dice {
         }
         parent.fill(121, 85, 72);
         parent.stroke(0,0,0,0);
-        parent.rect((parent.SCREEN_WIDTH/2) - (170/2), (parent.SCREEN_HEIGHT/2) - 80/2, 170,110,20,20,20,20);
+        if(counter >0) {
+            parent.rect((parent.SCREEN_WIDTH / 2) - (170 / 2), (parent.SCREEN_HEIGHT / 2) - 80 / 2, 170, 110, 20, 20, 20, 20);
+        } else {
+            parent.rect((parent.SCREEN_WIDTH / 2) - (170 / 2), (parent.SCREEN_HEIGHT / 2) - 80 / 2, 170, 170, 20, 20, 20, 20);
+            closeButton();
+
+        }
         //dice one
         Point tempOne = new Point((parent.SCREEN_WIDTH/2) - (130/2), (parent.SCREEN_HEIGHT/2) - (60/2) );
         constructDice(lastD1,tempOne);
@@ -102,6 +107,40 @@ public class Dice {
         }
 
     }
+
+    /**
+     * Renders the close button on this item.
+     */
+    private void closeButton(){
+        parent.fill(244, 67, 54);
+        parent.stroke(0, 0, 0, 10);
+        int width = (int) (parent.textWidth("OK") + 40);
+        parent.rect((parent.SCREEN_WIDTH/2) - (width/2), (parent.SCREEN_HEIGHT/2) + 65, width,40,5,5,5,5);
+        parent.stroke(0, 0, 0, 0);
+        parent.fill(0,0,0,30);
+        parent.rect(((parent.SCREEN_WIDTH/2) - (width/2))+2, ((parent.SCREEN_HEIGHT/2) + 65) +2, width,40,5,5,5,5);
+        parent.textFont(parent.fonts[1]);
+        parent.textSize(20);
+        parent.fill(255, 235, 59);
+        parent.text("OK",(parent.SCREEN_WIDTH/2) - (parent.textWidth("OK")/2), (parent.SCREEN_HEIGHT/2) + 95);
+        parent.textFont(parent.fonts[0]);
+
+    }
+
+    /**
+     * Checks the OK button if the dice
+     * have finished rolling
+     * @return true -> ok button is selected
+     */
+    public boolean checkButton(){
+        if(counter > 0){
+            return false;
+        }
+        parent.model.setTurnRoll(lastD1 + lastD2);
+        int width = (int) (parent.textWidth("OK") + 40);
+        return Listeners.overRect((parent.SCREEN_WIDTH/2) - (width/2),(parent.SCREEN_HEIGHT/2) + 65, width, 40,parent);
+    }
+
 
 
 }
