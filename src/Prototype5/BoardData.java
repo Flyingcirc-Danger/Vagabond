@@ -25,6 +25,8 @@ public class BoardData {
 
     private HashMap<Point, HexTile> tileMap; //the map of all hexTiles (no duplicates)
 
+    private HashMap<Integer,ArrayList<HexTile>>payout; //the map of values to hexTiles
+
     private ArrayList<HexCoast> coast; //the arraylist of all coast pieces.
 
     private String[] resourceTiles; //array of standard resources in tournament catan (19 resources)
@@ -62,6 +64,7 @@ public class BoardData {
 
 
 
+
     public BoardData(Board parent) {
         this.displayMode = 0;
         this.menus = new Menus(parent);
@@ -93,6 +96,7 @@ public class BoardData {
         this.player = new PlayerInfo(0);
         this.playerTurn = 0;
         this.turnRoll = 1;
+        this.payout = new HashMap<Integer, ArrayList<HexTile>>();
     }
 
     /**
@@ -125,6 +129,7 @@ public class BoardData {
         initPlayerColors();
         this.player = new PlayerInfo(0);
         this.alert = new String();
+        this.payout = new HashMap<Integer, ArrayList<HexTile>>();
 
     }
 
@@ -230,6 +235,14 @@ public class BoardData {
 
     public void setTurnRoll(int turnRoll) {
         this.turnRoll = turnRoll;
+    }
+
+    public HashMap<Integer, ArrayList<HexTile>> getPayout() {
+        return payout;
+    }
+
+    public void setPayout(HashMap<Integer, ArrayList<HexTile>> payout) {
+        this.payout = payout;
     }
 
     /**
@@ -536,6 +549,7 @@ public class BoardData {
         tileMap = new HashMap<Point, HexTile>();
         hexDeck = new HexTile[19];
         coast = new ArrayList<HexCoast>();
+        payout = new HashMap<Integer, ArrayList<HexTile>>();
     }
 
 
@@ -702,6 +716,16 @@ public class BoardData {
         menus.setDie(new Dice(d1,d2,parent));
         this.playerTurn = playerID;
         this.setDisplayMode(6);
+        payResources(d1+d2);
+    }
+
+    public void payResources(int token){
+        ArrayList<HexTile>payHex = payout.get(token);
+        for(HexTile tile : payHex){
+            if(tile.checkOwner()){
+                tile.payResource();
+            }
+        }
     }
 
 

@@ -5,6 +5,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -70,6 +71,8 @@ public class HexTile {
         initSides();
         this.model.getTileMap().put(this.center, this);
         this.owners = new HashMap<Integer, Integer>();
+        addToPayout();
+
 
 
     }
@@ -96,6 +99,7 @@ public class HexTile {
         initSides();
         this.model.getTileMap().put(this.center, this);
         this.owners = new HashMap<Integer, Integer>();
+        addToPayout();
     }
 
     /**
@@ -267,6 +271,7 @@ public class HexTile {
         EF.drawRoad();
         FA.drawRoad();
         if((parent.model.getTurnRoll() == value) && checkOwner()){
+
             diceDisplay();
         } else {
             displayToken();
@@ -282,6 +287,7 @@ public class HexTile {
             return;
         }
         PImage img = parent.resourceIMG[0];
+
         if(this.resource.equals("mine")){
             img = parent.resourceIMG[1];
         }
@@ -296,6 +302,7 @@ public class HexTile {
         }
         parent.image(img,center.x - (img.width/2), center.y - (img.height/2));
     }
+
 
     /**
      * Adds a tile along the AB side
@@ -1151,6 +1158,40 @@ public class HexTile {
             owners.put(id, 1);
         }
     }
+
+    /**
+     * Adds the value hextile pair to the payout
+     * hashMap in the main model
+     */
+    public void addToPayout(){
+        if(model.getPayout().containsKey(value)){
+            model.getPayout().get(value).add(this);
+        } else {
+            ArrayList<HexTile> pay = new ArrayList<HexTile>();
+            pay.add(this);
+            model.getPayout().put(value,pay);
+        }
+
+    }
+
+    public void payResource(){
+        if(this.resource.equals("grain")){
+            model.getPlayer().addGrain(1);
+        }
+        if(this.resource.equals("mine")){
+            model.getPlayer().addOre(1);
+        }
+        if(this.resource.equals("pasture")){
+            model.getPlayer().addWool(1);
+        }
+        if(this.resource.equals("brick")){
+            model.getPlayer().addBrick(1);
+        }
+        if(this.resource.equals("forest")){
+            model.getPlayer().addLogs(1);
+        }
+    }
+
 
 
 

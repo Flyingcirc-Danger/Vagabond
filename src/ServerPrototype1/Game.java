@@ -190,13 +190,5 @@ public class Game implements Runnable {
         for(Player play : players) {
                 play.send(turn);
             }
-
-
-        //send turn begin -
-
-        //send dice roll
-        //send player turn info
-
-        //recieve turn end -
     }
 }

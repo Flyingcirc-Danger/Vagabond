@@ -584,6 +584,7 @@ public class ObjectParser {
             update.setCanopyHeight(canopyHeight);
             update.setResource(resource);
             update.setValue(value);
+            update.addToPayout();
 
         }
     }

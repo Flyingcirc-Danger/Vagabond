@@ -31,7 +31,7 @@ public class ResourceIcon {
         parent.fill(255);
         parent.textFont(parent.fonts[0]);
         parent.textSize(14);
-        parent.text(amount, startPos.x + 47 - (parent.textWidth("" +amount)/2), 5 + 15 + 7 );
+        parent.text(getAmount(), startPos.x + 47 - (parent.textWidth("" +amount)/2), 5 + 15 + 7 );
     }
 
 
@@ -44,8 +44,22 @@ public class ResourceIcon {
     }
 
     public int getAmount() {
-        return amount;
+        if(resource.equals("grain")){
+            return parent.model.getPlayer().getGrain();
+        }
+        if(resource.equals("ore")){
+            return parent.model.getPlayer().getOre();
+        }
+        if(resource.equals("wool")){
+            return parent.model.getPlayer().getWool();
+        }
+        if(resource.equals("brick")){
+            return parent.model.getPlayer().getBrick();
+        }
+        return parent.model.getPlayer().getLogs();
     }
+
+
 
     public void setAmount(int amount) {
         this.amount = amount;
