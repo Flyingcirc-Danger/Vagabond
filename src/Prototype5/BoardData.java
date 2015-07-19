@@ -36,6 +36,8 @@ public class BoardData {
 
     public int settlementQuota; //the number of settlments (towns/cities) on the board
 
+    public int roadQuota;
+
     private String identityToken;
 
     private Board parent;
@@ -87,6 +89,7 @@ public class BoardData {
         tokens = new int[19];
         findDesert(shuffleTerrain());
         settlementQuota = 0;
+        roadQuota = 0;
         this.parent = parent;
         generateIdentity();
         System.out.println("Build Model: " + this.identityToken);
@@ -123,6 +126,7 @@ public class BoardData {
         tokens = new int[19];
         findDesert(shuffleTerrain());
         settlementQuota = 0;
+        roadQuota = 0;
         generateIdentity();
         generateIdentity();
         System.out.println("Build Model: " + this.identityToken);
@@ -661,6 +665,7 @@ public class BoardData {
     public void displayMenus(){
         if(displayMode == 10){
             menus.getConnect().display();
+
             return;
         }
         if(displayMode == 7){

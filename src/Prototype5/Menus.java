@@ -1,6 +1,5 @@
 package Prototype5;
 
-import Prototype4.*;
 
 /**
  * Created by Tom_Bryant on 7/14/15.
@@ -17,6 +16,7 @@ public class Menus {
     private BottomMenu bottomMenu;
     private Dice die;
     private StatusMenu waitScreen;
+    private BuildCard card;
 
 
     public Menus(Board parent){
@@ -26,6 +26,7 @@ public class Menus {
         this.die = new Dice(6,5,parent);
         this.bottomMenu = new BottomMenu(parent);
         this.waitScreen = new StatusMenu("Waiting For More Players. Click below to ready up", parent, true);
+        this.card = new BuildCard(parent);
 
     }
 
@@ -75,5 +76,13 @@ public class Menus {
 
     public void setWaitScreen(StatusMenu waitScreen) {
         this.waitScreen = waitScreen;
+    }
+
+    public BuildCard getCard() {
+        return card;
+    }
+
+    public void setCard(BuildCard card) {
+        this.card = card;
     }
 }

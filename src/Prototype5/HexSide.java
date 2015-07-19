@@ -80,6 +80,7 @@ public class HexSide {
                 parent.fill(color[0], color[1],color[2]);
             } else{
                 parent.fill(255, 0, 0,80);
+                parent.model.getMenus().getCard().displayRoad();
             }
             parent.stroke(0, 0, 0, 0);
 
@@ -218,19 +219,31 @@ public class HexSide {
     /**
      * Checks to see if it is valid to
      * build a road on this side.
+     * RULES: Can only connect to already built
+     * roads and settlements. Can only connect
+     * to own players buildings/settlements
      * @return true if it is valid
      */
     public boolean validBuild(){
-        if(start.isSettled() || end.isSettled()){
+        if((start.isSettled() && start.checkAgainstOwner(model.getPlayer().getId())) || (
+                end.isSettled() && end.checkAgainstOwner(model.getPlayer().getId())) ){
             return true;
         }
         for(HexSide ne : neighbors){
             if(ne.isBuilt()){
-                return true;
+                if(ne.getOwner() == model.getPlayer().getId()) {
+                    HexPoint joint = findJoin(ne);
+                    if(joint.isSettled() && !joint.checkAgainstOwner(model.getPlayer().getId())){
+                        return false;
+                    }
+                    return true;
+                }
             }
         }
         return false;
     }
+
+
 
     /**
      * Generates the XML for this specific side.
@@ -255,6 +268,26 @@ public class HexSide {
         int tempX = ((start.getX() + end.getX())/2);
         int tempY = ((start.getY() + end.getY())/2);
         return new Point((int)tempX,(int)tempY);
+    }
+
+
+    /**
+     * Finds the point that joins a given neighbor
+     * (currently checks both start and end of both sides);
+     * @return
+     */
+    private HexPoint findJoin(HexSide neighbor){
+        if(this.start == neighbor.getStart()){
+            return start;
+        }
+        if(this.start == neighbor.getEnd()){
+            return start;
+        }
+        if(this.end == neighbor.getStart()){
+            return end;
+        } else{
+            return end;
+        }
     }
 
 

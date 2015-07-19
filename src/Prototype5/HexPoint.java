@@ -162,6 +162,7 @@ public class HexPoint implements Comparable<HexPoint> {
         this.owner = id;
     }
 
+
     public HashSet<HexTile> getBorders() {
         return borders;
     }
@@ -172,6 +173,20 @@ public class HexPoint implements Comparable<HexPoint> {
 
     public boolean isSettled() {
         if (this.buildStatus > 0){
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Checks an id against this owner
+     * (for building purposes)
+     * @param id the id to check
+     * @return true if it's a match
+     */
+    public boolean checkAgainstOwner(int id){
+        if(id == owner){
             return true;
         }
         return false;
@@ -317,6 +332,7 @@ public class HexPoint implements Comparable<HexPoint> {
 
                 if(!this.isSettled()){
                     parent.fill(255, 0, 0,80);
+                    model.getMenus().getCard().displayTown();
                 } else {
                     int[] color = model.getColor(owner);
                     parent.fill(color[0], color[1],color[2]);
