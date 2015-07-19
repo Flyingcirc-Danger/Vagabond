@@ -6,6 +6,7 @@ import javafx.beans.binding.ObjectExpression;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -25,7 +26,7 @@ public class BoardData {
 
     private HashMap<Point, HexTile> tileMap; //the map of all hexTiles (no duplicates)
 
-    private HashMap<Integer,ArrayList<HexTile>>payout; //the map of values to hexTiles
+    private HashMap<Integer,HashSet<HexTile>>payout; //the map of values to hexTiles
 
     private ArrayList<HexCoast> coast; //the arraylist of all coast pieces.
 
@@ -89,14 +90,14 @@ public class BoardData {
         this.parent = parent;
         generateIdentity();
         System.out.println("Build Model: " + this.identityToken);
-        initManifest();
         displayToggle = false;
         manifestReady = false;
         initPlayerColors();
         this.player = new PlayerInfo(0);
         this.playerTurn = 0;
         this.turnRoll = 1;
-        this.payout = new HashMap<Integer, ArrayList<HexTile>>();
+        this.payout = new HashMap<Integer, HashSet<HexTile>>();
+        this.manifest = new StringBuffer();
     }
 
     /**
@@ -125,11 +126,11 @@ public class BoardData {
         generateIdentity();
         generateIdentity();
         System.out.println("Build Model: " + this.identityToken);
-        initManifest();
         initPlayerColors();
         this.player = new PlayerInfo(0);
         this.alert = new String();
-        this.payout = new HashMap<Integer, ArrayList<HexTile>>();
+        this.payout = new HashMap<Integer, HashSet<HexTile>>();
+        this.manifest = new StringBuffer();
 
     }
 
@@ -237,11 +238,11 @@ public class BoardData {
         this.turnRoll = turnRoll;
     }
 
-    public HashMap<Integer, ArrayList<HexTile>> getPayout() {
+    public HashMap<Integer, HashSet<HexTile>> getPayout() {
         return payout;
     }
 
-    public void setPayout(HashMap<Integer, ArrayList<HexTile>> payout) {
+    public void setPayout(HashMap<Integer, HashSet<HexTile>> payout) {
         this.payout = payout;
     }
 
@@ -549,7 +550,7 @@ public class BoardData {
         tileMap = new HashMap<Point, HexTile>();
         hexDeck = new HexTile[19];
         coast = new ArrayList<HexCoast>();
-        payout = new HashMap<Integer, ArrayList<HexTile>>();
+        payout = new HashMap<Integer, HashSet<HexTile>>();
     }
 
 
@@ -561,6 +562,7 @@ public class BoardData {
     public void initManifest(){
         manifest = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
         manifest.append("<manifest><identity>" + this.identityToken +"</identity>");
+        manifest.append("<playerTurn>" + this.getPlayer().getId() + "</playerTurn>");
     }
 
 
@@ -720,7 +722,7 @@ public class BoardData {
     }
 
     public void payResources(int token){
-        ArrayList<HexTile>payHex = payout.get(token);
+        HashSet<HexTile>payHex = payout.get(token);
         for(HexTile tile : payHex){
             if(tile.checkOwner()){
                 tile.payResource();

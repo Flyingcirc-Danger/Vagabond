@@ -19,6 +19,7 @@ public class HexPoint implements Comparable<HexPoint> {
     private HashSet<HexPoint> neigbors; //neighbors within 1 side of this point
     private int id; //point ID for debugging and uniquness checking
     private HashSet<HexSide> roads; //roads that lead off of this point
+    private HashSet<HexTile> borders;//tiles that this point lies on.
 
     private Point centerCoords; //the center of the hex on which this point occupies
 
@@ -43,6 +44,7 @@ public class HexPoint implements Comparable<HexPoint> {
         this.neigbors = new HashSet<HexPoint>();
         this.centerCoords = centerCoords;
         this.roads = new HashSet<HexSide>();
+        this.borders = new HashSet<HexTile>();
         this.buildStatus = 0;
         this.owner = 0;
         this.model = model;
@@ -154,7 +156,18 @@ public class HexPoint implements Comparable<HexPoint> {
     }
 
     public void setOwner(int id){
+        for(HexTile tile : borders){
+            tile.addOwner(id);
+        }
         this.owner = id;
+    }
+
+    public HashSet<HexTile> getBorders() {
+        return borders;
+    }
+
+    public void setBorders(HashSet<HexTile> borders) {
+        this.borders = borders;
     }
 
     public boolean isSettled() {
@@ -278,6 +291,8 @@ public class HexPoint implements Comparable<HexPoint> {
                 return;
             }
             if(buildStatus == 1){
+
+
                 int height = 20;
                 int width = 20;
                 int[] color = model.getColor(owner);

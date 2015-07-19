@@ -5,8 +5,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by Tom_Bryant on 6/25/15.
@@ -127,27 +127,33 @@ public class HexTile {
         Point tempF = new Point();
         tempF.setLocation(center.getX() - sideToSide, center.getY() - canopyHeight);
         this.F = addToPointMap(tempF);
-        configureNeighbors();
+        configureNeighborsAndBorders();
 
     }
 
     /**
-     * Populates the neighbors of each point.
-     * The neighbors are a set, so no duplicates can be added
+     * Populates the neighbors & borders of each point.
+     * The neighbors & borders are a set, so no duplicates can be added
      */
-    private void configureNeighbors(){
+    public void configureNeighborsAndBorders(){
         this.A.getNeigbors().add(F);
         this.A.getNeigbors().add(B);
+        this.A.getBorders().add(this);
         this.B.getNeigbors().add(A);
         this.B.getNeigbors().add(C);
+        this.B.getBorders().add(this);
         this.C.getNeigbors().add(B);
         this.C.getNeigbors().add(D);
+        this.C.getBorders().add(this);
         this.D.getNeigbors().add(C);
         this.D.getNeigbors().add(E);
+        this.D.getBorders().add(this);
         this.E.getNeigbors().add(D);
         this.E.getNeigbors().add(F);
+        this.E.getBorders().add(this);
         this.F.getNeigbors().add(E);
         this.F.getNeigbors().add(A);
+        this.F.getBorders().add(this);
     }
 
     /**
@@ -515,6 +521,14 @@ public class HexTile {
         this.value = value;
     }
 
+    public HashMap<Integer, Integer> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(HashMap<Integer, Integer> owners) {
+        this.owners = owners;
+    }
+
     /**
      * Decides how to round a double
      * when converting to int
@@ -578,7 +592,12 @@ public class HexTile {
     public void resourceDebug(){
         parent.fill(0);
         int textX = this.center.x - (int)(parent.textWidth("" + this.resource)/2);
-        parent.text("" + this.resource, textX,(int)center.getY() - 25);
+        StringBuffer debug = new StringBuffer("" + this.resource +"\nOwners: ");
+        for(Integer id: owners.keySet()){
+            debug.append(id + ":" + owners.get(id) + "\n");
+        }
+        parent.textSize(8);
+        parent.text( debug.toString(), textX,(int)center.getY() - 25);
     }
 
 
@@ -596,12 +615,16 @@ public class HexTile {
                 if (mode == 1 || mode == 4) {
                     A.mapNeigbors();
                 } else if (A.validBuild() && parent.currentTool == 1) {
+                    highlighted = false;
                     A.setOwner(id);
                     A.drawTown();
 
                 } else if(A.validUpgrade() && parent.currentTool == 3 && id == A.getOwner() ){
+                    highlighted = false;
                     A.drawCity();
                     A.setOwner(id);
+                } else {
+                    highlighted = false;
                 }
                 return true;
             }
@@ -967,7 +990,7 @@ public class HexTile {
                 if (A.overPoint() && A.validBuild()) {
                     if (!A.isSettled()) {
                         A.setOwner(model.getPlayer().getId());
-                        addOwner(model.getPlayer().getId());
+
                         A.setSettled(true);
                         parent.model.settlementQuota++;
                         A.generateManifest();
@@ -976,7 +999,7 @@ public class HexTile {
                 if (B.overPoint() && B.validBuild()) {
                     if (!B.isSettled()) {
                         B.setOwner(model.getPlayer().getId());
-                        addOwner(model.getPlayer().getId());
+                        //addOwner(model.getPlayer().getId());
                         B.setSettled(true);
                         parent.model.settlementQuota++;
                         B.generateManifest();
@@ -986,7 +1009,7 @@ public class HexTile {
                 if (C.overPoint() && C.validBuild()) {
                     if (!C.isSettled()) {
                         C.setOwner(model.getPlayer().getId());
-                        addOwner(model.getPlayer().getId());
+                       // addOwner(model.getPlayer().getId());
                         C.setSettled(true);
                         parent.model.settlementQuota++;
                         C.generateManifest();
@@ -996,7 +1019,7 @@ public class HexTile {
                 if (D.overPoint() && D.validBuild()) {
                     if (!D.isSettled()) {
                         D.setOwner(model.getPlayer().getId());
-                        addOwner(model.getPlayer().getId());
+                       // addOwner(model.getPlayer().getId());
                         D.setSettled(true);
                         parent.model.settlementQuota++;
                         D.generateManifest();
@@ -1006,7 +1029,7 @@ public class HexTile {
                 if (E.overPoint() && E.validBuild()) {
                     if (!E.isSettled()) {
                         E.setOwner(model.getPlayer().getId());
-                        addOwner(model.getPlayer().getId());
+                        //addOwner(model.getPlayer().getId());
                         E.setSettled(true);
                         parent.model.settlementQuota++;
                         E.generateManifest();
@@ -1016,7 +1039,7 @@ public class HexTile {
                 if (F.overPoint() && F.validBuild()) {
                     if (!F.isSettled()) {
                         F.setOwner(model.getPlayer().getId());
-                        addOwner(model.getPlayer().getId());
+                       // addOwner(model.getPlayer().getId());
                         F.setSettled(true);
                         parent.model.settlementQuota++;
                         F.generateManifest();
@@ -1026,7 +1049,7 @@ public class HexTile {
                 if(parent.currentTool == 3){
                     if (A.overPoint() && A.validUpgrade()) {
                         if (!A.isCity()) {
-                            addOwner(model.getPlayer().getId());
+                           // addOwner(model.getPlayer().getId());
                             A.setCity(true);
                             A.generateManifest();
                         }
@@ -1034,7 +1057,7 @@ public class HexTile {
                     }
                     if (B.overPoint() && B.validUpgrade()) {
                         if (!B.isCity()) {
-                            addOwner(model.getPlayer().getId());
+                           // addOwner(model.getPlayer().getId());
                             B.setCity(true);
                             B.generateManifest();
                         }
@@ -1042,7 +1065,7 @@ public class HexTile {
                     }
                     if (C.overPoint() && C.validUpgrade()) {
                         if (!C.isCity()) {
-                            addOwner(model.getPlayer().getId());
+                            //addOwner(model.getPlayer().getId());
                             C.setCity(true);
                             C.generateManifest();
                         }
@@ -1050,7 +1073,7 @@ public class HexTile {
                     }
                     if (D.overPoint() && D.validUpgrade()) {
                         if (!D.isCity()) {
-                            addOwner(model.getPlayer().getId());
+                            //addOwner(model.getPlayer().getId());
                             D.setCity(true);
                             D.generateManifest();
                         }
@@ -1058,7 +1081,7 @@ public class HexTile {
                     }
                     if (E.overPoint() && E.validUpgrade()) {
                         if (!E.isCity()) {
-                            addOwner(model.getPlayer().getId());
+                           // addOwner(model.getPlayer().getId());
                             E.setCity(true);
                             E.generateManifest();
                         }
@@ -1066,7 +1089,7 @@ public class HexTile {
                     }
                     if (F.overPoint() && F.validUpgrade()) {
                         if (!F.isCity()) {
-                            addOwner(model.getPlayer().getId());
+                            //addOwner(model.getPlayer().getId());
                             F.setCity(true);
                             F.generateManifest();
                         }
@@ -1167,7 +1190,7 @@ public class HexTile {
         if(model.getPayout().containsKey(value)){
             model.getPayout().get(value).add(this);
         } else {
-            ArrayList<HexTile> pay = new ArrayList<HexTile>();
+            HashSet<HexTile> pay = new HashSet<HexTile>();
             pay.add(this);
             model.getPayout().put(value,pay);
         }

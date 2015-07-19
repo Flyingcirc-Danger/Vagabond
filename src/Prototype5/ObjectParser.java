@@ -683,6 +683,9 @@ public class ObjectParser {
 
             model.setHexDeck(temp);
             model.configureEdges();
+            for(HexTile tile : model.getTileMap().values()){
+                tile.configureNeighborsAndBorders();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -866,6 +869,11 @@ public class ObjectParser {
             Document doc = stringToDom(XML);
             NodeList updatePoints = doc.getElementsByTagName("hexpoint");
             NodeList updateSides = doc.getElementsByTagName("hexside");
+            NodeList playerTurn = doc.getElementsByTagName("playerTurn");
+            if(model.getPlayer().getId() == Integer.parseInt(playerTurn.item(0).getFirstChild().getTextContent())){
+                System.out.println(model.getPlayer().getId() + "my own turn");
+                return;
+            }
             if(updatePoints.getLength() > 0){
                 for(int i = 0; i < updatePoints.getLength(); i++){
                     NodeList point = updatePoints.item(i).getChildNodes();
