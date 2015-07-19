@@ -50,12 +50,7 @@ public class ServerToClientConnection {
                             Object omsg = in.readObject();
                             String msg = (String) omsg;
                             evaluateMessage(msg);
-                            if(msg.length() > 1) {
-                                if (msg.substring(0, 4).equals("REPLY")) {
-                                    msg = msg.substring(5, msg.length() - 1);
-                                }
-                            }
-                            heartBeat.put(id, (String) msg);
+                            //heartBeat.put(id, (String) msg);
                     }
                 } catch(EOFException e ){
 
@@ -157,12 +152,25 @@ public class ServerToClientConnection {
      */
     public void evaluateMessage(String message){
         if(message.length() > 2) {
+            if (message.substring(0, 5).equals("REPLY")) {
+                message = message.substring(5, message.length());
+                return;
+            }
             if (message.substring(0, 5).equals("<?xml")) {
-                if(ObjectParser.serverParseRequest(currentGame, message) == 1) {
+                int parseVal = ObjectParser.serverParseRequest(currentGame, message);
+                if( parseVal == 1) {
                     System.out.println("Read Model: " + currentGame.mainBoard.getIdentityToken());
                     record.setCurrent(message);
+                    return;
+                }
+                //for alerts.
+                if(parseVal == 2) {
+                    System.out.println("Alert Recieved");
+                    return;
                 }
             }
         }
+            heartBeat.put(id, message);
+
     }
 }

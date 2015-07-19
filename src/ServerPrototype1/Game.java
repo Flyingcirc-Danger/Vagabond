@@ -71,8 +71,12 @@ public class Game implements Runnable {
                                 ArrayList<Player> toRemove = new ArrayList<Player>();
                                 for (Player con : players) {
                                     if (!heartBeat.get(con.getId()).equals(message)) {
-                                        System.out.println(con.getId() + ": message mismatch");
-                                        con.getConnection().strike();
+                                        //TODO: FIX THE HEARTBEAT
+//                                        System.out.println(con.getId() + ": message mismatch" + "\nexpected: " +
+//                                                message +
+//                                                "\nrecorded: " +
+                                                //heartBeat.get(con.getId()));
+                                       // con.getConnection().strike();
                                     } else {
                                         con.getConnection().increaseStrength();
                                     }
@@ -187,6 +191,7 @@ public class Game implements Runnable {
         int d1 = dice.nextInt((6 - 1) + 1) + 1;
         int d2 = dice.nextInt((6 - 1) + 1) + 1;
         String turn = ObjectParser.generateTurnBegin(d1,d2,this);
+        //record.setCurrent(turn);
         for(Player play : players) {
                 play.send(turn);
             }

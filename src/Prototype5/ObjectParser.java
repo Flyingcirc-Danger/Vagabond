@@ -960,6 +960,7 @@ public class ObjectParser {
      * just a manifest.
      * Returns an integer based on the type of XML
      * Return 1 = manifest
+     * Return 2 = alert
      * @param currentGame the game that the player is currently in.
      * @param XML the XML containing instructions.
      */
@@ -972,7 +973,7 @@ public class ObjectParser {
             }
             if(doc.getElementsByTagName("alert").getLength() > 0){
                 readAlert(currentGame, XML);
-                return 0;
+                return 2;
             }
 
         } catch (IOException e) {

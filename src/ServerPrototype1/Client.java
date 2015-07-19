@@ -31,13 +31,14 @@ public class Client {
                         System.out.println("Sent Alert");
                         connection.write(model.getAlertString());
                     }
-                    else {
+                    else if(connection.getMessage().length() > 0){
                         //HANDLES Replies. If the message is an XML reply
                         String sendMessage = connection.getMessage();
                         if(connection.getMessage().length() > 1){
                             StringBuffer reply = new StringBuffer("REPLY");
                             reply.append(connection.getMessage());
                             sendMessage = reply.toString();
+                            System.out.println("Sent: " + sendMessage);
                         }
                         connection.write(sendMessage);
                     }

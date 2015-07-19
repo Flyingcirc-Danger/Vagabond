@@ -25,7 +25,7 @@ public class ClientToServerConnection {
             this.con = new Socket(ip, port);
             this.out = new ObjectOutputStream(con.getOutputStream());
             this.in = new ObjectInputStream(con.getInputStream());
-            this.message = new String("START");
+            this.message = new String();
             this.model = model;
 
 
