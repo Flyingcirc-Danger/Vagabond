@@ -666,6 +666,7 @@ public class BoardData {
         if(displayMode == 10){
             menus.getConnect().display();
 
+
             return;
         }
         if(displayMode == 7){
@@ -676,6 +677,7 @@ public class BoardData {
             return;
         }
         if(displayMode <=5){
+            menus.getBank().display();
             menus.getBottomMenu().display();
             menus.getResourceBar().display();
             parent.image(parent.images[0], parent.SCREEN_WIDTH - 220, parent.SCREEN_HEIGHT - 70);
@@ -690,6 +692,7 @@ public class BoardData {
     public void checkMenus(){
         if(displayMode == 10){
             menus.getConnect().checkButtons();
+
         }
         if(displayMode == 7){
             if(menus.getWaitScreen().checkButton()){
@@ -700,6 +703,7 @@ public class BoardData {
             }
         }
         if(displayMode <= 5){
+            menus.getBank().checkButtons();
            menus.getBottomMenu().checkSelected();
         }
         if(displayMode == 6){

@@ -17,6 +17,7 @@ public class Menus {
     private Dice die;
     private StatusMenu waitScreen;
     private BuildCard card;
+    private Bank bank;
 
 
     public Menus(Board parent){
@@ -27,6 +28,7 @@ public class Menus {
         this.bottomMenu = new BottomMenu(parent);
         this.waitScreen = new StatusMenu("Waiting For More Players. Click below to ready up", parent, true);
         this.card = new BuildCard(parent);
+        this.bank = new Bank(parent);
 
     }
 
@@ -84,5 +86,13 @@ public class Menus {
 
     public void setCard(BuildCard card) {
         this.card = card;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
 }

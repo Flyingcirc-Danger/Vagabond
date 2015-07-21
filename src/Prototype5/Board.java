@@ -48,7 +48,7 @@ public class Board extends PApplet {
         textSize(14);
         background(0, 188, 212);
         this.currentTool = 0;
-        this.images = new PImage[6];
+        this.images = new PImage[12];
         this.resourceIMG = new PImage[10];
         this.images[0] = loadImage("assets/logoSM.png");
         this.images[1] = loadImage("assets/grainSM.png");
@@ -56,6 +56,16 @@ public class Board extends PApplet {
         this.images[3] = loadImage("assets/woolSM.png");
         this.images[4] = loadImage("assets/brickSM.png");
         this.images[5] = loadImage("assets/logsSM.png");
+        this.images[6] = loadImage("assets/bankSM.png");
+
+        this.images[7] = loadImage("assets/grainBWSM.png");
+        this.images[8] = loadImage("assets/oreBWSM.png");
+        this.images[9] = loadImage("assets/woolBWSM.png");
+        this.images[10] = loadImage("assets/brickBWSM.png");
+        this.images[11] = loadImage("assets/logsBWSM.png");
+
+
+
         this.resourceIMG[0] = loadImage("assets/grainLG1.png");
         this.resourceIMG[1] = loadImage("assets/oreLG1.png");
         this.resourceIMG[2] = loadImage("assets/woolLG1.png");
@@ -122,7 +132,6 @@ public class Board extends PApplet {
             model.checkMenus();
             //regular board with debugging
             if (model.getDisplayMode() <= 5) {
-                model.checkMenus();
                 debugger.mouseDebug();
                 model.checkSelected(this.currentTool);
             }
