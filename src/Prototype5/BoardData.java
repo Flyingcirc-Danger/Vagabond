@@ -666,7 +666,6 @@ public class BoardData {
         if(displayMode == 10){
             menus.getConnect().display();
 
-
             return;
         }
         if(displayMode == 7){

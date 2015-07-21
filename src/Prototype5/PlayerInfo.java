@@ -16,13 +16,13 @@ public class PlayerInfo {
         this.uname = uname;
         this.score = score;
         this.id = id;
-        this.resources = new int[]{0,0,0,0,0};
+        this.resources = new int[]{4,4,4,4,4};
     }
 
 
     public PlayerInfo(int id){
         this.id = id;
-        this.resources = new int[]{0,0,0,0,0};
+        this.resources = new int[]{4,4,4,4,4};
 
     }
 

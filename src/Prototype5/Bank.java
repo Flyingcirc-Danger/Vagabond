@@ -11,12 +11,16 @@ public class Bank {
     private Board parent;
     private boolean open;
     private boolean [] items;
+    private boolean dialogue; //checks to see if the banking dialogue is open
+    private String bankItem;
+    private String playerItem;
 
 
     public Bank(Board parent){
         this.parent = parent;
         this.open = false;
         this.items = new boolean[5];
+        this.dialogue = false;
 
     }
 
@@ -160,7 +164,7 @@ public class Bank {
                     parent.textSize(12);
                     parent.text("4 Wheat for 1 Brick", 75, 170);
                 }
-                if (Listeners.overRect(40, 170, 30, 30, parent)) {
+                if (Listeners.overRect(40, 180, 30, 30, parent)) {
                     parent.fill(245, 127, 23);
                     parent.stroke(0, 0, 0, 50);
                     parent.rect(40, 180, 30, 30);
@@ -222,7 +226,7 @@ public class Bank {
                         parent.textSize(12);
                         parent.text("4 Ore for 1 Brick", 105, 170);
                     }
-                    if (Listeners.overRect(70, 170, 30, 30, parent)) {
+                    if (Listeners.overRect(70, 180, 30, 30, parent)) {
                         parent.fill(245, 127, 23);
                         parent.stroke(0, 0, 0, 50);
                         parent.rect(70, 180, 30, 30);
@@ -278,7 +282,7 @@ public class Bank {
                             parent.textSize(12);
                             parent.text("4 Wool for 1 Brick", 135, 170);
                         }
-                        if (Listeners.overRect(100, 170, 30, 30, parent)) {
+                        if (Listeners.overRect(100, 180, 30, 30, parent)) {
                             parent.fill(245, 127, 23);
                             parent.stroke(0, 0, 0, 50);
                             parent.rect(100, 180, 30, 30);
@@ -335,7 +339,7 @@ public class Bank {
                     parent.textSize(12);
                     parent.text("4 Brick for 1 Wool", 165, 170);
                 }
-                if (Listeners.overRect(130, 170, 30, 30, parent)) {
+                if (Listeners.overRect(130, 180, 30, 30, parent)) {
                     parent.fill(245, 127, 23);
                     parent.stroke(0, 0, 0, 50);
                     parent.rect(130, 180, 30, 30);
@@ -392,7 +396,7 @@ public class Bank {
                     parent.textSize(12);
                     parent.text("4 Logs for 1 Wool", 195, 170);
                 }
-                if (Listeners.overRect(160, 170, 30, 30, parent)) {
+                if (Listeners.overRect(160, 180, 30, 30, parent)) {
                     parent.fill(245, 127, 23);
                     parent.stroke(0, 0, 0, 50);
                     parent.rect(160, 180, 30, 30);
@@ -415,59 +419,228 @@ public class Bank {
      * Checks to see which buttons have been pressed
      */
     public void checkButtons(){
-        if(Listeners.overRect(10,60,30,30,parent)) {
-            if (this.open) {
-                System.out.println("BANK OFF");
-                this.open = false;
-                return;
-            } else {
-                this.open = true;
-                System.out.println("BANK ON");
-                return;
+        if(dialogue) {
+            int width = (parent.SCREEN_WIDTH/2) - ((int)(120 + parent.textWidth("Bank Trade"))/2);
+            int buttonWidth = (int) (parent.textWidth("Okay") + 50);
+            int startX = (parent.SCREEN_WIDTH/2) - (width/2);
+            int startY = (parent.SCREEN_HEIGHT/2) - (174/2);
+            //okay
+            if(Listeners.overRect(startX + (width /2) - buttonWidth - 10, startY + 174 - 47, buttonWidth,40,parent)){
+                PlayerInfo player = parent.model.getPlayer();
+                if(this.bankItem.equals("wheat")){
+                    player.addGrain(1);
+                }
+                if(this.bankItem.equals("brick")){
+                    player.addBrick(1);
+                }
+                if(this.bankItem.equals("ore")){
+                    player.addOre(1);
+                }
+                if(this.bankItem.equals("wool")){
+                    player.addWool(1);
+                }
+                if(this.bankItem.equals("logs")){
+                    player.addLogs(1);
+                }
+                if(this.playerItem.equals("wheat")){
+                    player.subtractGrain(4);
+                }
+                if(this.playerItem.equals("ore")){
+                    player.subtractOre(4);
+                }
+                if(this.playerItem.equals("wool")){
+                    player.subtractWool(4);
+                }
+                if(this.playerItem.equals("brick")){
+                    player.subtractBrick(4);
+                }
+                if(this.playerItem.equals("logs")){
+                    player.subtractLogs(4);
+                }
+                this.dialogue = false;
+
             }
-        }
-        if(open){
-                if(Listeners.overRect(40,60,30,30,parent)){
+            //cancel
+            if(Listeners.overRect(startX + (width /2) + 10, startY + 172 - 47, buttonWidth,40,parent)) {
+                this.dialogue = false;
+            }
+        } else {
+            //bank icon
+            if (Listeners.overRect(10, 60, 30, 30, parent)) {
+                if (this.open) {
+                    this.open = false;
+                    return;
+                } else {
+                    this.open = true;
+                    return;
+                }
+            }
+            if (open) {
+                if (Listeners.overRect(40, 60, 30, 30, parent)) {
                     this.items = new boolean[5];
-                    if(this.items[0]){
+                    if (this.items[0]) {
                         this.items[0] = false;
                     } else {
                         this.items[0] = true;
+                        playerItem = "wheat";
                     }
                 }
-            if(Listeners.overRect(70,60,30,30,parent)){
-                this.items = new boolean[5];
+                if (Listeners.overRect(70, 60, 30, 30, parent)) {
+                    this.items = new boolean[5];
+                    if (this.items[1]) {
+                        this.items[1] = false;
+                    } else {
+                        this.items[1] = true;
+                        playerItem = "ore";
+                    }
+                }
+                if (Listeners.overRect(100, 60, 30, 30, parent)) {
+                    this.items = new boolean[5];
+                    if (this.items[2]) {
+                        this.items[2] = false;
+                    } else {
+                        this.items[2] = true;
+                        playerItem = "wool";
+                    }
+                }
+                if (Listeners.overRect(130, 60, 30, 30, parent)) {
+                    this.items = new boolean[5];
+                    if (this.items[3]) {
+                        this.items[3] = false;
+                    } else {
+                        this.items[3] = true;
+                        playerItem = "brick";
+                    }
+                }
+                if (Listeners.overRect(160, 60, 30, 30, parent)) {
+                    this.items = new boolean[5];
+                    if (this.items[4]) {
+                        this.items[4] = false;
+                    } else {
+                        this.items[4] = true;
+                        playerItem = "logs";
+                    }
+                }
+                //once the menu is open and a
+                //grain
+                if(this.items[0]){
+                    //ore
+                    if (Listeners.overRect(40, 90, 30, 30, parent)) {
+                        this.bankItem = "ore";
+                        dialogue = true;
+                    }
+                    //wool
+                    if (Listeners.overRect(40, 120, 30, 30, parent)) {
+                        this.bankItem = "wool";
+                        dialogue = true;
+                    }
+                    //brick
+                    if (Listeners.overRect(40, 150, 30, 30, parent)) {
+                        this.bankItem = "brick";
+                        dialogue = true;
+                    }
+                    //logs
+                    if (Listeners.overRect(40, 180, 30, 30, parent)) {
+                        this.bankItem = "logs";
+                        dialogue = true;
+                    }
+                }
+                //ore
                 if(this.items[1]){
-                    this.items[1] = false;
-                } else {
-                    this.items[1] = true;
+                    //grain
+                    if (Listeners.overRect(70, 90, 30, 30, parent)) {
+                        this.bankItem = "grain";
+                        dialogue = true;
+                    }
+                    //wool
+                    if (Listeners.overRect(70, 120, 30, 30, parent)) {
+                        this.bankItem = "wool";
+                        dialogue = true;
+                    }
+                    //brick
+                    if (Listeners.overRect(70, 150, 30, 30, parent)) {
+                        this.bankItem = "brick";
+                        dialogue = true;
+                    }
+                    //logs
+                    if (Listeners.overRect(70, 180, 30, 30, parent)) {
+                        this.bankItem = "logs";
+                        dialogue = true;
+                    }
                 }
-            }
-            if(Listeners.overRect(100,60,30,30,parent)){
-                this.items = new boolean[5];
+                //wool
                 if(this.items[2]){
-                    this.items[2] = false;
-                } else {
-                    this.items[2] = true;
+                    //grain
+                    if (Listeners.overRect(100, 90, 30, 30, parent)) {
+                        this.bankItem = "grain";
+                        dialogue = true;
+                    }
+                    //ore
+                    if (Listeners.overRect(100, 120, 30, 30, parent)) {
+                        this.bankItem = "ore";
+                        dialogue = true;
+                    }
+                    //brick
+                    if (Listeners.overRect(100, 150, 30, 30, parent)) {
+                        this.bankItem = "brick";
+                        dialogue = true;
+                    }
+                    //logs
+                    if (Listeners.overRect(100, 180, 30, 30, parent)) {
+                        this.bankItem = "logs";
+                        dialogue = true;
+                    }
                 }
-            }
-            if(Listeners.overRect(130,60,30,30,parent)){
-                this.items = new boolean[5];
+
+                //bricks
                 if(this.items[3]){
-                    this.items[3] = false;
-                } else {
-                    this.items[3] = true;
+                    //grain
+                    if (Listeners.overRect(130, 90, 30, 30, parent)) {
+                        this.bankItem = "grain";
+                        dialogue = true;
+                    }
+                    //ore
+                    if (Listeners.overRect(130, 120, 30, 30, parent)) {
+                        this.bankItem = "ore";
+                        dialogue = true;
+                    }
+                    //wool
+                    if (Listeners.overRect(130, 150, 30, 30, parent)) {
+                        this.bankItem = "wool";
+                        dialogue = true;
+                    }
+                    //logs
+                    if (Listeners.overRect(130, 180, 30, 30, parent)) {
+                        this.bankItem = "logs";
+                        dialogue = true;
+                    }
                 }
-            }
-            if(Listeners.overRect(160,60,30,30,parent)){
-                this.items = new boolean[5];
+
+                //wood
                 if(this.items[4]){
-                    this.items[4] = false;
-                } else {
-                    this.items[4] = true;
+                    //grain
+                    if (Listeners.overRect(160, 90, 30, 30, parent)) {
+                        this.bankItem = "grain";
+                        dialogue = true;
+                    }
+                    //ore
+                    if (Listeners.overRect(160, 120, 30, 30, parent)) {
+                        this.bankItem = "ore";
+                        dialogue = true;
+                    }
+                    //wool
+                    if (Listeners.overRect(160, 150, 30, 30, parent)) {
+                        this.bankItem = "wool";
+                        dialogue = true;
+                    }
+                    //bricks
+                    if (Listeners.overRect(160, 180, 30, 30, parent)) {
+                        this.bankItem = "brick";
+                        dialogue = true;
+                    }
                 }
             }
-            }
+        }
 
 
     }
@@ -745,6 +918,9 @@ public class Bank {
      * Displays the menu either open or closed
      */
     public void display(){
+        if(this.dialogue){
+            displayDialogue();
+        }
         if(this.open){
             displayOpen();
 
@@ -759,6 +935,88 @@ public class Bank {
 
     public void setOpen(boolean open) {
         this.open = open;
+    }
+
+
+    /**
+     * Displays the bank trade dialogue. The player trades
+     * 4 x Player Resources for 1 x bank resources
+     */
+    public void displayDialogue(){
+        int bankIndex = 0;
+        int playerIndex =0;
+        if(bankItem.equals("wheat")) {
+            bankIndex = 1;
+        }
+        if(playerItem.equals("wheat")) {
+            playerIndex = 1;
+        }
+        if(bankItem.equals("ore")) {
+            bankIndex = 2;
+        }
+        if(playerItem.equals("ore")) {
+            playerIndex = 2;
+        }
+        if(bankItem.equals("wool")) {
+            bankIndex = 3;
+        }
+        if(playerItem.equals("wool")) {
+            playerIndex = 3;
+        }
+        if(bankItem.equals("brick")) {
+            bankIndex = 4;
+        }
+        if(playerItem.equals("brick")) {
+            playerIndex = 4;
+        }
+        if(bankItem.equals("logs")) {
+            bankIndex = 5;
+        }
+        if(playerItem.equals("logs")) {
+            playerIndex = 5;
+        }
+
+        parent.textSize(20);
+        int width =  (int)(120 + parent.textWidth("Bank Trade"));
+        int height = 174;
+        int startX = (parent.SCREEN_WIDTH/2) - (width/2);
+        int startY = (parent.SCREEN_HEIGHT/2) - (height/2);
+        parent.fill(121, 85, 72);
+        parent.stroke(0,0,0,0);
+        parent.rect(startX,startY, width, height,5,5,5,5);
+        parent.image(parent.images[6],startX + 10,startY +5);
+        parent.fill(255);
+        parent.text("Bank Trade", startX + ((width/2) - parent.textWidth("Bank Trade")/2), startY + 25);
+        parent.image(parent.images[6],startX + (width - 40),startY+5);
+        parent.textSize(12);
+        parent.text("You will receive:", startX + ((width/2) - parent.textWidth("You will receive:")/2), startY + 45);
+        parent.image(parent.images[bankIndex],startX + ((width/4)),startY +48);
+        parent.text("1 x " + bankItem, startX + (width/4 ) + 40,startY +  64);
+        parent.text("You will lose:", startX + ((width/2) - parent.textWidth("You will lose:")/2),startY +  90);
+        parent.image(parent.images[playerIndex],startX + ((width/4)),startY +93);
+        parent.text("4 x " + playerItem, startX + (width/4) + 40 ,startY +  110);
+        //buttons
+        parent.fill(244, 67, 54);
+        parent.stroke(0, 0, 0, 10);
+        int buttonWidth = (int) (parent.textWidth("Okay") + 50);
+        parent.rect(startX + (width /2) - buttonWidth - 10, startY + height - 47, buttonWidth,40,5,5,5,5);
+
+        parent.rect(startX + (width /2) + 10, startY + height - 47, buttonWidth,40,5,5,5,5);
+        parent.stroke(0, 0, 0, 0);
+        parent.fill(0,0,0,30);
+        parent.rect(startX + (width /2) - buttonWidth - 10 +2, startY + height - 47 + 2, buttonWidth,40,5,5,5,5);
+        parent.rect(startX + (width /2) + 10 +2, startY + height - 47 + 2, buttonWidth,40,5,5,5,5);
+        parent.textFont(parent.fonts[1]);
+
+
+        parent.textSize(15);
+        parent.fill(255, 235, 59);
+        parent.text("Okay",startX + (width/2) - buttonWidth - 10 + (parent.textWidth("Okay")/2),startY + height -22);
+        parent.text("Cancel",startX + (width/2) + 10 + (buttonWidth/2) - (parent.textWidth("Cancel")/2), startY + height -22);
+
+        parent.textFont(parent.fonts[0]);
+        parent.fill(0,0,0,30);
+        parent.rect(startX+2,startY+2, width, height,5,5,5,5);
     }
 }
 
