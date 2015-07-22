@@ -18,7 +18,7 @@ public class Menus {
     private StatusMenu waitScreen;
     private BuildCard card;
     private Bank bank;
-
+    private TradeFloor tradeFloor;
 
     public Menus(Board parent){
         this.gameMenu = new GameMenu(parent, 300,400);
@@ -29,6 +29,7 @@ public class Menus {
         this.waitScreen = new StatusMenu("Waiting For More Players. Click below to ready up", parent, true);
         this.card = new BuildCard(parent);
         this.bank = new Bank(parent);
+        this.tradeFloor = new TradeFloor(parent);
 
     }
 
@@ -94,5 +95,13 @@ public class Menus {
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    public TradeFloor getTradeFloor() {
+        return tradeFloor;
+    }
+
+    public void setTradeFloor(TradeFloor tradeFloor) {
+        this.tradeFloor = tradeFloor;
     }
 }

@@ -665,6 +665,7 @@ public class BoardData {
     public void displayMenus(){
         if(displayMode == 10){
             menus.getConnect().display();
+            menus.getTradeFloor().display();
 
             return;
         }

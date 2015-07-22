@@ -48,7 +48,7 @@ public class Board extends PApplet {
         textSize(14);
         background(0, 188, 212);
         this.currentTool = 0;
-        this.images = new PImage[12];
+        this.images = new PImage[19];
         this.resourceIMG = new PImage[10];
         this.images[0] = loadImage("assets/logoSM.png");
         this.images[1] = loadImage("assets/grainSM.png");
@@ -63,6 +63,14 @@ public class Board extends PApplet {
         this.images[9] = loadImage("assets/woolBWSM.png");
         this.images[10] = loadImage("assets/brickBWSM.png");
         this.images[11] = loadImage("assets/logsBWSM.png");
+
+        this.images[12] = loadImage("assets/grainMD.png");
+        this.images[13] = loadImage("assets/oreMD.png");
+        this.images[14] = loadImage("assets/woolMD.png");
+        this.images[15] = loadImage("assets/brickMD.png");
+        this.images[16] = loadImage("assets/logsMD.png");
+        this.images[17] = loadImage("assets/plusSM.png");
+        this.images[18] = loadImage("assets/minusSM.png");
 
 
 

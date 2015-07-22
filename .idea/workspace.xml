@@ -8,9 +8,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f28f63ae-1344-4579-ab5b-77e189cbc3ad" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Prototype5/PlayerTradeCard.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Prototype5/TradeFloor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/Bank.java" afterPath="$PROJECT_DIR$/src/Prototype5/Bank.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/Board.java" afterPath="$PROJECT_DIR$/src/Prototype5/Board.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/BoardData.java" afterPath="$PROJECT_DIR$/src/Prototype5/BoardData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/PlayerInfo.java" afterPath="$PROJECT_DIR$/src/Prototype5/PlayerInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/Menus.java" afterPath="$PROJECT_DIR$/src/Prototype5/Menus.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CatanBoard.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,12 +36,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Prototype5/PlayerInfo.java">
+      <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Prototype5/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8865248">
-              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="50" column="35" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -46,28 +52,13 @@
         <entry file="file://$PROJECT_DIR$/src/Prototype5/Menus.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="34" column="4" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
+              <caret line="99" column="39" selection-start-line="99" selection-start-column="39" selection-end-line="99" selection-end-column="39" />
               <folding>
-                <element signature="e#1914#1915#0" expanded="true" />
-                <element signature="e#1941#1942#0" expanded="true" />
-                <element signature="e#1984#1985#0" expanded="true" />
-                <element signature="e#2016#2017#0" expanded="true" />
-                <element signature="e#2045#2046#0" expanded="true" />
-                <element signature="e#2072#2073#0" expanded="true" />
-                <element signature="e#2110#2111#0" expanded="true" />
-                <element signature="e#2142#2143#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Prototype5/Board.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#1035#1036#0" expanded="true" />
+                <element signature="e#1066#1067#0" expanded="true" />
+                <element signature="e#2300#2301#0" expanded="true" />
+                <element signature="e#2356#2357#0" expanded="true" />
+                <element signature="e#2400#2401#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -83,39 +74,58 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HexTile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Prototype5/HexTile.java">
+      <file leaf-file-name="TradeFloor.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Prototype5/TradeFloor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.6666665">
-              <caret line="115" column="41" selection-start-line="115" selection-start-column="41" selection-end-line="115" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.67042255">
+              <caret line="134" column="21" selection-start-line="134" selection-start-column="21" selection-end-line="134" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#37168#37177#0" expanded="true" />
+                <element signature="method#TradeFloor#0;class#TradeFloor#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Bank.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Prototype5/Bank.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5555556">
-              <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-              <folding>
-                <element signature="e#35254#35255#0" expanded="true" />
-                <element signature="e#35281#35282#0" expanded="true" />
-                <element signature="e#35322#35323#0" expanded="true" />
-                <element signature="e#35354#35355#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BottomMenuButton.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenuButton.java">
+      <file leaf-file-name="PlayerTradeCard.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Prototype5/PlayerTradeCard.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="9" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
+              <caret line="50" column="19" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#6406#6407#0" expanded="true" />
+                <element signature="e#6446#6447#0" expanded="true" />
+                <element signature="e#6480#6481#0" expanded="true" />
+                <element signature="e#6510#6511#0" expanded="true" />
+                <element signature="e#6557#6558#0" expanded="true" />
+                <element signature="e#6595#6596#0" expanded="true" />
+                <element signature="e#6647#6648#0" expanded="true" />
+                <element signature="e#6676#6677#0" expanded="true" />
+                <element signature="e#6739#6740#0" expanded="true" />
+                <element signature="e#6775#6776#0" expanded="true" />
+                <element signature="e#6826#6827#0" expanded="true" />
+                <element signature="e#6854#6855#0" expanded="true" />
+                <element signature="e#6915#6916#0" expanded="true" />
+                <element signature="e#6949#6950#0" expanded="true" />
+                <element signature="e#6979#6980#0" expanded="true" />
+                <element signature="e#7008#7009#0" expanded="true" />
+                <element signature="e#7049#7050#0" expanded="true" />
+                <element signature="e#7085#7086#0" expanded="true" />
+                <element signature="e#7115#7116#0" expanded="true" />
+                <element signature="e#7144#7145#0" expanded="true" />
+                <element signature="e#7185#7186#0" expanded="true" />
+                <element signature="e#7221#7222#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BottomMenu.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="33" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -124,8 +134,8 @@
       <file leaf-file-name="BoardData.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Prototype5/BoardData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.888889">
-              <caret line="679" column="42" selection-start-line="679" selection-start-column="42" selection-end-line="679" selection-end-column="42" />
+            <state vertical-scroll-proportion="-4.3333335">
+              <caret line="667" column="44" selection-start-line="667" selection-start-column="44" selection-end-line="667" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -155,8 +165,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Prototype2/Board.java" />
-        <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/BoardData.java" />
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/HexTile.java" />
         <option value="$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java" />
         <option value="$PROJECT_DIR$/src/Prototype4/HexCoast.java" />
@@ -200,12 +208,14 @@
         <option value="$PROJECT_DIR$/src/Prototype5/HexPoint.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/HexSide.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/HexTile.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/Menus.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/BottomMenuButton.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/Board.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/Bank.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/BoardData.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/PlayerInfo.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/Bank.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/Menus.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/BoardData.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/Board.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/PlayerTradeCard.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/TradeFloor.java" />
       </list>
     </option>
   </component>
@@ -223,7 +233,7 @@
     <option name="x" value="11" />
     <option name="y" value="23" />
     <option name="width" value="1256" />
-    <option name="height" value="765" />
+    <option name="height" value="697" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -297,6 +307,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Prototype5" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CatanBoard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CatanBoard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -611,7 +635,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="11" y="23" width="1256" height="765" extended-state="0" />
+    <frame x="11" y="23" width="1256" height="697" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -620,17 +644,17 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34769687" sideWeight="0.4934102" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39970282" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3983471" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32650074" sideWeight="0.5065898" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24876441" sideWeight="0.5078125" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329429" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17830609" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1768595" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32838038" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24958813" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2166392" sideWeight="0.4921875" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32986626" sideWeight="0.4934102" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36694214" sideWeight="0.4934102" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329429" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -691,43 +715,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Prototype4/Debug.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24396135">
-          <caret line="286" column="16" selection-start-line="286" selection-start-column="16" selection-end-line="286" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10869565">
-          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_1/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.32608697">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_3/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.9202899">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="26" column="9" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype3/Prototype3_2/BoardData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
@@ -845,19 +832,6 @@
           <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.5351813">
-          <caret line="77" column="49" selection-start-line="77" selection-start-column="49" selection-end-line="77" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/brickLG1.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/logsLG1.png">
@@ -1048,14 +1022,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenuButton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="9" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype5/Dice.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1066,8 +1032,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype5/Bank.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5555556">
-          <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
+        <state vertical-scroll-proportion="-9.666667">
+          <caret line="647" column="7" selection-start-line="647" selection-start-column="7" selection-end-line="647" selection-end-column="7" />
           <folding>
             <element signature="e#35254#35255#0" expanded="true" />
             <element signature="e#35281#35282#0" expanded="true" />
@@ -1077,19 +1043,70 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/PlayerInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/BoardData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.3333335">
+          <caret line="667" column="44" selection-start-line="667" selection-start-column="44" selection-end-line="667" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenuButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="34" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="33" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/logsMD.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/grainSM.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/brickLG1.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/woolMD.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype5/Menus.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="4" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
+          <caret line="99" column="39" selection-start-line="99" selection-start-column="39" selection-end-line="99" selection-end-column="39" />
           <folding>
-            <element signature="e#1914#1915#0" expanded="true" />
-            <element signature="e#1941#1942#0" expanded="true" />
-            <element signature="e#1984#1985#0" expanded="true" />
-            <element signature="e#2016#2017#0" expanded="true" />
-            <element signature="e#2045#2046#0" expanded="true" />
-            <element signature="e#2072#2073#0" expanded="true" />
-            <element signature="e#2110#2111#0" expanded="true" />
-            <element signature="e#2142#2143#0" expanded="true" />
+            <element signature="e#1035#1036#0" expanded="true" />
+            <element signature="e#1066#1067#0" expanded="true" />
+            <element signature="e#2300#2301#0" expanded="true" />
+            <element signature="e#2356#2357#0" expanded="true" />
+            <element signature="e#2400#2401#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1097,28 +1114,53 @@
     <entry file="file://$PROJECT_DIR$/src/Prototype5/Board.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+          <caret line="50" column="35" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/BoardData.java">
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/PlayerTradeCard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.888889">
-          <caret line="679" column="42" selection-start-line="679" selection-start-column="42" selection-end-line="679" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="50" column="19" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#6406#6407#0" expanded="true" />
+            <element signature="e#6446#6447#0" expanded="true" />
+            <element signature="e#6480#6481#0" expanded="true" />
+            <element signature="e#6510#6511#0" expanded="true" />
+            <element signature="e#6557#6558#0" expanded="true" />
+            <element signature="e#6595#6596#0" expanded="true" />
+            <element signature="e#6647#6648#0" expanded="true" />
+            <element signature="e#6676#6677#0" expanded="true" />
+            <element signature="e#6739#6740#0" expanded="true" />
+            <element signature="e#6775#6776#0" expanded="true" />
+            <element signature="e#6826#6827#0" expanded="true" />
+            <element signature="e#6854#6855#0" expanded="true" />
+            <element signature="e#6915#6916#0" expanded="true" />
+            <element signature="e#6949#6950#0" expanded="true" />
+            <element signature="e#6979#6980#0" expanded="true" />
+            <element signature="e#7008#7009#0" expanded="true" />
+            <element signature="e#7049#7050#0" expanded="true" />
+            <element signature="e#7085#7086#0" expanded="true" />
+            <element signature="e#7115#7116#0" expanded="true" />
+            <element signature="e#7144#7145#0" expanded="true" />
+            <element signature="e#7185#7186#0" expanded="true" />
+            <element signature="e#7221#7222#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/PlayerInfo.java">
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/TradeFloor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8865248">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.67042255">
+          <caret line="134" column="21" selection-start-line="134" selection-start-column="21" selection-end-line="134" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#TradeFloor#0;class#TradeFloor#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

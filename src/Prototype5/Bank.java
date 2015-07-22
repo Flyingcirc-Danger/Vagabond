@@ -549,7 +549,7 @@ public class Bank {
                 if(this.items[1]){
                     //grain
                     if (Listeners.overRect(70, 90, 30, 30, parent)) {
-                        this.bankItem = "grain";
+                        this.bankItem = "wheat";
                         dialogue = true;
                     }
                     //wool
@@ -572,7 +572,7 @@ public class Bank {
                 if(this.items[2]){
                     //grain
                     if (Listeners.overRect(100, 90, 30, 30, parent)) {
-                        this.bankItem = "grain";
+                        this.bankItem = "wheat";
                         dialogue = true;
                     }
                     //ore
@@ -596,7 +596,7 @@ public class Bank {
                 if(this.items[3]){
                     //grain
                     if (Listeners.overRect(130, 90, 30, 30, parent)) {
-                        this.bankItem = "grain";
+                        this.bankItem = "wheat";
                         dialogue = true;
                     }
                     //ore
@@ -620,7 +620,7 @@ public class Bank {
                 if(this.items[4]){
                     //grain
                     if (Listeners.overRect(160, 90, 30, 30, parent)) {
-                        this.bankItem = "grain";
+                        this.bankItem = "wheat";
                         dialogue = true;
                     }
                     //ore
