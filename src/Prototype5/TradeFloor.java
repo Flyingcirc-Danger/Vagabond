@@ -1,9 +1,9 @@
 package Prototype5;
 
-import processing.core.PImage;
 
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.IdentityHashMap;
+
 
 /**
  * A class containing all the information
@@ -15,14 +15,25 @@ public class TradeFloor {
     private Board parent;
     private PlayerTradeCard[] trades;
     private PlayerTradeCard client;
+    private int[][] plusButtons;
+    private int[][] minusButtons;
 
     public TradeFloor(Board parent){
         this.parent = parent;
         this.trades = new PlayerTradeCard[5];
+        this.plusButtons = new int[10][4];
+        this.minusButtons = new int[10][4];
+        initButtons();
         initCards();
         trades[1].setWants(new HashMap<Integer,Integer>());
         trades[3].setOffers(new HashMap<Integer, Integer>());
         initClient();
+        System.out.println(Arrays.toString(plusButtons[3]));
+        System.out.println(Arrays.toString(minusButtons[3]));
+        System.out.println(Arrays.toString(plusButtons[4]));
+        System.out.println(Arrays.toString(minusButtons[4]));
+
+
 
 
     }
@@ -116,6 +127,8 @@ public class TradeFloor {
 
         drawOffer(offerStartX, startY);
 
+        //buttons
+
 
         //want
         parent.fill(40, 53, 157);
@@ -125,8 +138,31 @@ public class TradeFloor {
         parent.fill(255);
         parent.text("Incoming (Buying)", wantStartX + 200 - (parent.textWidth("Incoming (Buying)")/2), startY + 25);
         drawWant(wantStartX,startY);
+        clientButtons(offerStartX + 400, wantStartX, startY);
 
 
+    }
+
+    private void clientButtons(int startX, int endX, int startY){
+        parent.textSize(20);
+        int width = (int)parent.textWidth(" Propose ");
+        int butY = (startY + 100) - 80/2;
+        int butX = startX + ((endX - startX)/2) - (width/2);
+
+        parent.fill(255,160,0);
+        parent.rect(butX, butY,width,30,5,5,5,5);
+        parent.fill(255);
+        parent.textSize(16);
+        parent.text("Propose", butX + (width/2) - (parent.textWidth("Propose")/2), (butY + 15) + 7);
+        parent.fill(0, 0, 0, 30);
+        parent.rect(butX+2, butY+2,width,30,5,5,5,5);
+        parent.fill(255,160,0);
+        parent.rect(butX, butY + 40,width,30,5,5,5,5);
+        parent.fill(255);
+        parent.textSize(16);
+        parent.text("Back", butX + (width/2) - (parent.textWidth("Back")/2), (butY + 55) + 7);
+        parent.fill(0,0,0,30);
+        parent.rect(butX +2, butY + 42,width,32,5,5,5,5);
     }
 
     /**
@@ -138,7 +174,7 @@ public class TradeFloor {
      */
     public void counterResource(int id,int startX, int startY,boolean offer){
         parent.fill(27,37,110);
-        parent.rect(startX, startY, 110,60,5,5,5,5);
+        parent.rect(startX, startY, 110,65,5,5,5,5);
         parent.image(parent.images[17], startX+5 , startY + 5);
         parent.image(parent.images[18], startX+5, startY + 35);
         parent.image(parent.images[id+11], startX +30, startY +5 );
@@ -185,6 +221,120 @@ public class TradeFloor {
         int startXR2 = wantStartX + 200 - (240/2);
         counterResource(4,startXR2, startY + 80,false);
         counterResource(5,startXR2 + 120, startY + 80,false);
+
+    }
+
+    public void initButtons(){
+        int startX = ((parent.SCREEN_WIDTH /4) - 200) +(200 - (350/2)) + 5;
+        int startY = (((parent.SCREEN_HEIGHT/4) *3) - (100)) + (100 - (130/2)) + 10;
+        plusButtons[0] = new int[]{startX,startY+5,25,25};
+        minusButtons[0] = new int[]{startX,startY + 40,25,25};
+        startX = startX + 120;
+        plusButtons[1] = new int[]{startX,startY+5,25,25};
+        minusButtons[1] = new int[]{startX,startY + 40,25,25};
+        startX = startX + 120;
+        plusButtons[2] = new int[]{startX,startY+5,25,25};
+        minusButtons[2] = new int[]{startX,startY + 40,25,25};
+
+        startX =  ((parent.SCREEN_WIDTH /4) - 200) + (200 - (240/2)) + 5;
+
+        startY = startY + 75;
+        plusButtons[3] = new int[]{startX,startY,25,25};
+        minusButtons[3] = new int[]{startX,startY + 30,25,25};
+        startX =  startX + 120;
+        plusButtons[4] = new int[]{startX,startY,25,25};
+        minusButtons[4] = new int[]{startX,startY + 30,25,25};
+
+        startX =  (((parent.SCREEN_WIDTH /4)*3) - 200) + 200 - (350/2);
+        startY = (((parent.SCREEN_HEIGHT/4) *3) - (100)) + (100 - (130/2)) + 10;
+        plusButtons[5] = new int[]{startX,startY+5,25,25};
+        minusButtons[5] = new int[]{startX,startY + 40,25,25};
+        startX = startX + 120;
+        plusButtons[6] = new int[]{startX,startY+5,25,25};
+        minusButtons[6] = new int[]{startX,startY + 40,25,25};
+        startX = startX + 120;
+        plusButtons[7] = new int[]{startX,startY+5,25,25};
+        minusButtons[7] = new int[]{startX,startY + 40,25,25};
+
+        startX =  (((parent.SCREEN_WIDTH /4)*3) - 200)+ 200 - (240/2) + 5;
+
+
+
+        startY = startY + 75;
+        plusButtons[8] = new int[]{startX,startY,25,25};
+        minusButtons[8] = new int[]{startX,startY + 30,25,25};
+        startX =  startX + 120;
+        plusButtons[9] = new int[]{startX,startY,25,25};
+        minusButtons[9] = new int[]{startX,startY + 30,25,25};
+
+    }
+
+
+    public void checkButtons(){
+        for(int i = 0; i < plusButtons.length; i++){
+            int[] coords = plusButtons[i];
+            if(Listeners.overRect(coords[0],coords[1],coords[2],coords[3],parent)){
+                if(i == 0){
+                    client.addGrain(true);
+                }
+                if(i == 1){
+                    client.addOre(true);
+                }
+                if(i == 2){
+                    client.addWool(true);
+                }
+                if(i == 3){
+                    client.addBrick(true);
+                }
+                if(i == 4){
+                    client.addLog(true);
+                } if (i == 5) {
+                    client.addGrain(false);
+                }
+                if (i == 6) {
+                    client.addOre(false);
+                }if (i == 7) {
+                    client.addWool(false);
+                }if (i == 8) {
+                    client.addBrick(false);
+                }if (i == 9) {
+                    client.addLog(false);
+                }
+            }
+        }
+        for(int i = 0; i < minusButtons.length; i++){
+            int[] coords = minusButtons[i];
+            if(Listeners.overRect(coords[0],coords[1],coords[2],coords[3],parent)){
+                if(i == 0){
+                    client.subGrain(true);
+                }
+                if(i == 1) {
+                    client.subOre(true);
+                }
+                if(i == 2) {
+                    client.subWool(true);
+                }
+                if(i == 3){
+                    client.subBrick(true);
+                }
+                if(i == 4) {
+                    client.subLog(true);
+                }
+                if (i == 5) {
+                    client.subGrain(false);
+                }
+                if (i == 6) {
+                    client.subOre(false);
+                }if (i == 7) {
+                    client.subWool(false);
+                }if (i == 8) {
+                    client.subBrick(false);
+                }
+                if (i == 9) {
+                    client.subLog(false);
+                }
+            }
+        }
 
     }
 

@@ -177,7 +177,7 @@ public class Board extends PApplet {
     }
 
     public static void main(String args[]) {
-        PApplet.main(new String[] {"Prototype5.Board" });
+        PApplet.main(new String[] {"--present", "Prototype5.Board" });
     }
     //"--present",
 }

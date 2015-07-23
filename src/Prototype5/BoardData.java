@@ -666,6 +666,8 @@ public class BoardData {
         if(displayMode == 10){
             menus.getConnect().display();
             menus.getTradeFloor().display();
+            menus.getResourceBar().displayBottom();
+
 
             return;
         }
@@ -692,6 +694,7 @@ public class BoardData {
     public void checkMenus(){
         if(displayMode == 10){
             menus.getConnect().checkButtons();
+            menus.getTradeFloor().checkButtons();
 
         }
         if(displayMode == 7){

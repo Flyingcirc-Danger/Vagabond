@@ -34,6 +34,21 @@ public class ResourceIcon {
         parent.text(getAmount(), startPos.x + 47 - (parent.textWidth("" +amount)/2), 5 + 15 + 7 );
     }
 
+    /**
+     * Displays the resource bar on the bottom of the screen
+     */
+    public void displayBottom(){
+        parent.image(getImg(),startPos.x,parent.SCREEN_HEIGHT -35);
+        parent.fill(78,52,46);
+        parent.stroke(0,0,0,30);
+        parent.rect(startPos.x + 32, parent.SCREEN_HEIGHT - 37, 30,25,5,5,5,5);
+        parent.fill(255);
+        parent.textFont(parent.fonts[0]);
+        parent.textSize(14);
+        parent.text(getAmount(), startPos.x + 47 - (parent.textWidth("" +amount)/2), parent.SCREEN_HEIGHT - (20) );
+    }
+
+
 
     public Point getStartPos() {
         return startPos;

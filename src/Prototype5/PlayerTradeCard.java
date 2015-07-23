@@ -48,7 +48,7 @@ public class PlayerTradeCard {
         wants.put(2,0);
         wants.put(3,0);
         wants.put(4,0);
-        wants.put(5,0);
+        wants.put(5, 0);
         this.startX = startX;
         this.startY = startY;
 
@@ -337,6 +337,118 @@ public class PlayerTradeCard {
                 wants.put(5, wants.get(5) + 1);
             } else{
                 wants.put(5,1);
+            }
+
+        }
+    }
+
+
+
+    /**
+     * Subtracts 1 wheat resource to this
+     * players offer or wants hashmap
+     * @param offer true = offer, false = want
+     */
+    public void subGrain(boolean offer){
+        if(offer){
+            if(offers.containsKey(1)){
+                if(offers.get(1) > 0) {
+                    offers.put(1, offers.get(1) - 1);
+                }
+            }
+        } else{
+            if(wants.containsKey(1)){
+                if(wants.get(1) > 0) {
+                    wants.put(1, wants.get(1) - 1);
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Subtracts 1 wheat resource to this
+     * players offer or wants hashmap
+     * @param offer true = offer, false = want
+     */
+    public void subOre(boolean offer){
+        if(offer){
+            if(offers.containsKey(2)){
+                if(offers.get(2) > 0) {
+                    offers.put(2, offers.get(2) - 1);
+                }
+            }
+        } else{
+            if(wants.containsKey(2)){
+                if(wants.get(2) > 0) {
+                    wants.put(2, wants.get(2) - 1);
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Subtracts 1 wool resource to this
+     * players offer or wants hashmap
+     * @param offer true = offer, false = want
+     */
+    public void subWool(boolean offer){
+        if(offer){
+            if(offers.containsKey(3)){
+                if(offers.get(3) > 0) {
+                    offers.put(3, offers.get(3) - 1);
+                }
+            }
+        } else{
+            if(wants.containsKey(3)){
+                if(wants.get(3) > 0) {
+                    wants.put(3, wants.get(3) - 1);
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Subtracts 1 brick resource to this
+     * players offer or wants hashmap
+     * @param offer true = offer, false = want
+     */
+    public void subBrick(boolean offer){
+        if(offer){
+            if(offers.containsKey(4)){
+                if(offers.get(4) > 0) {
+                    offers.put(4, offers.get(4) - 1);
+                }
+            }
+        } else{
+            if(wants.containsKey(4)){
+                if(wants.get(4) > 0) {
+                    wants.put(4, wants.get(4) - 1);
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Subtracts 1 log resource to this
+     * players offer or wants hashmap
+     * @param offer true = offer, false = want
+     */
+    public void subLog(boolean offer){
+        if(offer){
+            if(offers.containsKey(5)){
+                if(offers.get(5) > 0) {
+                    offers.put(5, offers.get(5) - 1);
+                }
+            }
+        } else{
+            if(wants.containsKey(5)){
+                if(wants.get(5) > 0) {
+                    wants.put(5, wants.get(5) - 1);
+                }
             }
 
         }

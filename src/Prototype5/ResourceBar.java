@@ -29,6 +29,18 @@ public class ResourceBar {
 
     }
 
+    /**
+     * Displays the resource bar on the bottom of the screen
+     */
+    public void displayBottom(){
+        parent.fill(121, 85, 72);
+        parent.stroke(0,0,0,0);
+        parent.rect(0, parent.SCREEN_HEIGHT - 40, parent.SCREEN_WIDTH, 40);
+        for(ResourceIcon icon : resources){
+            icon.displayBottom();
+        }
+
+    }
 
 
     /**
