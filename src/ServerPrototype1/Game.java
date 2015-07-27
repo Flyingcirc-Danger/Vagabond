@@ -2,9 +2,7 @@ package ServerPrototype1;
 
 
 
-import Prototype5.BoardData;
-import Prototype5.HexTile;
-import Prototype5.ObjectParser;
+import Prototype5.*;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -32,21 +30,22 @@ public class Game implements Runnable {
     public boolean gameBegin;
     public int readyPlayers;
     public int turnSeq;
+    public int lastMessageType; //the type of message last recieved (0 = turn, 1 = alert, 2 = trade)
 
 
     public Game(){
-        this.currentID = 0;
+        this.currentID = 1;
         this.gameBegin = false;
         this.mainBoard = new BoardData();
         players= new ArrayList<Player>();
         messages = new LinkedBlockingQueue<String>();
         heartBeat = new HashMap<Integer, String>();
+        this.lastMessageType = 0;
         record = new MessageRecord();
         int SCREEN_HEIGHT = 768;
         int SCREEN_WIDTH = 1024;
         HexTile center=new HexTile(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, mainBoard,mainBoard.getResourceTiles()[0],mainBoard.getTokens()[0]);
         center.getModel().buildBoard((center));
-        this.XMLboard = ObjectParser.parseModel(mainBoard);
 
         Thread sendAll = new Thread() {
             public void run() {
@@ -58,13 +57,16 @@ public class Game implements Runnable {
                                 message = record.getCurrent();
 
                             }
-                            //System.out.println("Sent message from Game: " + message);
                             for (Player con : players) {
                                 con.send(message);
 
                             }
+                            //evaluate what kindof message has been sent
                             if(message.length() > 1){
-                                turnSequence();
+                                if(lastMessageType != 2){
+                                    turnSequence();
+                                }
+
                             }
                             sleep(2000);
                             if(players.size() > 0) {
@@ -127,15 +129,16 @@ public class Game implements Runnable {
      */
     public void addPlayer(Socket s){
         if(this.currentID > 3){
-            this.currentID = 0;
+            this.currentID = 1;
         }
         int setID = currentID;
         this.currentID +=1;
         ServerToClientConnection temp = new ServerToClientConnection(s, this.heartBeat, setID, this, this.record);
-        Player newPlayer = new Player(temp,setID,"Tom", 0);
+        Player newPlayer = new Player(temp,setID,"Tom", 0,mainBoard);
         players.add(newPlayer);
         heartBeat.put(newPlayer.getId(), "START");
         System.out.println("Player " + newPlayer.getId() + " has entered the game");
+        this.mainBoard.addNewPlayer(setID);
     }
 
     public String getGameID(){
@@ -155,6 +158,7 @@ public class Game implements Runnable {
             String turn = ObjectParser.generateTurnBegin(d1,d2,this);
             for(Player play : players) {
                 try {
+                    this.XMLboard = ObjectParser.parseModel(mainBoard);
                     play.send(XMLboard);
                     Thread.sleep(100);
                     play.send(play.getPlayerXML());

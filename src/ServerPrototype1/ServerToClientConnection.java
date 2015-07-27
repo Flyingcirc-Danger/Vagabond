@@ -168,6 +168,11 @@ public class ServerToClientConnection {
                     System.out.println("Alert Recieved");
                     return;
                 }
+                //for trades
+                if(parseVal == 3) {
+                    System.out.println("Propagating trade ");
+                    record.setCurrent(message);
+                }
             }
         }
             heartBeat.put(id, message);

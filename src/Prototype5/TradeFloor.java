@@ -1,7 +1,8 @@
 package Prototype5;
 
 
-import java.util.Arrays;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -17,36 +18,59 @@ public class TradeFloor {
     private PlayerTradeCard client;
     private int[][] plusButtons;
     private int[][] minusButtons;
+    private int offerHighlight;
+    private int wantHighlight;
+    private PlayerTradeCard playerNeg;// the player who currently you're countering.
+    private boolean tradeAlert;
+    private int tradeAlertPlayer; //the name of the player whose trade has come in.
 
-    public TradeFloor(Board parent){
+    public TradeFloor(Board parent) {
         this.parent = parent;
-        this.trades = new PlayerTradeCard[5];
         this.plusButtons = new int[10][4];
         this.minusButtons = new int[10][4];
-        initButtons();
-        initCards();
-        trades[1].setWants(new HashMap<Integer,Integer>());
-        trades[3].setOffers(new HashMap<Integer, Integer>());
-        initClient();
-        System.out.println(Arrays.toString(plusButtons[3]));
-        System.out.println(Arrays.toString(minusButtons[3]));
-        System.out.println(Arrays.toString(plusButtons[4]));
-        System.out.println(Arrays.toString(minusButtons[4]));
-
-
-
+        this.offerHighlight = 0;
+        this.wantHighlight = 0;
+        this.playerNeg = client;
+        this.tradeAlert = false;
+        this.tradeAlertPlayer = 0;
 
     }
 
+    public void buildTradeFloor() {
+        this.trades = new PlayerTradeCard[parent.model.getPlayerList().size()];
+        initButtons();
+        initCards();
+        initClient();
+    }
+
+    /**
+     * Retrieve the player in this trade floor
+     * whos id matches the id. runs in O(n) but
+     * there can only be 4 players so it's pretty fast.
+     * Throws a null pointer if the player cant be found.
+     * @param id the id you're searching for.
+     * @return the playercard matching the provided id.
+     */
+    public PlayerTradeCard getPlayerForTrade(int id){
+        for(int i = 0; i < trades.length; i++){
+            if(trades[i].getId() == id){
+                return trades[i];
+            }
+        }
+        throw new NullPointerException("Cannot find player with id " + id);
+
+    }
 
     public void display(){
         parent.background(121, 85, 72);
         for(int i = 0; i < trades.length; i++){
             trades[i].displayCard();
         }
-        //client.displayCard();
         displayButtons();
         displayClientFloor();
+        if(tradeAlert){
+            displayTradeAlert();
+        }
 
     }
 
@@ -56,8 +80,10 @@ public class TradeFloor {
     public void initCards(){
         int spacer = (parent.SCREEN_WIDTH - (trades.length * 150)) / (trades.length + 1);
         int runningStartX = 0 + spacer;
+        ArrayList<Integer> playerList = parent.model.getPlayerList();
+
         for(int i = 0; i < trades.length; i++){
-            trades[i] = new PlayerTradeCard(parent,i, runningStartX,
+            trades[i] = new PlayerTradeCard(parent,playerList.get(i), runningStartX,
                     (parent.SCREEN_HEIGHT/4) - (280/2) - 40);
             runningStartX = runningStartX + (150 + spacer);
         }
@@ -69,8 +95,9 @@ public class TradeFloor {
      * Initializes the clients cards
      */
     public void initClient(){
-        this.client = new PlayerTradeCard(parent, 0, (parent.SCREEN_WIDTH/2) - (150 /2),
+        this.client = new PlayerTradeCard(parent, parent.model.getPlayer().getId(), (parent.SCREEN_WIDTH/2) - (150 /2),
                 ((parent.SCREEN_HEIGHT/4) * 3) - (280/2));
+        this.tradeAlertPlayer = client.getId();
     }
 
     /**
@@ -80,34 +107,10 @@ public class TradeFloor {
      */
     public void displayButtons(){
         for(PlayerTradeCard trade : trades){
-            parent.textSize(12);
-                int acceptX = trade.getStartX() + (160 / 2) - (5 + (int) parent.textWidth(" Counter "));
-                int counterX = trade.getStartX() + (160 / 2) + 5;
-                int acceptY = trade.getStartY() + 290;
-                if(trade.getWants().size() == 0 || trade.getOffers().size() == 0 ){
-                    counterX = trade.getStartX() + (160/2) - (int)(parent.textWidth(" Counter ")/2);
-                    parent.fill(40, 53, 157);
-                    parent.rect(counterX, acceptY, parent.textWidth(" Counter "), 30, 5, 5, 5, 5);
-                    parent.fill(0,0,0,30);
-                    parent.rect(counterX+2, acceptY+2, parent.textWidth(" Counter "), 30, 5, 5, 5, 5);
-                    parent.fill(255);
-                    parent.text(" Counter ", counterX, acceptY + (30/2) + 4 );
-                } else {
-                    parent.fill(85, 139, 47);
-                    parent.rect(acceptX, acceptY, parent.textWidth(" Counter "), 30, 5, 5, 5, 5);
-                    parent.fill(0,0,0,30);
-                    parent.rect(acceptX+2, acceptY+2, parent.textWidth(" Counter "), 30, 5, 5, 5, 5);
-                    parent.fill(255);
-                    parent.text(" Accept ", acceptX + (parent.textWidth(" Counter ")/2) - (parent.textWidth(" Accept ")/2), acceptY + (30/2) + 4 );
-                    parent.fill(40, 53, 157);
-                    parent.rect(counterX, acceptY, parent.textWidth(" Counter "), 30, 5, 5, 5, 5);
-                    parent.fill(0,0,0,30);
-                    parent.rect(counterX+2, acceptY+2, parent.textWidth(" Counter "), 30, 5, 5, 5, 5);
-                    parent.fill(255);
-                    parent.text(" Counter ", counterX, acceptY + (30/2) + 4 );
+
 
             }
-        }
+
     }
 
     /**
@@ -117,10 +120,21 @@ public class TradeFloor {
     public void displayClientFloor(){
         //offer
 
-        parent.fill(40, 53, 157);
+
         int offerStartX = (parent.SCREEN_WIDTH /4) - 200;
         int startY = ((parent.SCREEN_HEIGHT/4) *3) - (100) ;
+        parent.fill(40, 53, 157);
         parent.rect(offerStartX,startY,400,200,10,10,10,10);
+        if(offerHighlight > 0){
+            if(offerHighlight > 94) {
+                parent.fill(0,255,34);
+                offerHighlight = offerHighlight - 3;
+            } else {
+                parent.fill(0, 255, 34, offerHighlight);
+                offerHighlight = offerHighlight - 10;
+            }
+            parent.rect(offerStartX, startY, 400, 200, 10, 10, 10, 10);
+        }
         parent.textSize(20);
         parent.fill(255);
         parent.text("Outgoing (Selling)", offerStartX + 200 - (parent.textWidth("Outgoing (Selling)")/2), startY + 25);
@@ -134,6 +148,16 @@ public class TradeFloor {
         parent.fill(40, 53, 157);
         int wantStartX = ((parent.SCREEN_WIDTH /4)*3) - 200;
         parent.rect(wantStartX,startY,400,200,10,10,10,10);
+        if(wantHighlight > 0){
+            if(wantHighlight > 94) {
+                parent.fill(0,255,34);
+                wantHighlight = wantHighlight - 3;
+            } else {
+                parent.fill(0, 255, 34, wantHighlight);
+                wantHighlight = wantHighlight - 10;
+            }
+            parent.rect(wantStartX,startY,400,200,10,10,10,10);
+        }
         parent.textSize(20);
         parent.fill(255);
         parent.text("Incoming (Buying)", wantStartX + 200 - (parent.textWidth("Incoming (Buying)")/2), startY + 25);
@@ -183,9 +207,17 @@ public class TradeFloor {
         parent.fill(255);
         parent.textSize(12);
         if(offer) {
-            parent.text(client.getOffers().get(id), startX + 80 + 7, startY + 30 + 6);
+            if(client.getOffers().containsKey(id)) {
+                parent.text(client.getOffers().get(id), startX + 80 + 7, startY + 30 + 6);
+            } else{
+                parent.text("0", startX + 80 + 7, startY + 30 + 6);
+            }
         } else{
-            parent.text(client.getWants().get(id), startX + 80 + 7, startY + 30 + 6);
+            if(client.getWants().containsKey(id)) {
+                parent.text(client.getWants().get(id), startX + 80 + 7, startY + 30 + 6);
+            } else{
+                parent.text("0", startX + 80 + 7, startY + 30 + 6);
+            }
         }
 
     }
@@ -271,6 +303,55 @@ public class TradeFloor {
 
 
     public void checkButtons(){
+        for(PlayerTradeCard trade : trades){
+            int tradeButton = trade.checkButtons();
+            if(tradeButton > -1){
+                if(tradeButton == 0){
+                    playerNeg.setActiveOffer(false);
+                    trade.setActiveOffer(true);
+                    playerNeg = trade;
+                    //move offer to client side.
+                    if(trade.getOffers().size() > 0) {
+                        client.setOffers(trade.getOffers());
+                        offerHighlight = 100;
+                    }
+                    if(trade.getWants().size() > 0) {
+                        client.setWants(trade.getWants());
+                        wantHighlight = 100;
+                    }
+
+                } else{
+                    //perform the trade
+                    playerNeg = trade;//accepted trader becomes the playerNeg (playerNegotiatedWith).
+                    parent.model.setTradeManifest(ObjectParser.parseAccept(this, true));
+                    performTrade(getPlayerForTrade(tradeButton));
+                }
+                return;
+            }
+        }
+
+        int startX =  ((parent.SCREEN_WIDTH /4) - 200) + 400;
+        int endX =  ((parent.SCREEN_WIDTH /4)*3) - 200;;
+        int startY = ((parent.SCREEN_HEIGHT/4) *3) - (100);
+        parent.textSize(20);
+        int width = (int)parent.textWidth(" Propose ");
+        int butY = (startY + 100) - 80/2;
+        int butX = startX + ((endX - startX)/2) - (width/2);
+
+
+        parent.fill(0);
+        if(Listeners.overRect(butX, butY,((int)parent.textWidth(" Propose ")),30, parent)){
+            if(playerNeg == client){
+                //if not countering a trade
+               parent.model.setTradeManifest(ObjectParser.parseTrade(client, "all", false));
+            } else{
+                //if countering a trade the playerNeg will be set.
+                parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false));
+            }
+        }
+        if(Listeners.overRect(butX, butY + 40,((int)parent.textWidth(" Propose ")),30, parent)){
+            parent.model.setDisplayMode(0);
+        }
         for(int i = 0; i < plusButtons.length; i++){
             int[] coords = plusButtons[i];
             if(Listeners.overRect(coords[0],coords[1],coords[2],coords[3],parent)){
@@ -336,6 +417,109 @@ public class TradeFloor {
             }
         }
 
+    }
+
+    /**
+     * Performs a trade between the current player
+     * and the trade partner.
+     * @param partner
+     */
+    public void performTrade(PlayerTradeCard partner){
+        PlayerInfo player = parent.model.getPlayer();
+        HashMap<Integer,Integer> offers = partner.getOffers();
+        HashMap<Integer,Integer> wants = partner.getWants();
+        for(int val : offers.keySet()){
+            if(val == 1){
+                player.addGrain(offers.get(val));
+                System.out.println("add " + offers.get(val) + " grain");
+            }
+            if(val == 2){
+                player.addOre(offers.get(val));
+            }
+            if(val == 3){
+                player.addWool(offers.get(val));
+            }
+            if(val == 4){
+                player.addBrick(offers.get(val));
+            }
+            if(val == 5){
+                player.addLogs(offers.get(val));
+            }
+        }
+        for(int val : wants.keySet()){
+            if(val == 1){
+                player.subtractGrain(wants.get(val));
+            }
+            if(val == 2){
+                player.subtractOre(wants.get(val));
+            }
+            if(val == 3){
+                player.subtractWool(wants.get(val));
+            }
+            if(val == 4){
+                player.subtractBrick(wants.get(val));
+            }
+            if(val == 5){
+                player.subtractLogs(wants.get(val));
+            }
+        }
+    }
+
+    /**
+     * Resets the trade board for a new round of trades
+     */
+    public void newTurn(){
+        playerNeg = client;
+        for(PlayerTradeCard trade : trades){
+            trade.setOffers(new HashMap<Integer, Integer>());
+            trade.setWants(new HashMap<Integer, Integer>());
+        }
+
+    }
+
+    public PlayerTradeCard getPlayerNeg() {
+        return playerNeg;
+    }
+
+    public void setPlayerNeg(PlayerTradeCard playerNeg) {
+        this.playerNeg = playerNeg;
+    }
+
+    public PlayerTradeCard getClient() {
+        return client;
+    }
+
+    public void setClient(PlayerTradeCard client) {
+        this.client = client;
+    }
+
+    public void displayTradeAlert(){
+        parent.textSize(20);
+        parent.fill(198,40,40);
+        parent.stroke(0,0,0,0);
+        int width = (int) parent.textWidth("Trade offer recieved from player " + tradeAlertPlayer);
+
+        int height = 80;
+        parent.rect((parent.SCREEN_WIDTH/2) - ((20+width)/2), (parent.SCREEN_HEIGHT/2) - 30,width+40,height,10,10,10,10);
+        parent.fill(0,0,0,30);
+        parent.rect((parent.SCREEN_WIDTH/2) - ((20+width)/2)+2, (parent.SCREEN_HEIGHT/2) - 30 + 2,width+40,height,10,10,10,10);
+        parent.fill(255);
+        parent.text("Trade offer received from player " + tradeAlertPlayer, (parent.SCREEN_WIDTH/2) - ((width/2) - 10), (parent.SCREEN_HEIGHT/2) - 5 );
+        parent.fill(198,40,40);
+        parent.rect((parent.SCREEN_WIDTH/2) - 30,(parent.SCREEN_HEIGHT/2) + 10, 60,30,5,5,5,5 );
+        parent.fill(255);
+        parent.text("OK", (parent.SCREEN_WIDTH/2) - (parent.textWidth("OK")/2),(parent.SCREEN_HEIGHT/2) + 30);
+    }
+
+    /**
+     * Toggles the display of the trade alert.
+     */
+    public void toggleTradeAlert(){
+        if(tradeAlert){
+            tradeAlert = false;
+        } else{
+            tradeAlert = true;
+        }
     }
 
 }

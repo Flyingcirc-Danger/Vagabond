@@ -44,9 +44,13 @@ public class BoardData {
 
     private StringBuffer manifest;
 
+    private StringBuffer tradeManifest;
+
     private String alert;
 
     public boolean alertReady;
+
+    public boolean tradeReady;
 
     private boolean displayToggle;
 
@@ -64,12 +68,15 @@ public class BoardData {
     //the number of the die roll in this current turn
     private int turnRoll;
 
+    private ArrayList<Integer> playerList; //an arraylist of player id's
+
 
 
 
 
     public BoardData(Board parent) {
         this.displayMode = 0;
+        this.playerList = new ArrayList<Integer>();
         this.menus = new Menus(parent);
         pointMap = new HashMap<Point, HexPoint>();
         tileMap = new HashMap<Point, HexTile>();
@@ -108,6 +115,7 @@ public class BoardData {
      */
     public BoardData(){
         this.displayMode = 0;
+        this.playerList = new ArrayList<Integer>();
         pointMap = new HashMap<Point, HexPoint>();
         tileMap = new HashMap<Point, HexTile>();
         edges = new ArrayList<HexPoint>();
@@ -135,6 +143,7 @@ public class BoardData {
         this.alert = new String();
         this.payout = new HashMap<Integer, HashSet<HexTile>>();
         this.manifest = new StringBuffer();
+
 
     }
 
@@ -248,6 +257,15 @@ public class BoardData {
 
     public void setPayout(HashMap<Integer, HashSet<HexTile>> payout) {
         this.payout = payout;
+    }
+
+
+    public void addNewPlayer(int id){
+        this.playerList.add(id);
+    }
+
+    public ArrayList<Integer> getPlayerList(){
+        return this.playerList;
     }
 
     /**
@@ -371,6 +389,7 @@ public class BoardData {
      * 4 = debug all
      * 6 = diceRoll
      * 7 = waitScreen
+     * 8 = TradeScreen
      * 10 = connect menu
      */
     public void displayBoard(){
@@ -555,6 +574,7 @@ public class BoardData {
         hexDeck = new HexTile[19];
         coast = new ArrayList<HexCoast>();
         payout = new HashMap<Integer, HashSet<HexTile>>();
+        playerList = new ArrayList<Integer>();
     }
 
 
@@ -568,6 +588,21 @@ public class BoardData {
         manifest.append("<manifest><identity>" + this.identityToken +"</identity>");
         manifest.append("<playerTurn>" + this.getPlayer().getId() + "</playerTurn>");
     }
+
+    /**
+     * Sets the trade manifest of this player.
+     * @param trade the trade manifest string generated through the trade screen
+     */
+    public void setTradeManifest(String trade){
+        this.tradeManifest = new StringBuffer();
+        tradeManifest.append(trade);
+        tradeReady = true;
+    }
+
+    public StringBuffer getTradeManifest(){
+        return this.tradeManifest;
+    }
+
 
 
     public StringBuffer getManifest(){
@@ -590,6 +625,21 @@ public class BoardData {
         String result = manifest.toString();
         manifest = new StringBuffer();
         manifestReady = false;
+        return result;
+    }
+
+
+    /**
+     * Fetches the trade string. Only to be used
+     * when sending the trade string. This is because
+     * the trade string will be overwritten upon
+     * fetching.
+     * @return the trade string to send.
+     */
+    public String getTradeManifestString(){
+        String result = tradeManifest.toString();
+        tradeManifest = new StringBuffer();
+        tradeReady = false;
         return result;
     }
 
@@ -664,15 +714,18 @@ public class BoardData {
      */
     public void displayMenus(){
         if(displayMode == 10){
-            menus.getConnect().display();
-            menus.getTradeFloor().display();
-            menus.getResourceBar().displayBottom();
-
-
+           menus.getConnect().display();
+           //menus.getTradeFloor().display();
+           // menus.getResourceBar().displayBottom();
+           // menus.getTradeFloor().displayTradeAlert();
             return;
         }
         if(displayMode == 7){
             menus.getWaitScreen().display();
+        }
+        if(displayMode == 8){
+            menus.getTradeFloor().display();
+            menus.getResourceBar().displayBottom();
         }
         if(displayMode == 6){
             menus.getDie().display();
@@ -694,7 +747,7 @@ public class BoardData {
     public void checkMenus(){
         if(displayMode == 10){
             menus.getConnect().checkButtons();
-            menus.getTradeFloor().checkButtons();
+           // menus.getTradeFloor().checkButtons();
 
         }
         if(displayMode == 7){
@@ -704,6 +757,9 @@ public class BoardData {
                 parent.background(0, 188, 212);
                 menus.setWaitScreen(new StatusMenu("Waiting For Other Players",parent, false));
             }
+        }
+        if(displayMode == 8){
+            menus.getTradeFloor().checkButtons();
         }
         if(displayMode <= 5){
             menus.getBank().checkButtons();

@@ -30,6 +30,11 @@ public class Client {
                     } else if(model.alertReady){
                         System.out.println("Sent Alert");
                         connection.write(model.getAlertString());
+                    } else if(model.tradeReady){
+                        System.out.println("Sent Trade");
+                        String trade = model.getTradeManifestString();
+                        System.out.println(trade);
+                        connection.write(trade);
                     }
                     else if(connection.getMessage().length() > 0){
                         //HANDLES Replies. If the message is an XML reply
@@ -38,7 +43,6 @@ public class Client {
                             StringBuffer reply = new StringBuffer("REPLY");
                             reply.append(connection.getMessage());
                             sendMessage = reply.toString();
-                            System.out.println("Sent: " + sendMessage);
                         }
                         connection.write(sendMessage);
                     }

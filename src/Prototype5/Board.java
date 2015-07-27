@@ -48,7 +48,7 @@ public class Board extends PApplet {
         textSize(14);
         background(0, 188, 212);
         this.currentTool = 0;
-        this.images = new PImage[19];
+        this.images = new PImage[21];
         this.resourceIMG = new PImage[10];
         this.images[0] = loadImage("assets/logoSM.png");
         this.images[1] = loadImage("assets/grainSM.png");
@@ -71,6 +71,8 @@ public class Board extends PApplet {
         this.images[16] = loadImage("assets/logsMD.png");
         this.images[17] = loadImage("assets/plusSM.png");
         this.images[18] = loadImage("assets/minusSM.png");
+        this.images[19] = loadImage("assets/tradeSM.png");
+        this.images[20] = loadImage("assets/noTradeSM.png");
 
 
 
@@ -94,6 +96,8 @@ public class Board extends PApplet {
         this.model.setDisplayMode(10);
         fonts = new PFont[]{createFont("assets/Verdana.ttf", 20),createFont("assets/merit4.ttf", 20)};
         textFont(fonts[0]);
+
+        frameRate(10.0f);
 
 
 
@@ -129,7 +133,6 @@ public class Board extends PApplet {
 
 
             fill(0);
-
 
 
     }
@@ -177,7 +180,7 @@ public class Board extends PApplet {
     }
 
     public static void main(String args[]) {
-        PApplet.main(new String[] {"--present", "Prototype5.Board" });
+        PApplet.main(new String[] { "Prototype5.Board" });
     }
     //"--present",
 }

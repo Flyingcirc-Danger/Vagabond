@@ -1,6 +1,8 @@
 package ServerPrototype1;
 
+
 import Prototype5.*;
+import Prototype5.ObjectParser;
 
 /**
  * Created by Tom_Bryant on 7/14/15.
@@ -12,11 +14,13 @@ public class Player {
 
     private ServerToClientConnection connection;
     private PlayerInfo playerInfo;
+    private BoardData model;
 
 
-    public Player(ServerToClientConnection connection, int id, String userName, int score){
+    public Player(ServerToClientConnection connection, int id, String userName, int score,BoardData model){
         this.connection = connection;
         this.playerInfo = new PlayerInfo(userName, score,id);
+        this.model = model;
     }
 
 
@@ -57,7 +61,7 @@ public class Player {
     }
 
     public String getPlayerXML(){
-        return ObjectParser.parseNewPlayer(getId(), true);
+        return ObjectParser.parseNewPlayer(getId(), model, true);
     }
 
 

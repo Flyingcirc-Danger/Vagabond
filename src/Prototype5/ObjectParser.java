@@ -9,10 +9,12 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.HashSet;
 
 
@@ -32,7 +34,7 @@ public class ObjectParser {
         result.append(parsePoints(model, false));
         result.append(parseSides(model, false));
         result.append("</model>");
-
+        saveOutput(result.toString(), "model.xml");
         return result.toString();
     }
 
@@ -678,6 +680,8 @@ public class ObjectParser {
             readPoints(model,doc);
             //fix sides
             readSides(model,doc);
+            //fix players (for trading
+
             model.setIdentityToken(doc.getElementsByTagName("identity").item(0).getTextContent());
             HexTile[] temp = model.getTileMap().values().toArray(new HexTile[19]);
 
@@ -930,6 +934,10 @@ public class ObjectParser {
                 System.out.println("request recieved turn");
                 readTurnBegin(model,XML);
             }
+            else if(doc.getElementsByTagName("trade").getLength() > 0){
+                System.out.println("request recieved trade");
+                readTrade(model, XML);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -964,11 +972,12 @@ public class ObjectParser {
 
     /**
      * Decides how to parse an XML request
-     * Could be a complete model update, or
+     * Could be a complete model update,trade, or
      * just a manifest.
      * Returns an integer based on the type of XML
      * Return 1 = manifest
      * Return 2 = alert
+     * Return 3 = trade
      * @param currentGame the game that the player is currently in.
      * @param XML the XML containing instructions.
      */
@@ -977,12 +986,20 @@ public class ObjectParser {
             Document doc = stringToDom(XML);
             if(doc.getElementsByTagName("manifest").getLength() > 0){
                 readManifest(currentGame.mainBoard, XML);
+                currentGame.lastMessageType = 0;
                 return 1;
             }
             if(doc.getElementsByTagName("alert").getLength() > 0){
+                currentGame.lastMessageType = 1;
                 readAlert(currentGame, XML);
                 return 2;
             }
+            if(doc.getElementsByTagName("trade").getLength() > 0){
+                currentGame.lastMessageType = 2;
+                return 3;
+            }
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -1011,7 +1028,13 @@ public class ObjectParser {
         result.append("<username>" + player.getUname() + "</username>");
         result.append("<score>" + player.getScore() + "</score>");
         result.append("<id>" + player.getId() + "</id>");
+        result.append("<playerIDs>");
+        for(int play : model.getPlayerList()){
+            result.append("<player>" + play + "</player>");
+        }
+        result.append("</playerIDs>");
         result.append("</playerinfo>");
+        saveOutput(result.toString(), "player.xml");
         return result.toString();
 
     }
@@ -1022,7 +1045,7 @@ public class ObjectParser {
      * @param independent
      * @return
      */
-    public static String parseNewPlayer(int id, boolean independent){
+    public static String parseNewPlayer(int id,BoardData model, boolean independent){
         StringBuffer result = new StringBuffer();
         if(independent){
             result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
@@ -1031,6 +1054,11 @@ public class ObjectParser {
         result.append("<username>" + "tom" +  "</username>");
         result.append("<score>" + 0 + "</score>");
         result.append("<id>" + id + "</id>");
+        result.append("<playerIDs>");
+        for(int play : model.getPlayerList()){
+            result.append("<player>" + play + "</player>");
+        }
+        result.append("</playerIDs>");
         result.append("</playerinfo>");
         saveOutput(result.toString(), "player.xml");
         return result.toString();
@@ -1052,6 +1080,20 @@ public class ObjectParser {
             old.setScore(Integer.parseInt(infoChild.item(1).getTextContent()));
             old.setId(Integer.parseInt(infoChild.item(2).getTextContent()));
             model.getParent().frame.setTitle("Player " + model.getPlayer().getId());
+            NodeList playerList = doc.getElementsByTagName("playerIDs");
+            NodeList players = playerList.item(0).getChildNodes();
+            for(int i = 0; i < players.getLength(); i ++){
+                int id = Integer.parseInt(players.item(i).getTextContent());
+                if(id != model.getPlayer().getId()) {
+                    model.addNewPlayer(Integer.parseInt(players.item(i).getTextContent()));
+                }
+            }
+            //initiate the trade floor
+            model.getMenus().getTradeFloor().buildTradeFloor();
+
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -1098,9 +1140,7 @@ public class ObjectParser {
     public static String generateTurnBegin(int d1, int d2, Game currentGame){
         StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
         result.append("<turn-begin>");
-        System.out.println("CURRENT PLAYERS TURN: " + currentGame.turnSeq);
         result.append("<player-id>" + currentGame.advanceTurn() + "</player-id>");
-        System.out.println("NEXT PLAYERS TURN: " + currentGame.turnSeq);
         result.append("<d1>" + d1 + "</d1>");
         result.append("<d2>" + d1 + "</d2>");
         result.append("</turn-begin>");
@@ -1123,6 +1163,7 @@ public class ObjectParser {
             int d2 = Integer.parseInt(turn.item(2).getTextContent());
             model.setToggle();
             model.handleTurn(playerId,d1,d2);
+            model.getMenus().getTradeFloor().newTurn(); //reset the trade floor for a new turn.
             model.releaseToggle();
             System.out.println("Player Turn: " + model.getPlayerTurn());
             System.out.println("My Player: " + model.getPlayer().getId());
@@ -1134,6 +1175,229 @@ public class ObjectParser {
             e.printStackTrace();
         }
     }
+
+
+    public static String parseAccept(TradeFloor trade,boolean accept){
+        StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        result.append("<trade>");
+        result.append("<from>" + trade.getClient().getId() + "</from>");
+        result.append("<to>" + trade.getPlayerNeg().getId() + "</to>");
+        result.append("<fromOffers>");
+        if(trade.getPlayerNeg().getWants().containsKey(1)){
+            result.append("<grain>" + trade.getPlayerNeg().getWants() + "</grain>");
+        } else {
+            result.append("<grain>0</grain>");
+        }
+        if(trade.getPlayerNeg().getWants().containsKey(2)){
+            result.append("<ore>" + trade.getPlayerNeg().getWants().get(2) + "</ore>");
+        } else {
+            result.append("<ore>0</ore>");
+        }
+        if(trade.getPlayerNeg().getWants().containsKey(3)){
+            result.append("<wool>" + trade.getPlayerNeg().getWants().get(3) + "</wool>");
+        } else {
+            result.append("<wool>0</wool>");
+        }
+        if(trade.getPlayerNeg().getWants().containsKey(4)){
+            result.append("<brick>" + trade.getPlayerNeg().getWants().get(4) + "</brick>");
+        } else {
+            result.append("<brick>0</brick>");
+        }
+        if(trade.getPlayerNeg().getWants().containsKey(5)){
+            result.append("<logs>" + trade.getPlayerNeg().getWants().get(5) + "</logs>");
+        } else {
+            result.append("<logs>0</logs>");
+        }
+        result.append("</fromOffers>");
+        result.append("<fromWants>");
+        if(trade.getPlayerNeg().getOffers().containsKey(1)){
+            result.append("<grain>" +trade.getPlayerNeg().getOffers().get(1) + "</grain>");
+        } else {
+            result.append("<grain>0</grain>");
+        }
+        if(trade.getPlayerNeg().getOffers().containsKey(2)){
+            result.append("<ore>" + trade.getPlayerNeg().getOffers().get(2) + "</ore>");
+        } else {
+            result.append("<ore>0</ore>");
+        }
+        if(trade.getPlayerNeg().getOffers().containsKey(3)){
+            result.append("<wool>" + trade.getPlayerNeg().getOffers().get(3) + "</wool>");
+        } else {
+            result.append("<wool>0</wool>");
+        }
+        if(trade.getPlayerNeg().getOffers().containsKey(4)){
+            result.append("<brick>" + trade.getPlayerNeg().getOffers().get(4) + "</brick>");
+        } else {
+            result.append("<brick>0</brick>");
+        }
+        if(trade.getPlayerNeg().getOffers().containsKey(5)){
+            result.append("<logs>" + trade.getPlayerNeg().getOffers().get(5) + "</logs>");
+        } else {
+            result.append("<logs>0</logs>");
+        }
+        result.append("</fromWants>");
+        result.append("<accept>" + Boolean.toString(accept) + "</accept>");
+        result.append("</trade>");
+        saveOutput(result.toString(), "trade.xml");
+        return result.toString();
+    }
+
+
+
+
+    public static String parseTrade(PlayerTradeCard trade, String to,boolean accept){
+        StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        result.append("<trade>");
+        result.append("<from>" + trade.getId() + "</from>");
+        result.append("<to>" + to + "</to>");
+        result.append("<fromOffers>");
+        if(trade.getOffers().containsKey(1)){
+            result.append("<grain>" + trade.getOffers().get(1) + "</grain>");
+        } else {
+            result.append("<grain>0</grain>");
+        }
+        if(trade.getOffers().containsKey(2)){
+            result.append("<ore>" + trade.getOffers().get(2) + "</ore>");
+        } else {
+            result.append("<ore>0</ore>");
+        }
+        if(trade.getOffers().containsKey(3)){
+            result.append("<wool>" + trade.getOffers().get(3) + "</wool>");
+        } else {
+            result.append("<wool>0</wool>");
+        }
+        if(trade.getOffers().containsKey(4)){
+            result.append("<brick>" + trade.getOffers().get(4) + "</brick>");
+        } else {
+            result.append("<brick>0</brick>");
+        }
+        if(trade.getOffers().containsKey(5)){
+            result.append("<logs>" + trade.getOffers().get(5) + "</logs>");
+        } else {
+            result.append("<logs>0</logs>");
+        }
+        result.append("</fromOffers>");
+        result.append("<fromWants>");
+        if(trade.getWants().containsKey(1)){
+            result.append("<grain>" + trade.getWants().get(1) + "</grain>");
+        } else {
+            result.append("<grain>0</grain>");
+        }
+        if(trade.getWants().containsKey(2)){
+            result.append("<ore>" + trade.getWants().get(2) + "</ore>");
+        } else {
+            result.append("<ore>0</ore>");
+        }
+        if(trade.getWants().containsKey(3)){
+            result.append("<wool>" + trade.getWants().get(3) + "</wool>");
+        } else {
+            result.append("<wool>0</wool>");
+        }
+        if(trade.getWants().containsKey(4)){
+            result.append("<brick>" + trade.getWants().get(4) + "</brick>");
+        } else {
+            result.append("<brick>0</brick>");
+        }
+        if(trade.getWants().containsKey(5)){
+            result.append("<logs>" + trade.getWants().get(5) + "</logs>");
+        } else {
+            result.append("<logs>0</logs>");
+        }
+        result.append("</fromWants>");
+        result.append("<accept>" + Boolean.toString(accept) + "</accept>");
+        result.append("</trade>");
+        saveOutput(result.toString(), "trade.xml");
+        return result.toString();
+    }
+
+
+    public static void readTrade(BoardData model, String XML){
+        System.out.println("Reading Trade");
+        try {
+            Document dom = stringToDom(XML);
+            NodeList tradeMaster = dom.getElementsByTagName("trade");
+            NodeList trade =tradeMaster.item(0).getChildNodes();
+            int fromID = Integer.parseInt(trade.item(0).getTextContent());
+            //if the recieved trade was initiated by myself, there is no need to continue
+            if(fromID == model.getPlayer().getId()){
+                System.out.println("Trade Was From Me");
+                return;
+            }
+            //if the recieved trade was not for me (not addressed to all or my id). no need to continue
+            String to = trade.item(1).getTextContent();
+            if(!to.equals("all") && Integer.parseInt(to) != model.getPlayer().getId()) {
+                System.out.println("Trade Not Addressed To Me");
+                return;
+            }
+            model.setDisplayMode(8);
+            //get the from player
+            PlayerTradeCard tradeInitiator = model.getMenus().getTradeFloor().getPlayerForTrade(fromID);
+            //reset the from players offer and want
+            tradeInitiator.setOffers(new HashMap<Integer,Integer>());
+            tradeInitiator.setWants(new HashMap<Integer,Integer>());
+            //fix offers.
+            NodeList fromOffers = trade.item(2).getChildNodes();
+
+            //grain offer
+            if(Integer.parseInt(fromOffers.item(0).getTextContent()) > 0){
+                tradeInitiator.getOffers().put(1,Integer.parseInt(fromOffers.item(0).getTextContent()));
+            }
+            //ore offer
+            if(Integer.parseInt(fromOffers.item(1).getTextContent()) > 0){
+                tradeInitiator.getOffers().put(2,Integer.parseInt(fromOffers.item(1).getTextContent()));
+            }
+            //wool offer
+            if(Integer.parseInt(fromOffers.item(2).getTextContent()) > 0){
+                tradeInitiator.getOffers().put(3,Integer.parseInt(fromOffers.item(2).getTextContent()));
+            }
+            //bricks offer
+            if(Integer.parseInt(fromOffers.item(3).getTextContent()) > 0) {
+                tradeInitiator.getOffers().put(4, Integer.parseInt(fromOffers.item(3).getTextContent()));
+            }
+            //logs offer
+            if (Integer.parseInt(fromOffers.item(4).getTextContent()) > 0) {
+                tradeInitiator.getOffers().put(5, Integer.parseInt(fromOffers.item(4).getTextContent()));
+            }
+
+            //fix wants.
+            NodeList fromWants = trade.item(3).getChildNodes();
+            //grain want
+            if(Integer.parseInt(fromWants.item(0).getTextContent()) > 0){
+                tradeInitiator.getWants().put(1,Integer.parseInt(fromWants.item(0).getTextContent()));
+            }
+            //ore want
+            if(Integer.parseInt(fromWants.item(1).getTextContent()) > 0){
+                tradeInitiator.getWants().put(2,Integer.parseInt(fromWants.item(1).getTextContent()));
+            }
+            //wool want
+            if(Integer.parseInt(fromWants.item(2).getTextContent()) > 0){
+                tradeInitiator.getWants().put(3,Integer.parseInt(fromWants.item(2).getTextContent()));
+            }
+            //brick want
+            if(Integer.parseInt(fromWants.item(3).getTextContent()) > 0){
+                tradeInitiator.getWants().put(4,Integer.parseInt(fromWants.item(3).getTextContent()));
+            }
+            //logs want
+            if(Integer.parseInt(fromWants.item(4).getTextContent()) > 0){
+                tradeInitiator.getWants().put(5,Integer.parseInt(fromWants.item(4).getTextContent()));
+            }
+            //resolve accept trade.
+            boolean accept = Boolean.parseBoolean(trade.item(4).getTextContent());
+            if(accept){
+                model.getMenus().getTradeFloor().performTrade(tradeInitiator);
+            }
+            model.getMenus().getTradeFloor().toggleTradeAlert();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 

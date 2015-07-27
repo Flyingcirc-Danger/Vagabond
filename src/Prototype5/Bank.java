@@ -35,6 +35,13 @@ public class Bank {
         parent.image(parent.images[6],10,60);
         parent.fill(0, 0, 0,30);
         parent.rect(12,62,30,30);
+        //player trade menu
+        parent.fill(121, 85, 72);
+        parent.stroke(0,0,0,0);
+        parent.rect(10,parent.SCREEN_HEIGHT - 100,30,30);
+        parent.image(parent.images[19],10,parent.SCREEN_HEIGHT - 100);
+        parent.fill(0, 0, 0,30);
+        parent.rect(12,parent.SCREEN_HEIGHT - 100,30,30);
     }
 
     /**
@@ -42,6 +49,15 @@ public class Bank {
      * Icons display greyed out if you can't afford to trade
      */
     public void displayOpen(){
+        //player trade menu
+        parent.fill(121, 85, 72);
+        parent.stroke(0,0,0,0);
+        parent.rect(10,parent.SCREEN_HEIGHT - 100,30,30);
+        parent.image(parent.images[19],10,parent.SCREEN_HEIGHT -100);
+        parent.fill(0, 0, 0,30);
+        parent.rect(12,parent.SCREEN_HEIGHT - 100,30,30);
+
+        //bank trade menu
         parent.fill(62,39,35);
         parent.stroke(0,0,0,50);
         parent.rect(10,60,30,30);
@@ -465,6 +481,10 @@ public class Bank {
                 this.dialogue = false;
             }
         } else {
+            //trade icon
+            if(Listeners.overRect(10,parent.SCREEN_HEIGHT - 100, 30,30,parent)){
+                this.parent.model.setDisplayMode(8);
+            }
             //bank icon
             if (Listeners.overRect(10, 60, 30, 30, parent)) {
                 if (this.open) {
