@@ -9,7 +9,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -1311,6 +1310,11 @@ public class ObjectParser {
     }
 
 
+    /**
+     * Reads a trade message sent from the server
+     * @param model the model to alter
+     * @param XML the XML trade message
+     */
     public static void readTrade(BoardData model, String XML){
         System.out.println("Reading Trade");
         try {
@@ -1323,13 +1327,13 @@ public class ObjectParser {
                 System.out.println("Trade Was From Me");
                 return;
             }
-            //if the recieved trade was not for me (not addressed to all or my id). no need to continue
+            //if the received trade was not for me (not addressed to all or my id). no need to continue
             String to = trade.item(1).getTextContent();
             if(!to.equals("all") && Integer.parseInt(to) != model.getPlayer().getId()) {
                 System.out.println("Trade Not Addressed To Me");
                 return;
             }
-            model.setDisplayMode(8);
+
             //get the from player
             PlayerTradeCard tradeInitiator = model.getMenus().getTradeFloor().getPlayerForTrade(fromID);
             //reset the from players offer and want
@@ -1385,9 +1389,10 @@ public class ObjectParser {
             boolean accept = Boolean.parseBoolean(trade.item(4).getTextContent());
             if(accept){
                 model.getMenus().getTradeFloor().performTrade(tradeInitiator);
+            } else {
+                model.getMenus().getTradeFloor().setTradeAlertPlayer(tradeInitiator.getId());
+                model.getMenus().getTradeFloor().toggleTradeAlert(true);
             }
-            model.getMenus().getTradeFloor().toggleTradeAlert();
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {

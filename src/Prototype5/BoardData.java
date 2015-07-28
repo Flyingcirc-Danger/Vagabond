@@ -715,9 +715,6 @@ public class BoardData {
     public void displayMenus(){
         if(displayMode == 10){
            menus.getConnect().display();
-           //menus.getTradeFloor().display();
-           // menus.getResourceBar().displayBottom();
-           // menus.getTradeFloor().displayTradeAlert();
             return;
         }
         if(displayMode == 7){
@@ -736,6 +733,9 @@ public class BoardData {
             menus.getBottomMenu().display();
             menus.getResourceBar().display();
             parent.image(parent.images[0], parent.SCREEN_WIDTH - 220, parent.SCREEN_HEIGHT - 70);
+            if(menus.getTradeFloor().isTradeAlert()){
+                menus.getTradeFloor().displayTradeAlert();
+            }
             return;
         }
     }
@@ -747,7 +747,7 @@ public class BoardData {
     public void checkMenus(){
         if(displayMode == 10){
             menus.getConnect().checkButtons();
-           // menus.getTradeFloor().checkButtons();
+          // menus.getTradeFloor().checkButtons();
 
         }
         if(displayMode == 7){
@@ -759,11 +759,14 @@ public class BoardData {
             }
         }
         if(displayMode == 8){
-            menus.getTradeFloor().checkButtons();
+            menus.getTradeFloor().checkButtons(0);
         }
         if(displayMode <= 5){
             menus.getBank().checkButtons();
            menus.getBottomMenu().checkSelected();
+            if(menus.getTradeFloor().isTradeAlert()) {
+                menus.getTradeFloor().checkButtons(1);
+            }
         }
         if(displayMode == 6){
            if(menus.getDie().checkButton()){

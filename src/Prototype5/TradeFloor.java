@@ -2,6 +2,9 @@ package Prototype5;
 
 
 
+
+import ServerPrototype1.Player;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,6 +26,8 @@ public class TradeFloor {
     private PlayerTradeCard playerNeg;// the player who currently you're countering.
     private boolean tradeAlert;
     private int tradeAlertPlayer; //the name of the player whose trade has come in.
+    private int[] acceptCoords;
+    private boolean acceptAlert;
 
     public TradeFloor(Board parent) {
         this.parent = parent;
@@ -33,6 +38,8 @@ public class TradeFloor {
         this.playerNeg = client;
         this.tradeAlert = false;
         this.tradeAlertPlayer = 0;
+        this.acceptCoords = new int[4];
+
 
     }
 
@@ -70,6 +77,9 @@ public class TradeFloor {
         displayClientFloor();
         if(tradeAlert){
             displayTradeAlert();
+        }
+        if(acceptAlert){
+            displayAccept(playerNeg);
         }
 
     }
@@ -302,117 +312,156 @@ public class TradeFloor {
     }
 
 
-    public void checkButtons(){
-        for(PlayerTradeCard trade : trades){
-            int tradeButton = trade.checkButtons();
-            if(tradeButton > -1){
-                if(tradeButton == 0){
-                    playerNeg.setActiveOffer(false);
-                    trade.setActiveOffer(true);
-                    playerNeg = trade;
-                    //move offer to client side.
-                    if(trade.getOffers().size() > 0) {
-                        client.setOffers(trade.getOffers());
-                        offerHighlight = 100;
+    /**
+     * Checks the buttons based on the display mode
+     * 0 = check buttons when displaying the trade menu
+     * 1 = check buttons when not displaying the trade menu
+     * @param mode
+     */
+    public void checkButtons(int mode){
+        if(mode == 0) {
+            for (PlayerTradeCard trade : trades) {
+                int tradeButton = trade.checkButtons();
+                if (tradeButton > -1) {
+                    if (tradeButton == 0) {
+                        playerNeg.setActiveOffer(false);
+                        trade.setActiveOffer(true);
+                        playerNeg = trade;
+                        //move offer to client side.
+                        if (trade.getOffers().size() > 0) {
+                            client.setOffers(trade.getOffers());
+                            offerHighlight = 100;
+                        }
+                        if (trade.getWants().size() > 0) {
+                            client.setWants(trade.getWants());
+                            wantHighlight = 100;
+                        }
+
+                    } else {
+                        //perform the trade
+                        playerNeg = trade;//accepted trader becomes the playerNeg (playerNegotiatedWith).
+                        parent.model.setTradeManifest(ObjectParser.parseAccept(this, true));
+                        performTrade(getPlayerForTrade(tradeButton));
                     }
-                    if(trade.getWants().size() > 0) {
-                        client.setWants(trade.getWants());
-                        wantHighlight = 100;
+                    return;
+                }
+            }
+
+            int startX = ((parent.SCREEN_WIDTH / 4) - 200) + 400;
+            int endX = ((parent.SCREEN_WIDTH / 4) * 3) - 200;
+            ;
+            int startY = ((parent.SCREEN_HEIGHT / 4) * 3) - (100);
+            parent.textSize(20);
+            int width = (int) parent.textWidth(" Propose ");
+            int butY = (startY + 100) - 80 / 2;
+            int butX = startX + ((endX - startX) / 2) - (width / 2);
+
+
+            parent.fill(0);
+            if (Listeners.overRect(butX, butY, ((int) parent.textWidth(" Propose ")), 30, parent)) {
+                if (playerNeg == client) {
+                    //if not countering a trade
+                    parent.model.setTradeManifest(ObjectParser.parseTrade(client, "all", false));
+                } else {
+                    //if countering a trade the playerNeg will be set.
+                    parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false));
+                }
+            }
+            if (Listeners.overRect(butX, butY + 40, ((int) parent.textWidth(" Propose ")), 30, parent)) {
+                parent.model.setDisplayMode(0);
+            }
+            for (int i = 0; i < plusButtons.length; i++) {
+                int[] coords = plusButtons[i];
+                if (Listeners.overRect(coords[0], coords[1], coords[2], coords[3], parent)) {
+                    if (i == 0) {
+                        client.addGrain(true);
                     }
-
-                } else{
-                    //perform the trade
-                    playerNeg = trade;//accepted trader becomes the playerNeg (playerNegotiatedWith).
-                    parent.model.setTradeManifest(ObjectParser.parseAccept(this, true));
-                    performTrade(getPlayerForTrade(tradeButton));
-                }
-                return;
-            }
-        }
-
-        int startX =  ((parent.SCREEN_WIDTH /4) - 200) + 400;
-        int endX =  ((parent.SCREEN_WIDTH /4)*3) - 200;;
-        int startY = ((parent.SCREEN_HEIGHT/4) *3) - (100);
-        parent.textSize(20);
-        int width = (int)parent.textWidth(" Propose ");
-        int butY = (startY + 100) - 80/2;
-        int butX = startX + ((endX - startX)/2) - (width/2);
-
-
-        parent.fill(0);
-        if(Listeners.overRect(butX, butY,((int)parent.textWidth(" Propose ")),30, parent)){
-            if(playerNeg == client){
-                //if not countering a trade
-               parent.model.setTradeManifest(ObjectParser.parseTrade(client, "all", false));
-            } else{
-                //if countering a trade the playerNeg will be set.
-                parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false));
-            }
-        }
-        if(Listeners.overRect(butX, butY + 40,((int)parent.textWidth(" Propose ")),30, parent)){
-            parent.model.setDisplayMode(0);
-        }
-        for(int i = 0; i < plusButtons.length; i++){
-            int[] coords = plusButtons[i];
-            if(Listeners.overRect(coords[0],coords[1],coords[2],coords[3],parent)){
-                if(i == 0){
-                    client.addGrain(true);
-                }
-                if(i == 1){
-                    client.addOre(true);
-                }
-                if(i == 2){
-                    client.addWool(true);
-                }
-                if(i == 3){
-                    client.addBrick(true);
-                }
-                if(i == 4){
-                    client.addLog(true);
-                } if (i == 5) {
-                    client.addGrain(false);
-                }
-                if (i == 6) {
-                    client.addOre(false);
-                }if (i == 7) {
-                    client.addWool(false);
-                }if (i == 8) {
-                    client.addBrick(false);
-                }if (i == 9) {
-                    client.addLog(false);
+                    if (i == 1) {
+                        client.addOre(true);
+                    }
+                    if (i == 2) {
+                        client.addWool(true);
+                    }
+                    if (i == 3) {
+                        client.addBrick(true);
+                    }
+                    if (i == 4) {
+                        client.addLog(true);
+                    }
+                    if (i == 5) {
+                        client.addGrain(false);
+                    }
+                    if (i == 6) {
+                        client.addOre(false);
+                    }
+                    if (i == 7) {
+                        client.addWool(false);
+                    }
+                    if (i == 8) {
+                        client.addBrick(false);
+                    }
+                    if (i == 9) {
+                        client.addLog(false);
+                    }
                 }
             }
+            for (int i = 0; i < minusButtons.length; i++) {
+                int[] coords = minusButtons[i];
+                if (Listeners.overRect(coords[0], coords[1], coords[2], coords[3], parent)) {
+                    if (i == 0) {
+                        client.subGrain(true);
+                    }
+                    if (i == 1) {
+                        client.subOre(true);
+                    }
+                    if (i == 2) {
+                        client.subWool(true);
+                    }
+                    if (i == 3) {
+                        client.subBrick(true);
+                    }
+                    if (i == 4) {
+                        client.subLog(true);
+                    }
+                    if (i == 5) {
+                        client.subGrain(false);
+                    }
+                    if (i == 6) {
+                        client.subOre(false);
+                    }
+                    if (i == 7) {
+                        client.subWool(false);
+                    }
+                    if (i == 8) {
+                        client.subBrick(false);
+                    }
+                    if (i == 9) {
+                        client.subLog(false);
+                    }
+                }
+            }
+
+
+            if (Listeners.overRect((parent.SCREEN_WIDTH / 2) - 30, (parent.SCREEN_HEIGHT / 2) + 10, 60, 30, parent)) {
+                toggleTradeAlert(false);
+                parent.model.setDisplayMode(8);
+            }
+            if(acceptAlert){
+                if(Listeners.overRect(acceptCoords[0], acceptCoords[1], acceptCoords[2], acceptCoords[3], parent)){
+                    acceptAlert = false;
+                    parent.model.setDisplayMode(0);
+                }
+            }
         }
-        for(int i = 0; i < minusButtons.length; i++){
-            int[] coords = minusButtons[i];
-            if(Listeners.overRect(coords[0],coords[1],coords[2],coords[3],parent)){
-                if(i == 0){
-                    client.subGrain(true);
-                }
-                if(i == 1) {
-                    client.subOre(true);
-                }
-                if(i == 2) {
-                    client.subWool(true);
-                }
-                if(i == 3){
-                    client.subBrick(true);
-                }
-                if(i == 4) {
-                    client.subLog(true);
-                }
-                if (i == 5) {
-                    client.subGrain(false);
-                }
-                if (i == 6) {
-                    client.subOre(false);
-                }if (i == 7) {
-                    client.subWool(false);
-                }if (i == 8) {
-                    client.subBrick(false);
-                }
-                if (i == 9) {
-                    client.subLog(false);
+        if(mode == 1){
+            if (Listeners.overRect((parent.SCREEN_WIDTH / 2) - 30, (parent.SCREEN_HEIGHT / 2) + 10, 60, 30, parent)) {
+                toggleTradeAlert(false);
+                parent.model.setDisplayMode(8);
+            }
+            if(acceptAlert){
+                if(Listeners.overRect(acceptCoords[0], acceptCoords[1], acceptCoords[2], acceptCoords[3], parent)){
+                    acceptAlert = false;
+                    parent.model.setDisplayMode(0);
                 }
             }
         }
@@ -425,6 +474,8 @@ public class TradeFloor {
      * @param partner
      */
     public void performTrade(PlayerTradeCard partner){
+        playerNeg = partner;
+        this.acceptAlert = true;
         PlayerInfo player = parent.model.getPlayer();
         HashMap<Integer,Integer> offers = partner.getOffers();
         HashMap<Integer,Integer> wants = partner.getWants();
@@ -463,6 +514,7 @@ public class TradeFloor {
                 player.subtractLogs(wants.get(val));
             }
         }
+        resetTrades();
     }
 
     /**
@@ -493,11 +545,19 @@ public class TradeFloor {
         this.client = client;
     }
 
+    public int getTradeAlertPlayer() {
+        return tradeAlertPlayer;
+    }
+
+    public void setTradeAlertPlayer(int tradeAlertPlayer) {
+        this.tradeAlertPlayer = tradeAlertPlayer;
+    }
+
     public void displayTradeAlert(){
         parent.textSize(20);
         parent.fill(198,40,40);
         parent.stroke(0,0,0,0);
-        int width = (int) parent.textWidth("Trade offer recieved from player " + tradeAlertPlayer);
+        int width = (int) parent.textWidth("Trade offer received from player " + tradeAlertPlayer);
 
         int height = 80;
         parent.rect((parent.SCREEN_WIDTH/2) - ((20+width)/2), (parent.SCREEN_HEIGHT/2) - 30,width+40,height,10,10,10,10);
@@ -514,12 +574,133 @@ public class TradeFloor {
     /**
      * Toggles the display of the trade alert.
      */
-    public void toggleTradeAlert(){
-        if(tradeAlert){
-            tradeAlert = false;
-        } else{
-            tradeAlert = true;
+    public void toggleTradeAlert(boolean toggle){
+        tradeAlert = toggle;
+    }
+
+    /**
+     * Checks to see if the trade alert is toggled
+     * @return
+     */
+    public boolean isTradeAlert(){
+        return this.tradeAlert;
+    }
+
+    /**
+     * Displays the outcome of a succesful trade;
+     * @param trader
+     */
+    public void displayAccept(PlayerTradeCard trader){
+        int receiveNo = trader.getOffers().size() * 34;
+        int loseNo = trader.getWants().size() * 34;
+        parent.textSize(20);
+        int width =  (int)(120 + parent.textWidth("Trade Succesful"));
+        int height = 104 + receiveNo + loseNo ;
+        int startX = (parent.SCREEN_WIDTH/2) - (width/2);
+        int startY = (parent.SCREEN_HEIGHT/2) - (height/2);
+        int runningTotal = startY;
+        parent.fill(121, 85, 72);
+        parent.stroke(0,0,0,0);
+        parent.rect(startX,startY, width, height,5,5,5,5);
+        parent.fill(0,0,0,30);
+        parent.rect(startX+2,startY+2, width, height,5,5,5,5);
+        parent.image(parent.images[19],startX + 10,startY +5);
+        parent.fill(255);
+        parent.text("Trade Successful", startX + ((width/2) - parent.textWidth("Trade Successful")/2), startY + 25);
+        parent.image(parent.images[19],startX + (width - 40),startY+5);
+        parent.textSize(12);
+        parent.text("You receive:", startX + ((width/2) - parent.textWidth("You receive:")/2), startY + 45);
+        parent.stroke(255);
+        parent.line ((startX + ((width/2) - parent.textWidth("You receive:")/2)), startY + 46,
+                (startX + ((width/2) + parent.textWidth("You receive:")/2)), startY + 46);
+
+        runningTotal += 50;
+        for(int offer : trader.getOffers().keySet()){
+            parent.image(parent.images[offer],startX + ((width/4)),runningTotal);
+            runningTotal += 16;
+            String resource = "Wheat";
+            if(offer == 2){
+                resource = "Ore";
+            }
+            if(offer == 3){
+                resource = "Wool";
+            }
+            if(offer == 4){
+                resource = "Brick";
+            }
+            if(offer == 5){
+                resource = "Logs";
+            }
+            parent.text(trader.getOffers().get(offer) +" x " + resource, startX + (width/4 ) + 40,runningTotal);
+            runningTotal += 14;
+            }
+            runningTotal += 14;
+        parent.text("You lose:", startX + ((width/2) - parent.textWidth("You lose:")/2),runningTotal);
+        parent.stroke(255);
+        parent.line ((startX + ((width/2) - parent.textWidth("You Lose:")/2)), runningTotal + 1,
+                (startX + ((width/2) + parent.textWidth("You Lose:")/2)),runningTotal + 1);
+        runningTotal+= 5;
+        for (int want : trader.getWants().keySet()){
+            parent.image(parent.images[want],startX + ((width/4)),runningTotal);
+            runningTotal += 16;
+            String resource = "Wheat";
+            if(want == 2){
+                resource = "Ore";
+            }
+            if(want == 3){
+                resource = "Wool";
+            }
+            if(want == 4){
+                resource = "Brick";
+            }
+            if(want == 5){
+                resource = "Logs";
+            }
+            parent.text(trader.getWants().get(want) + " x " + resource, startX + (width/4 ) + 40,runningTotal);
+            runningTotal += 14;
         }
+
+        parent.fill(244, 67, 54);
+        parent.stroke(0, 0, 0, 10);
+        int buttonWidth = (int) (parent.textWidth("Okay") + 50);
+        parent.rect(startX + (width /2) - (buttonWidth/2), startY + height - 47, buttonWidth,40,5,5,5,5);
+
+        parent.stroke(0, 0, 0, 0);
+        parent.fill(0,0,0,30);
+        parent.rect(startX + (width /2) - (buttonWidth/2) +2, startY + height - 47 + 2, buttonWidth,40,5,5,5,5);
+        parent.textFont(parent.fonts[1]);
+
+
+        parent.textSize(15);
+        parent.fill(255, 235, 59);
+        parent.text("Okay",startX + (width/2) - (buttonWidth/2)  + (parent.textWidth("Okay")/2),startY + height -22);
+        //populate the acceptCoords array with the location of the okay button.
+        acceptCoords[0] = startX + (width /2) - (buttonWidth/2);
+        acceptCoords[1] = startY + height - 47;
+        acceptCoords[2] = buttonWidth;
+        acceptCoords[3] = 40;
+
+        parent.textFont(parent.fonts[0]);
+        parent.fill(0,0,0,30);
+        parent.rect(startX+2,startY+2, width, height,5,5,5,5);
+    }
+
+
+    /**
+     * Resets the offer/want negotiations
+     */
+    public void resetTrades(){
+        playerNeg = client;
+        for(PlayerTradeCard trade : trades){
+            trade.setOffers(new HashMap<Integer,Integer>());
+            trade.setWants(new HashMap<Integer,Integer>());
+        }
+    }
+
+
+    public void displayReject(){
+
+
     }
 
 }
