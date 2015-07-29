@@ -388,7 +388,7 @@ public class TradeFloor {
             if (Listeners.overRect(butX, butY + 40, ((int) parent.textWidth(" Propose ")), 30, parent)) {
                 parent.model.setTradeManifest(ObjectParser.parseTrade(client,Integer.toString(playerNeg.getId()),false,true));
                 parent.model.setDisplayMode(0);
-                resetTrades();
+                client.setOfferRejected(true);
             }
             for (int i = 0; i < plusButtons.length; i++) {
                 int[] coords = plusButtons[i];
@@ -742,6 +742,7 @@ public class TradeFloor {
     public void resetTrades(){
         this.openTrade = false;
         this.rejectAlert = false;
+        client.setOfferRejected(false);
         playerNeg = client;
         client.setOffers(new HashMap<Integer, Integer>());
         client.setWants(new HashMap<Integer, Integer>());

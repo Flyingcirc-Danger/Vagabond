@@ -1332,160 +1332,166 @@ public class ObjectParser {
             boolean accept = Boolean.parseBoolean(trade.item(4).getTextContent());
             boolean reject = Boolean.parseBoolean(trade.item(5).getTextContent());
 
-            //if the recieved trade was initiated by myself and it's not the acceptance resolution, there is no need to continue
-            if(fromID == model.getPlayer().getId() && !accept){
-                System.out.println("Trade Was From Me");
-                return;
+            if(accept || to.equals("all")) {
+                model.getMenus().getTradeFloor().resetTrades();
             }
-            //if the received trade was not for me (not addressed to all or my id).
-            if(!to.equals("all") && Integer.parseInt(to) != model.getPlayer().getId()) {
-                //if I'm also not the 'from' player (I'm not in the negotiations). no need to continue
-                if(fromID != model.getPlayer().getId()) {
-                    if(!reject) {
-                        System.out.println("Trade Not Addressed To Me");
-                        model.getMenus().getTradeFloor().setRejectAlert(true);
-                    } else {
-                        model.getMenus().getTradeFloor().getPlayerForTrade(fromID).
-                                setOfferRejected(Boolean.parseBoolean(trade.item(5).
-                                        getTextContent()));
-                    }
+            if(!model.getMenus().getTradeFloor().getClient().isOfferRejected()) {
+
+                //if the recieved trade was initiated by myself and it's not the acceptance resolution, there is no need to continue
+                if (fromID == model.getPlayer().getId() && !accept) {
+                    System.out.println("Trade Was From Me");
                     return;
                 }
-            }
-            //if the trade was addressed to all, it's an open trade
-            if(to.equals("all") && fromID != model.getPlayer().getId()){
-                model.getMenus().getTradeFloor().setOpenTrade(true);
-            }
-            //once we're past the returns, we can parse the trades
+                //if the received trade was not for me (not addressed to all or my id).
+                if (!to.equals("all") && Integer.parseInt(to) != model.getPlayer().getId()) {
+                    //if I'm also not the 'from' player (I'm not in the negotiations). no need to continue
+                    if (fromID != model.getPlayer().getId()) {
+                        if (!reject) {
+                            System.out.println("Trade Not Addressed To Me");
+                            model.getMenus().getTradeFloor().setRejectAlert(true);
+                        } else {
+                            model.getMenus().getTradeFloor().getPlayerForTrade(fromID).
+                                    setOfferRejected(Boolean.parseBoolean(trade.item(5).
+                                            getTextContent()));
+                        }
+                        return;
+                    }
+                }
+                //if the trade was addressed to all, it's an open trade
+                if (to.equals("all") && fromID != model.getPlayer().getId()) {
+                    model.getMenus().getTradeFloor().setOpenTrade(true);
+                }
+                //once we're past the returns, we can parse the trades
 
-            if(fromID != model.getPlayer().getId()) {
-                //get the from player
-                PlayerTradeCard tradeInitiator = model.getMenus().getTradeFloor().getPlayerForTrade(fromID);
+                if (fromID != model.getPlayer().getId()) {
+                    //get the from player
+                    PlayerTradeCard tradeInitiator = model.getMenus().getTradeFloor().getPlayerForTrade(fromID);
 
-                //if the trade offer is a rejection
-                tradeInitiator.setOfferRejected(Boolean.parseBoolean(trade.item(5).getTextContent()));
+                    //if the trade offer is a rejection
+                    tradeInitiator.setOfferRejected(Boolean.parseBoolean(trade.item(5).getTextContent()));
 
-                //reset the from players offer and want
-                tradeInitiator.setOffers(new HashMap<Integer, Integer>());
-                tradeInitiator.setWants(new HashMap<Integer, Integer>());
-                //fix offers.
-                NodeList fromOffers = trade.item(2).getChildNodes();
+                    //reset the from players offer and want
+                    tradeInitiator.setOffers(new HashMap<Integer, Integer>());
+                    tradeInitiator.setWants(new HashMap<Integer, Integer>());
+                    //fix offers.
+                    NodeList fromOffers = trade.item(2).getChildNodes();
 
-                //grain offer
-                if (Integer.parseInt(fromOffers.item(0).getTextContent()) > 0) {
-                    tradeInitiator.getOffers().put(1, Integer.parseInt(fromOffers.item(0).getTextContent()));
-                }
-                //ore offer
-                if (Integer.parseInt(fromOffers.item(1).getTextContent()) > 0) {
-                    tradeInitiator.getOffers().put(2, Integer.parseInt(fromOffers.item(1).getTextContent()));
-                }
-                //wool offer
-                if (Integer.parseInt(fromOffers.item(2).getTextContent()) > 0) {
-                    tradeInitiator.getOffers().put(3, Integer.parseInt(fromOffers.item(2).getTextContent()));
-                }
-                //bricks offer
-                if (Integer.parseInt(fromOffers.item(3).getTextContent()) > 0) {
-                    tradeInitiator.getOffers().put(4, Integer.parseInt(fromOffers.item(3).getTextContent()));
-                }
-                //logs offer
-                if (Integer.parseInt(fromOffers.item(4).getTextContent()) > 0) {
-                    tradeInitiator.getOffers().put(5, Integer.parseInt(fromOffers.item(4).getTextContent()));
-                }
+                    //grain offer
+                    if (Integer.parseInt(fromOffers.item(0).getTextContent()) > 0) {
+                        tradeInitiator.getOffers().put(1, Integer.parseInt(fromOffers.item(0).getTextContent()));
+                    }
+                    //ore offer
+                    if (Integer.parseInt(fromOffers.item(1).getTextContent()) > 0) {
+                        tradeInitiator.getOffers().put(2, Integer.parseInt(fromOffers.item(1).getTextContent()));
+                    }
+                    //wool offer
+                    if (Integer.parseInt(fromOffers.item(2).getTextContent()) > 0) {
+                        tradeInitiator.getOffers().put(3, Integer.parseInt(fromOffers.item(2).getTextContent()));
+                    }
+                    //bricks offer
+                    if (Integer.parseInt(fromOffers.item(3).getTextContent()) > 0) {
+                        tradeInitiator.getOffers().put(4, Integer.parseInt(fromOffers.item(3).getTextContent()));
+                    }
+                    //logs offer
+                    if (Integer.parseInt(fromOffers.item(4).getTextContent()) > 0) {
+                        tradeInitiator.getOffers().put(5, Integer.parseInt(fromOffers.item(4).getTextContent()));
+                    }
 
-                //fix wants.
-                NodeList fromWants = trade.item(3).getChildNodes();
-                //grain want
-                if (Integer.parseInt(fromWants.item(0).getTextContent()) > 0) {
-                    tradeInitiator.getWants().put(1, Integer.parseInt(fromWants.item(0).getTextContent()));
-                }
-                //ore want
-                if (Integer.parseInt(fromWants.item(1).getTextContent()) > 0) {
-                    tradeInitiator.getWants().put(2, Integer.parseInt(fromWants.item(1).getTextContent()));
-                }
-                //wool want
-                if (Integer.parseInt(fromWants.item(2).getTextContent()) > 0) {
-                    tradeInitiator.getWants().put(3, Integer.parseInt(fromWants.item(2).getTextContent()));
-                }
-                //brick want
-                if (Integer.parseInt(fromWants.item(3).getTextContent()) > 0) {
-                    tradeInitiator.getWants().put(4, Integer.parseInt(fromWants.item(3).getTextContent()));
-                }
-                //logs want
-                if (Integer.parseInt(fromWants.item(4).getTextContent()) > 0) {
-                    tradeInitiator.getWants().put(5, Integer.parseInt(fromWants.item(4).getTextContent()));
-                }
-                if(accept){
-                    System.out.println("Resolving trade where I wasn't the last sender");
-                    model.getMenus().getTradeFloor().setPlayerNeg(tradeInitiator);
-                    model.getMenus().getTradeFloor().performTrade(tradeInitiator);
-                }
-                //fromID is me
-            } else {
-                //get the from player
-                PlayerTradeCard tradeInitiator = model.getMenus().getTradeFloor().getPlayerForTrade(Integer.parseInt(to));
-                //if the trade is a rejection
-                tradeInitiator.setOfferRejected(Boolean.parseBoolean(trade.item(5).getTextContent()));
-                //reset the from players offer and want
-                tradeInitiator.setOffers(new HashMap<Integer, Integer>());
-                tradeInitiator.setWants(new HashMap<Integer, Integer>());
-                //fix offers.
-                NodeList fromOffers = trade.item(3).getChildNodes();
+                    //fix wants.
+                    NodeList fromWants = trade.item(3).getChildNodes();
+                    //grain want
+                    if (Integer.parseInt(fromWants.item(0).getTextContent()) > 0) {
+                        tradeInitiator.getWants().put(1, Integer.parseInt(fromWants.item(0).getTextContent()));
+                    }
+                    //ore want
+                    if (Integer.parseInt(fromWants.item(1).getTextContent()) > 0) {
+                        tradeInitiator.getWants().put(2, Integer.parseInt(fromWants.item(1).getTextContent()));
+                    }
+                    //wool want
+                    if (Integer.parseInt(fromWants.item(2).getTextContent()) > 0) {
+                        tradeInitiator.getWants().put(3, Integer.parseInt(fromWants.item(2).getTextContent()));
+                    }
+                    //brick want
+                    if (Integer.parseInt(fromWants.item(3).getTextContent()) > 0) {
+                        tradeInitiator.getWants().put(4, Integer.parseInt(fromWants.item(3).getTextContent()));
+                    }
+                    //logs want
+                    if (Integer.parseInt(fromWants.item(4).getTextContent()) > 0) {
+                        tradeInitiator.getWants().put(5, Integer.parseInt(fromWants.item(4).getTextContent()));
+                    }
+                    if (accept) {
+                        System.out.println("Resolving trade where I wasn't the last sender");
+                        model.getMenus().getTradeFloor().setPlayerNeg(tradeInitiator);
+                        model.getMenus().getTradeFloor().performTrade(tradeInitiator);
+                    }
+                    //fromID is me
+                } else {
+                    //get the from player
+                    PlayerTradeCard tradeInitiator = model.getMenus().getTradeFloor().getPlayerForTrade(Integer.parseInt(to));
+                    //if the trade is a rejection
+                    tradeInitiator.setOfferRejected(Boolean.parseBoolean(trade.item(5).getTextContent()));
+                    //reset the from players offer and want
+                    tradeInitiator.setOffers(new HashMap<Integer, Integer>());
+                    tradeInitiator.setWants(new HashMap<Integer, Integer>());
+                    //fix offers.
+                    NodeList fromOffers = trade.item(3).getChildNodes();
 
-                //grain offer
-                if (Integer.parseInt(fromOffers.item(0).getTextContent()) > 0) {
-                    tradeInitiator.getOffers().put(1, Integer.parseInt(fromOffers.item(0).getTextContent()));
-                }
-                //ore offer
-                if (Integer.parseInt(fromOffers.item(1).getTextContent()) > 0) {
-                    tradeInitiator.getOffers().put(2, Integer.parseInt(fromOffers.item(1).getTextContent()));
-                }
-                //wool offer
-                if (Integer.parseInt(fromOffers.item(2).getTextContent()) > 0) {
-                    tradeInitiator.getOffers().put(3, Integer.parseInt(fromOffers.item(2).getTextContent()));
-                }
-                //bricks offer
-                if (Integer.parseInt(fromOffers.item(3).getTextContent()) > 0) {
-                    tradeInitiator.getOffers().put(4, Integer.parseInt(fromOffers.item(3).getTextContent()));
-                }
-                //logs offer
-                if (Integer.parseInt(fromOffers.item(4).getTextContent()) > 0) {
-                    tradeInitiator.getOffers().put(5, Integer.parseInt(fromOffers.item(4).getTextContent()));
-                }
+                    //grain offer
+                    if (Integer.parseInt(fromOffers.item(0).getTextContent()) > 0) {
+                        tradeInitiator.getOffers().put(1, Integer.parseInt(fromOffers.item(0).getTextContent()));
+                    }
+                    //ore offer
+                    if (Integer.parseInt(fromOffers.item(1).getTextContent()) > 0) {
+                        tradeInitiator.getOffers().put(2, Integer.parseInt(fromOffers.item(1).getTextContent()));
+                    }
+                    //wool offer
+                    if (Integer.parseInt(fromOffers.item(2).getTextContent()) > 0) {
+                        tradeInitiator.getOffers().put(3, Integer.parseInt(fromOffers.item(2).getTextContent()));
+                    }
+                    //bricks offer
+                    if (Integer.parseInt(fromOffers.item(3).getTextContent()) > 0) {
+                        tradeInitiator.getOffers().put(4, Integer.parseInt(fromOffers.item(3).getTextContent()));
+                    }
+                    //logs offer
+                    if (Integer.parseInt(fromOffers.item(4).getTextContent()) > 0) {
+                        tradeInitiator.getOffers().put(5, Integer.parseInt(fromOffers.item(4).getTextContent()));
+                    }
 
-                //fix wants.
-                NodeList fromWants = trade.item(2).getChildNodes();
-                //grain want
-                if (Integer.parseInt(fromWants.item(0).getTextContent()) > 0) {
-                    tradeInitiator.getWants().put(1, Integer.parseInt(fromWants.item(0).getTextContent()));
-                }
-                //ore want
-                if (Integer.parseInt(fromWants.item(1).getTextContent()) > 0) {
-                    tradeInitiator.getWants().put(2, Integer.parseInt(fromWants.item(1).getTextContent()));
-                }
-                //wool want
-                if (Integer.parseInt(fromWants.item(2).getTextContent()) > 0) {
-                    tradeInitiator.getWants().put(3, Integer.parseInt(fromWants.item(2).getTextContent()));
-                }
-                //brick want
-                if (Integer.parseInt(fromWants.item(3).getTextContent()) > 0) {
-                    tradeInitiator.getWants().put(4, Integer.parseInt(fromWants.item(3).getTextContent()));
-                }
-                //logs want
-                if (Integer.parseInt(fromWants.item(4).getTextContent()) > 0) {
-                    tradeInitiator.getWants().put(5, Integer.parseInt(fromWants.item(4).getTextContent()));
-                }
-                if(accept){
-                    System.out.println("Resolving trade where I was the last sender.");
-                    model.getMenus().getTradeFloor().setPlayerNeg(tradeInitiator);
-                    model.getMenus().getTradeFloor().performTrade(tradeInitiator);
+                    //fix wants.
+                    NodeList fromWants = trade.item(2).getChildNodes();
+                    //grain want
+                    if (Integer.parseInt(fromWants.item(0).getTextContent()) > 0) {
+                        tradeInitiator.getWants().put(1, Integer.parseInt(fromWants.item(0).getTextContent()));
+                    }
+                    //ore want
+                    if (Integer.parseInt(fromWants.item(1).getTextContent()) > 0) {
+                        tradeInitiator.getWants().put(2, Integer.parseInt(fromWants.item(1).getTextContent()));
+                    }
+                    //wool want
+                    if (Integer.parseInt(fromWants.item(2).getTextContent()) > 0) {
+                        tradeInitiator.getWants().put(3, Integer.parseInt(fromWants.item(2).getTextContent()));
+                    }
+                    //brick want
+                    if (Integer.parseInt(fromWants.item(3).getTextContent()) > 0) {
+                        tradeInitiator.getWants().put(4, Integer.parseInt(fromWants.item(3).getTextContent()));
+                    }
+                    //logs want
+                    if (Integer.parseInt(fromWants.item(4).getTextContent()) > 0) {
+                        tradeInitiator.getWants().put(5, Integer.parseInt(fromWants.item(4).getTextContent()));
+                    }
+                    if (accept) {
+                        System.out.println("Resolving trade where I was the last sender.");
+                        model.getMenus().getTradeFloor().setPlayerNeg(tradeInitiator);
+                        model.getMenus().getTradeFloor().performTrade(tradeInitiator);
 
+                    }
                 }
-            }
-            if(!accept) {
-                PlayerTradeCard tradeInitiator = model.getMenus().getTradeFloor().getPlayerForTrade(fromID);
-                if(!tradeInitiator.isOfferRejected()) {
-                    model.getMenus().getTradeFloor().setTradeAlertPlayer(tradeInitiator.getId());
-                    model.getMenus().getTradeFloor().toggleTradeAlert(true);
+                if (!accept) {
+                    PlayerTradeCard tradeInitiator = model.getMenus().getTradeFloor().getPlayerForTrade(fromID);
+                    if (!tradeInitiator.isOfferRejected()) {
+                        model.getMenus().getTradeFloor().setTradeAlertPlayer(tradeInitiator.getId());
+                        model.getMenus().getTradeFloor().toggleTradeAlert(true);
+                    }
                 }
             }
         } catch (IOException e) {

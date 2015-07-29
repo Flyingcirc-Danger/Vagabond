@@ -512,17 +512,7 @@ public class PlayerTradeCard {
         int counterX = getStartX() + (160 / 2) + 5;
         int acceptY = getStartY() + 290;
         //if only one side of the trade is open, you can only counter
-        if (getWants().size() == 0 || getOffers().size() == 0) {
-
-            if (getWants().size() == 0 && getOffers().size() == 0) {
-                counterX = getStartX() + (160 / 2) - (int) (parent.textWidth(" Offer ") / 2);
-                parent.fill(40, 53, 157);
-                parent.rect(counterX, acceptY, parent.textWidth(" Offer "), 30, 5, 5, 5, 5);
-                parent.fill(0, 0, 0, 30);
-                parent.rect(counterX + 2, acceptY + 2, parent.textWidth(" Offer "), 30, 5, 5, 5, 5);
-                parent.fill(255);
-                parent.text(" Offer ", counterX, acceptY + (30 / 2) + 4);
-            } else {
+        if ((getWants().size() == 0 && getOffers().size() != 0)|| getOffers().size() == 0 && getWants().size() !=0) {
                 counterX = getStartX() + (160 / 2) - (int) (parent.textWidth(" Counter ") / 2);
                 parent.fill(40, 53, 157);
                 parent.rect(counterX, acceptY, parent.textWidth(" Counter "), 30, 5, 5, 5, 5);
@@ -530,9 +520,7 @@ public class PlayerTradeCard {
                 parent.rect(counterX + 2, acceptY + 2, parent.textWidth(" Counter "), 30, 5, 5, 5, 5);
                 parent.fill(255);
                 parent.text(" Counter ", counterX, acceptY + (30 / 2) + 4);
-            }
-
-        } else {
+        } else if(getWants().size() != 0 && getOffers().size() !=0 ) {
             parent.fill(85, 139, 47);
             parent.rect(acceptX, acceptY, parent.textWidth(" Counter "), 30, 5, 5, 5, 5);
             parent.fill(0, 0, 0, 30);
