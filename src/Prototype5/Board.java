@@ -1,10 +1,10 @@
 package Prototype5;
 
 
+import ServerPrototype1.Client;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
-import ServerPrototype1.*;
 
 import java.io.IOException;
 
@@ -48,7 +48,7 @@ public class Board extends PApplet {
         textSize(14);
         background(0, 188, 212);
         this.currentTool = 0;
-        this.images = new PImage[21];
+        this.images = new PImage[22];
         this.resourceIMG = new PImage[10];
         this.images[0] = loadImage("assets/logoSM.png");
         this.images[1] = loadImage("assets/grainSM.png");
@@ -73,6 +73,7 @@ public class Board extends PApplet {
         this.images[18] = loadImage("assets/minusSM.png");
         this.images[19] = loadImage("assets/tradeSM.png");
         this.images[20] = loadImage("assets/noTradeSM.png");
+        this.images[21] = loadImage("assets/tradeRejectSM.png");
 
 
 

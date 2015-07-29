@@ -1,7 +1,5 @@
 package Prototype5;
 
-import processing.core.PApplet;
-
 import java.awt.*;
 import java.util.Random;
 

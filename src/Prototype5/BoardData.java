@@ -1,8 +1,6 @@
 package Prototype5;
 
 
-import javafx.beans.binding.ObjectExpression;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -715,6 +713,7 @@ public class BoardData {
     public void displayMenus(){
         if(displayMode == 10){
            menus.getConnect().display();
+
             return;
         }
         if(displayMode == 7){
@@ -747,7 +746,6 @@ public class BoardData {
     public void checkMenus(){
         if(displayMode == 10){
             menus.getConnect().checkButtons();
-          // menus.getTradeFloor().checkButtons();
 
         }
         if(displayMode == 7){

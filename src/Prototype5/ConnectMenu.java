@@ -1,7 +1,8 @@
 package Prototype5;
 
+import processing.core.PImage;
+
 import java.awt.*;
-import processing.core.*;
 
 /**
  * Created by Tom_Bryant on 7/9/15.

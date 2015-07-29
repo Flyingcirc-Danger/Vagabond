@@ -3,7 +3,6 @@ package Prototype5;
 
 
 
-import ServerPrototype1.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +26,9 @@ public class TradeFloor {
     private boolean tradeAlert;
     private int tradeAlertPlayer; //the name of the player whose trade has come in.
     private int[] acceptCoords;
-    private boolean acceptAlert;
+    private boolean acceptAlert; //boolean to display the accept trade alert
+    private boolean openTrade; //boolean to check whether this trade was initiated to all.
+    private boolean rejectAlert; //boolean to display the rejection trade alert
 
     public TradeFloor(Board parent) {
         this.parent = parent;
@@ -39,6 +40,8 @@ public class TradeFloor {
         this.tradeAlert = false;
         this.tradeAlertPlayer = 0;
         this.acceptCoords = new int[4];
+        this.openTrade = false;
+        this.rejectAlert = false;
 
 
     }
@@ -73,13 +76,16 @@ public class TradeFloor {
         for(int i = 0; i < trades.length; i++){
             trades[i].displayCard();
         }
-        displayButtons();
+
         displayClientFloor();
         if(tradeAlert){
             displayTradeAlert();
         }
         if(acceptAlert){
             displayAccept(playerNeg);
+        }
+        if(rejectAlert){
+           displayReject();
         }
 
     }
@@ -110,18 +116,6 @@ public class TradeFloor {
         this.tradeAlertPlayer = client.getId();
     }
 
-    /**
-     * Displays the counter and accept buttons.
-     * Accept buttons are only displayed when there are
-     * resources in both the offer and want side of the deal.
-     */
-    public void displayButtons(){
-        for(PlayerTradeCard trade : trades){
-
-
-            }
-
-    }
 
     /**
      * Displays the client trading menu.
@@ -173,8 +167,14 @@ public class TradeFloor {
         parent.text("Incoming (Buying)", wantStartX + 200 - (parent.textWidth("Incoming (Buying)")/2), startY + 25);
         drawWant(wantStartX,startY);
         clientButtons(offerStartX + 400, wantStartX, startY);
-
-
+        parent.fill(255);
+        parent.textSize(12);
+        parent.text("Pressing \"Back\" will end all trade negotiations", (parent.SCREEN_WIDTH/2) -
+                (parent.textWidth("Pressing \"Back\" will end all trade negotiations")/2), startY + 225);
+        parent.line((parent.SCREEN_WIDTH/2) -
+                (parent.textWidth("Pressing \"Back\" will end all trade negotiations")/2), startY + 227,
+                (parent.SCREEN_WIDTH/2) + (parent.textWidth("Pressing \"Back\" will end all trade negotiations")/2),
+                startY + 227);
     }
 
     private void clientButtons(int startX, int endX, int startY){
@@ -197,6 +197,9 @@ public class TradeFloor {
         parent.text("Back", butX + (width/2) - (parent.textWidth("Back")/2), (butY + 55) + 7);
         parent.fill(0,0,0,30);
         parent.rect(butX +2, butY + 42,width,32,5,5,5,5);
+
+
+
     }
 
     /**
@@ -329,19 +332,33 @@ public class TradeFloor {
                         playerNeg = trade;
                         //move offer to client side.
                         if (trade.getOffers().size() > 0) {
-                            client.setOffers(trade.getOffers());
+                            client.setWants(trade.getOffers());
                             offerHighlight = 100;
                         }
                         if (trade.getWants().size() > 0) {
-                            client.setWants(trade.getWants());
+                            client.setOffers(trade.getWants());
                             wantHighlight = 100;
                         }
 
                     } else {
-                        //perform the trade
                         playerNeg = trade;//accepted trader becomes the playerNeg (playerNegotiatedWith).
-                        parent.model.setTradeManifest(ObjectParser.parseAccept(this, true));
-                        performTrade(getPlayerForTrade(tradeButton));
+                        if(!isOpenTrade()) {
+                            //perform the trade
+                            parent.model.setTradeManifest(ObjectParser.parseAccept(this, true));
+                        } else{
+                            playerNeg.setActiveOffer(false);
+                            trade.setActiveOffer(true);
+                            if (trade.getOffers().size() > 0) {
+                                client.setWants(trade.getOffers());
+                                offerHighlight = 100;
+                            }
+                            if (trade.getWants().size() > 0) {
+                                client.setOffers(trade.getWants());
+                                wantHighlight = 100;
+                            }
+                            //if you wish to accept an open trade, return the offer exactly
+                            parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false,false));
+                        }
                     }
                     return;
                 }
@@ -361,14 +378,17 @@ public class TradeFloor {
             if (Listeners.overRect(butX, butY, ((int) parent.textWidth(" Propose ")), 30, parent)) {
                 if (playerNeg == client) {
                     //if not countering a trade
-                    parent.model.setTradeManifest(ObjectParser.parseTrade(client, "all", false));
+                    parent.model.setTradeManifest(ObjectParser.parseTrade(client, "all", false,false));
                 } else {
                     //if countering a trade the playerNeg will be set.
-                    parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false));
+                    parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false,false));
                 }
             }
+            //back button
             if (Listeners.overRect(butX, butY + 40, ((int) parent.textWidth(" Propose ")), 30, parent)) {
+                parent.model.setTradeManifest(ObjectParser.parseTrade(client,Integer.toString(playerNeg.getId()),false,true));
                 parent.model.setDisplayMode(0);
+                resetTrades();
             }
             for (int i = 0; i < plusButtons.length; i++) {
                 int[] coords = plusButtons[i];
@@ -441,15 +461,26 @@ public class TradeFloor {
                 }
             }
 
+            if(tradeAlert) {
+                if (Listeners.overRect((parent.SCREEN_WIDTH / 2) - 30, (parent.SCREEN_HEIGHT / 2) + 10, 60, 30, parent)) {
+                    toggleTradeAlert(false);
+                    parent.model.setDisplayMode(8);
+                }
+            }
+            if(rejectAlert){
+                if (Listeners.overRect((parent.SCREEN_WIDTH / 2) - 30, (parent.SCREEN_HEIGHT / 2) + 10, 60, 30, parent)) {
+                    setRejectAlert(false);
+                    parent.model.setDisplayMode(0);
+                    resetTrades();
+                }
 
-            if (Listeners.overRect((parent.SCREEN_WIDTH / 2) - 30, (parent.SCREEN_HEIGHT / 2) + 10, 60, 30, parent)) {
-                toggleTradeAlert(false);
-                parent.model.setDisplayMode(8);
+
             }
             if(acceptAlert){
                 if(Listeners.overRect(acceptCoords[0], acceptCoords[1], acceptCoords[2], acceptCoords[3], parent)){
                     acceptAlert = false;
                     parent.model.setDisplayMode(0);
+                    resetTrades();
                 }
             }
         }
@@ -475,7 +506,7 @@ public class TradeFloor {
      */
     public void performTrade(PlayerTradeCard partner){
         playerNeg = partner;
-        this.acceptAlert = true;
+
         PlayerInfo player = parent.model.getPlayer();
         HashMap<Integer,Integer> offers = partner.getOffers();
         HashMap<Integer,Integer> wants = partner.getWants();
@@ -514,7 +545,8 @@ public class TradeFloor {
                 player.subtractLogs(wants.get(val));
             }
         }
-        resetTrades();
+        this.acceptAlert = true;
+
     }
 
     /**
@@ -551,6 +583,22 @@ public class TradeFloor {
 
     public void setTradeAlertPlayer(int tradeAlertPlayer) {
         this.tradeAlertPlayer = tradeAlertPlayer;
+    }
+
+    public boolean isOpenTrade() {
+        return openTrade;
+    }
+
+    public void setOpenTrade(boolean openTrade) {
+        this.openTrade = openTrade;
+    }
+
+    public boolean isRejectAlert() {
+        return rejectAlert;
+    }
+
+    public void setRejectAlert(boolean rejectAlert) {
+        this.rejectAlert = rejectAlert;
     }
 
     public void displayTradeAlert(){
@@ -591,10 +639,12 @@ public class TradeFloor {
      * @param trader
      */
     public void displayAccept(PlayerTradeCard trader){
+        parent.fill(255);
+        parent.text("TRADED WITH: " + trader.getId() + " ",20,20);
         int receiveNo = trader.getOffers().size() * 34;
         int loseNo = trader.getWants().size() * 34;
         parent.textSize(20);
-        int width =  (int)(120 + parent.textWidth("Trade Succesful"));
+        int width =  (int)(120 + parent.textWidth("Trade Successful"));
         int height = 104 + receiveNo + loseNo ;
         int startX = (parent.SCREEN_WIDTH/2) - (width/2);
         int startY = (parent.SCREEN_HEIGHT/2) - (height/2);
@@ -637,8 +687,8 @@ public class TradeFloor {
             runningTotal += 14;
         parent.text("You lose:", startX + ((width/2) - parent.textWidth("You lose:")/2),runningTotal);
         parent.stroke(255);
-        parent.line ((startX + ((width/2) - parent.textWidth("You Lose:")/2)), runningTotal + 1,
-                (startX + ((width/2) + parent.textWidth("You Lose:")/2)),runningTotal + 1);
+        parent.line ((startX + ((width/2) - parent.textWidth("You lose:")/2)), runningTotal + 1,
+                (startX + ((width/2) + parent.textWidth("You lose:")/2)),runningTotal + 1);
         runningTotal+= 5;
         for (int want : trader.getWants().keySet()){
             parent.image(parent.images[want],startX + ((width/4)),runningTotal);
@@ -690,15 +740,44 @@ public class TradeFloor {
      * Resets the offer/want negotiations
      */
     public void resetTrades(){
+        this.openTrade = false;
+        this.rejectAlert = false;
         playerNeg = client;
+        client.setOffers(new HashMap<Integer, Integer>());
+        client.setWants(new HashMap<Integer, Integer>());
         for(PlayerTradeCard trade : trades){
             trade.setOffers(new HashMap<Integer,Integer>());
             trade.setWants(new HashMap<Integer,Integer>());
+            if(trade.isActiveOffer()){
+                trade.setActiveOffer(false);
+            }
+            if(trade.isOfferRejected()){
+                trade.setOfferRejected(false);
+            }
         }
     }
 
 
+
+    /**
+     * Once the trading floor is closed.
+     * Display the reject.
+     */
     public void displayReject(){
+        parent.textSize(20);
+        parent.fill(198,40,40);
+        parent.stroke(0,0,0,0);
+        int width = (int) parent.textWidth("Trading Closed");
+        int height = 80;
+        parent.rect((parent.SCREEN_WIDTH/2) - ((20+width)/2), (parent.SCREEN_HEIGHT/2) - 30,width+20,height,10,10,10,10);
+        parent.fill(0,0,0,30);
+        parent.rect((parent.SCREEN_WIDTH/2) - ((20+width)/2)+2, (parent.SCREEN_HEIGHT/2) - 30 + 2,width+20,height,10,10,10,10);
+        parent.fill(255);
+        parent.text("Trading Closed", (parent.SCREEN_WIDTH/2) - ((width/2)), (parent.SCREEN_HEIGHT/2) - 5 );
+        parent.fill(198, 40, 40);
+        parent.rect((parent.SCREEN_WIDTH/2) - 30,(parent.SCREEN_HEIGHT/2) + 10, 60,30,5,5,5,5 );
+        parent.fill(255);
+        parent.text("OK", (parent.SCREEN_WIDTH/2) - (parent.textWidth("OK")/2),(parent.SCREEN_HEIGHT/2) + 30);
 
 
     }

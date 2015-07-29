@@ -128,7 +128,7 @@ public class Game implements Runnable {
      * @param s
      */
     public void addPlayer(Socket s){
-        if(this.currentID > 3){
+        if(this.currentID > 4){
             this.currentID = 1;
         }
         int setID = currentID;

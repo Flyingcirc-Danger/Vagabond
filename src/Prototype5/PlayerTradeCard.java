@@ -18,6 +18,7 @@ public class PlayerTradeCard {
     private HashMap<Integer, Integer> wants;
     private boolean mutable;
     private boolean activeOffer; //true if in a countering agreement
+    private boolean offerRejected;
 
 
     public PlayerTradeCard(Board parent, int id, int startX, int startY, HashMap<Integer, Integer> offers, HashMap<Integer, Integer> wants) {
@@ -69,7 +70,11 @@ public class PlayerTradeCard {
             int cardHeight = 246;
             int cardWidth = 146;
             int cardY = startY + 7;
-            parent.image(parent.images[20], cardX + (cardWidth/2) - 45, cardY + (cardHeight/2) - 45);
+            if(isOfferRejected()){
+                parent.image(parent.images[21], cardX + (cardWidth / 2) - 45, cardY + (cardHeight / 2) - 45);
+            } else {
+                parent.image(parent.images[20], cardX + (cardWidth / 2) - 45, cardY + (cardHeight / 2) - 45);
+            }
         } else {
             parent.fill(227, 226, 213);
             parent.rect(startX, startY, 160, 280, 10, 10, 10, 10);
@@ -252,6 +257,14 @@ public class PlayerTradeCard {
 
     public int getId() {
         return id;
+    }
+
+    public boolean isOfferRejected() {
+        return offerRejected;
+    }
+
+    public void setOfferRejected(boolean offerRejected) {
+        this.offerRejected = offerRejected;
     }
 
     /**
@@ -500,6 +513,7 @@ public class PlayerTradeCard {
         int acceptY = getStartY() + 290;
         //if only one side of the trade is open, you can only counter
         if (getWants().size() == 0 || getOffers().size() == 0) {
+
             if (getWants().size() == 0 && getOffers().size() == 0) {
                 counterX = getStartX() + (160 / 2) - (int) (parent.textWidth(" Offer ") / 2);
                 parent.fill(40, 53, 157);
