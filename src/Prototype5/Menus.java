@@ -19,6 +19,7 @@ public class Menus {
     private BuildCard card;
     private Bank bank;
     private TradeFloor tradeFloor;
+    private DiscardScreen discardScreen;
 
     public Menus(Board parent){
         this.gameMenu = new GameMenu(parent, 300,400);
@@ -30,6 +31,7 @@ public class Menus {
         this.card = new BuildCard(parent);
         this.bank = new Bank(parent);
         this.tradeFloor = new TradeFloor(parent);
+        this.discardScreen = new DiscardScreen(parent,10);
 
     }
 
@@ -103,5 +105,13 @@ public class Menus {
 
     public void setTradeFloor(TradeFloor tradeFloor) {
         this.tradeFloor = tradeFloor;
+    }
+
+    public DiscardScreen getDiscardScreen() {
+        return discardScreen;
+    }
+
+    public void setDiscardScreen(DiscardScreen discardScreen) {
+        this.discardScreen = discardScreen;
     }
 }

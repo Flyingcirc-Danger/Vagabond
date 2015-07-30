@@ -712,8 +712,8 @@ public class BoardData {
      */
     public void displayMenus(){
         if(displayMode == 10){
-           menus.getConnect().display();
-
+            menus.getConnect().display();
+           // menus.getDiscardScreen().display();
             return;
         }
         if(displayMode == 7){
@@ -746,6 +746,7 @@ public class BoardData {
     public void checkMenus(){
         if(displayMode == 10){
             menus.getConnect().checkButtons();
+            menus.getDiscardScreen().checkButtons();
 
         }
         if(displayMode == 7){

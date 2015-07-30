@@ -22,7 +22,7 @@ public class PlayerInfo {
 
     public PlayerInfo(int id){
         this.id = id;
-        this.resources = new int[]{4,4,4,4,4};
+        this.resources = new int[]{4,2,4,4,4};
 
     }
 
@@ -111,6 +111,14 @@ public class PlayerInfo {
 
     public int getLogs(){
         return this.resources[4];
+    }
+
+    /**
+     * Returns the total resource count of this player
+     * @return the total resource count of this player.
+     */
+    public int getResourceCount(){
+        return getLogs() + getGrain() + getWool() + getBrick() + getOre();
     }
 
 
