@@ -1145,7 +1145,7 @@ public class ObjectParser {
         result.append("<turn-begin>");
         result.append("<player-id>" + currentGame.advanceTurn() + "</player-id>");
         result.append("<d1>" + d1 + "</d1>");
-        result.append("<d2>" + d1 + "</d2>");
+        result.append("<d2>" + d2 + "</d2>");
         result.append("</turn-begin>");
         return result.toString();
     }

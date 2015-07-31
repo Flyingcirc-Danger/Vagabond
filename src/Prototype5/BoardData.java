@@ -454,17 +454,20 @@ public class BoardData {
         if(tool == 1 || tool == 3) {
             for (int i = 0; i < hexDeck.length; i++) {
                 hexDeck[i].checkSettledPoints();
+                parent.cursor(parent.ARROW);
             }
         }
         if(tool == 2){
             for(int i = 0; i < hexDeck.length; i++){
                 hexDeck[i].checkBuiltRoads();
+                parent.cursor(parent.ARROW);
             }
         }
         if(tool == 4){
             System.out.println("Turn End");
             manifestReady = true;
             this.getParent().currentTool = 0;
+            parent.cursor(parent.ARROW);
         }
         //robber tool.
         if(tool == 7){
@@ -719,6 +722,7 @@ public class BoardData {
         if(displayMode == 10){
             menus.getConnect().display();
             //menus.getDiscardScreen().display();
+            menus.getRobDialogue().display();
             return;
         }
         if(displayMode == 7){
@@ -774,6 +778,9 @@ public class BoardData {
         }
         if(displayMode == 6){
            if(menus.getDie().checkButton()){
+               if(this.player.getId() == playerTurn && turnRoll == 7){
+                   parent.currentTool = 7;
+               }
                setDisplayMode(0);
            }
         }
@@ -793,7 +800,9 @@ public class BoardData {
         menus.setDie(new Dice(d1,d2,parent));
         this.playerTurn = playerID;
         this.setDisplayMode(6);
-        payResources(d1+d2);
+        if(d1+d2 != 7) {
+            payResources(d1 + d2);
+        }
     }
 
     public void payResources(int token){

@@ -20,6 +20,7 @@ public class Menus {
     private Bank bank;
     private TradeFloor tradeFloor;
     private DiscardScreen discardScreen;
+    private RobDialogue robDialogue;
 
     public Menus(Board parent){
         this.gameMenu = new GameMenu(parent, 300,400);
@@ -32,6 +33,7 @@ public class Menus {
         this.bank = new Bank(parent);
         this.tradeFloor = new TradeFloor(parent);
         this.discardScreen = new DiscardScreen(parent,10);
+        this.robDialogue = new RobDialogue(parent);
 
     }
 
@@ -113,5 +115,13 @@ public class Menus {
 
     public void setDiscardScreen(DiscardScreen discardScreen) {
         this.discardScreen = discardScreen;
+    }
+
+    public RobDialogue getRobDialogue() {
+        return robDialogue;
+    }
+
+    public void setRobDialogue(RobDialogue robDialogue) {
+        this.robDialogue = robDialogue;
     }
 }

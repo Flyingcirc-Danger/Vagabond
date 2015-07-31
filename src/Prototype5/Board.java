@@ -47,7 +47,7 @@ public class Board extends PApplet {
 
         textSize(14);
         background(0, 188, 212);
-        this.currentTool = 7;
+        this.currentTool = 0;
         this.images = new PImage[22];
         this.resourceIMG = new PImage[11];
         this.images[0] = loadImage("assets/logoSM.png");
