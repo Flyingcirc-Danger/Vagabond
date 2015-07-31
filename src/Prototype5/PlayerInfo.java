@@ -1,5 +1,8 @@
 package Prototype5;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 /**
  * Created by Tom_Bryant on 7/9/15.
  * A class containing the specific info of this player.
@@ -11,6 +14,7 @@ public class PlayerInfo {
     private int id;
     //[grain,ore,wool,brick,logs]
     private int[] resources;
+    private boolean stealFlag;
 
     public PlayerInfo(String uname, int score,int id){
         this.uname = uname;
@@ -25,6 +29,7 @@ public class PlayerInfo {
         this.resources = new int[]{4,2,4,4,4};
 
     }
+
 
     public String getUname() {
         return uname;
@@ -122,4 +127,43 @@ public class PlayerInfo {
     }
 
 
+    /**
+     * Gets the ids of all the resources this player has
+     * @return an arraylist of the resources this player has
+     */
+    public ArrayList<Integer> getRemainingResources(){
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for(int i = 0; i < resources.length;i++){
+            if(resources[i] != 0){
+                result.add(i);
+            }
+        }
+        return result;
+
+    }
+
+    /**
+     * Initates a steal. Only called if the steal flag is true.
+     */
+    public void stealResource() {
+        Random rand = new Random();
+        ArrayList<Integer> remaining = new ArrayList<Integer>();
+        int resource = rand.nextInt((remaining.size() - 1));
+        if(resource == 0){
+            subtractGrain(1);
+        }
+        if(resource== 1){
+            subtractOre(1);
+        }
+        if(resource == 2){
+            subtractWool(1);
+        }
+        if(resource == 3){
+            subtractBrick(1);
+        }
+        if(resource == 4){
+            subtractLogs(1);
+        }
+        stealFlag = false;
+    }
 }

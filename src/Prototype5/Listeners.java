@@ -27,4 +27,23 @@ public class Listeners {
             return false;
         }
     }
+
+    /**
+     * A method for checking a circular space for a mouse click
+     * @param x
+     * @param y
+     * @param diameter
+     * @param parent
+     * @return
+     */
+    public static boolean overCircle(int x, int y, int diameter, PApplet parent) {
+        float disX = x - parent.mouseX;
+        float disY = y - parent.mouseY;
+        if(parent.sqrt(parent.sq(disX) + parent.sq(disY)) < diameter/2 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

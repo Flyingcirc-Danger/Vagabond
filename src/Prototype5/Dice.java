@@ -22,7 +22,7 @@ public class Dice {
         this.dieTwo = dieTwo;
         this.parent = parent;
         Random numb = new Random();
-        counter = numb.nextInt((15 - 7 - 1) + 10) * 10;
+        counter = (numb.nextInt(5) + 1) * 10;
         lastD1 = 6;
         lastD2 = 6;
 

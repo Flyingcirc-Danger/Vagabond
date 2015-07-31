@@ -48,6 +48,7 @@ public class HexTile {
     //resource & roll info
     String resource;
     int value;
+    private boolean robber;
 
     int id;
     //map of owners to yield ( 1 town = 1, 1 city = 2)
@@ -67,6 +68,7 @@ public class HexTile {
         initSides();
         this.model.getTileMap().put(this.center, this);
         this.owners = new HashMap<Integer, Integer>();
+        this.robber = false;
         addToPayout();
 
     }
@@ -270,11 +272,14 @@ public class HexTile {
         DE.drawRoad();
         EF.drawRoad();
         FA.drawRoad();
-        if((parent.model.getTurnRoll() == value) && checkOwner()){
+        if((parent.model.getTurnRoll() == value) && checkOwner() && !robber){
 
             diceDisplay();
         } else {
             displayToken();
+        }
+        if(isRobber()){
+            robberDisplay();
         }
     }
 
@@ -301,6 +306,12 @@ public class HexTile {
             img = parent.resourceIMG[4];
         }
         parent.image(img,center.x - (img.width/2), center.y - (img.height/2));
+    }
+
+
+    public void robberDisplay(){
+        PImage img = parent.resourceIMG[10];
+        parent.image(img, center.x - (img.width/2), center.y - (img.height/2));
     }
 
 
@@ -523,6 +534,14 @@ public class HexTile {
         this.owners = owners;
     }
 
+    public boolean isRobber() {
+        return robber;
+    }
+
+    public void setRobber(boolean robber) {
+        this.robber = robber;
+    }
+
     /**
      * Decides how to round a double
      * when converting to int
@@ -592,6 +611,7 @@ public class HexTile {
         }
         parent.textSize(8);
         parent.text( debug.toString(), textX,(int)center.getY() - 25);
+        parent.text("Robber: " + isRobber(), textX, (int) center.getY() - 40);
     }
 
 
@@ -1267,6 +1287,9 @@ public class HexTile {
 
     }
 
+    /**
+     * Pays the required resource based on the roll
+     */
     public void payResource(){
         if(this.resource.equals("grain")){
             model.getPlayer().addGrain(1);
@@ -1284,5 +1307,32 @@ public class HexTile {
             model.getPlayer().addLogs(1);
         }
     }
+
+    /**
+     * Checks each tile for the robber.
+     */
+    public void checkRobber(){
+        if(Listeners.overCircle(center.x, center.y,radius,parent)){
+            robber = true;
+        } else{
+            robber = false;
+        }
+
+    }
+
+    /**
+     * Highlights the tile if the robber is over it.
+     */
+    public void highlightRobber(){
+        if(Listeners.overCircle(center.x, center.y,radius,parent)){
+            highlighted = true;
+        } else{
+            highlighted = false;
+        }
+
+    }
+
+
+
 
 }

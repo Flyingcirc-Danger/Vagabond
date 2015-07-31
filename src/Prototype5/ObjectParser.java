@@ -113,6 +113,7 @@ public class ObjectParser {
             result.append("<canopyheight>" + tile.getCanopyHeight() + "</canopyheight>");
             result.append("<resource>" + tile.getResource() + "</resource>");
             result.append("<value>" + tile.getValue() + "</value>");
+            result.append("<robber>" + tile.isRobber() + "</robber>");
             result.append("</hextile>");
         }
         result.append("</tiles>");
@@ -193,6 +194,7 @@ public class ObjectParser {
             result.append("<canopyheight>" + tile.getCanopyHeight() + "</canopyheight>");
             result.append("<resource>" + tile.getResource() + "</resource>");
             result.append("<value>" + tile.getValue() + "</value>");
+            result.append("<robber>" + tile.isRobber() + "</robber>");
             result.append("</hextile>");
 
         return result.toString();
@@ -567,6 +569,7 @@ public class ObjectParser {
             int canopyHeight = Integer.parseInt(tile.item(4).getTextContent());
             String resource = tile.item(5).getTextContent();
             int value = Integer.parseInt(tile.item(6).getTextContent());
+            boolean robber = Boolean.parseBoolean(tile.item(7).getTextContent());
             HexTile update = model.getTileMap().get(center);
             update.setA(a);
             update.setB(b);
@@ -580,6 +583,7 @@ public class ObjectParser {
             update.setDE(mDE);
             update.setEF(mEF);
             update.setFA(mFA);
+            update.setRobber(robber);
             update.setRadius(radius);
             update.setSideToSide(sideToSide);
             update.setCanopyHeight(canopyHeight);

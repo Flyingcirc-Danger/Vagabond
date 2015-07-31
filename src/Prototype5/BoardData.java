@@ -304,6 +304,9 @@ public class BoardData {
         }
         for (int i = 1; i < hexDeck.length; i++) {
             HexTile temp = hexDeck[i - 1].expand(buildOrder[i],resourceTiles[i],tokens[i]);
+            if(resourceTiles[i].equals("desert")){
+                temp.setRobber(true);
+            }
             hexDeck[i] = temp;
         }
         configureEdges();
@@ -421,6 +424,9 @@ public class BoardData {
                     hexDeck[i].checkPoints();
                     hexDeck[i].checkSides();
                 }
+                if(parent.currentTool == 7){
+                    hexDeck[i].highlightRobber();
+                }
 
             }
         }
@@ -457,16 +463,15 @@ public class BoardData {
         }
         if(tool == 4){
             System.out.println("Turn End");
-//            try (PrintWriter writer = new PrintWriter("manifest.xml", "UTF-8")) {
-//                writer.println(getManifestString());
-//                writer.close();
-                manifestReady = true;
-                System.out.println("Saved Manifest: " + parent.center.getModel().getIdentityToken());
-
-//            } catch (IOException e) {
-//                System.out.println("could not save");
-//            }
+            manifestReady = true;
             this.getParent().currentTool = 0;
+        }
+        //robber tool.
+        if(tool == 7){
+            for(int i = 0; i < hexDeck.length; i++){
+                hexDeck[i].checkRobber();
+                parent.cursor(parent.resourceIMG[10]);
+            }
         }
     }
 
@@ -713,7 +718,7 @@ public class BoardData {
     public void displayMenus(){
         if(displayMode == 10){
             menus.getConnect().display();
-           // menus.getDiscardScreen().display();
+            //menus.getDiscardScreen().display();
             return;
         }
         if(displayMode == 7){
