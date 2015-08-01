@@ -941,6 +941,10 @@ public class ObjectParser {
                 System.out.println("request recieved trade");
                 readTrade(model, XML);
             }
+            else if(doc.getElementsByTagName("robber").getLength() > 0){
+                System.out.println("request received steal");
+                readSteal(model, XML);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -981,10 +985,12 @@ public class ObjectParser {
      * Return 1 = manifest
      * Return 2 = alert
      * Return 3 = trade
+     * Return 4 = steal
      * @param currentGame the game that the player is currently in.
      * @param XML the XML containing instructions.
      */
     public static int serverParseRequest(Game currentGame, String XML){
+        //ANY LAST MESSAGE TYPE OTHER THAN 2 WILL ADVANCE THE TURN
         try{
             Document doc = stringToDom(XML);
             if(doc.getElementsByTagName("manifest").getLength() > 0){
@@ -1000,6 +1006,10 @@ public class ObjectParser {
             if(doc.getElementsByTagName("trade").getLength() > 0){
                 currentGame.lastMessageType = 2;
                 return 3;
+            }
+            if(doc.getElementsByTagName("robber").getLength() > 0){
+                currentGame.lastMessageType = 2;
+                return 4;
             }
 
 
@@ -1498,6 +1508,82 @@ public class ObjectParser {
                     }
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * Parses a robber move.
+     * @param model the model to operate on
+     * @param toID the of the player to steal from
+     * @param robberLoc the hextile location of the robber
+     * @param send the send status (true = send, false = recieve)
+     * @return
+     */
+    public static String parseSteal(BoardData model, int toID, HexTile robberLoc, boolean send){
+        StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        result.append("<robber>");
+        result.append("<hextile>");
+        result.append("<x>" + robberLoc.getCenter().x + "</x>");
+        result.append("<y>" + robberLoc.getCenter().y + "</y>");
+        result.append("</hextile>");
+        result.append("<from>" + model.getPlayer().getId() + "</from>");
+        result.append("<to>" + toID + "</to>");
+        int resource = 0;
+        if(send){
+            resource = 0;
+        } else{
+            //perform a random steal.
+            resource = model.getPlayer().stealResource();
+        }
+        result.append("<resource>" + resource + "</resource>" );
+        result.append("<send>" + send + "</send>");
+        result.append("</robber>");
+        saveOutput(result.toString(),"steal.xml");
+        return result.toString();
+    }
+
+
+    public static void readSteal(BoardData model, String XML){
+        try {
+            Document dom = stringToDom(XML);
+            NodeList stealItems = dom.getElementsByTagName("robber");
+            NodeList steal = stealItems.item(0).getChildNodes();
+            NodeList centerPt = steal.item(0).getChildNodes();
+            Point center = new Point(Integer.parseInt(centerPt.item(0).getTextContent()),
+                    Integer.parseInt(centerPt.item(1).getTextContent()));
+            //remove previous robber
+            for(HexTile tile : model.getHexDeck()){
+                tile.setRobber(false);
+            }
+            model.getRobberTile().setRobber(false);
+            //place new robber
+            model.getTileMap().get(center).setRobber(true);
+            model.setRobberTile(model.getTileMap().get(center));
+            //get send status
+            boolean send = Boolean.parseBoolean(steal.item(4).getTextContent());
+            int fromID = Integer.parseInt(steal.item(1).getTextContent());
+            int toID = Integer.parseInt(steal.item(2).getTextContent());
+            int resource = Integer.parseInt(steal.item(3).getTextContent());
+            //if addressed to me
+            if(toID == model.getPlayer().getId()){
+                //if this was a send offer not a recieve
+                if(send){
+                    //do steal
+                    model.setStealManifest(ObjectParser.parseSteal(model,fromID,model.getRobberTile(),false));
+                } else{
+                    //give stolen resource
+                    model.getPlayer().giveResource(resource);
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {

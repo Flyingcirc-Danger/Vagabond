@@ -173,6 +173,11 @@ public class ServerToClientConnection {
                     System.out.println("Propagating trade ");
                     record.setCurrent(message);
                 }
+                //for steals
+                if(parseVal == 4) {
+                    System.out.println("Propagating steal ");
+                    record.setCurrent(message);
+                }
             }
         }
             heartBeat.put(id, message);

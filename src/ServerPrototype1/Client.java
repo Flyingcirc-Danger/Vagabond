@@ -33,8 +33,11 @@ public class Client {
                     } else if(model.tradeReady){
                         System.out.println("Sent Trade");
                         String trade = model.getTradeManifestString();
-                        System.out.println(trade);
                         connection.write(trade);
+                    } else if(model.stealReady){
+                        System.out.println("Sent Steal");
+                        String steal = model.getStealManifestString();
+                        connection.write(steal);
                     }
                     else if(connection.getMessage().length() > 0){
                         //HANDLES Replies. If the message is an XML reply

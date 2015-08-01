@@ -54,6 +54,8 @@ public class HexTile {
     //map of owners to yield ( 1 town = 1, 1 city = 2)
     private HashMap<Integer, Integer> owners;
 
+    boolean placeholder;
+
     public HexTile(Board parent, double centerX, double centerY, int radius, BoardData model, String resource,int value){
         this.parent = parent;
         this.value = value;
@@ -69,6 +71,7 @@ public class HexTile {
         this.model.getTileMap().put(this.center, this);
         this.owners = new HashMap<Integer, Integer>();
         this.robber = false;
+        this.placeholder = false;
         addToPayout();
 
     }
@@ -96,6 +99,13 @@ public class HexTile {
         this.model.getTileMap().put(this.center, this);
         this.owners = new HashMap<Integer, Integer>();
         addToPayout();
+    }
+
+    /**
+     * For temporary hex objects
+     */
+    public HexTile(){
+        this.placeholder = true;
     }
 
     /**

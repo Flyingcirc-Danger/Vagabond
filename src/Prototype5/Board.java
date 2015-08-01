@@ -135,6 +135,9 @@ public class Board extends PApplet {
 
 
             fill(0);
+       fill(255);
+        textSize(10);
+        text("Display Mode: " + model.getDisplayMode() + "\n TOOL: " + currentTool, 10,10);
 
 
     }

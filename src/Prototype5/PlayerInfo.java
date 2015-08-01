@@ -145,25 +145,58 @@ public class PlayerInfo {
     /**
      * Initates a steal. Only called if the steal flag is true.
      */
-    public void stealResource() {
+    public int stealResource() {
         Random rand = new Random();
         ArrayList<Integer> remaining = new ArrayList<Integer>();
-        int resource = rand.nextInt((remaining.size() - 1));
+        int resource = rand.nextInt(4);
+        stealFlag = false;
+        System.out.println("I lose resource ID: " + resource);
         if(resource == 0){
             subtractGrain(1);
+            return 1;
         }
         if(resource== 1){
             subtractOre(1);
+            return 2;
         }
         if(resource == 2){
             subtractWool(1);
+            return 3;
         }
         if(resource == 3){
             subtractBrick(1);
+            return 4;
+        }
+        else{
+            subtractLogs(1);
+            return 5;
+        }
+
+    }
+
+    /**
+     * The initiators result of a steal
+     * give the initator the specified resource
+     * @param resource the int identifier of the resource
+     * @return
+     */
+    public void  giveResource(int resource){
+        System.out.println("I gain resource ID: " + resource);
+        if(resource == 1){
+            addGrain(1);
+        }
+        if(resource == 2){
+            addOre(1);
+        }
+        if(resource == 3){
+            addWool(1);
         }
         if(resource == 4){
-            subtractLogs(1);
+            addBrick(1);
         }
-        stealFlag = false;
+        if(resource == 5){
+            addLogs(1);
+        }
+
     }
 }
