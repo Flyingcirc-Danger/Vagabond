@@ -805,6 +805,9 @@ public class BoardData {
             menus.getDie().display();
             return;
         }
+        if(displayMode == 9){
+            menus.getDiscardScreen().display();
+        }
         if(displayMode <=5){
             menus.getBank().display();
             menus.getBottomMenu().display();
@@ -851,14 +854,24 @@ public class BoardData {
             }
         }
         if(displayMode == 6){
+            //check the die okay button
            if(menus.getDie().checkButton()){
-               if(this.player.getId() == playerTurn && turnRoll == 7){
-                   menus.getRobDialogue().setToolSwitch();
-               } else{
-                   menus.getRobDialogue().setRobSequence(5);
+               //go to the discard screen
+               if(getPlayer().getResourceCount() > 7 && turnRoll == 7 ){
+                   setDisplayMode(9);
+               } else {
+                   if (this.player.getId() == playerTurn && turnRoll == 7) {
+                       menus.getRobDialogue().setToolSwitch();
+                   } else {
+                       menus.getRobDialogue().setRobSequence(5);
+                   }
+                   setDisplayMode(0);
                }
-               setDisplayMode(0);
+
            }
+        }
+        if(displayMode == 9){
+            menus.getDiscardScreen().checkButtons();
         }
     }
 
@@ -872,6 +885,12 @@ public class BoardData {
 
     }
 
+    /**
+     * Contains the logic of the turn
+     * @param playerID the player whose turn it is
+     * @param d1 the roll on dice one
+     * @param d2 the roll on dice 2
+     */
     public void handleTurn(int playerID, int d1, int d2){
         menus.setDie(new Dice(d1,d2,parent));
         this.playerTurn = playerID;

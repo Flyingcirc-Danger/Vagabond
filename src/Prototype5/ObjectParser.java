@@ -1578,7 +1578,14 @@ public class ObjectParser {
                 //if this was a send offer not a recieve
                 if(send){
                     //do steal
-                    model.setStealManifest(ObjectParser.parseSteal(model,fromID,model.getRobberTile(),false));
+                    //if we're out of the discard screen
+                    if(model.getDisplayMode() == 0) {
+                        model.setStealManifest(ObjectParser.parseSteal(model, fromID, model.getRobberTile(), false));
+                    } else{
+                        //queue up the steal mechanic
+                        model.getPlayer().setStealFromID(fromID);
+                        model.getPlayer().setStealFlag(true);
+                    }
                 } else{
                     //give stolen resource
                     model.getPlayer().giveResource(resource);

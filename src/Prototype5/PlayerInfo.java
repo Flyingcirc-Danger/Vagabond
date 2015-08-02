@@ -15,12 +15,14 @@ public class PlayerInfo {
     //[grain,ore,wool,brick,logs]
     private int[] resources;
     private boolean stealFlag;
+    private int stealFromID;
 
     public PlayerInfo(String uname, int score,int id){
         this.uname = uname;
         this.score = score;
         this.id = id;
         this.resources = new int[]{4,4,4,4,4};
+        stealFlag = false;
     }
 
 
@@ -118,6 +120,22 @@ public class PlayerInfo {
         return this.resources[4];
     }
 
+    public boolean isStealFlag() {
+        return stealFlag;
+    }
+
+    public void setStealFlag(boolean stealFlag) {
+        this.stealFlag = stealFlag;
+    }
+
+    public int getStealFromID() {
+        return stealFromID;
+    }
+
+    public void setStealFromID(int stealFromID) {
+        this.stealFromID = stealFromID;
+    }
+
     /**
      * Returns the total resource count of this player
      * @return the total resource count of this player.
@@ -159,7 +177,6 @@ public class PlayerInfo {
         index = rand.nextInt(remaining.size());
         int resource = remaining.get(index);
 
-        stealFlag = false;
         System.out.println("I lose resource ID: " + resource);
         if(resource == 0){
             subtractGrain(1);

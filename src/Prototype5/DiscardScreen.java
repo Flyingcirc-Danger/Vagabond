@@ -165,10 +165,23 @@ public class DiscardScreen {
         int plusStartX = (parent.SCREEN_WIDTH/2) - (575/2) + 5;
         int plusStartY = (parent.SCREEN_HEIGHT/2) - 35;
         if(resourceDiscard == 0){
+            //continue button.
             int width = (int)parent.textWidth("Continue") + 20;
             int startX = (parent.SCREEN_WIDTH/2) - (width/2);
             if(Listeners.overRect(startX, ((parent.SCREEN_HEIGHT/4) * 3), width,70,parent)){
                 parent.model.setDisplayMode(0);
+                //if its my turn
+                if(parent.model.getPlayer().getId() == parent.model.getPlayerTurn()){
+                    //give me control of the robber
+                    parent.model.getMenus().getRobDialogue().setToolSwitch();
+                }
+                //if it's not my turn. Check to see if I've been flagged to be robbed.
+                if(parent.model.getPlayer().isStealFlag()){
+                    PlayerInfo player = parent.model.getPlayer();
+                    player.setStealFlag(false);
+                    parent.model.setStealManifest(ObjectParser.parseSteal(parent.model,
+                            player.getStealFromID(),parent.model.getRobberTile(),false));
+                }
             }
         }
         //plus grain
