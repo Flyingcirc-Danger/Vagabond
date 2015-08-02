@@ -1542,6 +1542,7 @@ public class ObjectParser {
         } else{
             //perform a random steal.
             resource = model.getPlayer().stealResource();
+            model.getMenus().getRobDialogue().performSteal(resource);
         }
         result.append("<resource>" + resource + "</resource>" );
         result.append("<send>" + send + "</send>");
@@ -1581,6 +1582,7 @@ public class ObjectParser {
                 } else{
                     //give stolen resource
                     model.getPlayer().giveResource(resource);
+                    model.getMenus().getRobDialogue().performSuccess(resource,fromID);
                 }
             }
 

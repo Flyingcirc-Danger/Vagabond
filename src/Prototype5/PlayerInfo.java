@@ -148,7 +148,17 @@ public class PlayerInfo {
     public int stealResource() {
         Random rand = new Random();
         ArrayList<Integer> remaining = new ArrayList<Integer>();
-        int resource = rand.nextInt(4);
+        for(int i = 0; i < resources.length;i++){
+            if(resources[i] > 0){
+                remaining.add(i);
+            }
+        }
+        //Triple random for seed randomness
+        int index = rand.nextInt(remaining.size());
+        index = rand.nextInt(remaining.size());
+        index = rand.nextInt(remaining.size());
+        int resource = remaining.get(index);
+
         stealFlag = false;
         System.out.println("I lose resource ID: " + resource);
         if(resource == 0){

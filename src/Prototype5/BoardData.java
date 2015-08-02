@@ -446,7 +446,7 @@ public class BoardData {
                 }
                 if(parent.currentTool == 7){
                     hexDeck[i].highlightRobber();
-                    if(!menus.getRobDialogue().isRobConfirm()){
+                    if(menus.getRobDialogue().getRobSequence() == 6){
                         parent.cursor(parent.resourceIMG[10]);
                     } else{
                         parent.cursor(parent.ARROW);
@@ -476,7 +476,7 @@ public class BoardData {
      * @param tool the tool currently selected.
      */
     public void checkSelected(int tool){
-        if(menus.getRobDialogue().isToolSwitch()){
+        if(menus.getRobDialogue().getRobSequence() < 5){
             menus.getRobDialogue().checkButtons();
         }
         if(tool == 1 || tool == 3) {
@@ -499,7 +499,7 @@ public class BoardData {
         }
         //robber tool.
         if(tool == 7){
-            if(menus.getRobDialogue().isRobConfirm()){
+            if(menus.getRobDialogue().getRobSequence() < 5 ){
                 parent.cursor(parent.ARROW);
                 menus.getRobDialogue().checkButtons();
             } else {
@@ -508,7 +508,7 @@ public class BoardData {
                     hexDeck[i].checkRobber();
                     if(hexDeck[i].isRobber()) {
                         menus.getRobDialogue().setTargets(hexDeck[i]);
-                        menus.getRobDialogue().setRobConfirm(true);
+                        menus.getRobDialogue().setRobConfirm();
                         break;
                     }
                     //parent.currentTool = 0;
@@ -813,7 +813,7 @@ public class BoardData {
             if(menus.getTradeFloor().isTradeAlert()){
                 menus.getTradeFloor().displayTradeAlert();
             }
-            if(menus.getRobDialogue().isRobConfirm()){
+            if(menus.getRobDialogue().getRobSequence() > 0 && menus.getRobDialogue().getRobSequence() < 5){
                 menus.getRobDialogue().display();
             }
             if(menus.getRobDialogue().isToolSwitch()){
@@ -845,7 +845,7 @@ public class BoardData {
         }
         if(displayMode <= 5){
             menus.getBank().checkButtons();
-           menus.getBottomMenu().checkSelected();
+            menus.getBottomMenu().checkSelected();
             if(menus.getTradeFloor().isTradeAlert()) {
                 menus.getTradeFloor().checkButtons(1);
             }
@@ -853,7 +853,9 @@ public class BoardData {
         if(displayMode == 6){
            if(menus.getDie().checkButton()){
                if(this.player.getId() == playerTurn && turnRoll == 7){
-                   menus.getRobDialogue().setToolSwitch(true);
+                   menus.getRobDialogue().setToolSwitch();
+               } else{
+                   menus.getRobDialogue().setRobSequence(5);
                }
                setDisplayMode(0);
            }

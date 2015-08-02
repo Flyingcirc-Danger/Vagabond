@@ -549,6 +549,9 @@ public class HexTile {
     }
 
     public void setRobber(boolean robber) {
+        if(robber){
+            highlighted = false;
+        }
         this.robber = robber;
     }
 

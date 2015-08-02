@@ -137,7 +137,7 @@ public class Board extends PApplet {
             fill(0);
        fill(255);
         textSize(10);
-        text("Display Mode: " + model.getDisplayMode() + "\n TOOL: " + currentTool, 10,10);
+        text("RobSeq: " + model.getMenus().getRobDialogue().getRobSequence() + "\n Tool: " + currentTool, 10,10);
 
 
     }
@@ -181,6 +181,31 @@ public class Board extends PApplet {
             model.setDisplayMode(7);
         } catch (IOException e) {
             this.model.getMenus().setConnect(new ConnectMenu(this,300,200,true));
+        }
+    }
+
+
+    /**
+     * Given an integer index
+     * returns the english string name
+     * of that resource
+     * @param index the index of the resource
+     * @return the english name of the resource
+     */
+    public String mapResource(int index){
+        if(index == 1){
+            return "Wheat";
+        }
+        if(index == 2){
+            return "Ore";
+        }
+        if(index == 3){
+            return "Wool";
+        }
+        if(index == 4){
+            return "Brick";
+        } else{
+            return "Logs";
         }
     }
 
