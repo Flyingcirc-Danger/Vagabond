@@ -16,6 +16,7 @@ public class PlayerInfo {
     private int[] resources;
     private boolean stealFlag;
     private int stealFromID;
+    private ArrayList<DevelopmentCard>playerDeck;
 
     public PlayerInfo(String uname, int score,int id){
         this.uname = uname;
@@ -23,6 +24,7 @@ public class PlayerInfo {
         this.id = id;
         this.resources = new int[]{4,4,4,4,4};
         stealFlag = false;
+        this.playerDeck = new ArrayList<DevelopmentCard>();
     }
 
 
@@ -135,6 +137,16 @@ public class PlayerInfo {
     public void setStealFromID(int stealFromID) {
         this.stealFromID = stealFromID;
     }
+
+
+    public void addToDeck(DevelopmentCard toAdd){
+        playerDeck.add(toAdd);
+    }
+
+    public ArrayList<DevelopmentCard> getPlayerDeck(){
+        return this.playerDeck;
+    }
+
 
     /**
      * Returns the total resource count of this player

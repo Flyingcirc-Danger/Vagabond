@@ -74,6 +74,7 @@ public class ConnectMenu {
         parent.fill(0,0,0,90);
         int centerTextY = (center.y - (height/2) + (sectionHeight) + 5) + (sectionHeight /2);
         parent.text(ip.toString(), center.x - (width/2) + 10, centerTextY);
+        parent.stroke(0,0,0,0);
     }
 
     /**

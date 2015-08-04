@@ -2,10 +2,7 @@ package Prototype5;
 
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Tom_Bryant on 6/26/15.
@@ -116,6 +113,8 @@ public class BoardData {
         this.tradeManifest = new StringBuffer();
         this.stealManifest = new StringBuffer();
         this.robberTile = new HexTile();
+        menus.getDevDeck().shuffleDeck(tokenSeed());
+
     }
 
     /**
@@ -791,7 +790,7 @@ public class BoardData {
     public void displayMenus(){
         if(displayMode == 10){
             menus.getConnect().display();
-
+            menus.getDeck().get(0).display();
             return;
         }
         if(displayMode == 7){
@@ -897,7 +896,29 @@ public class BoardData {
         this.setDisplayMode(6);
         if(d1+d2 != 7) {
             payResources(d1 + d2);
+        } else{
+            menus.getDiscardScreen().setResourceDiscard(getPlayer().getResourceCount()/2);
+            menus.getDiscardScreen().resetDiscardPile();
         }
+    }
+
+    /**
+     * Generates a long seed
+     * to be passed to any random generators
+     * that you wish to be the same client wide
+     * Uses the identityToken to generate a random seed
+     * @return a long seed based on the identity token
+     */
+    public long tokenSeed(){
+        long result =0;
+            for(int i = 0; i < identityToken.length(); i++){
+                int temp = identityToken.charAt(i);
+                if(result < Long.MAX_VALUE - temp) {
+                    result += temp;}
+            }
+        return (result * result -1);
+
+
     }
 
     public void payResources(int token){

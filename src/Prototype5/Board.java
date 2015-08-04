@@ -136,8 +136,8 @@ public class Board extends PApplet {
 
             fill(0);
        fill(255);
-        textSize(10);
-        text("RobSeq: " + model.getMenus().getRobDialogue().getRobSequence() + "\n Tool: " + currentTool + "\nDM: " + model.getDisplayMode(), 10,10);
+       // textSize(10);
+        //text("RobSeq: " + model.getMenus().getRobDialogue().getRobSequence() + "\n Tool: " + currentTool + "\nDM: " + model.getDisplayMode(), 10,10);
 
 
     }

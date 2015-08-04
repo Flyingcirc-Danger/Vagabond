@@ -257,9 +257,9 @@ public class RobDialogue {
      * Notifies the player to move the robber
      */
     public void displayRobberNotification(){
+        parent.textSize(20);
         int width = (int)parent.textWidth("Move The Robber!") + 40;
         int height = 100;
-        parent.textSize(20);
         int startX = (parent.SCREEN_WIDTH/2) - (width/2);
         int startY = (parent.SCREEN_HEIGHT/2) - (height/2);
         parent.stroke(0,0,0,0);
@@ -307,7 +307,6 @@ public class RobDialogue {
             parent.text("...", (parent.SCREEN_WIDTH / 2) + (parent.textWidth("Stealing From Player") / 2), (parent.SCREEN_HEIGHT / 2) + 8);
         }
         wait++;
-
 
     }
 

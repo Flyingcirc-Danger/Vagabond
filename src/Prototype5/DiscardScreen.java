@@ -169,6 +169,7 @@ public class DiscardScreen {
             int width = (int)parent.textWidth("Continue") + 20;
             int startX = (parent.SCREEN_WIDTH/2) - (width/2);
             if(Listeners.overRect(startX, ((parent.SCREEN_HEIGHT/4) * 3), width,70,parent)){
+                resetDiscardPile();
                 parent.model.setDisplayMode(0);
                 //if its my turn
                 if(parent.model.getPlayer().getId() == parent.model.getPlayerTurn()){
@@ -180,7 +181,7 @@ public class DiscardScreen {
                     PlayerInfo player = parent.model.getPlayer();
                     player.setStealFlag(false);
                     parent.model.setStealManifest(ObjectParser.parseSteal(parent.model,
-                            player.getStealFromID(),parent.model.getRobberTile(),false));
+                            player.getStealFromID(), parent.model.getRobberTile(), false));
                 }
             }
         }
@@ -293,5 +294,24 @@ public class DiscardScreen {
         }
 
 
+    }
+
+    public int getResourceDiscard() {
+        return resourceDiscard;
+    }
+
+    public void setResourceDiscard(int resourceDiscard) {
+        this.resourceDiscard = resourceDiscard;
+    }
+
+    /**
+     * Resets the discard pile so all resources are zero
+     */
+    public void resetDiscardPile(){
+        discardPile.put(1,0);
+        discardPile.put(2,0);
+        discardPile.put(3,0);
+        discardPile.put(4,0);
+        discardPile.put(5,0);
     }
 }
