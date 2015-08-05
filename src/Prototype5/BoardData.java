@@ -79,7 +79,7 @@ public class BoardData {
         this.displayMode = 0;
         this.playerList = new ArrayList<Integer>();
         this.player = new PlayerInfo(0);
-        this.menus = new Menus(parent);
+        this.menus = new Menus(parent,player);
         pointMap = new HashMap<Point, HexPoint>();
         tileMap = new HashMap<Point, HexTile>();
         edges = new ArrayList<HexPoint>();
@@ -791,8 +791,6 @@ public class BoardData {
     public void displayMenus(){
         if(displayMode == 10){
             menus.getConnect().display();
-           menus.getDeck().get(0).display();
-            //menus.getDeckScreen().display();
             return;
         }
         if(displayMode == 7){
@@ -813,7 +811,8 @@ public class BoardData {
             menus.getBank().display();
             menus.getBottomMenu().display();
             menus.getResourceBar().display();
-            parent.image(parent.images[0], parent.SCREEN_WIDTH - 220, parent.SCREEN_HEIGHT - 70);
+            parent.image(parent.images[0], parent.SCREEN_WIDTH - 220, parent.SCREEN_HEIGHT - 70);//logo
+            menus.getDeckScreen().display();
             if(menus.getTradeFloor().isTradeAlert()){
                 menus.getTradeFloor().displayTradeAlert();
             }
@@ -834,8 +833,8 @@ public class BoardData {
     public void checkMenus(){
         if(displayMode == 10){
             menus.getConnect().checkButtons();
-            //menus.getDeckScreen().checkButtons();
-            menus.getDeck().get(0).checkButtons();
+
+           // menus.getDeck().get(0).checkButtons();
         }
         if(displayMode == 7){
             if(menus.getWaitScreen().checkButton()){
@@ -854,6 +853,7 @@ public class BoardData {
             if(menus.getTradeFloor().isTradeAlert()) {
                 menus.getTradeFloor().checkButtons(1);
             }
+            menus.getDeckScreen().checkButtons();
         }
         if(displayMode == 6){
             //check the die okay button

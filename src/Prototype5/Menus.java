@@ -1,6 +1,8 @@
 package Prototype5;
 
 
+import ServerPrototype1.Player;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -27,7 +29,7 @@ public class Menus {
     private DevelopmentDeck deck;
     private PlayerDeckScreen deckScreen;
 
-    public Menus(Board parent){
+    public Menus(Board parent, PlayerInfo player){
         this.gameMenu = new GameMenu(parent, 300,400);
         this.connect = new ConnectMenu(parent, 300,200,false);
         this.resourceBar = new ResourceBar(parent);
@@ -40,7 +42,7 @@ public class Menus {
         this.discardScreen = new DiscardScreen(parent,10);
         this.robDialogue = new RobDialogue(parent);
         this.deck = new DevelopmentDeck(parent);
-        this.deckScreen = new PlayerDeckScreen(parent);
+        this.deckScreen = new PlayerDeckScreen(parent,player);
 
 
     }

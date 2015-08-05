@@ -149,7 +149,6 @@ public class Button {
             parent.textAlign(parent.CENTER, parent.CENTER);
             parent.fill(fontColor[0], fontColor[1], fontColor[2]);
             parent.text(buttonText, textStart.x, textStart.y);
-
         }
     }
 

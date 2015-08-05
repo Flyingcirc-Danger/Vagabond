@@ -48,7 +48,7 @@ public class Board extends PApplet {
         textSize(14);
         background(0, 188, 212);
         this.currentTool = 0;
-        this.images = new PImage[22];
+        this.images = new PImage[23];
         this.resourceIMG = new PImage[11];
         this.images[0] = loadImage("assets/logoSM.png");
         this.images[1] = loadImage("assets/grainSM.png");
@@ -74,6 +74,7 @@ public class Board extends PApplet {
         this.images[19] = loadImage("assets/tradeSM.png");
         this.images[20] = loadImage("assets/noTradeSM.png");
         this.images[21] = loadImage("assets/tradeRejectSM.png");
+        this.images[22] = loadImage("assets/developmentCards/cardBack.png");
 
 
 
@@ -148,7 +149,7 @@ public class Board extends PApplet {
             model.checkMenus();
             //regular board with debugging
             if (model.getDisplayMode() <= 5) {
-                debugger.mouseDebug();
+                //debugger.mouseDebug();
                 model.checkSelected(this.currentTool);
             }
             //dice roll

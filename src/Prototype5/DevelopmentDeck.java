@@ -30,7 +30,6 @@ public class DevelopmentDeck {
         devImages[6] = parent.loadImage("assets/developmentCards/prev.png");
         devImages[7] = parent.loadImage("assets/developmentCards/next.png");
         buildDeck();
-
     }
 
 
@@ -122,4 +121,6 @@ public class DevelopmentDeck {
     public void removeCard(){
         deck.remove(deck.size()-1);
     }
+
+
 }

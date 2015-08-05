@@ -255,7 +255,7 @@ public class HexTile {
      */
     public void display(){
         int[] color = tileColor();
-
+        parent.textAlign(parent.LEFT,parent.BOTTOM);
         parent.smooth(8);
         if (this.isHighlighted()) {
             parent.fill(21,101,192);
@@ -1009,6 +1009,7 @@ public class HexTile {
             parent.ellipse(center.x, center.y, 30, 30);
             parent.fill(0);
             parent.textFont(parent.fonts[0]);
+            parent.textAlign(parent.LEFT,parent.BOTTOM);
             parent.textSize(14);
             parent.text("" + value, center.x - (int) (parent.textWidth(Integer.toString(value)) / 2), center.y + 7);
         }

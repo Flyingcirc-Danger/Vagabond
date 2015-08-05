@@ -98,7 +98,7 @@ public class DevelopmentCard {
             int cardHeight = (parent.SCREEN_HEIGHT/2);
             int cardWidth = (int)(cardHeight / (1.4));
             int startX = (parent.SCREEN_WIDTH/2) - (cardWidth/2);
-            int startY = (parent.SCREEN_HEIGHT/2) - (cardHeight/2);
+            int startY = (parent.SCREEN_HEIGHT/2) - (cardHeight/2) -15;
             //purchase text
             if(!isInPlayerDeck()){
                 parent.fill(255);

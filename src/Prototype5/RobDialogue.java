@@ -2,6 +2,7 @@ package Prototype5;
 
 
 
+import processing.core.PConstants;
 import processing.core.PImage;
 
 import java.util.ArrayList;
@@ -213,6 +214,7 @@ public class RobDialogue {
                     parent.currentTool = 0;
                     parent.model.setDisplayMode(0);
                     robSequence = 5;
+                    parent.cursor(parent.ARROW);
                 }
                 if(Listeners.overRect(cancelButton[0],cancelButton[1],cancelButton[2],cancelButton[3],parent)){
                     robSequence = 0;

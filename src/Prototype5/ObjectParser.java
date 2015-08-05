@@ -693,6 +693,8 @@ public class ObjectParser {
             for(HexTile tile : model.getTileMap().values()){
                 tile.configureNeighborsAndBorders();
             }
+            //shuffle decks
+            model.getMenus().getDevDeck().shuffleDeck(model.tokenSeed());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
