@@ -20,14 +20,16 @@ public class DevelopmentDeck {
     public DevelopmentDeck(Board parent){
         this.parent = parent;
         this.deck = new ArrayList<DevelopmentCard>();
-        devImages = new PImage[5];
+        devImages = new PImage[8];
         devImages[0] = parent.loadImage("assets/developmentCards/knight.png");
         devImages[1] = parent.loadImage("assets/developmentCards/monopoly.png");
         devImages[2] = parent.loadImage("assets/developmentCards/yearofplenty.png");
         devImages[3] = parent.loadImage("assets/developmentCards/victoryPoint.png");
         devImages[4] = parent.loadImage("assets/developmentCards/freeroad.png");
+        devImages[5] = parent.loadImage("assets/developmentCards/logoskew.png");
+        devImages[6] = parent.loadImage("assets/developmentCards/prev.png");
+        devImages[7] = parent.loadImage("assets/developmentCards/next.png");
         buildDeck();
-
 
     }
 
@@ -42,20 +44,26 @@ public class DevelopmentDeck {
      */
     public void buildDeck(){
         deck = new ArrayList<DevelopmentCard>();
+        int id = 0;
         for(int i = 0; i < 14; i++){
-            deck.add(new DevelopmentCard("Knight",parent));
+            deck.add(new DevelopmentCard("Knight",parent,id));
+            id++;
         }
         for(int i = 0; i < 5; i++){
-            deck.add(new DevelopmentCard("Victory Point",parent));
+            deck.add(new DevelopmentCard("Victory Point",parent, id));
+            id++;
         }
         for(int i = 0; i < 2; i++){
-            deck.add(new DevelopmentCard("Monopoly",parent));
+            deck.add(new DevelopmentCard("Monopoly",parent,id));
+            id++;
         }
         for(int i = 0; i < 2; i++){
-            deck.add(new DevelopmentCard("Road Building",parent));
+            deck.add(new DevelopmentCard("Road Building",parent,id));
+            id++;
         }
         for(int i = 0; i < 2; i++){
-            deck.add(new DevelopmentCard("Year of Plenty",parent));
+            deck.add(new DevelopmentCard("Year of Plenty",parent,id));
+            id++;
         }
 
     }

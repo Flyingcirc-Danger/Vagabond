@@ -25,6 +25,7 @@ public class Menus {
     private DiscardScreen discardScreen;
     private RobDialogue robDialogue;
     private DevelopmentDeck deck;
+    private PlayerDeckScreen deckScreen;
 
     public Menus(Board parent){
         this.gameMenu = new GameMenu(parent, 300,400);
@@ -39,6 +40,7 @@ public class Menus {
         this.discardScreen = new DiscardScreen(parent,10);
         this.robDialogue = new RobDialogue(parent);
         this.deck = new DevelopmentDeck(parent);
+        this.deckScreen = new PlayerDeckScreen(parent);
 
 
     }
@@ -142,4 +144,14 @@ public class Menus {
     public void setDevDeck(DevelopmentDeck deck) {
         this.deck = deck;
     }
+
+    public PlayerDeckScreen getDeckScreen() {
+        return deckScreen;
+    }
+
+    public void setDeckScreen(PlayerDeckScreen deckScreen) {
+        this.deckScreen = deckScreen;
+    }
+
+
 }

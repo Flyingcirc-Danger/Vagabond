@@ -1,6 +1,7 @@
 package Prototype5;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -16,7 +17,7 @@ public class PlayerInfo {
     private int[] resources;
     private boolean stealFlag;
     private int stealFromID;
-    private ArrayList<DevelopmentCard>playerDeck;
+    private HashMap<String, ArrayList<DevelopmentCard>> playerDeck;
 
     public PlayerInfo(String uname, int score,int id){
         this.uname = uname;
@@ -24,14 +25,14 @@ public class PlayerInfo {
         this.id = id;
         this.resources = new int[]{4,4,4,4,4};
         stealFlag = false;
-        this.playerDeck = new ArrayList<DevelopmentCard>();
+        this.playerDeck = new HashMap<String,ArrayList<DevelopmentCard>>();
     }
 
 
     public PlayerInfo(int id){
         this.id = id;
         this.resources = new int[]{4,2,4,4,4};
-
+        this.playerDeck = new HashMap<String,ArrayList<DevelopmentCard>>();
     }
 
 
@@ -139,12 +140,66 @@ public class PlayerInfo {
     }
 
 
+    /**
+     * Adds a development card to the deck.
+     * @param toAdd the card to add
+     */
     public void addToDeck(DevelopmentCard toAdd){
-        playerDeck.add(toAdd);
+        //special condition for the knights. To prevent playing on turn of purchase
+        String type = toAdd.getType();
+        if(toAdd.isTurnOfPurchase()){
+            //knights who have just been purchased are classified as inactive.
+            type = "InactiveKnight";
+        }
+        ArrayList<DevelopmentCard> temp = new ArrayList<DevelopmentCard>();
+        if(playerDeck.containsKey(type)){
+            temp = playerDeck.get(type);
+        }
+        temp.add(toAdd);
+        playerDeck.put(type, temp);
     }
 
-    public ArrayList<DevelopmentCard> getPlayerDeck(){
+
+    public HashMap<String,ArrayList<DevelopmentCard>> getPlayerDeck(){
         return this.playerDeck;
+    }
+
+
+    /**
+     * Removes a specified development card from a the player deck
+     * @param toRemove
+     */
+    public void removeFromDeck(DevelopmentCard toRemove){
+        if(toRemove.isInPlayerDeck()) {
+            ArrayList<DevelopmentCard> temp = playerDeck.get(toRemove.getType());
+            int i = 0;
+            while (temp.get(i).getId() != toRemove.getId()){
+                i++;
+            }
+            temp.remove(i);
+            //remove all record if this is the last card.
+            if(temp.size() == 0){
+                playerDeck.remove(toRemove.getType());
+            }
+        }
+    }
+
+    /**
+     * Called at the start of each turn, any knights that
+     * are in the deck when the turn begins are made active
+     */
+    public void makeKnightsActive(){
+        if(playerDeck.containsKey("InactiveKnight")){
+            ArrayList<DevelopmentCard> inactiveKnights = playerDeck.get("InactiveKnight");
+            for(int i = 0; i < inactiveKnights.size(); i++){
+                //set turn of purchase to false
+                inactiveKnights.get(i).setTurnOfPurchase(false);
+                //add them to deck as regular knights
+                addToDeck(inactiveKnights.get(i));
+            }
+            //remove inactive knights from the hashmap
+            playerDeck.remove("InactiveKnight");
+        }
     }
 
 

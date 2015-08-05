@@ -78,6 +78,7 @@ public class BoardData {
     public BoardData(Board parent) {
         this.displayMode = 0;
         this.playerList = new ArrayList<Integer>();
+        this.player = new PlayerInfo(0);
         this.menus = new Menus(parent);
         pointMap = new HashMap<Point, HexPoint>();
         tileMap = new HashMap<Point, HexTile>();
@@ -105,7 +106,6 @@ public class BoardData {
         manifestReady = false;
         this.stealReady = false;
         initPlayerColors();
-        this.player = new PlayerInfo(0);
         this.playerTurn = 0;
         this.turnRoll = 1;
         this.payout = new HashMap<Integer, HashSet<HexTile>>();
@@ -122,6 +122,7 @@ public class BoardData {
      */
     public BoardData(){
         this.displayMode = 0;
+
         this.playerList = new ArrayList<Integer>();
         pointMap = new HashMap<Point, HexPoint>();
         tileMap = new HashMap<Point, HexTile>();
@@ -790,7 +791,8 @@ public class BoardData {
     public void displayMenus(){
         if(displayMode == 10){
             menus.getConnect().display();
-            menus.getDeck().get(0).display();
+           menus.getDeck().get(0).display();
+            //menus.getDeckScreen().display();
             return;
         }
         if(displayMode == 7){
@@ -832,7 +834,8 @@ public class BoardData {
     public void checkMenus(){
         if(displayMode == 10){
             menus.getConnect().checkButtons();
-
+            //menus.getDeckScreen().checkButtons();
+            menus.getDeck().get(0).checkButtons();
         }
         if(displayMode == 7){
             if(menus.getWaitScreen().checkButton()){
@@ -894,6 +897,9 @@ public class BoardData {
         menus.setDie(new Dice(d1,d2,parent));
         this.playerTurn = playerID;
         this.setDisplayMode(6);
+        if(playerTurn == getPlayer().getId()){
+            getPlayer().makeKnightsActive(); //activate any none active knights
+        }
         if(d1+d2 != 7) {
             payResources(d1 + d2);
         } else{
