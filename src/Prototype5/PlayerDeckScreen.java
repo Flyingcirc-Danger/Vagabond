@@ -1,6 +1,8 @@
 package Prototype5;
 
 
+import processing.core.PImage;
+
 import java.util.ArrayList;
 
 
@@ -16,6 +18,7 @@ public class PlayerDeckScreen {
     private boolean open;
     private ArrayList<DevelopmentCard> playerDeck;
     private int selectionIndex;
+    private String playerCard;
 
 
     public PlayerDeckScreen(Board parent, PlayerInfo player) {

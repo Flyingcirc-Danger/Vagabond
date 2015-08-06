@@ -178,6 +178,11 @@ public class ServerToClientConnection {
                     System.out.println("Propagating steal ");
                     record.setCurrent(message);
                 }
+                //for cards
+                if(parseVal == 5) {
+                    System.out.println("Propagating card ");
+                    record.setCurrent(message);
+                }
             }
         }
             heartBeat.put(id, message);

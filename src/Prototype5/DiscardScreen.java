@@ -45,6 +45,7 @@ public class DiscardScreen {
     }
 
     public void display(){
+        parent.textAlign(parent.LEFT, parent.BOTTOM);
         parent.background(255,193,7);
         //calculateDiscardAmount();
         parent.fill(198,40,40);

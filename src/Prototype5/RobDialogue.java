@@ -64,6 +64,7 @@ public class RobDialogue {
     }
 
     public void setRobConfirm() {
+        parent.currentTool = 0;
         this.robSequence = 1;
     }
 
@@ -79,6 +80,7 @@ public class RobDialogue {
     }
 
     public void display() {
+        parent.textAlign(parent.LEFT,parent.BOTTOM);
         if (isRobConfirm()) {
             parent.cursor(parent.ARROW);
             parent.textSize(20);
@@ -174,12 +176,15 @@ public class RobDialogue {
 
         //if the robber has been placed
         if(isRobConfirm()){
+            parent.cursor(parent.ARROW);
             //player buttons if the target size >= 0;
             if(targets.size() > 0){
                 //check cancel button.
                 if(Listeners.overRect(cancelButton[0],cancelButton[1],cancelButton[2],cancelButton[3],parent)){
                     robSequence = 0;
                     this.robberTile.setRobber(false);
+                    parent.currentTool = 7;
+                    parent.cursor(parent.resourceIMG[10]);
                 }
                 //check all of the possible player buttons
                 int selectWidth = 40 + (int)parent.textWidth("Player 1");
@@ -219,6 +224,8 @@ public class RobDialogue {
                 if(Listeners.overRect(cancelButton[0],cancelButton[1],cancelButton[2],cancelButton[3],parent)){
                     robSequence = 0;
                     this.robberTile.setRobber(false);
+                    parent.currentTool = 7;
+                    parent.cursor(parent.resourceIMG[10]);
                 }
             }
         }

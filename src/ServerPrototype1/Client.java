@@ -39,6 +39,11 @@ public class Client {
                         String steal = model.getStealManifestString();
                         connection.write(steal);
                     }
+                    else if(model.cardReady){
+                        System.out.println("Sent Card");
+                        String card = model.getCardManifestString();
+                        connection.write(card);
+                    }
                     else if(connection.getMessage().length() > 0){
                         //HANDLES Replies. If the message is an XML reply
                         String sendMessage = connection.getMessage();

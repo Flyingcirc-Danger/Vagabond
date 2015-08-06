@@ -3,7 +3,6 @@ package Prototype5;
 import processing.core.PImage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -16,6 +15,7 @@ public class DevelopmentDeck {
     private ArrayList<DevelopmentCard> deck;
     private Board parent;
     private PImage[] devImages;
+    private int turnRemovedCards; //the number of removed cards this turn.
 
 
     public DevelopmentDeck(Board parent){
@@ -30,6 +30,7 @@ public class DevelopmentDeck {
         devImages[5] = parent.loadImage("assets/developmentCards/logoskew.png");
         devImages[6] = parent.loadImage("assets/developmentCards/prev.png");
         devImages[7] = parent.loadImage("assets/developmentCards/next.png");
+        turnRemovedCards = 0;
         buildDeck();
     }
 
@@ -113,10 +114,12 @@ public class DevelopmentDeck {
      */
     public void getCard(){
         DevelopmentCard candidate = deck.get(deck.size()-1);
-        deck.remove(deck.size()-1);
+        System.out.println("Getting card " + candidate.getId());
+        removeCard();
         candidate.addToPlayerDeck();
         parent.model.getMenus().getDeckScreen().setSelectionIndex(
                 parent.model.getPlayer().getPlayerDeck().size() - 1);
+        turnRemovedCards++;
     }
 
     /**
@@ -125,8 +128,15 @@ public class DevelopmentDeck {
      * initiating player once a card has been drawn.
      */
     public void removeCard(){
+        System.out.println("Removing card " + deck.get(deck.size() -1).getId());
         deck.remove(deck.size()-1);
     }
 
+    public int getTurnRemovedCards() {
+        return turnRemovedCards;
+    }
 
+    public void setTurnRemovedCards(int turnRemovedCards) {
+        this.turnRemovedCards = turnRemovedCards;
+    }
 }

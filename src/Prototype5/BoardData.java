@@ -43,6 +43,8 @@ public class BoardData {
 
     private StringBuffer stealManifest;
 
+    private StringBuffer cardManifest;
+
     private String alert;
 
     public boolean alertReady;
@@ -50,6 +52,8 @@ public class BoardData {
     public boolean tradeReady;
 
     public boolean stealReady;
+
+    public boolean cardReady;
 
     private boolean displayToggle;
 
@@ -105,6 +109,7 @@ public class BoardData {
         displayToggle = false;
         manifestReady = false;
         this.stealReady = false;
+        this.cardReady = false;
         initPlayerColors();
         this.playerTurn = 0;
         this.turnRoll = 1;
@@ -112,6 +117,7 @@ public class BoardData {
         this.manifest = new StringBuffer();
         this.tradeManifest = new StringBuffer();
         this.stealManifest = new StringBuffer();
+        this.cardManifest = new StringBuffer();
         this.robberTile = new HexTile();
         menus.getDevDeck().shuffleDeck(tokenSeed());
 
@@ -655,12 +661,27 @@ public class BoardData {
     }
 
 
+    /**
+     * Sets the card manifest of this player
+     * @param card  the card manifest string of the player.
+     */
+    public void setCardManifest(String card){
+        this.cardManifest = new StringBuffer();
+        cardManifest.append(card);
+        cardReady = true;
+    }
+
+
 
 
 
 
     public StringBuffer getTradeManifest(){
         return this.tradeManifest;
+    }
+
+    public StringBuffer getCardManifest(){
+        return this.cardManifest;
     }
 
     public StringBuffer getStealManifest(){
@@ -682,6 +703,8 @@ public class BoardData {
         if(manifest.length() == 0){
             initManifest();
         }
+        manifest.append("<discardcards>" + menus.getDevDeck().getTurnRemovedCards() + "</discardcards>");
+        menus.getDevDeck().setTurnRemovedCards(0);
         manifest.append("</manifest>");
         ObjectParser.saveOutput(manifest.toString(),"manifest.xml");
         String result = manifest.toString();
@@ -724,6 +747,19 @@ public class BoardData {
         String result = stealManifest.toString();
         stealManifest = new StringBuffer();
         stealReady = false;
+        return result;
+    }
+
+    /**
+     * Fetches the card string. only to be used
+     * when sending the card string because the
+     * card string will be overwritten upon fetching
+     * @return the card string to send.
+     */
+    public String getCardManifestString(){
+        String result = cardManifest.toString();
+        cardManifest = new StringBuffer();
+        cardReady = false;
         return result;
     }
 

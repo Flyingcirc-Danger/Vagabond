@@ -13,6 +13,7 @@ import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -879,6 +880,7 @@ public class ObjectParser {
             NodeList updatePoints = doc.getElementsByTagName("hexpoint");
             NodeList updateSides = doc.getElementsByTagName("hexside");
             NodeList playerTurn = doc.getElementsByTagName("playerTurn");
+            NodeList discardCards = doc.getElementsByTagName("discardcards");
             if(model.getPlayer().getId() == Integer.parseInt(playerTurn.item(0).getFirstChild().getTextContent())){
                 System.out.println(model.getPlayer().getId() + "my own turn");
                 return;
@@ -902,6 +904,13 @@ public class ObjectParser {
                     boolean indigo = Boolean.parseBoolean(side.item(6).getTextContent());
                     temp.setOwner(Integer.parseInt(side.item(7).getTextContent()));
                     temp.setBuilt(indigo);
+                }
+            }
+            int discardNo = Integer.parseInt(discardCards.item(0).getTextContent());
+            System.out.println("Discarding " + discardNo + " cards" );
+            for(int i = 0; i < discardNo; i++){
+                if(model.getMenus() != null) {
+                    model.getMenus().getDevDeck().removeCard();
                 }
             }
         } catch (IOException e) {
@@ -946,6 +955,10 @@ public class ObjectParser {
             else if(doc.getElementsByTagName("robber").getLength() > 0){
                 System.out.println("request received steal");
                 readSteal(model, XML);
+            }
+            else if(doc.getElementsByTagName("card").getLength() > 0){
+                System.out.println("request received card");
+                readCard(model, XML);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1012,6 +1025,10 @@ public class ObjectParser {
             if(doc.getElementsByTagName("robber").getLength() > 0){
                 currentGame.lastMessageType = 2;
                 return 4;
+            }
+            if(doc.getElementsByTagName("card").getLength() > 0){
+                currentGame.lastMessageType = 2;
+                return 5;
             }
 
 
@@ -1553,7 +1570,12 @@ public class ObjectParser {
         return result.toString();
     }
 
-
+    /**
+     * Reads and computes the result
+     * of a steal message.
+     * @param model the model to operate on
+     * @param XML the steal message.
+     */
     public static void readSteal(BoardData model, String XML){
         try {
             Document dom = stringToDom(XML);
@@ -1604,6 +1626,85 @@ public class ObjectParser {
         }
 
     }
+
+
+    /**
+     * Parses a card message
+     * @param model the model from which this is sent
+     * @param card the card being sent
+     * @return the XML card string.
+     */
+    public static String parseCard(BoardData model, DevelopmentCard card){
+        StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        result.append("<card>");
+            result.append("<from>" + model.getPlayer().getId() + "</from>");
+            result.append("<type>" + card.getType() + "</type>");
+            result.append("</card>");
+            saveOutput(result.toString(), "card.xml");
+            return result.toString();
+        }
+
+
+
+    /**
+     * Parses a monopoly card message
+     * @param model the model from which this is sent
+     * @param card the card being sent
+     * @param resource the requested monopoly resource
+     * @param response whether this message is a response or not.
+     * @return the XML card string.
+     */
+    public static String parseMonopolyCard(BoardData model, DevelopmentCard card,int resource,boolean response){
+        StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        result.append("<card>");
+            result.append("<from>" + model.getPlayer().getId() + "</from>");
+            result.append("<type>" + card.getType() + "</type>");
+            result.append("<resource>" + resource + "</resource>");
+            result.append("<response>" + response + "</response>");
+            if(response){
+                result.append("<amount>" + model.getPlayer().getAllResource(resource) + "</amount>");
+            }
+            result.append("</card>");
+            return result.toString();
+        }
+
+
+    /**
+     * Reads a card message
+     * @param model
+     * @param XML
+     */
+    public static void readCard(BoardData model, String XML){
+        try {
+            Document dom = stringToDom(XML);
+            NodeList card = dom.getElementsByTagName("card");
+            NodeList cardItems = card.item(0).getChildNodes();
+            String action = cardItems.item(0).getTextContent();
+            int from = Integer.parseInt(cardItems.item(1).getTextContent());
+            //if it's from me, do nothing
+            if(from == model.getPlayer().getId()){
+                System.out.println("It's From Me... No Action");
+                return;
+            }
+            //if it's a basic remove message
+            if(action.equals("remove")){
+                ArrayList<DevelopmentCard> deck = model.getMenus().getDevDeck().getDeck();
+                for(int i = deck.size() - 10; i < deck.size(); i++){
+                    System.out.println(deck.get(i).getId());
+                }
+                model.getMenus().getDevDeck().removeCard();
+                return;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 

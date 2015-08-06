@@ -181,7 +181,7 @@ public class DevelopmentCard {
             parent.textAlign(parent.CENTER);
             parent.textSize(30);
             parent.fill(255);
-            parent.text(type, parent.SCREEN_WIDTH / 2, startY + (cardHeight / 2) + 30);
+            parent.text(type  + " " + id, parent.SCREEN_WIDTH / 2, startY + (cardHeight / 2) + 30);
             int textHeight = startY + cardHeight - (startY + (cardHeight / 2) + 40);
             parent.textSize(12);
             parent.textAlign(parent.CENTER, parent.CENTER);
@@ -346,5 +346,30 @@ public class DevelopmentCard {
 
     public void setBackground(boolean background) {
         this.background = background;
+    }
+
+
+    /**
+     * Displays a medium version of the card.
+     * Valid types are:
+     *  - knight
+     *  - monopoly
+     *  - freeroad
+     *  - yearofplenty
+     *  - victorypoint
+     * @param type the type of card to display
+     * @param parent the board to draw on
+     */
+    public static void displayMedium(String type,Board parent){
+        PImage medLogo = parent.loadImage("assets/developmentCards/" + type + "MD.png");
+        parent.fill(0,0,0,30);
+        parent.rect(parent.SCREEN_WIDTH - 152+2, parent.SCREEN_HEIGHT - 300+2, 142,200,5,5,5,5);
+        parent.fill(227, 226, 213);
+        parent.rect(parent.SCREEN_WIDTH - 152, parent.SCREEN_HEIGHT - 300, 142,200,5,5,5,5);
+        parent.fill(62, 39, 35);
+        parent.rect(parent.SCREEN_WIDTH - 152 +4, parent.SCREEN_HEIGHT - 300 + 4, 142 -8,200 -8,5,5,5,5);
+        parent.image(medLogo,parent.SCREEN_WIDTH - 152 +(142/2) - (medLogo.width/2),  parent.SCREEN_HEIGHT - 200 - (medLogo.height/2) );
+
+
     }
 }
