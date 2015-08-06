@@ -149,11 +149,12 @@ public class Button {
             parent.textAlign(parent.CENTER, parent.CENTER);
             parent.fill(fontColor[0], fontColor[1], fontColor[2]);
             parent.text(buttonText, textStart.x, textStart.y);
+            parent.textAlign(parent.LEFT, parent.BOTTOM);
         }
     }
 
     /**
-     * Estimats the button width.
+     * Estimates the button width.
      * @param text
      * @param parent
      * @return

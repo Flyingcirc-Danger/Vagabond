@@ -897,9 +897,6 @@ public class BoardData {
         menus.setDie(new Dice(d1,d2,parent));
         this.playerTurn = playerID;
         this.setDisplayMode(6);
-        if(playerTurn == getPlayer().getId()){
-            getPlayer().makeKnightsActive(); //activate any none active knights
-        }
         if(d1+d2 != 7) {
             payResources(d1 + d2);
         } else{
@@ -917,12 +914,19 @@ public class BoardData {
      */
     public long tokenSeed(){
         long result =0;
-            for(int i = 0; i < identityToken.length(); i++){
+        long result2 =1000;
+            for(int i = 0; i < (identityToken.length())/2; i++){
                 int temp = identityToken.charAt(i);
                 if(result < Long.MAX_VALUE - temp) {
                     result += temp;}
             }
-        return (result * result -1);
+            for(int j = identityToken.length()/2; j < identityToken.length(); j++){
+                int temp2 = identityToken.charAt(j);
+                if(result2 < Long.MAX_VALUE && result2 > 0){
+                    result2 -= temp2;
+                }
+            }
+        return (result * result2);
 
 
     }

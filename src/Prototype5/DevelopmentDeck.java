@@ -3,6 +3,7 @@ package Prototype5;
 import processing.core.PImage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -82,8 +83,10 @@ public class DevelopmentDeck {
         Random seed = new Random(seedNo);
         for (int i = deck.size() - 1; i > 0; i--) {
             int index = seed.nextInt(i + 1);
-            deck.add(index, deck.get(i));
-            deck.add(i, deck.get(index));
+            DevelopmentCard temp = deck.get(index);
+            DevelopmentCard iter = deck.get(i);
+            deck.set(index, iter);
+            deck.set(i, temp);
         }
 
     }
@@ -106,11 +109,14 @@ public class DevelopmentDeck {
 
     /**
      * Pulls a card from the back of the deck and gives it to the models player
+     * Also returns the card
      */
     public void getCard(){
         DevelopmentCard candidate = deck.get(deck.size()-1);
         deck.remove(deck.size()-1);
         candidate.addToPlayerDeck();
+        parent.model.getMenus().getDeckScreen().setSelectionIndex(
+                parent.model.getPlayer().getPlayerDeck().size() - 1);
     }
 
     /**
