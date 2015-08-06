@@ -935,11 +935,13 @@ public class BoardData {
         this.setDisplayMode(6);
         //activate knights
         if(player.getInactiveKnights() != null) {
+            menus.getDeckScreen().setPlayerCard(new String());
             for (int i = 0; i < player.getInactiveKnights().size(); i++) {
                 player.getInactiveKnights().get(i).setInactive(false);
             }
             player.setInactiveKnights(new ArrayList<DevelopmentCard>());
         }
+
         if(d1+d2 != 7) {
             payResources(d1 + d2);
         } else{

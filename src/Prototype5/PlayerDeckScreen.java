@@ -1,6 +1,7 @@
 package Prototype5;
 
 
+import Prototype4.*;
 import processing.core.PImage;
 
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 public class PlayerDeckScreen {
 
     private Board parent;
-    private BoardData model;
     private ArrayList<Button> buttons;
     private boolean open;
     private ArrayList<DevelopmentCard> playerDeck;
@@ -23,10 +23,10 @@ public class PlayerDeckScreen {
 
     public PlayerDeckScreen(Board parent, PlayerInfo player) {
         this.parent = parent;
-        this.model = parent.model;
         this.buttons = new ArrayList<Button>();
         this.playerDeck = player.getPlayerDeck();
         this.selectionIndex = 0;
+        this.playerCard = new String();
         setupButtons();
 
     }
@@ -145,6 +145,9 @@ public class PlayerDeckScreen {
                 StringBuffer text = new StringBuffer();
             }
         } else {
+            if(playerCard.length() > 0){
+                DevelopmentCard.displayMedium(playerCard,parent);
+            }
             buttons.get(2).display();
         }
 
@@ -166,6 +169,10 @@ public class PlayerDeckScreen {
                 //back button
                 if(buttonPress == 3){
                     open = false;
+                }
+                //play card button
+                if(buttonPress == 4){
+                    parent.model.setCardManifest(ObjectParser.parseCard(parent.model, playerDeck.get(selectionIndex)));
                 }
                 if(playerDeck.size() > 1) {
                     if (buttonPress == 1) {
@@ -230,6 +237,14 @@ public class PlayerDeckScreen {
 
     public void setSelectionIndex(int selectionIndex) {
         this.selectionIndex = selectionIndex;
+    }
+
+    public String getPlayerCard() {
+        return playerCard;
+    }
+
+    public void setPlayerCard(String playerCard) {
+        this.playerCard = playerCard;
     }
 }
 

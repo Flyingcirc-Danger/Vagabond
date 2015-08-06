@@ -331,6 +331,11 @@ public class DevelopmentCard {
             if (buttons.get(1).checkButton()) {
                 return 3;
             }
+            //play button
+            if(!inactive && buttons.get(0).checkButton()){
+                return 4;
+            }
+
             for (int i = 0; i < buttons.size(); i++) {
                 if (buttons.get(i).checkButton()) {
                     System.out.println("Button " + i + " pressed");

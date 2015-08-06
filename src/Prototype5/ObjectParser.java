@@ -1679,21 +1679,24 @@ public class ObjectParser {
             Document dom = stringToDom(XML);
             NodeList card = dom.getElementsByTagName("card");
             NodeList cardItems = card.item(0).getChildNodes();
-            String action = cardItems.item(0).getTextContent();
-            int from = Integer.parseInt(cardItems.item(1).getTextContent());
+            int from = Integer.parseInt(cardItems.item(0).getTextContent());
             //if it's from me, do nothing
             if(from == model.getPlayer().getId()){
                 System.out.println("It's From Me... No Action");
                 return;
             }
-            //if it's a basic remove message
-            if(action.equals("remove")){
-                ArrayList<DevelopmentCard> deck = model.getMenus().getDevDeck().getDeck();
-                for(int i = deck.size() - 10; i < deck.size(); i++){
-                    System.out.println(deck.get(i).getId());
-                }
-                model.getMenus().getDevDeck().removeCard();
-                return;
+            String type = cardItems.item(1).getTextContent();
+            if(type.equals("Knight")){
+                model.getMenus().getDeckScreen().setPlayerCard("knight");
+            }
+            if(type.equals("Monopoly")){
+                model.getMenus().getDeckScreen().setPlayerCard("knight");
+            }
+            if(type.equals("Year of Plenty")){
+                model.getMenus().getDeckScreen().setPlayerCard("yearofplenty");
+            }
+            if(type.equals("Road Building")){
+                model.getMenus().getDeckScreen().setPlayerCard("freeroad");
             }
         } catch (IOException e) {
             e.printStackTrace();
