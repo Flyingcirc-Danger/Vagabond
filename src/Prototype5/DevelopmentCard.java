@@ -19,7 +19,7 @@ public class DevelopmentCard {
     private String ruleText;
     private boolean inPlayerDeck;
     private int id;
-    private boolean turnOfPurchase;
+    private boolean inactive;
     private ArrayList<Button> buttons;
     private boolean justPurchased;
     private boolean background;
@@ -34,9 +34,9 @@ public class DevelopmentCard {
         this.buttons = new ArrayList<Button>();
         this.background = false;
         if (type.equals("Knight")) {
-            this.turnOfPurchase = true;
+            this.inactive = true;
         } else {
-            this.turnOfPurchase = false;
+            this.inactive = false;
         }
         justPurchased = true;
         setupButtons();
@@ -205,7 +205,7 @@ public class DevelopmentCard {
                 if (inPlayerDeck && !justPurchased) {
                     parent.textSize(20);
                     int buttonWidth = 0;
-                    if (!isTurnOfPurchase()) {
+                    if (!isInactive()) {
                         buttonWidth = (int) parent.textWidth("Play This Card") + 40;
                         buttons.get(0).color = new int[]{255, 167, 38};
                     } else {
@@ -221,7 +221,7 @@ public class DevelopmentCard {
 
                     parent.fill(255);
                     parent.textAlign(parent.CENTER, parent.CENTER);
-                    if (!isTurnOfPurchase()) {
+                    if (!isInactive()) {
                         buttons.get(0).buttonText = "Play This Card";
                     } else {
                         buttons.get(0).buttonText = "Wait One Turn";
@@ -296,12 +296,12 @@ public class DevelopmentCard {
         this.id = id;
     }
 
-    public boolean isTurnOfPurchase() {
-        return turnOfPurchase;
+    public boolean isInactive() {
+        return inactive;
     }
 
-    public void setTurnOfPurchase(boolean turnOfPurchase) {
-        this.turnOfPurchase = turnOfPurchase;
+    public void setInactive(boolean inactive) {
+        this.inactive = inactive;
     }
 
 

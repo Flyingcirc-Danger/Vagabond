@@ -80,7 +80,7 @@ public class RobDialogue {
     }
 
     public void display() {
-        parent.textAlign(parent.LEFT,parent.BOTTOM);
+        parent.textAlign(parent.LEFT);
         if (isRobConfirm()) {
             parent.cursor(parent.ARROW);
             parent.textSize(20);

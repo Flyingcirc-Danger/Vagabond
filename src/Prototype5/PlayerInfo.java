@@ -18,6 +18,7 @@ public class PlayerInfo {
     private boolean stealFlag;
     private int stealFromID;
     private ArrayList<DevelopmentCard> playerDeck;
+    private ArrayList<DevelopmentCard> inactiveKnights;
 
     public PlayerInfo(String uname, int score,int id){
         this.uname = uname;
@@ -26,6 +27,8 @@ public class PlayerInfo {
         this.resources = new int[]{4,4,4,4,4};
         stealFlag = false;
         this.playerDeck = new ArrayList<DevelopmentCard>();
+        this.inactiveKnights = new ArrayList<DevelopmentCard>();
+
     }
 
 
@@ -33,6 +36,7 @@ public class PlayerInfo {
         this.id = id;
         this.resources = new int[]{4,2,4,4,4};
         this.playerDeck = new ArrayList<DevelopmentCard>();
+        this.inactiveKnights = new ArrayList<DevelopmentCard>();
 
     }
 
@@ -140,6 +144,13 @@ public class PlayerInfo {
         this.stealFromID = stealFromID;
     }
 
+    public ArrayList<DevelopmentCard> getInactiveKnights() {
+        return inactiveKnights;
+    }
+
+    public void setInactiveKnights(ArrayList<DevelopmentCard> inactiveKnights) {
+        this.inactiveKnights = inactiveKnights;
+    }
 
     /**
      * Adds a development card to the deck.
@@ -147,6 +158,9 @@ public class PlayerInfo {
      */
     public void addToDeck(DevelopmentCard toAdd) {
         playerDeck.add(toAdd);
+        if(toAdd.getType().equals("Knight")){
+            inactiveKnights.add(toAdd);
+        }
     }
 
 
