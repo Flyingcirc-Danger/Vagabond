@@ -9,11 +9,17 @@ public class MessageRecord {
 
     private String currentMessage;
     private String lastMessage;
+    private String currentTurn;
+    private String lastTurn;
+    private boolean turnAuth;
 
 
     public MessageRecord(){
         this.currentMessage = new String();
         this.lastMessage = new String();
+        this.lastTurn = new String();
+        this.currentTurn = new String();
+        this.turnAuth = false;
     }
 
 
@@ -56,5 +62,39 @@ public class MessageRecord {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Checks to see it it's okay to send a turn
+     * a turn is only valid for send if the turn auth is true
+     * (all players discard) and last turn is > 0.
+     * @return
+     */
+    public boolean checkTurn(){
+        if(currentTurn.length() > 0 && turnAuth ){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    public String getTurn(){
+        String result = currentTurn;
+        lastTurn = currentTurn;
+        currentTurn = "";
+        return result;
+    }
+
+    public void setTurn(String turn){
+        if(turn.equals(lastTurn)){
+            currentTurn = "";
+        } else{
+            currentTurn = turn;
+        }
+    }
+
+
+    public void setTurnAuth(boolean auth){
+        turnAuth = auth;
     }
 }

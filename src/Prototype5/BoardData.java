@@ -75,6 +75,8 @@ public class BoardData {
 
     private HexTile robberTile; // the tile that the robber currently occupies
 
+    private String gameStatusNotifier; // a piece of text at the bottom of the screen for specific messages.
+
 
 
 
@@ -120,6 +122,7 @@ public class BoardData {
         this.cardManifest = new StringBuffer();
         this.robberTile = new HexTile();
         menus.getDevDeck().shuffleDeck(tokenSeed());
+        this.gameStatusNotifier = new String();
 
     }
 
@@ -158,6 +161,7 @@ public class BoardData {
         this.payout = new HashMap<Integer, HashSet<HexTile>>();
         this.manifest = new StringBuffer();
         this.robberTile = new HexTile();
+        this.gameStatusNotifier = new String();
 
 
     }
@@ -287,8 +291,32 @@ public class BoardData {
         return robberTile;
     }
 
+    public String getAlert() {
+        return alert;
+    }
+
+    public void setAlert(String alert) {
+        this.alert = alert;
+    }
+
     public void setRobberTile(HexTile robberTile) {
         this.robberTile = robberTile;
+    }
+
+    public boolean isAlertReady() {
+        return alertReady;
+    }
+
+    public void setAlertReady(boolean alertReady) {
+        this.alertReady = alertReady;
+    }
+
+    public String getGameStatusNotifier() {
+        return gameStatusNotifier;
+    }
+
+    public void setGameStatusNotifier(String gameStatusNotifier) {
+        this.gameStatusNotifier = gameStatusNotifier;
     }
 
     /**
@@ -403,6 +431,19 @@ public class BoardData {
         }
     }
 
+    /**
+     * Displays the games custom message
+     * in a ticker along the bottom of the screen
+     */
+    public void displayGameStatus(){
+        parent.textSize(13);
+        parent.fill(255);
+        parent.textAlign(parent.CENTER);
+        if(gameStatusNotifier.length() > 0) {
+            parent.text(gameStatusNotifier, parent.SCREEN_WIDTH/2, parent.SCREEN_HEIGHT - 60);
+        }
+        parent.textAlign(parent.LEFT);
+    }
 
 
 
@@ -420,8 +461,8 @@ public class BoardData {
      * 10 = connect menu
      */
     public void displayBoard(){
+        displayGameStatus();
         if(!this.checkToggle()) {
-
             int option = this.displayMode;
             for (int i = 0; i < coast.size(); i++) {
                 coast.get(i).shadow(2);
@@ -705,11 +746,13 @@ public class BoardData {
         }
         manifest.append("<discardcards>" + menus.getDevDeck().getTurnRemovedCards() + "</discardcards>");
         menus.getDevDeck().setTurnRemovedCards(0);
+        manifest.append("<lastTurnRoll>" + turnRoll + "</lastTurnRoll>");
         manifest.append("</manifest>");
         ObjectParser.saveOutput(manifest.toString(),"manifest.xml");
         String result = manifest.toString();
         manifest = new StringBuffer();
         manifestReady = false;
+        gameStatusNotifier = "Waiting for other Players";
         return result;
     }
 
@@ -844,6 +887,7 @@ public class BoardData {
             menus.getDiscardScreen().display();
         }
         if(displayMode <=5){
+            displayGameStatus();
             menus.getBank().display();
             menus.getBottomMenu().display();
             menus.getResourceBar().display();
@@ -874,7 +918,7 @@ public class BoardData {
         }
         if(displayMode == 7){
             if(menus.getWaitScreen().checkButton()){
-                this.alert = ObjectParser.generateAlert("ready");
+                this.alert = ObjectParser.generateAlert(this,"ready");
                 this.alertReady = true;
                 parent.background(0, 188, 212);
                 menus.setWaitScreen(new StatusMenu("Waiting For Other Players",parent, false));
@@ -930,6 +974,11 @@ public class BoardData {
      * @param d2 the roll on dice 2
      */
     public void handleTurn(int playerID, int d1, int d2){
+        if(playerID == player.getId()){
+            gameStatusNotifier = "Your turn";
+        } else {
+            gameStatusNotifier = "Player " + playerID + "'s Turn";
+        }
         menus.setDie(new Dice(d1,d2,parent));
         this.playerTurn = playerID;
         this.setDisplayMode(6);

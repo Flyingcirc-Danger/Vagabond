@@ -158,9 +158,10 @@ public class ServerToClientConnection {
             }
             if (message.substring(0, 5).equals("<?xml")) {
                 int parseVal = ObjectParser.serverParseRequest(currentGame, message);
+                //turn manifest
                 if( parseVal == 1) {
                     System.out.println("Read Model: " + currentGame.mainBoard.getIdentityToken());
-                    record.setCurrent(message);
+                    record.setTurn(message);
                     return;
                 }
                 //for alerts.

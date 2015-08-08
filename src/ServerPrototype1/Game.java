@@ -31,31 +31,41 @@ public class Game implements Runnable {
     public int readyPlayers;
     public int turnSeq;
     public int lastMessageType; //the type of message last recieved (0 = turn, 1 = alert, 2 = trade)
-
+    public boolean allDiscard;
+    public ArrayList<Integer> discarded;
+    public boolean turnToggle;
+    public int turnNo;
 
     public Game(){
         this.currentID = 1;
+        this.turnNo = 0;
         this.gameBegin = false;
         this.mainBoard = new BoardData();
         players= new ArrayList<Player>();
         messages = new LinkedBlockingQueue<String>();
         heartBeat = new HashMap<Integer, String>();
+        discarded = new ArrayList<Integer>();
         this.lastMessageType = 0;
         record = new MessageRecord();
         int SCREEN_HEIGHT = 768;
         int SCREEN_WIDTH = 1024;
         HexTile center=new HexTile(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, mainBoard,mainBoard.getResourceTiles()[0],mainBoard.getTokens()[0]);
         center.getModel().buildBoard((center));
+        this.allDiscard = true;
 
         Thread sendAll = new Thread() {
             public void run() {
                 try {
                     while (true) {
                         if (players.size() > 0) {
+                            fixDiscard();
                             String message = Server.generateRandString();
                             if(record.isCurrent()){
                                 message = record.getCurrent();
 
+                            }
+                            if(record.checkTurn()){
+                                message = record.getTurn();
                             }
                             for (Player con : players) {
                                 con.send(message);
@@ -63,7 +73,9 @@ public class Game implements Runnable {
                             }
                             //evaluate what kindof message has been sent
                             if(message.length() > 1){
-                                if(lastMessageType != 2){
+                                //if the last message was anything other than a trade,
+                                //and everyone has discarded, advance the turn.
+                                if(lastMessageType != 2 && isAllDiscard()){
                                     turnSequence();
                                 }
 
@@ -155,6 +167,14 @@ public class Game implements Runnable {
             Random dice = new Random();
             int d1 = dice.nextInt((6 - 1) + 1) + 1;
             int d2 = dice.nextInt((6 - 1) + 1) + 1;
+            //no sevens on the first turn
+            if(d1 + d2 == 7){
+                if(d1 == 6){
+                    d1 = 5;
+                } else{
+                    d1 += 1;
+                }
+            }
             String turn = ObjectParser.generateTurnBegin(d1,d2,this);
             for(Player play : players) {
                 try {
@@ -169,6 +189,7 @@ public class Game implements Runnable {
                 }
             }
             this.gameBegin = true;
+            this.turnNo = 1;
         }
 
     }
@@ -186,14 +207,48 @@ public class Game implements Runnable {
             this.turnSeq = 0;
         }
         System.out.println("PLAYER " + result + " turn");
+        this.turnNo++;
         return result;
     }
 
 
+    public boolean isAllDiscard(){;
+        return allDiscard;
+    }
+
+    public void fixDiscard(){
+        if(discarded.size() == players.size() || allDiscard == true){
+            allDiscard = true;
+            record.setTurnAuth(true);
+        } else{
+            record.setTurnAuth(false);
+        }
+    }
+
+
     public void turnSequence(){
+        turnToggle = false;
         Random dice = new Random();
         int d1 = dice.nextInt((6 - 1) + 1) + 1;
         int d2 = dice.nextInt((6 - 1) + 1) + 1;
+        //no sevens on the first round of turns
+        if(turnNo < players.size() && d1 + d2 == 7){
+            if(d1 == 6 ){
+                d1 = 5;
+            } else{
+                d1 += 1;
+            }
+        }
+        if(d1 + d2  == 7){
+            allDiscard = false;
+            discarded = new ArrayList<Integer>();
+            record.setTurnAuth(false);
+        } else{
+            discarded = new ArrayList<Integer>();
+            allDiscard = true;
+            record.setTurnAuth(true);
+
+        }
         String turn = ObjectParser.generateTurnBegin(d1,d2,this);
         //record.setCurrent(turn);
         for(Player play : players) {

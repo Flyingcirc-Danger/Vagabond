@@ -1,6 +1,7 @@
 package Prototype5;
 
 import ServerPrototype1.Game;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -979,7 +980,12 @@ public class ObjectParser {
                 currentGame.readyPlayers++;
                 System.out.println("Players ready = " + currentGame.readyPlayers);
             }
-
+            if(alert.equals("discard")){
+                NodeList discard = alerts.item(0).getChildNodes();
+                int id = Integer.parseInt(discard.item(1).getTextContent());
+                currentGame.discarded.add(id);
+                System.out.println("Discard recieved from " + id );
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -1011,6 +1017,7 @@ public class ObjectParser {
             if(doc.getElementsByTagName("manifest").getLength() > 0){
                 readManifest(currentGame.mainBoard, XML);
                 currentGame.lastMessageType = 0;
+                currentGame.turnToggle = true;
                 return 1;
             }
             if(doc.getElementsByTagName("alert").getLength() > 0){
@@ -1156,9 +1163,15 @@ public class ObjectParser {
      * One time generation of an alert message
      * @return the XML alert.
      */
-    public static String generateAlert(String alert){
+    public static String generateAlert(BoardData model, String alert){
         StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
-        result.append("<alert>" + alert + "</alert>");
+        if(alert.equals("discard")){
+            result.append("<alert><type>" + alert + "</type>");
+            result.append("<id>" + model.getPlayer().getId() + "</id>");
+            result.append("</alert>");
+        } else {
+            result.append("<alert><type>" + alert + "</type></alert>");
+        }
         return result.toString();
     }
 
@@ -1688,15 +1701,20 @@ public class ObjectParser {
             String type = cardItems.item(1).getTextContent();
             if(type.equals("Knight")){
                 model.getMenus().getDeckScreen().setPlayerCard("knight");
+                model.setGameStatusNotifier("Player " + model.getPlayerTurn() + " played a Knight");
+
             }
             if(type.equals("Monopoly")){
-                model.getMenus().getDeckScreen().setPlayerCard("knight");
+                model.getMenus().getDeckScreen().setPlayerCard("monopoly");
+                model.setGameStatusNotifier("Player " + model.getPlayerTurn() + " played Monopoly");
             }
             if(type.equals("Year of Plenty")){
                 model.getMenus().getDeckScreen().setPlayerCard("yearofplenty");
+                model.setGameStatusNotifier("Player " + model.getPlayerTurn() + " played Year of Plenty");
             }
             if(type.equals("Road Building")){
                 model.getMenus().getDeckScreen().setPlayerCard("freeroad");
+                model.setGameStatusNotifier("Player " + model.getPlayerTurn() + " played Road Building");
             }
         } catch (IOException e) {
             e.printStackTrace();

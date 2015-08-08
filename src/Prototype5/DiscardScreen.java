@@ -172,6 +172,8 @@ public class DiscardScreen {
             if(Listeners.overRect(startX, ((parent.SCREEN_HEIGHT/4) * 3), width,70,parent)){
                 resetDiscardPile();
                 parent.model.setDisplayMode(0);
+                parent.model.setAlert(ObjectParser.generateAlert(parent.model,"discard"));
+                parent.model.setAlertReady(true);
                 //if its my turn
                 if(parent.model.getPlayer().getId() == parent.model.getPlayerTurn()){
                     //give me control of the robber
