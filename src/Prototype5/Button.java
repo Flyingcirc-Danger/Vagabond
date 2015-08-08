@@ -1,5 +1,6 @@
 package Prototype5;
 
+import processing.core.PFont;
 import processing.core.PImage;
 
 import java.awt.*;
@@ -24,6 +25,7 @@ public class Button {
     public Point textStart;
     public PImage icon;
     public boolean isIcon;
+    public PFont font;
 
 
     public Button(Point start, int width, int height, int curveSize, int[] color, Board parent){
@@ -38,6 +40,7 @@ public class Button {
         textSize = 20;
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2) -2);
+        font = parent.fonts[0];
     }
 
     public Button(int x, int y, int width, int height,Board parent){
@@ -52,6 +55,7 @@ public class Button {
         textSize = 20;
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2)-2);
+        font = parent.fonts[0];
     }
 
     public Button(int x, int y, int width, int height, int[] color,Board parent){
@@ -66,6 +70,7 @@ public class Button {
         textSize = 20;
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2)-2);
+        font = parent.fonts[0];
     }
 
     public Button(int x, int y, int width, int height,int [] color, String buttonText, Board parent){
@@ -80,6 +85,7 @@ public class Button {
         textSize = 20;
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2)-2);
+        font = parent.fonts[0];
     }
 
     public Button(int width, int height,Board parent){
@@ -94,6 +100,7 @@ public class Button {
         textSize = 20;
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2)-2);
+        font = parent.fonts[0];
     }
 
     public Button(int width, int height,String buttonText, Board parent){
@@ -108,6 +115,7 @@ public class Button {
         textSize = 20;
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2)-2);
+        font = parent.fonts[0];
     }
 
     public Button(PImage icon, int x, int y, Board parent){
@@ -118,6 +126,7 @@ public class Button {
         this.isIcon = true;
         textStart = new Point();
         this.parent = parent;
+        font = parent.fonts[0];
 
     }
 
@@ -129,18 +138,23 @@ public class Button {
         this.isIcon = true;
         this.parent = parent;
         textStart = new Point();
+        font = parent.fonts[0];
     }
 
     public void display(){
+        parent.textSize(textSize);
         if(isIcon){
             parent.image(icon,start.x,start.y);
         }else {
-            if (width < parent.textWidth(buttonText)) {
+            if (width < parent.textWidth(buttonText) + 40) {
                 width = 40 + (int) parent.textWidth(buttonText);
+                start.x -= 20;
             }
-            if (height < textSize) {
+            if (height < textSize + 20) {
                 height = textSize + 20;
             }
+            parent.textFont(font);
+            parent.textSize(textSize);
             parent.fill(color[0], color[1], color[2]);
             parent.stroke(0, 0, 0, 0);
             parent.rect(start.x, start.y, width, height, curveSize, curveSize, curveSize, curveSize);
@@ -173,6 +187,8 @@ public class Button {
         start.y = newStartY;
         textStart.y = newStartY + (height/2)-2;
     }
+
+
 
     /**
      * Handles the listening for this button.

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import Prototype5.*;
 
 /**
@@ -19,6 +21,7 @@ public class ClientToServerConnection {
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private String message;
+    private ConcurrentLinkedQueue<String> messages;
     private BoardData model;
 
     public ClientToServerConnection(int port, BoardData model,String ip) throws IOException {
@@ -27,6 +30,7 @@ public class ClientToServerConnection {
             this.in = new ObjectInputStream(con.getInputStream());
             this.message = new String();
             this.model = model;
+            this.messages = new ConcurrentLinkedQueue();
 
 
         /**
@@ -36,9 +40,11 @@ public class ClientToServerConnection {
             public void run(){
                 while(true){
                     try {
+                        evaluateMessage();
                         String msg = (String) in.readObject();
-                        evaluateMessage(msg);
-                        message = msg;
+                        messages.add(msg);
+                        evaluateMessage();
+                        //message = msg;
                     } catch (java.io.EOFException e){
                         
                     } catch (IOException e) {
@@ -80,15 +86,21 @@ public class ClientToServerConnection {
      * Evaluates the message. If it's a random char
      * it's a heartbeat. If it begins with <?xml
      * then it's an update
-     * @param message the message to evaluate
      */
-    public void evaluateMessage(String message){
-        if(message.length() < 2){
-            //System.out.println("HeartBeat message: " + message);
-        } else if(message.substring(0,5).equals("<?xml")){
-            ObjectParser.parseRequest(model, message);
-            System.out.println("Read XML: " + model.getIdentityToken());
+    public void evaluateMessage() {
+        if (model.isMessageToggle()) {
+            return;
+        } else if(messages.size() > 0) {
+            System.out.println("Evaluating the message");
+            String message = messages.poll();
+            if (message.length() < 2) {
+                //System.out.println("HeartBeat message: " + message);
+            } else if (message.substring(0, 5).equals("<?xml")) {
+                ObjectParser.parseRequest(model, message);
+                System.out.println("Read XML: " + model.getIdentityToken());
 
+            }
         }
     }
+
 }

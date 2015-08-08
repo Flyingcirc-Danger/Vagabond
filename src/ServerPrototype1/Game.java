@@ -225,7 +225,9 @@ public class Game implements Runnable {
         }
     }
 
-
+    /**
+     * Initiates a turn sequence
+     */
     public void turnSequence(){
         turnToggle = false;
         Random dice = new Random();

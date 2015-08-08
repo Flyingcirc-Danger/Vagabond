@@ -41,7 +41,8 @@ public class Board extends PApplet {
 
         SCREEN_HEIGHT = 768 ;
         SCREEN_WIDTH = 1024;
-
+        fonts = new PFont[]{createFont("assets/Verdana.ttf", 20),createFont("assets/merit4.ttf", 20)};
+        textFont(fonts[0]);
         size(SCREEN_WIDTH,SCREEN_HEIGHT);
         model = new BoardData(this);
 
@@ -97,8 +98,7 @@ public class Board extends PApplet {
         this.debugger = new Debug(this,center);
         debugger.displayClosed();
         this.model.setDisplayMode(10);
-        fonts = new PFont[]{createFont("assets/Verdana.ttf", 20),createFont("assets/merit4.ttf", 20)};
-        textFont(fonts[0]);
+
 
         frameRate(10.0f);
 

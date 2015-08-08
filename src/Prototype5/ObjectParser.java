@@ -1,7 +1,6 @@
 package Prototype5;
 
 import ServerPrototype1.Game;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,7 +13,6 @@ import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -934,6 +932,7 @@ public class ObjectParser {
      */
     public static void parseRequest(BoardData model, String XML){
         try{
+            model.setMessageToggle(true);
             Document doc = stringToDom(XML);
             if(doc.getElementsByTagName("model").getLength() > 0){
                 System.out.println("request recieved model");
@@ -961,6 +960,7 @@ public class ObjectParser {
                 System.out.println("request received card");
                 readCard(model, XML);
             }
+            model.setMessageToggle(false);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -1662,24 +1662,95 @@ public class ObjectParser {
     /**
      * Parses a monopoly card message
      * @param model the model from which this is sent
-     * @param card the card being sent
      * @param resource the requested monopoly resource
      * @param response whether this message is a response or not.
      * @return the XML card string.
      */
-    public static String parseMonopolyCard(BoardData model, DevelopmentCard card,int resource,boolean response){
+    public static String parseMonopolyCard(BoardData model,int resource, int to, boolean response){
         StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
         result.append("<card>");
             result.append("<from>" + model.getPlayer().getId() + "</from>");
-            result.append("<type>" + card.getType() + "</type>");
+            result.append("<type>Monopoly</type>");
+            result.append("<to>" + to + "</to>");
             result.append("<resource>" + resource + "</resource>");
             result.append("<response>" + response + "</response>");
             if(response){
                 result.append("<amount>" + model.getPlayer().getAllResource(resource) + "</amount>");
             }
             result.append("</card>");
+            saveOutput(result.toString(), "monopoly.xml");
             return result.toString();
         }
+
+
+    /**
+     * Reads a monopoly message
+     * @param model
+     * @param XML
+     */
+    public static void readMonopoly(BoardData model, String XML){
+        try {
+            Document dom = stringToDom(XML);
+            NodeList card = dom.getElementsByTagName("card");
+            int from = Integer.parseInt(dom.getElementsByTagName("from").item(0).getTextContent());
+            if(dom.getElementsByTagName("to").getLength() > 0) {
+                int to = Integer.parseInt(dom.getElementsByTagName("to").item(0).getTextContent());
+                int resource = Integer.parseInt(dom.getElementsByTagName("resource").item(0).getTextContent());
+                boolean response = Boolean.parseBoolean(dom.getElementsByTagName("response").item(0).getTextContent());
+                //if it's from me ignore it
+                if (from == model.getPlayer().getId()) {
+                    return;
+                }
+                // a value of 0 represents a send to all
+                if (to == 0) {
+                    //if its from someone else and to all then I am being robbed.
+                    String resourceName = "Grain";
+                    if(resource == 2){
+                        resourceName = "Ore";
+                    }
+                    if(resource == 3){
+                        resourceName = "Wool";
+                    }
+                    if(resource == 4){
+                        resourceName = "Brick";
+                    }
+                    if(resource == 5){
+                        resourceName = "Logs";
+                    }
+                    model.setGameStatusNotifier("Player " + from + " steals  of your " + resourceName );
+                    model.setCardManifest(ObjectParser.parseMonopolyCard(model, resource, from, true));
+                }
+                // if it's to me it will be a response.
+                if (to == model.getPlayer().getId()) {
+                    PlayerInfo player = model.getPlayer();
+                    int amount = Integer.parseInt(dom.getElementsByTagName("amount").item(0).getTextContent());
+                    if (resource == 1) {
+                        player.addGrain(amount);
+                    }
+                    if (resource == 2) {
+                        player.addOre(amount);
+                    }
+                    if (resource == 3) {
+                        player.addWool(amount);
+                    }
+                    if (resource == 4) {
+                        player.addBrick(amount);
+                    }
+                    if (resource == 5) {
+                        player.addLogs(amount);
+                    }
+                    model.getMenus().getDeckScreen().getMonopolyResults().put(from, amount);
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     /**
@@ -1707,6 +1778,7 @@ public class ObjectParser {
             if(type.equals("Monopoly")){
                 model.getMenus().getDeckScreen().setPlayerCard("monopoly");
                 model.setGameStatusNotifier("Player " + model.getPlayerTurn() + " played Monopoly");
+                ObjectParser.readMonopoly(model, XML);
             }
             if(type.equals("Year of Plenty")){
                 model.getMenus().getDeckScreen().setPlayerCard("yearofplenty");

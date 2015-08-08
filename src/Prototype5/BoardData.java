@@ -77,6 +77,8 @@ public class BoardData {
 
     private String gameStatusNotifier; // a piece of text at the bottom of the screen for specific messages.
 
+    private boolean messageToggle; //a toggle for recieving/parsing messages
+
 
 
 
@@ -123,6 +125,7 @@ public class BoardData {
         this.robberTile = new HexTile();
         menus.getDevDeck().shuffleDeck(tokenSeed());
         this.gameStatusNotifier = new String();
+        messageToggle = false;
 
     }
 
@@ -162,6 +165,8 @@ public class BoardData {
         this.manifest = new StringBuffer();
         this.robberTile = new HexTile();
         this.gameStatusNotifier = new String();
+        displayToggle = false;
+        messageToggle = false;
 
 
     }
@@ -317,6 +322,18 @@ public class BoardData {
 
     public void setGameStatusNotifier(String gameStatusNotifier) {
         this.gameStatusNotifier = gameStatusNotifier;
+    }
+
+    public boolean isDisplayToggle() {
+        return displayToggle;
+    }
+
+    public boolean isMessageToggle() {
+        return messageToggle;
+    }
+
+    public void setMessageToggle(boolean messageToggle) {
+        this.messageToggle = messageToggle;
     }
 
     /**
@@ -913,8 +930,6 @@ public class BoardData {
     public void checkMenus(){
         if(displayMode == 10){
             menus.getConnect().checkButtons();
-
-           // menus.getDeck().get(0).checkButtons();
         }
         if(displayMode == 7){
             if(menus.getWaitScreen().checkButton()){
