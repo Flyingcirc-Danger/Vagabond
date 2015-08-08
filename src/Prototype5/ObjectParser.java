@@ -1699,6 +1699,9 @@ public class ObjectParser {
                 boolean response = Boolean.parseBoolean(dom.getElementsByTagName("response").item(0).getTextContent());
                 //if it's from me ignore it
                 if (from == model.getPlayer().getId()) {
+                    if(to != 0){
+                        model.getPlayer().cleanseResource(resource);
+                    }
                     return;
                 }
                 // a value of 0 represents a send to all
@@ -1717,13 +1720,14 @@ public class ObjectParser {
                     if(resource == 5){
                         resourceName = "Logs";
                     }
-                    model.setGameStatusNotifier("Player " + from + " steals  of your " + resourceName );
+                    model.setGameStatusNotifier("Player " + from + " steals  your " + resourceName );
                     model.setCardManifest(ObjectParser.parseMonopolyCard(model, resource, from, true));
                 }
                 // if it's to me it will be a response.
                 if (to == model.getPlayer().getId()) {
                     PlayerInfo player = model.getPlayer();
                     int amount = Integer.parseInt(dom.getElementsByTagName("amount").item(0).getTextContent());
+                    if(!model.getMenus().getDeckScreen().getMonopolyResults().containsKey(from)) {
                     if (resource == 1) {
                         player.addGrain(amount);
                     }
@@ -1739,7 +1743,8 @@ public class ObjectParser {
                     if (resource == 5) {
                         player.addLogs(amount);
                     }
-                    model.getMenus().getDeckScreen().getMonopolyResults().put(from, amount);
+                        model.getMenus().getDeckScreen().getMonopolyResults().put(from, amount);
+                    }
                 }
 
             }
@@ -1766,6 +1771,14 @@ public class ObjectParser {
             int from = Integer.parseInt(cardItems.item(0).getTextContent());
             //if it's from me, do nothing
             if(from == model.getPlayer().getId()){
+                NodeList toTemp =  dom.getElementsByTagName("to");
+                if(toTemp.getLength() > 0 ) {
+                    if (Integer.parseInt(toTemp.item(0).getTextContent()) != 0){
+                        int resource = Integer.parseInt(dom.getElementsByTagName("resource").item(0).getTextContent());
+                        model.getPlayer().cleanseResource(resource);
+                    }
+                }
+
                 System.out.println("It's From Me... No Action");
                 return;
             }
@@ -1776,9 +1789,12 @@ public class ObjectParser {
 
             }
             if(type.equals("Monopoly")){
-                model.getMenus().getDeckScreen().setPlayerCard("monopoly");
-                model.setGameStatusNotifier("Player " + model.getPlayerTurn() + " played Monopoly");
-                ObjectParser.readMonopoly(model, XML);
+                if(dom.getElementsByTagName("to").getLength() == 0 ) {
+                    model.getMenus().getDeckScreen().setPlayerCard("monopoly");
+                    model.setGameStatusNotifier("Player " + model.getPlayerTurn() + " played Monopoly");
+                } else {
+                    ObjectParser.readMonopoly(model, XML);
+                }
             }
             if(type.equals("Year of Plenty")){
                 model.getMenus().getDeckScreen().setPlayerCard("yearofplenty");

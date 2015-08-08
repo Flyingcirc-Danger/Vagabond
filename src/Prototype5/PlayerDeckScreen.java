@@ -21,6 +21,7 @@ public class PlayerDeckScreen {
     private int selectionIndex;
     private String playerCard;
     private boolean monopoly;
+    private boolean monopolySuccess;
     private String monopolyResource;
     private int resourceIndex;
     private HashMap<Integer,Integer> monopolyResults; //the results of playing a monopoly card.
@@ -34,6 +35,7 @@ public class PlayerDeckScreen {
         this.resourceIndex = 0;
         this.playerCard = new String();
         monopoly = false;
+        monopolySuccess = false;
         monopolyResource = new String();
         monopolyResults = new HashMap<Integer, Integer>();
         setupButtons();
@@ -106,6 +108,11 @@ public class PlayerDeckScreen {
             //if a monopoly card has been played
             if (monopoly) {
                 displayMonopolyDialogue();
+                return;
+            }
+            if(monopolySuccess){
+                displayMonopolySuccess();
+                return;
             } else {
                 parent.background(0, 188, 212);
                 int cardHeight = (parent.SCREEN_HEIGHT / 2);
@@ -214,6 +221,7 @@ public class PlayerDeckScreen {
                 if(monopolyResource.length() > 0){
                     //check monopoly okay button
                     if(buttons.get(8).checkButton()){
+                        monopolyResults = new HashMap<Integer, Integer>();
                         parent.model.setCardManifest(ObjectParser.parseMonopolyCard(parent.model,resourceIndex,0,false));
                         resetMonopoly();
                     }
@@ -243,7 +251,9 @@ public class PlayerDeckScreen {
                         break;
                     }
                 }
-            } else {
+            }
+
+            else{
                 //current card button
                 if (playerDeck.size() > 0) {
                     int buttonPress = playerDeck.get(selectionIndex).checkButtons();
@@ -257,6 +267,7 @@ public class PlayerDeckScreen {
                         parent.model.setCardManifest(ObjectParser.parseCard(parent.model, playerDeck.get(selectionIndex)));
                         if (playerDeck.get(selectionIndex).getType().equals("Monopoly")) {
                             monopoly = true;
+                            monopolySuccess = false;
                         } else {
                             monopoly = false;
                         }
@@ -377,6 +388,37 @@ public class PlayerDeckScreen {
 
     }
 
+    public void displayMonopolySuccess(){
+        //red and yellow background
+        parent.textAlign(parent.CENTER);
+        parent.background(255,193,7);
+        parent.fill(198,40,40);
+        parent.stroke(0,0,0,0);
+        parent.rect(20,20,parent.SCREEN_WIDTH - 40, parent.SCREEN_HEIGHT - 40);
+        parent.fill(255,193,7);
+        parent.ellipse(0,0,100,100);
+        parent.ellipse(parent.SCREEN_WIDTH,0,100,100);
+        parent.ellipse(parent.SCREEN_WIDTH,parent.SCREEN_HEIGHT,100,100);
+        parent.ellipse(0,parent.SCREEN_HEIGHT,100,100);
+        parent.textFont(parent.fonts[1]);
+        parent.textSize(40);
+        parent.fill(0,0,0,30);
+        PImage monopolyImg = parent.loadImage("assets/developmentCards/monopolyMD.png");
+        parent.image(monopolyImg, parent.SCREEN_WIDTH/2 - (monopolyImg.width/2), (parent.SCREEN_HEIGHT/2) - 150 - monopolyImg.height);
+        parent.text("You receive:", (parent.SCREEN_WIDTH / 2) + 2, (parent.SCREEN_HEIGHT / 2) - 100 + 2);
+        parent.fill(255,193,7);
+        parent.text("You receive:", (parent.SCREEN_WIDTH/2), (parent.SCREEN_HEIGHT/2) - 100);
+        int runningTotal = parent.SCREEN_HEIGHT /2;
+        parent.textSize(15);
+        for(int id : monopolyResults.keySet()){
+            parent.text(monopolyResults.get(id) + " x " + monopolyResource + " from Player " + id, parent.SCREEN_WIDTH/2, runningTotal );
+        }
+        if(monopolyResults.size() == parent.model.getPlayerList().size()){
+            System.out.println("All offers Recieved");
+        }
+
+    }
+
     public HashMap<Integer, Integer> getMonopolyResults() {
         return monopolyResults;
     }
@@ -389,6 +431,7 @@ public class PlayerDeckScreen {
         this.monopoly = false;
         this.monopolyResource = new String();
         this.resourceIndex = 0;
+        //monopolySuccess = true;
     }
 }
 

@@ -273,33 +273,16 @@ public class PlayerInfo {
 
 
     /**
-     * Removes all of a specified resource
-     * from this player and returns it's count
+     * returns the resource count
      * @param resource the index to remove
      * @return the amount removed
      */
     public int getAllResource(int resource){
         int result = 0;
-        if(resource == 1) {
-            result = getGrain();
-            subtractGrain(result);
-        }
-        if(resource == 2) {
-            result = getOre();
-            subtractOre(result);
-        }
-        if(resource == 3) {
-            result = getWool();
-            subtractWool(result);
-        }
-        if(resource == 4) {
-            result = getBrick();
-            subtractBrick(result);
-        }
-        if(resource == 5) {
-            result = getLogs();
-            subtractLogs(result);
-        }
-        return result;
+        return resources[resource -1];
+    }
+
+    public void cleanseResource(int index){
+        resources[index -1] = 0;
     }
 }

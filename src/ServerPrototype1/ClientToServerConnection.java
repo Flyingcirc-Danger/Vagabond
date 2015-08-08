@@ -40,7 +40,6 @@ public class ClientToServerConnection {
             public void run(){
                 while(true){
                     try {
-                        evaluateMessage();
                         String msg = (String) in.readObject();
                         messages.add(msg);
                         evaluateMessage();
@@ -91,8 +90,10 @@ public class ClientToServerConnection {
         if (model.isMessageToggle()) {
             return;
         } else if(messages.size() > 0) {
-            System.out.println("Evaluating the message");
             String message = messages.poll();
+            if(message.length() > 1) {
+                System.out.println(message);
+            }
             if (message.length() < 2) {
                 //System.out.println("HeartBeat message: " + message);
             } else if (message.substring(0, 5).equals("<?xml")) {

@@ -25,6 +25,7 @@ public class Game implements Runnable {
     public LinkedBlockingQueue<String> messages;
     public String XMLboard;
     public String updateMessage;
+    public ArrayList<MessageRecord> playerRecords;
     public MessageRecord record;
     public int currentID;
     public boolean gameBegin;
@@ -52,6 +53,7 @@ public class Game implements Runnable {
         HexTile center=new HexTile(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, mainBoard,mainBoard.getResourceTiles()[0],mainBoard.getTokens()[0]);
         center.getModel().buildBoard((center));
         this.allDiscard = true;
+        playerRecords = new ArrayList<MessageRecord>();
 
         Thread sendAll = new Thread() {
             public void run() {
@@ -60,17 +62,21 @@ public class Game implements Runnable {
                         if (players.size() > 0) {
                             fixDiscard();
                             String message = Server.generateRandString();
-                            if(record.isCurrent()){
-                                message = record.getCurrent();
+                            for(MessageRecord playerRec : playerRecords) {
+                                record = playerRec;
+                                if (record.isCurrent()) {
+                                    message = record.getCurrent();
+                                }
+                                if (record.checkTurn()) {
+                                    message = record.getTurn();
+                                }
+                                for (Player con : players) {
+                                    con.send(message);
 
+                                }
                             }
-                            if(record.checkTurn()){
-                                message = record.getTurn();
-                            }
-                            for (Player con : players) {
-                                con.send(message);
 
-                            }
+
                             //evaluate what kindof message has been sent
                             if(message.length() > 1){
                                 //if the last message was anything other than a trade,
@@ -145,7 +151,10 @@ public class Game implements Runnable {
         }
         int setID = currentID;
         this.currentID +=1;
-        ServerToClientConnection temp = new ServerToClientConnection(s, this.heartBeat, setID, this, this.record);
+        MessageRecord tempRec = new MessageRecord();
+        ServerToClientConnection temp = new ServerToClientConnection(s, this.heartBeat, setID, this, tempRec);
+        //TODO: EACH PLAYER GETS THEIR OWN RECORD
+        playerRecords.add(tempRec);
         Player newPlayer = new Player(temp,setID,"Tom", 0,mainBoard);
         players.add(newPlayer);
         heartBeat.put(newPlayer.getId(), "START");
@@ -219,9 +228,13 @@ public class Game implements Runnable {
     public void fixDiscard(){
         if(discarded.size() == players.size() || allDiscard == true){
             allDiscard = true;
-            record.setTurnAuth(true);
+            for(MessageRecord rec : playerRecords) {
+                rec.setTurnAuth(true);
+            }
         } else{
-            record.setTurnAuth(false);
+            for(MessageRecord rec : playerRecords) {
+                rec.setTurnAuth(false);
+            }
         }
     }
 
@@ -244,11 +257,15 @@ public class Game implements Runnable {
         if(d1 + d2  == 7){
             allDiscard = false;
             discarded = new ArrayList<Integer>();
-            record.setTurnAuth(false);
+            for(MessageRecord rec : playerRecords) {
+                rec.setTurnAuth(false);
+            }
         } else{
             discarded = new ArrayList<Integer>();
             allDiscard = true;
-            record.setTurnAuth(true);
+            for(MessageRecord rec : playerRecords) {
+                rec.setTurnAuth(true);
+            }
 
         }
         String turn = ObjectParser.generateTurnBegin(d1,d2,this);

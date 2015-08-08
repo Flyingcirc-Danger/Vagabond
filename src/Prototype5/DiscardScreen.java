@@ -317,4 +317,6 @@ public class DiscardScreen {
         discardPile.put(4,0);
         discardPile.put(5,0);
     }
+
+
 }

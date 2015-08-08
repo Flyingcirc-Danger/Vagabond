@@ -375,6 +375,5 @@ public class DevelopmentCard {
         parent.rect(parent.SCREEN_WIDTH - 152 +4, parent.SCREEN_HEIGHT - 300 + 4, 142 -8,200 -8,5,5,5,5);
         parent.image(medLogo,parent.SCREEN_WIDTH - 152 +(142/2) - (medLogo.width/2),  parent.SCREEN_HEIGHT - 200 - (medLogo.height/2) );
 
-
     }
 }
