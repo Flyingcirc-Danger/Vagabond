@@ -10,12 +10,14 @@ public class StatusMenu {
     private Board parent;
     private boolean button;
     private boolean highighted;
+    private boolean active;
 
-    public StatusMenu(String text, Board parent, boolean button){
+    public StatusMenu(String text, Board parent, boolean button,boolean active){
         this.text = text;
         this.parent = parent;
         this.button = button;
         this.highighted = false;
+        this.active = active;
     }
 
     public void display(){
@@ -85,6 +87,9 @@ public class StatusMenu {
 
 
     public boolean checkButton(){
+        if(!active){
+            return false;
+        }
         int length = (int) parent.textWidth("Ready") + 40;
         int height = 30;
         if(overRect(parent.SCREEN_WIDTH/2 - (length/2), parent.SCREEN_HEIGHT/2, length, height)){
@@ -95,5 +100,13 @@ public class StatusMenu {
             this.highighted = false;
             return false;
         }
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

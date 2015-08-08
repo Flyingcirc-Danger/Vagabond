@@ -35,7 +35,7 @@ public class Menus {
         this.resourceBar = new ResourceBar(parent);
         this.die = new Dice(6,5,parent);
         this.bottomMenu = new BottomMenu(parent);
-        this.waitScreen = new StatusMenu("Waiting For More Players. Click below to ready up", parent, true);
+        this.waitScreen = new StatusMenu("Waiting For More Players. Click below to ready up", parent, true,true);
         this.card = new BuildCard(parent);
         this.bank = new Bank(parent);
         this.tradeFloor = new TradeFloor(parent);

@@ -46,7 +46,7 @@ public class DevelopmentCard {
 
     public void setupButtons() {
         // 0 - play card button:
-        int playCardWidth = Button.widthEstimate("Play This Card", parent);
+        int playCardWidth = Button.widthEstimate("Wait One Turn", parent);
         Button playCard = new Button(playCardWidth, 40, "Wait One Turn", parent);
         playCard.curveSize = 5;
         buttons.add(playCard);
@@ -222,18 +222,19 @@ public class DevelopmentCard {
                     parent.fill(255);
                     parent.textAlign(parent.CENTER, parent.CENTER);
                     if (!isInactive()) {
-                        buttons.get(0).buttonText = "Play This Card";
+                        buttons.get(0).setButtonText("Play This Card");
                     } else {
-                        buttons.get(0).buttonText = "Wait One Turn";
+                        buttons.get(0).setButtonText("Wait One Turn");
                     }
                     parent.textSize(20);
-                    buttons.get(0).display();
                     buttons.get(5).setStartY(startY + cardHeight + 60);
                     buttons.get(1).setStartY(startY + cardHeight + 110);
                     buttons.get(1).display();
                     buttons.get(5).display();
                     buttons.get(2).display();
                     buttons.get(3).display();
+                    buttons.get(0).display();
+
 //                StringBuffer text = new StringBuffer();
 //                ArrayList<DevelopmentCard> playerDeck = parent.model.getPlayer().getPlayerDeck();
 //                text.append("Index: " + parent.model.getMenus().getDeckScreen().getSelectionIndex() + "\n");

@@ -199,4 +199,21 @@ public class Button {
     }
 
 
+    /**
+     * Sets the button text and resizes accordingly.
+     * @param text
+     */
+    public void setButtonText(String text){
+        this.buttonText = text;
+        if (width < parent.textWidth(buttonText) + 40) {
+            width = 40 + (int) parent.textWidth(buttonText);
+            start.x -= 20;
+        }
+        if (height < textSize + 20) {
+            height = textSize + 20;
+        }
+
+    }
+
+
 }

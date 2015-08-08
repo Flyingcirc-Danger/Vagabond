@@ -88,7 +88,7 @@ public class PlayerDeckScreen {
             buttons.get(i).setStartX(runningTotal);
             runningTotal+= 105;
         }
-        //8 - Monopoly Oay
+        //8 - Monopoly Okay
         int okayWidth = Button.widthEstimate("Okay", parent);
         Button monOkay = new Button(okayWidth,40,parent);
         monOkay.buttonText = "Okay";
@@ -99,6 +99,17 @@ public class PlayerDeckScreen {
         monOkay.textSize = 30;
         monOkay.start.x +=5;
         buttons.add(monOkay);
+        //9 - monopoly accept okay
+        Button monAcceptOkay = new Button(okayWidth,40,parent);
+        monAcceptOkay.buttonText = "Okay";
+        monAcceptOkay.curveSize = 5;
+        monAcceptOkay.font = parent.fonts[1];
+        monAcceptOkay.fontColor = new int[] {255,193,7};
+        monAcceptOkay.color = new int[] {40, 53, 147};
+        monAcceptOkay.textSize = 30;
+        monAcceptOkay.start.x +=5;
+        buttons.add(monAcceptOkay);
+
 
     }
 
@@ -217,13 +228,21 @@ public class PlayerDeckScreen {
     public void checkButtons() {
         if (isOpen()) {
             //if a monopoly card has been played
+            if(monopolySuccess){
+                if(buttons.get(9).checkButton()){
+                    resetMonopoly();
+                    monopolySuccess = false;
+                }
+            }
             if (monopoly) {
                 if(monopolyResource.length() > 0){
                     //check monopoly okay button
                     if(buttons.get(8).checkButton()){
                         monopolyResults = new HashMap<Integer, Integer>();
                         parent.model.setCardManifest(ObjectParser.parseMonopolyCard(parent.model,resourceIndex,0,false));
-                        resetMonopoly();
+                        //resetMonopoly();
+                        this.monopoly = false;
+                        this.monopolySuccess = true;
                     }
                 }
                 for(int i = 3; i < 8; i++){
@@ -409,12 +428,16 @@ public class PlayerDeckScreen {
         parent.fill(255,193,7);
         parent.text("You receive:", (parent.SCREEN_WIDTH/2), (parent.SCREEN_HEIGHT/2) - 100);
         int runningTotal = parent.SCREEN_HEIGHT /2;
-        parent.textSize(15);
+        parent.textSize(20);
         for(int id : monopolyResults.keySet()){
             parent.text(monopolyResults.get(id) + " x " + monopolyResource + " from Player " + id, parent.SCREEN_WIDTH/2, runningTotal );
+            runningTotal += 30;
         }
+        buttons.get(9).setStartY(runningTotal);
+        //if everyone has given up the monopoly resource
         if(monopolyResults.size() == parent.model.getPlayerList().size()){
-            System.out.println("All offers Recieved");
+            buttons.get(9).display();
+
         }
 
     }
@@ -431,7 +454,6 @@ public class PlayerDeckScreen {
         this.monopoly = false;
         this.monopolyResource = new String();
         this.resourceIndex = 0;
-        //monopolySuccess = true;
     }
 }
 

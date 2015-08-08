@@ -936,7 +936,7 @@ public class BoardData {
                 this.alert = ObjectParser.generateAlert(this,"ready");
                 this.alertReady = true;
                 parent.background(0, 188, 212);
-                menus.setWaitScreen(new StatusMenu("Waiting For Other Players",parent, false));
+                menus.setWaitScreen(new StatusMenu("Waiting For Other Players",parent, false,false));
             }
         }
         if(displayMode == 8){
