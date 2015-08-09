@@ -1043,6 +1043,10 @@ public class HexTile {
             if(model.roadQuota < 2){
                 return true;
             }
+            if(model.freeRoad > 0){
+                model.freeRoad--;
+                return true;
+            }
             PlayerInfo toCheck =parent.model.getPlayer();
             if(toCheck.getBrick() >= 1 &&
                     toCheck.getLogs() >= 1){

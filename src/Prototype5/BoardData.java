@@ -33,6 +33,8 @@ public class BoardData {
 
     public int roadQuota;
 
+    public int freeRoad;
+
     private String identityToken;
 
     private Board parent;
@@ -126,6 +128,7 @@ public class BoardData {
         menus.getDevDeck().shuffleDeck(tokenSeed());
         this.gameStatusNotifier = new String();
         messageToggle = false;
+        freeRoad = 0;
 
     }
 
@@ -167,6 +170,7 @@ public class BoardData {
         this.gameStatusNotifier = new String();
         displayToggle = false;
         messageToggle = false;
+        freeRoad = 0;
 
 
     }
@@ -478,6 +482,9 @@ public class BoardData {
      * 10 = connect menu
      */
     public void displayBoard(){
+        if(freeRoad > 0){
+            setGameStatusNotifier("Place " + freeRoad + " Free Roads");
+        }
         displayGameStatus();
         if(!this.checkToggle()) {
             int option = this.displayMode;

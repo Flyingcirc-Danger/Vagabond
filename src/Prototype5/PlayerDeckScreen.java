@@ -287,7 +287,16 @@ public class PlayerDeckScreen {
                         if (playerDeck.get(selectionIndex).getType().equals("Monopoly")) {
                             monopoly = true;
                             monopolySuccess = false;
-                        } else {
+                        } if (playerDeck.get(selectionIndex).getType().equals("Road Building")) {
+                            parent.model.freeRoad +=2;
+                            open = false;
+                            parent.currentTool = 2;
+                            parent.model.setGameStatusNotifier("Place 2 Free Roads");
+                            removeCurrentCard();
+
+                        }
+
+                        else {
                             monopoly = false;
                         }
                     }
@@ -348,7 +357,7 @@ public class PlayerDeckScreen {
 
     public void incSelectionIndex(){
         selectionIndex++;
-        if(selectionIndex == playerDeck.size()){
+        if(selectionIndex >= playerDeck.size()){
             selectionIndex = 0;
         }
     }
@@ -434,10 +443,9 @@ public class PlayerDeckScreen {
             runningTotal += 30;
         }
         buttons.get(9).setStartY(runningTotal);
-        //if everyone has given up the monopoly resource
+        //if everyone has returned the monopoly resource
         if(monopolyResults.size() == parent.model.getPlayerList().size()){
             buttons.get(9).display();
-
         }
 
     }
@@ -454,6 +462,15 @@ public class PlayerDeckScreen {
         this.monopoly = false;
         this.monopolyResource = new String();
         this.resourceIndex = 0;
+        int oldSelect = selectionIndex;
+        playerDeck.remove(oldSelect);//remove the monopoly card
+        incSelectionIndex();
+    }
+
+    public void removeCurrentCard(){
+        int tempIndex = selectionIndex;
+        playerDeck.remove(tempIndex);
+        incSelectionIndex();
     }
 }
 
