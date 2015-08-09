@@ -439,6 +439,11 @@ public class PlayerDeckScreen {
                         else if (playerDeck.get(selectionIndex).getType().equals("Year of Plenty")) {
                             YOP = true;
                         }
+                        else if (playerDeck.get(selectionIndex).getType().equals("Knight")) {
+                            open = false;
+                            removeCurrentCard();
+                            parent.model.getMenus().getRobDialogue().setToolSwitch();
+                        }
 
                         else {
                             monopoly = false;
@@ -463,8 +468,6 @@ public class PlayerDeckScreen {
                         }
                     }
                 } else {
-
-
                     //purchase card
                     if (buttons.get(0).checkButton()) {
                         parent.model.getMenus().getDevDeck().getCard();
@@ -473,7 +476,6 @@ public class PlayerDeckScreen {
                     if (buttons.get(1).checkButton()) {
                         open = false;
                     }
-
                 }
             }
         }else {

@@ -289,6 +289,7 @@ public class RobDialogue {
      * Once a target has been selected, the robbing in process screen displays
      */
     public void displayRobInProgress(){
+        parent.textSize(20);
         int width = (int)parent.textWidth("Stealing From Player 1...") + 40;
         int baseText = (int)parent.textWidth("Stealing From Player 1") + 40;
         int height = 70;
@@ -301,6 +302,7 @@ public class RobDialogue {
         parent.fill(0,0,0,30);
         parent.rect(startX+2, startY+2, width,height,5,5,5,5);
         parent.fill(255);
+        parent.textSize(20);
         parent.text("Stealing From Player " + playerTarget, (parent.SCREEN_WIDTH / 2) - (parent.textWidth("Stealing From Player 1...") / 2), (parent.SCREEN_HEIGHT / 2) + 8);
         if(wait == 30){
             wait = 0;
@@ -327,7 +329,7 @@ public class RobDialogue {
     public void displayRobSuccess(){
         PImage resIMG = parent.images[itemRobbed];
         String resource = parent.mapResource(itemRobbed);
-
+        parent.textSize(15);
         int width = (int)parent.textWidth("From Player 1")  + 40;
         int height = 150;
         parent.textSize(15);
@@ -366,7 +368,7 @@ public class RobDialogue {
     public void displayVictimDialogue(){
         PImage resIMG = parent.images[itemRobbed];
         String resource = parent.mapResource(itemRobbed);
-
+        parent.textSize(15);
         int width = (int)parent.textWidth("From Player 1")  + 40;
         int height = 130;
         parent.textSize(15);

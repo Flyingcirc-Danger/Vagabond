@@ -1616,7 +1616,9 @@ public class ObjectParser {
                 if(send){
                     //do steal
                     //if we're out of the discard screen
-                    if(model.getDisplayMode() == 0) {
+                    if(model.getDisplayMode() != 9 ) {
+                        model.setGameStatusNotifier("Player " + fromID + " is stealing from you!");
+                        model.setDisplayMode(0);
                         model.setStealManifest(ObjectParser.parseSteal(model, fromID, model.getRobberTile(), false));
                     } else{
                         //queue up the steal mechanic
