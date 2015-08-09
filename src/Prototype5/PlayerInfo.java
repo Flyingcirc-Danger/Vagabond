@@ -281,9 +281,30 @@ public class PlayerInfo {
         return resources[resource -1];
     }
 
-
-
+    /**
+     * Removes all of a specified resource from this player
+     * @param index the index of the resource to remove
+     */
     public void cleanseResource(int index){
         resources[index -1] = 0;
+    }
+
+    public static String getResourceName(int index){
+        if(index == 2){
+            return "Ore";
+        }
+        if(index == 3){
+            return "Wool";
+        }
+        if(index == 4){
+            return "Brick";
+        }
+        if(index == 5){
+            return "Logs";
+        }
+        else{
+            return "Grain";
+        }
+
     }
 }

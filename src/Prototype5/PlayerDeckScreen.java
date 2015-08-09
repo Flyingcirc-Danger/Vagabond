@@ -427,14 +427,16 @@ public class PlayerDeckScreen {
                         if (playerDeck.get(selectionIndex).getType().equals("Monopoly")) {
                             monopoly = true;
                             monopolySuccess = false;
-                        } if (playerDeck.get(selectionIndex).getType().equals("Road Building")) {
+                        }
+                        else if (playerDeck.get(selectionIndex).getType().equals("Road Building")) {
                             parent.model.freeRoad +=2;
                             open = false;
                             parent.currentTool = 2;
                             parent.model.setGameStatusNotifier("Place 2 Free Roads");
                             removeCurrentCard();
 
-                        } if (playerDeck.get(selectionIndex).getType().equals("Year of Plenty")) {
+                        }
+                        else if (playerDeck.get(selectionIndex).getType().equals("Year of Plenty")) {
                             YOP = true;
                         }
 
@@ -718,12 +720,19 @@ public class PlayerDeckScreen {
      * Gives the player their requested resources
      */
     private void resolveYOP(){
+        ArrayList<String> gained = new ArrayList<String>();
         for(int resource : YOPResources.keySet()){
             if(YOPResources.get(resource) > 0){
                 for(int i = 0; i < YOPResources.get(resource); i++){
                     parent.model.getPlayer().giveResource(resource);
+                    gained.add(PlayerInfo.getResourceName(resource));
                 }
             }
+        }
+        if(gained.size() == 2){
+            parent.model.setGameStatusNotifier("You recieve 1 x" + gained.get(0) + " and 1 x" + gained.get(1));
+        } else{
+            parent.model.setGameStatusNotifier("You recieve 2 x" + gained.get(0));
         }
 
     }
