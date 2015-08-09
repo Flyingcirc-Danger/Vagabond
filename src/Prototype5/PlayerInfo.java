@@ -282,6 +282,8 @@ public class PlayerInfo {
         return resources[resource -1];
     }
 
+
+
     public void cleanseResource(int index){
         resources[index -1] = 0;
     }

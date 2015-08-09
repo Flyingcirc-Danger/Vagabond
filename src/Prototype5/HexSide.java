@@ -76,7 +76,7 @@ public class HexSide {
             int slopeY = (int) (end.getY() - start.getY());
             slopeY = slopeY / 15;
             if(this.isBuilt()){
-                int[] color = model.getColor(owner);
+                int[] color =parent.model.getColor(owner);
                 parent.fill(color[0], color[1],color[2]);
             } else{
                 parent.fill(255, 0, 0,80);
@@ -202,7 +202,7 @@ public class HexSide {
         HashSet<HexPoint> startNeighbors = start.getNeigbors();
         for(HexPoint pt : startNeighbors){
             Point tempMid = findMidPoint(start, pt);
-            HexSide newNei = model.getSideMap().get(tempMid);
+            HexSide newNei =model.getSideMap().get(tempMid);
             neighbors.add(newNei);
             newNei.neighbors.add(this);
 
@@ -210,7 +210,7 @@ public class HexSide {
         HashSet<HexPoint> endNeighbors = end.getNeigbors();
         for(HexPoint pt : endNeighbors){
             Point tempMid = findMidPoint(end, pt);
-            HexSide newNei = model.getSideMap().get(tempMid);
+            HexSide newNei =model.getSideMap().get(tempMid);
             neighbors.add(newNei);
             newNei.neighbors.add(this);
         }
@@ -231,7 +231,7 @@ public class HexSide {
         }
         for(HexSide ne : neighbors){
             if(ne.isBuilt()){
-                if(ne.getOwner() == model.getPlayer().getId()) {
+                if(ne.getOwner() ==parent.model.getPlayer().getId()) {
                     HexPoint joint = findJoin(ne);
                     if(joint.isSettled() && !joint.checkAgainstOwner(model.getPlayer().getId())){
                         return false;
@@ -255,9 +255,9 @@ public class HexSide {
     public void generateManifest(){
         BoardData model = parent.center.getModel();
         if(model.getManifest().length() == 0){
-            model.initManifest();
+           parent.model.initManifest();
         }
-        model.getManifest().append(ObjectParser.parseSingleSide(model, this, false));
+       parent.model.getManifest().append(ObjectParser.parseSingleSide(model, this, false));
     }
 
 

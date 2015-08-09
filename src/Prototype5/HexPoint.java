@@ -310,7 +310,7 @@ public class HexPoint implements Comparable<HexPoint> {
 
                 int height = 20;
                 int width = 20;
-                int[] color = model.getColor(owner);
+                int[] color = parent.model.getColor(owner);
                 parent.fill(color[0], color[1],color[2]);
                 parent.fill(255, 0, 0,80);
                 parent.beginShape();
@@ -332,9 +332,9 @@ public class HexPoint implements Comparable<HexPoint> {
 
                 if(!this.isSettled()){
                     parent.fill(255, 0, 0,80);
-                    model.getMenus().getCard().displayTown();
+                    parent.model.getMenus().getCard().displayTown();
                 } else {
-                    int[] color = model.getColor(owner);
+                    int[] color = parent.model.getColor(owner);
                     parent.fill(color[0], color[1],color[2]);
 
                 }
@@ -358,7 +358,7 @@ public class HexPoint implements Comparable<HexPoint> {
                 if (!this.isCity()) {
                     parent.fill(255, 0, 0, 80);
                 } else {
-                    int[] color = model.getColor(owner);
+                    int[] color = parent.model.getColor(owner);
                     parent.fill(color[0], color[1],color[2]);
                 }
                 int tempX = coords.x - 10;
@@ -427,10 +427,10 @@ public class HexPoint implements Comparable<HexPoint> {
      */
     public void generateManifest(){
         BoardData model = parent.center.getModel();
-        if(model.getManifest().length() == 0){
-            model.initManifest();
+        if(parent.model.getManifest().length() == 0){
+            parent.model.initManifest();
         }
-        model.getManifest().append(ObjectParser.parseSinglePoint(model,this,false));
+        parent.model.getManifest().append(ObjectParser.parseSinglePoint(model,this,false));
     }
 }
 

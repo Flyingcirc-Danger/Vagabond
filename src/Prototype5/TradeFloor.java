@@ -357,7 +357,19 @@ public class TradeFloor {
                                 wantHighlight = 100;
                             }
                             //if you wish to accept an open trade, return the offer exactly
-                            parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false,false));
+                            //but first check that you have all the resources
+                            int matchesWant = 0;
+                            int wants = trade.getWants().size();
+                            for(int id : trade.getWants().keySet()){
+                                if(parent.model.getPlayer().getAllResource(id) >= trade.getWants().get(id)){
+                                    matchesWant++;
+                                }
+                            }
+                            if(matchesWant == trade.getOffers().size()){
+                                parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false,false));
+                            } else{
+                                System.out.println("You do not have enough resources for this trade"); //TODO: Add actual trade warning 1
+                            }
                         }
                     }
                     return;
@@ -378,10 +390,16 @@ public class TradeFloor {
             if (Listeners.overRect(butX, butY, ((int) parent.textWidth(" Propose ")), 30, parent)) {
                 if (playerNeg == client) {
                     //if not countering a trade
-                    parent.model.setTradeManifest(ObjectParser.parseTrade(client, "all", false,false));
+                    if(affordTradeWants(client)) {
+                        parent.model.setTradeManifest(ObjectParser.parseTrade(client, "all", false, false));
+                    } else{
+                        System.out.println("You Can't Afford That Trade"); //TODO: Add actual trade warning 2
+                    }
                 } else {
-                    //if countering a trade the playerNeg will be set.
-                    parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false,false));
+                    if(affordTradeWants(client)) {
+                        //if countering a trade the playerNeg will be set.
+                        parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false, false));
+                    } //TODO: Add actual trade warning 3
                 }
             }
             //back button
@@ -390,23 +408,27 @@ public class TradeFloor {
                 parent.model.setDisplayMode(0);
                 client.setOfferRejected(true);
             }
+            PlayerInfo player = parent.model.getPlayer();
             for (int i = 0; i < plusButtons.length; i++) {
                 int[] coords = plusButtons[i];
                 if (Listeners.overRect(coords[0], coords[1], coords[2], coords[3], parent)) {
+
                     if (i == 0) {
-                        client.addGrain(true);
+                            client.addGrain(true);
                     }
                     if (i == 1) {
-                        client.addOre(true);
-                    }
+                            client.addOre(true);
+                        }
                     if (i == 2) {
-                        client.addWool(true);
+                            client.addWool(true);
+
                     }
                     if (i == 3) {
-                        client.addBrick(true);
+                            client.addBrick(true);
+
                     }
                     if (i == 4) {
-                        client.addLog(true);
+                            client.addLog(true);
                     }
                     if (i == 5) {
                         client.addGrain(false);
@@ -429,34 +451,34 @@ public class TradeFloor {
                 int[] coords = minusButtons[i];
                 if (Listeners.overRect(coords[0], coords[1], coords[2], coords[3], parent)) {
                     if (i == 0) {
-                        client.subGrain(true);
+                            client.subGrain(true);
                     }
                     if (i == 1) {
-                        client.subOre(true);
+                            client.subOre(true);
                     }
                     if (i == 2) {
-                        client.subWool(true);
+                            client.subWool(true);
                     }
                     if (i == 3) {
-                        client.subBrick(true);
+                            client.subBrick(true);
                     }
                     if (i == 4) {
-                        client.subLog(true);
+                            client.subLog(true);
                     }
                     if (i == 5) {
                         client.subGrain(false);
                     }
                     if (i == 6) {
-                        client.subOre(false);
+                            client.subOre(false);
                     }
                     if (i == 7) {
-                        client.subWool(false);
+                            client.subWool(false);
                     }
                     if (i == 8) {
-                        client.subBrick(false);
+                            client.subBrick(false);
                     }
                     if (i == 9) {
-                        client.subLog(false);
+                            client.subLog(false);
                     }
                 }
             }
@@ -781,6 +803,27 @@ public class TradeFloor {
         parent.text("OK", (parent.SCREEN_WIDTH/2) - (parent.textWidth("OK")/2),(parent.SCREEN_HEIGHT/2) + 30);
 
 
+    }
+
+
+    /**
+     * Checks to see if a player can afford a trade from the perspective of
+     * what the other player wants
+     * @param trade
+     * @return
+     */
+    public boolean affordTradeWants(PlayerTradeCard trade){
+        int matchesWant = 0;
+        for(int id : trade.getWants().keySet()){
+            if(parent.model.getPlayer().getAllResource(id) >= trade.getWants().get(id)){
+                matchesWant++;
+            }
+        }
+        if( matchesWant >= trade.getWants().size()){
+            return true;
+        } else{
+            return false;
+        }
     }
 
 }

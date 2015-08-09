@@ -204,7 +204,7 @@ public class HexTile {
             return model.getSideMap().get(midPoint);
         } else {
             HexSide newSide = new HexSide(start,end,midPoint,model.assignSideID(),parent,model);
-            model.getSideMap().put(midPoint, newSide);
+           model.getSideMap().put(midPoint, newSide);
             return newSide;
         }
     }
@@ -637,7 +637,7 @@ public class HexTile {
 
             //mode is for debugging purposes only.
             int mode = this.model.getDisplayMode();
-            int id = model.getPlayer().getId();
+            int id =parent.model.getPlayer().getId();
             if (A.overPoint()) {
                 if (mode == 1 || mode == 4) {
                     A.mapNeigbors();
@@ -736,7 +736,7 @@ public class HexTile {
     public boolean checkSides(){
         //mode is for debugging purposes only.
         int mode = this.model.getDisplayMode();
-        int id = model.getPlayer().getId();
+        int id =parent.model.getPlayer().getId();
         if(AB.overSide()){
             if (mode == 2 || mode == 4) {
                 this.setHighlighted(true);
@@ -1027,7 +1027,7 @@ public class HexTile {
             if(model.settlementQuota < 2){
                 return true;
             }
-            PlayerInfo toCheck = model.getPlayer();
+            PlayerInfo toCheck =parent.model.getPlayer();
             if(toCheck.getBrick() >= 1 &&
                     toCheck.getLogs() >= 1 &&
                     toCheck.getGrain() >= 1 &&
@@ -1043,7 +1043,7 @@ public class HexTile {
             if(model.roadQuota < 2){
                 return true;
             }
-            PlayerInfo toCheck = model.getPlayer();
+            PlayerInfo toCheck =parent.model.getPlayer();
             if(toCheck.getBrick() >= 1 &&
                     toCheck.getLogs() >= 1){
                 toCheck.subtractBrick(1);
@@ -1292,11 +1292,11 @@ public class HexTile {
      */
     public void addToPayout(){
         if(model.getPayout().containsKey(value)){
-            model.getPayout().get(value).add(this);
+           model.getPayout().get(value).add(this);
         } else {
             HashSet<HexTile> pay = new HashSet<HexTile>();
             pay.add(this);
-            model.getPayout().put(value,pay);
+           model.getPayout().put(value,pay);
         }
 
     }
@@ -1306,19 +1306,19 @@ public class HexTile {
      */
     public void payResource(){
         if(this.resource.equals("grain")){
-            model.getPlayer().addGrain(1);
+           parent.model.getPlayer().addGrain(1);
         }
         if(this.resource.equals("mine")){
-            model.getPlayer().addOre(1);
+           parent.model.getPlayer().addOre(1);
         }
         if(this.resource.equals("pasture")){
-            model.getPlayer().addWool(1);
+           parent.model.getPlayer().addWool(1);
         }
         if(this.resource.equals("brick")){
-            model.getPlayer().addBrick(1);
+           parent.model.getPlayer().addBrick(1);
         }
         if(this.resource.equals("forest")){
-            model.getPlayer().addLogs(1);
+           parent.model.getPlayer().addLogs(1);
         }
     }
 

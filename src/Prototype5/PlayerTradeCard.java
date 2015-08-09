@@ -276,9 +276,13 @@ public class PlayerTradeCard {
     public void addGrain(boolean offer) {
         if (offer) {
             if (offers.containsKey(1)) {
-                offers.put(1, offers.get(1) + 1);
+                if(parent.model.getPlayer().getGrain() > offers.get(1)) {
+                    offers.put(1, offers.get(1) + 1);
+                }
             } else {
-                offers.put(1, 1);
+                if(parent.model.getPlayer().getGrain() > 0) {
+                    offers.put(1, 1);
+                }
             }
         } else {
             if (wants.containsKey(1)) {
@@ -300,9 +304,13 @@ public class PlayerTradeCard {
     public void addOre(boolean offer) {
         if (offer) {
             if (offers.containsKey(2)) {
-                offers.put(2, offers.get(2) + 1);
+                if(parent.model.getPlayer().getOre() > offers.get(2)) {
+                    offers.put(2, offers.get(2) + 1);
+                }
             } else {
-                offers.put(2, 1);
+                if(parent.model.getPlayer().getOre() > 0) {
+                    offers.put(2, 1);
+                }
             }
         } else {
             if (wants.containsKey(2)) {
@@ -324,11 +332,15 @@ public class PlayerTradeCard {
     public void addWool(boolean offer) {
         if (offer) {
             if (offers.containsKey(3)) {
-                offers.put(3, offers.get(3) + 1);
+                if (parent.model.getPlayer().getWool() > offers.get(3)) {
+                    offers.put(3, offers.get(3) + 1);
+                }
             } else {
-                offers.put(3, 1);
+                if (parent.model.getPlayer().getWool() > 0) {
+                    offers.put(3, 1);
+                }
             }
-        } else {
+        }else {
             if (wants.containsKey(3)) {
                 wants.put(3, wants.get(3) + 1);
             } else {
@@ -347,9 +359,13 @@ public class PlayerTradeCard {
     public void addBrick(boolean offer) {
         if (offer) {
             if (offers.containsKey(4)) {
-                offers.put(4, offers.get(4) + 1);
+                if(parent.model.getPlayer().getBrick() > offers.get(4)) {
+                    offers.put(4, offers.get(4) + 1);
+                }
             } else {
-                offers.put(4, 1);
+                if(parent.model.getPlayer().getBrick() > 0) {
+                    offers.put(4, 1);
+                }
             }
         } else {
             if (wants.containsKey(4)) {
@@ -370,9 +386,13 @@ public class PlayerTradeCard {
     public void addLog(boolean offer) {
         if (offer) {
             if (offers.containsKey(5)) {
-                offers.put(5, offers.get(5) + 1);
+                if(parent.model.getPlayer().getLogs() > offers.get(5)) {
+                    offers.put(5, offers.get(5) + 1);
+                }
             } else {
-                offers.put(5, 1);
+                if(parent.model.getPlayer().getLogs() > 0) {
+                    offers.put(5, 1);
+                }
             }
         } else {
             if (wants.containsKey(5)) {
