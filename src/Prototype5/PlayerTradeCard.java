@@ -219,8 +219,15 @@ public class PlayerTradeCard {
         return offers;
     }
 
-    public void setOffers(HashMap<Integer, Integer> offers) {
-        this.offers = offers;
+    public void setOffers(HashMap<Integer, Integer> newOffers) {
+        this.offers = new HashMap<Integer,Integer>();
+        for(int resource : newOffers.keySet()){
+            if(parent.model.getPlayer().getAllResource(resource) >= newOffers.get(resource)){
+                this.offers.put(resource,newOffers.get(resource));
+            } else{
+                this.offers.put(resource,parent.model.getPlayer().getAllResource(resource));
+            }
+        }
     }
 
     public HashMap<Integer, Integer> getWants() {

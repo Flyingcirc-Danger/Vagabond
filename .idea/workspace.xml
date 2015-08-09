@@ -8,10 +8,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f28f63ae-1344-4579-ab5b-77e189cbc3ad" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/HexPoint.java" afterPath="$PROJECT_DIR$/src/Prototype5/HexPoint.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/HexSide.java" afterPath="$PROJECT_DIR$/src/Prototype5/HexSide.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/HexTile.java" afterPath="$PROJECT_DIR$/src/Prototype5/HexTile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/PlayerInfo.java" afterPath="$PROJECT_DIR$/src/Prototype5/PlayerInfo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/PlayerTradeCard.java" afterPath="$PROJECT_DIR$/src/Prototype5/PlayerTradeCard.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/TradeFloor.java" afterPath="$PROJECT_DIR$/src/Prototype5/TradeFloor.java" />
     </list>
@@ -35,46 +31,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TradeFloor.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TradeFloor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Prototype5/TradeFloor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.925926">
-              <caret line="480" column="49" selection-start-line="480" selection-start-column="49" selection-end-line="480" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.8060606">
+              <caret line="528" column="28" selection-start-line="528" selection-start-column="16" selection-end-line="528" selection-end-column="28" />
               <folding>
-                <element signature="e#21995#21996#0" expanded="true" />
-                <element signature="e#22027#22028#0" expanded="true" />
-                <element signature="e#22086#22087#0" expanded="true" />
-                <element signature="e#22128#22129#0" expanded="true" />
-                <element signature="e#22170#22171#0" expanded="true" />
-                <element signature="e#22199#22200#0" expanded="true" />
-                <element signature="e#22252#22253#0" expanded="true" />
-                <element signature="e#22288#22289#0" expanded="true" />
-                <element signature="e#22328#22329#0" expanded="true" />
-                <element signature="e#22367#22368#0" expanded="true" />
-                <element signature="e#22428#22429#0" expanded="true" />
-                <element signature="e#22484#22485#0" expanded="true" />
-                <element signature="e#22520#22521#0" expanded="true" />
-                <element signature="e#22552#22553#0" expanded="true" />
-                <element signature="e#22603#22604#0" expanded="true" />
-                <element signature="e#22645#22646#0" expanded="true" />
-                <element signature="e#22683#22684#0" expanded="true" />
-                <element signature="e#22717#22718#0" expanded="true" />
-                <element signature="e#22772#22773#0" expanded="true" />
-                <element signature="e#22818#22819#0" expanded="true" />
-                <element signature="e#23920#23921#0" expanded="true" />
-                <element signature="e#23955#23956#0" expanded="true" />
-                <element signature="e#24073#24074#0" expanded="true" />
-                <element signature="e#24111#24112#0" expanded="true" />
+                <element signature="e#21997#21998#0" expanded="true" />
+                <element signature="e#22029#22030#0" expanded="true" />
+                <element signature="e#22088#22089#0" expanded="true" />
+                <element signature="e#22130#22131#0" expanded="true" />
+                <element signature="e#22172#22173#0" expanded="true" />
+                <element signature="e#22201#22202#0" expanded="true" />
+                <element signature="e#22254#22255#0" expanded="true" />
+                <element signature="e#22290#22291#0" expanded="true" />
+                <element signature="e#22330#22331#0" expanded="true" />
+                <element signature="e#22369#22370#0" expanded="true" />
+                <element signature="e#22430#22431#0" expanded="true" />
+                <element signature="e#22486#22487#0" expanded="true" />
+                <element signature="e#22522#22523#0" expanded="true" />
+                <element signature="e#22554#22555#0" expanded="true" />
+                <element signature="e#22605#22606#0" expanded="true" />
+                <element signature="e#22647#22648#0" expanded="true" />
+                <element signature="e#22685#22686#0" expanded="true" />
+                <element signature="e#22719#22720#0" expanded="true" />
+                <element signature="e#22774#22775#0" expanded="true" />
+                <element signature="e#22820#22821#0" expanded="true" />
+                <element signature="e#23922#23923#0" expanded="true" />
+                <element signature="e#23957#23958#0" expanded="true" />
+                <element signature="e#24075#24076#0" expanded="true" />
+                <element signature="e#24113#24114#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerTradeCard.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PlayerTradeCard.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Prototype5/PlayerTradeCard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.15538847">
-              <caret line="394" column="17" selection-start-line="394" selection-start-column="17" selection-end-line="394" selection-end-column="17" />
+            <state vertical-scroll-proportion="-4.9259257">
+              <caret line="540" column="45" selection-start-line="540" selection-start-column="44" selection-end-line="540" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -667,7 +663,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1276" height="777" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -687,7 +683,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20583469" sideWeight="0.4921875" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33722627" sideWeight="0.48055106" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.6788321" sideWeight="0.48055106" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1131,44 +1127,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/TradeFloor.java">
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/PlayerTradeCard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.925926">
-          <caret line="480" column="49" selection-start-line="480" selection-start-column="49" selection-end-line="480" selection-end-column="49" />
-          <folding>
-            <element signature="e#21995#21996#0" expanded="true" />
-            <element signature="e#22027#22028#0" expanded="true" />
-            <element signature="e#22086#22087#0" expanded="true" />
-            <element signature="e#22128#22129#0" expanded="true" />
-            <element signature="e#22170#22171#0" expanded="true" />
-            <element signature="e#22199#22200#0" expanded="true" />
-            <element signature="e#22252#22253#0" expanded="true" />
-            <element signature="e#22288#22289#0" expanded="true" />
-            <element signature="e#22328#22329#0" expanded="true" />
-            <element signature="e#22367#22368#0" expanded="true" />
-            <element signature="e#22428#22429#0" expanded="true" />
-            <element signature="e#22484#22485#0" expanded="true" />
-            <element signature="e#22520#22521#0" expanded="true" />
-            <element signature="e#22552#22553#0" expanded="true" />
-            <element signature="e#22603#22604#0" expanded="true" />
-            <element signature="e#22645#22646#0" expanded="true" />
-            <element signature="e#22683#22684#0" expanded="true" />
-            <element signature="e#22717#22718#0" expanded="true" />
-            <element signature="e#22772#22773#0" expanded="true" />
-            <element signature="e#22818#22819#0" expanded="true" />
-            <element signature="e#23920#23921#0" expanded="true" />
-            <element signature="e#23955#23956#0" expanded="true" />
-            <element signature="e#24073#24074#0" expanded="true" />
-            <element signature="e#24111#24112#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-4.9259257">
+          <caret line="540" column="45" selection-start-line="540" selection-start-column="44" selection-end-line="540" selection-end-column="45" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/PlayerTradeCard.java">
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/TradeFloor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.15538847">
-          <caret line="394" column="17" selection-start-line="394" selection-start-column="17" selection-end-line="394" selection-end-column="17" />
-          <folding />
+        <state vertical-scroll-proportion="0.8060606">
+          <caret line="528" column="28" selection-start-line="528" selection-start-column="16" selection-end-line="528" selection-end-column="28" />
+          <folding>
+            <element signature="e#21997#21998#0" expanded="true" />
+            <element signature="e#22029#22030#0" expanded="true" />
+            <element signature="e#22088#22089#0" expanded="true" />
+            <element signature="e#22130#22131#0" expanded="true" />
+            <element signature="e#22172#22173#0" expanded="true" />
+            <element signature="e#22201#22202#0" expanded="true" />
+            <element signature="e#22254#22255#0" expanded="true" />
+            <element signature="e#22290#22291#0" expanded="true" />
+            <element signature="e#22330#22331#0" expanded="true" />
+            <element signature="e#22369#22370#0" expanded="true" />
+            <element signature="e#22430#22431#0" expanded="true" />
+            <element signature="e#22486#22487#0" expanded="true" />
+            <element signature="e#22522#22523#0" expanded="true" />
+            <element signature="e#22554#22555#0" expanded="true" />
+            <element signature="e#22605#22606#0" expanded="true" />
+            <element signature="e#22647#22648#0" expanded="true" />
+            <element signature="e#22685#22686#0" expanded="true" />
+            <element signature="e#22719#22720#0" expanded="true" />
+            <element signature="e#22774#22775#0" expanded="true" />
+            <element signature="e#22820#22821#0" expanded="true" />
+            <element signature="e#23922#23923#0" expanded="true" />
+            <element signature="e#23957#23958#0" expanded="true" />
+            <element signature="e#24075#24076#0" expanded="true" />
+            <element signature="e#24113#24114#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

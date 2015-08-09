@@ -390,13 +390,13 @@ public class TradeFloor {
             if (Listeners.overRect(butX, butY, ((int) parent.textWidth(" Propose ")), 30, parent)) {
                 if (playerNeg == client) {
                     //if not countering a trade
-                    if(affordTradeWants(client)) {
+                    if(affordTradeOffers(client)) {
                         parent.model.setTradeManifest(ObjectParser.parseTrade(client, "all", false, false));
                     } else{
                         System.out.println("You Can't Afford That Trade"); //TODO: Add actual trade warning 2
                     }
                 } else {
-                    if(affordTradeWants(client)) {
+                    if(affordTradeOffers(client)) {
                         //if countering a trade the playerNeg will be set.
                         parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false, false));
                     } //TODO: Add actual trade warning 3
@@ -820,6 +820,27 @@ public class TradeFloor {
             }
         }
         if( matchesWant >= trade.getWants().size()){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+
+    /**
+     * Checks to see if a player can afford a trade from the perspective of
+     * what they offer
+     * @param trade
+     * @return
+     */
+    public boolean affordTradeOffers(PlayerTradeCard trade){
+        int matchesOffer = 0;
+        for(int id : trade.getOffers().keySet()){
+            if(parent.model.getPlayer().getAllResource(id) >= trade.getOffers().get(id)){
+                matchesOffer++;
+            }
+        }
+        if( matchesOffer >= trade.getOffers().size()){
             return true;
         } else{
             return false;
