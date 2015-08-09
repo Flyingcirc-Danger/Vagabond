@@ -23,8 +23,11 @@ public class PlayerDeckScreen {
     private boolean monopoly;
     private boolean monopolySuccess;
     private String monopolyResource;
+    private boolean YOP;
     private int resourceIndex;
     private HashMap<Integer,Integer> monopolyResults; //the results of playing a monopoly card.
+    private HashMap<Integer,Integer> YOPResources;
+    private int YOPAmt;
 
 
     public PlayerDeckScreen(Board parent, PlayerInfo player) {
@@ -39,6 +42,8 @@ public class PlayerDeckScreen {
         monopolyResource = new String();
         monopolyResults = new HashMap<Integer, Integer>();
         setupButtons();
+        resetYOP();
+
 
     }
 
@@ -109,7 +114,51 @@ public class PlayerDeckScreen {
         monAcceptOkay.textSize = 30;
         monAcceptOkay.start.x +=5;
         buttons.add(monAcceptOkay);
-
+        // 10 - 19 year of plenty resource buttons
+        // 10, 11 grain +/-
+        Button YOPGrainPlus = new Button(parent.loadImage("assets/discard/discardPlus.png"), parent);
+        buttons.add(YOPGrainPlus);
+        Button YOPGrainMinus = new Button(parent.loadImage("assets/discard/discardMinus.png"), parent);
+        buttons.add(YOPGrainMinus);
+        // 12, 13 ore +/-
+        Button YOPOrePlus = new Button(parent.loadImage("assets/discard/discardPlus.png"), parent);
+        buttons.add(YOPOrePlus);
+        Button YOPOreMinus = new Button(parent.loadImage("assets/discard/discardMinus.png"), parent);
+        buttons.add(YOPOreMinus);
+        // 14, 15 wool +/-
+        Button YOPWoolPlus = new Button(parent.loadImage("assets/discard/discardPlus.png"), parent);
+        buttons.add(YOPWoolPlus);
+        Button YOPWoolMinus = new Button(parent.loadImage("assets/discard/discardMinus.png"), parent);
+        buttons.add(YOPWoolMinus);
+        // 16, 17 brick +/-
+        Button YOPBrickPlus = new Button(parent.loadImage("assets/discard/discardPlus.png"), parent);
+        buttons.add(YOPBrickPlus);
+        Button YOPBrickMinus = new Button(parent.loadImage("assets/discard/discardMinus.png"), parent);
+        buttons.add(YOPBrickMinus);
+        // 18, 19 Logs +/-
+        Button YOPLogsPlus = new Button(parent.loadImage("assets/discard/discardPlus.png"), parent);
+        buttons.add(YOPLogsPlus);
+        Button YOPLogsMinus = new Button(parent.loadImage("assets/discard/discardMinus.png"), parent);
+        buttons.add(YOPLogsMinus);
+        //space out +/- buttons
+        runningTotal = (parent.SCREEN_WIDTH/2) - (550/2);
+        for(int i = 10; i < 20; i+=2) {
+            buttons.get(i).setStartX(runningTotal);
+            buttons.get(i+1).setStartX(runningTotal);
+            buttons.get(i).setStartY(parent.SCREEN_HEIGHT/2);
+            buttons.get(i+1).setStartY((parent.SCREEN_HEIGHT/2)+35);
+            runningTotal+=110;
+        }
+        // 20 -  YOP okay button
+        Button yopAcceptOkay = new Button(okayWidth,40,parent);
+        yopAcceptOkay.buttonText = "Okay";
+        yopAcceptOkay.curveSize = 5;
+        yopAcceptOkay.font = parent.fonts[1];
+        yopAcceptOkay.fontColor = new int[] {255,193,7};
+        yopAcceptOkay.color = new int[] {40, 53, 147};
+        yopAcceptOkay.textSize = 30;
+        yopAcceptOkay.start.x +=5;
+        buttons.add(yopAcceptOkay);
 
     }
 
@@ -124,7 +173,11 @@ public class PlayerDeckScreen {
             if(monopolySuccess){
                 displayMonopolySuccess();
                 return;
-            } else {
+            }
+            if(YOP){
+                displayYOPDialogue();
+            }
+            else {
                 parent.background(0, 188, 212);
                 int cardHeight = (parent.SCREEN_HEIGHT / 2);
                 int cardWidth = (int) (cardHeight / (1.4));
@@ -271,6 +324,93 @@ public class PlayerDeckScreen {
                     }
                 }
             }
+            if(YOP){
+                if(buttons.get(20).checkButton() && YOPAmt == 0){
+                    resolveYOP();
+                    resetYOP();
+                    removeCurrentCard();
+                }
+                //checkGrain plus
+                if(buttons.get(10).checkButton()){
+                    if(YOPAmt > 0) {
+                        YOPResources.put(1, YOPResources.get(1) + 1);
+                        YOPAmt--;
+                    }
+                }
+                //checkGrain minus
+                if(buttons.get(11).checkButton()){
+                    if(YOPAmt <= 2) {
+                        if(YOPResources.get(1) > 0) {
+                            YOPResources.put(1, YOPResources.get(1) - 1);
+                            YOPAmt++;
+                        }
+                    }
+                }
+                //checkOre plus
+                if(buttons.get(12).checkButton()){
+                    if(YOPAmt > 0) {
+                        YOPResources.put(2, YOPResources.get(2) + 1);
+                        YOPAmt--;
+                    }
+                }
+                //checkOre minus
+                if(buttons.get(13).checkButton()){
+                    if(YOPAmt <= 2) {
+                        if(YOPResources.get(2) > 0) {
+                            YOPResources.put(2, YOPResources.get(2) - 1);
+                            YOPAmt++;
+                        }
+                    }
+                }
+                //checkWool plus
+                if(buttons.get(14).checkButton()){
+                    if(YOPAmt > 0) {
+                        YOPResources.put(3, YOPResources.get(3) + 1);
+                        YOPAmt--;
+                    }
+                }
+                //checkWool minus
+                if(buttons.get(15).checkButton()){
+                    if(YOPAmt <= 2) {
+                        if(YOPResources.get(3) > 0) {
+                            YOPResources.put(3, YOPResources.get(3) - 1);
+                            YOPAmt++;
+                        }
+                    }
+                }
+                //checkBrick plus
+                if(buttons.get(16).checkButton()){
+                    if(YOPAmt > 0) {
+                        YOPResources.put(4, YOPResources.get(4) + 1);
+                        YOPAmt--;
+                    }
+                }
+                //checkBrick minus
+                if(buttons.get(17).checkButton()){
+                    if(YOPAmt <= 2) {
+                        if(YOPResources.get(4) > 0) {
+                            YOPResources.put(4, YOPResources.get(4) - 1);
+                            YOPAmt++;
+                        }
+                    }
+                }
+                //checkLogs plus
+                if(buttons.get(18).checkButton()){
+                    if(YOPAmt > 0) {
+                        YOPResources.put(5, YOPResources.get(5) + 1);
+                        YOPAmt--;
+                    }
+                }
+                //checkLogs minus
+                if(buttons.get(19).checkButton()){
+                    if(YOPAmt <= 2) {
+                        if(YOPResources.get(5) > 0) {
+                            YOPResources.put(5, YOPResources.get(5) - 1);
+                            YOPAmt++;
+                        }
+                    }
+                }
+            }
 
             else{
                 //current card button
@@ -294,6 +434,8 @@ public class PlayerDeckScreen {
                             parent.model.setGameStatusNotifier("Place 2 Free Roads");
                             removeCurrentCard();
 
+                        } if (playerDeck.get(selectionIndex).getType().equals("Year of Plenty")) {
+                            YOP = true;
                         }
 
                         else {
@@ -471,6 +613,119 @@ public class PlayerDeckScreen {
         int tempIndex = selectionIndex;
         playerDeck.remove(tempIndex);
         incSelectionIndex();
+    }
+
+    public void displayYOPDialogue(){
+        //red and yellow background
+        parent.textAlign(parent.CENTER);
+        parent.background(255,193,7);
+        parent.fill(198,40,40);
+        parent.stroke(0,0,0,0);
+        parent.rect(20,20,parent.SCREEN_WIDTH - 40, parent.SCREEN_HEIGHT - 40);
+        parent.fill(255,193,7);
+        parent.ellipse(0,0,100,100);
+        parent.ellipse(parent.SCREEN_WIDTH,0,100,100);
+        parent.ellipse(parent.SCREEN_WIDTH,parent.SCREEN_HEIGHT,100,100);
+        parent.ellipse(0,parent.SCREEN_HEIGHT,100,100);
+        parent.textFont(parent.fonts[1]);
+        parent.textSize(40);
+        parent.fill(0,0,0,30);
+        PImage YOPImg = parent.loadImage("assets/developmentCards/yearofplentyMD.png");
+        parent.image(YOPImg, parent.SCREEN_WIDTH/2 - (YOPImg.width/2), (parent.SCREEN_HEIGHT/2) - 150 - YOPImg.height);
+        parent.text("Choose " + YOPAmt + " Free Resources:", (parent.SCREEN_WIDTH / 2) + 2, (parent.SCREEN_HEIGHT / 2) - 100 + 2);
+        parent.fill(255,193,7);
+        parent.text("Choose "+ YOPAmt +" Free Resources:", (parent.SCREEN_WIDTH/2), (parent.SCREEN_HEIGHT/2) - 100);
+        parent.textSize(25);
+        //free resource buttons.
+        parent.textAlign(parent.CENTER);
+        parent.textSize(20);
+        int runningTotal = (parent.SCREEN_WIDTH/2) -(550/2);
+        runningTotal += 35;
+        buttons.get(10).display();
+        buttons.get(11).display();
+        parent.image(parent.loadImage("assets/discard/discardGrain.png"), runningTotal, parent.SCREEN_HEIGHT/2);
+        parent.fill(78,52,46);
+        parent.rect(runningTotal - 30, (parent.SCREEN_HEIGHT/2) + 80,100,30,5,5,5,5);
+        parent.fill(255);
+        parent.textSize(20);
+        parent.textFont(parent.fonts[0]);
+        parent.text(YOPResources.get(1), runningTotal - 30 + 50, (parent.SCREEN_HEIGHT/2) + 100);
+        buttons.get(12).display();
+        buttons.get(13).display();
+        runningTotal += 110;
+        parent.image(parent.loadImage("assets/discard/discardOre.png"), runningTotal, parent.SCREEN_HEIGHT/2);
+        parent.fill(78,52,46);
+        parent.rect(runningTotal -30, (parent.SCREEN_HEIGHT/2) + 80,100,30,5,5,5,5);
+        parent.fill(255);
+        parent.textSize(20);
+        parent.textFont(parent.fonts[0]);
+        parent.text(YOPResources.get(2), runningTotal - 30 + 50, (parent.SCREEN_HEIGHT/2) + 100);
+        buttons.get(14).display();
+        buttons.get(15).display();
+        runningTotal += 110;
+        parent.image(parent.loadImage("assets/discard/discardWool.png"), runningTotal, parent.SCREEN_HEIGHT/2);
+        parent.fill(78,52,46);
+        parent.rect(runningTotal -30, (parent.SCREEN_HEIGHT/2) + 80,100,30,5,5,5,5);
+        parent.fill(255);
+        parent.textSize(20);
+        parent.textFont(parent.fonts[0]);
+        parent.text(YOPResources.get(3), runningTotal - 30 + 50, (parent.SCREEN_HEIGHT/2) + 100);
+        buttons.get(16).display();
+        buttons.get(17).display();
+        runningTotal += 110;
+        parent.image(parent.loadImage("assets/discard/discardBrick.png"), runningTotal, parent.SCREEN_HEIGHT/2);
+        parent.fill(78,52,46);
+        parent.rect(runningTotal -30, (parent.SCREEN_HEIGHT/2) + 80,100,30,5,5,5,5);
+        parent.fill(255);
+        parent.textSize(20);
+        parent.textFont(parent.fonts[0]);
+        parent.text(YOPResources.get(4), runningTotal - 30 + 50, (parent.SCREEN_HEIGHT/2) + 100);
+        buttons.get(18).display();
+        buttons.get(19).display();
+        runningTotal += 110;
+        parent.image(parent.loadImage("assets/discard/discardLogs.png"), runningTotal, parent.SCREEN_HEIGHT/2);
+        parent.fill(78,52,46);
+        parent.rect(runningTotal -30, (parent.SCREEN_HEIGHT/2) + 80,100,30,5,5,5,5);
+        parent.fill(255);
+        parent.textSize(20);
+        parent.textFont(parent.fonts[0]);
+        parent.text(YOPResources.get(5), runningTotal - 30 + 50, (parent.SCREEN_HEIGHT/2) + 100);
+        buttons.get(20).setStartY((parent.SCREEN_HEIGHT/2) +140 );
+        //once 2 are selected
+        if(YOPAmt == 0){
+            buttons.get(20).display();
+        }
+
+
+
+    }
+
+    /**
+     * Resets all resource counts in the YOP to 0
+     */
+    private void resetYOP(){
+        YOPResources = new HashMap<Integer,Integer>();
+        YOPResources.put(1,0);
+        YOPResources.put(2,0);
+        YOPResources.put(3,0);
+        YOPResources.put(4,0);
+        YOPResources.put(5,0);
+        YOPAmt = 2;
+        YOP = false;
+    }
+
+    /**
+     * Gives the player their requested resources
+     */
+    private void resolveYOP(){
+        for(int resource : YOPResources.keySet()){
+            if(YOPResources.get(resource) > 0){
+                for(int i = 0; i < YOPResources.get(resource); i++){
+                    parent.model.getPlayer().giveResource(resource);
+                }
+            }
+        }
+
     }
 }
 

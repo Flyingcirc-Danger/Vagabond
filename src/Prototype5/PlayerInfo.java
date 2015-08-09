@@ -252,7 +252,6 @@ public class PlayerInfo {
      * @return
      */
     public void  giveResource(int resource){
-        System.out.println("I gain resource ID: " + resource);
         if(resource == 1){
             addGrain(1);
         }

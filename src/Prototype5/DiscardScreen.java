@@ -318,5 +318,11 @@ public class DiscardScreen {
         discardPile.put(5,0);
     }
 
+    public HashMap<Integer, Integer> getDiscardPile() {
+        return discardPile;
+    }
 
+    public void setDiscardPile(HashMap<Integer, Integer> discardPile) {
+        this.discardPile = discardPile;
+    }
 }
