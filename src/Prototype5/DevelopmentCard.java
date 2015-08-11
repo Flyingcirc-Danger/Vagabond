@@ -233,7 +233,9 @@ public class DevelopmentCard {
                     buttons.get(5).display();
                     buttons.get(2).display();
                     buttons.get(3).display();
-                    buttons.get(0).display();
+                    if(!type.equals("Victory Point")) {
+                        buttons.get(0).display();
+                    }
 
 //                StringBuffer text = new StringBuffer();
 //                ArrayList<DevelopmentCard> playerDeck = parent.model.getPlayer().getPlayerDeck();

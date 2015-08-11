@@ -52,6 +52,8 @@ public class ResourceBar {
         this.resources.add(new ResourceIcon(parent, "wool"));
         this.resources.add(new ResourceIcon(parent, "brick"));
         this.resources.add(new ResourceIcon(parent, "logs"));
+        this.resources.add(new ResourceIcon(parent, "army"));
+        this.resources.add(new ResourceIcon(parent, "victorypoint"));
         spaceResources();
     }
 
@@ -59,7 +61,7 @@ public class ResourceBar {
      * Spaces resources out on the bar
      */
     public void spaceResources(){
-        int tempCounter = (parent.SCREEN_WIDTH/2) - (350/2);
+        int tempCounter = (parent.SCREEN_WIDTH/2) - (490/2);
         for(ResourceIcon icon : resources){
             Point start = new Point(tempCounter, 5);
             icon.setStartPos(start);

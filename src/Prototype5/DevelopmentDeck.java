@@ -119,6 +119,9 @@ public class DevelopmentDeck {
         candidate.addToPlayerDeck();
         parent.model.getMenus().getDeckScreen().setSelectionIndex(
                 parent.model.getPlayer().getPlayerDeck().size() - 1);
+        if(candidate.getType().equals("Victory Point")){
+            parent.model.addVP();
+        }
         turnRemovedCards++;
     }
 
@@ -129,7 +132,9 @@ public class DevelopmentDeck {
      */
     public void removeCard(){
         System.out.println("Removing card " + deck.get(deck.size() -1).getId());
-        deck.remove(deck.size()-1);
+        if(deck.size() > 0) {
+            deck.remove(deck.size() - 1);
+        }
     }
 
     public int getTurnRemovedCards() {
@@ -139,4 +144,5 @@ public class DevelopmentDeck {
     public void setTurnRemovedCards(int turnRemovedCards) {
         this.turnRemovedCards = turnRemovedCards;
     }
+
 }

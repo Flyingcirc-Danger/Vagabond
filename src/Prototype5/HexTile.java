@@ -1,9 +1,11 @@
 package Prototype5;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -1075,6 +1077,7 @@ public class HexTile {
 
                             A.setSettled(true);
                             parent.model.settlementQuota++;
+                            parent.model.addVP();
                             A.generateManifest();
                         }
                     }
@@ -1085,6 +1088,7 @@ public class HexTile {
                             B.setOwner(model.getPlayer().getId());
                             B.setSettled(true);
                             parent.model.settlementQuota++;
+                            parent.model.addVP();
                             B.generateManifest();
                         }
                     }
@@ -1096,6 +1100,7 @@ public class HexTile {
                             C.setOwner(model.getPlayer().getId());
                             C.setSettled(true);
                             parent.model.settlementQuota++;
+                            parent.model.addVP();
                             C.generateManifest();
                         }
                     }
@@ -1107,6 +1112,7 @@ public class HexTile {
                             D.setOwner(model.getPlayer().getId());
                             D.setSettled(true);
                             parent.model.settlementQuota++;
+                            parent.model.addVP();
                             D.generateManifest();
                         }
                     }
@@ -1118,6 +1124,7 @@ public class HexTile {
                             E.setOwner(model.getPlayer().getId());
                             E.setSettled(true);
                             parent.model.settlementQuota++;
+                            parent.model.addVP();
                             E.generateManifest();
                         }
                     }
@@ -1129,6 +1136,7 @@ public class HexTile {
                             F.setOwner(model.getPlayer().getId());
                             F.setSettled(true);
                             parent.model.settlementQuota++;
+                            parent.model.addVP();
                             F.generateManifest();
                         }
                     }
@@ -1139,6 +1147,7 @@ public class HexTile {
                         if (!A.isCity()) {
 
                             A.setCity(true);
+                            parent.model.addVP();
                             A.generateManifest();
                         }
                         return;
@@ -1147,6 +1156,7 @@ public class HexTile {
                         if (!B.isCity()) {
                            // addOwner(model.getPlayer().getId());
                             B.setCity(true);
+                            parent.model.addVP();
                             B.generateManifest();
                         }
                         return;
@@ -1155,6 +1165,7 @@ public class HexTile {
                         if (!C.isCity()) {
                             //addOwner(model.getPlayer().getId());
                             C.setCity(true);
+                            parent.model.addVP();
                             C.generateManifest();
                         }
                         return;
@@ -1163,6 +1174,7 @@ public class HexTile {
                         if (!D.isCity()) {
                             //addOwner(model.getPlayer().getId());
                             D.setCity(true);
+                            parent.model.addVP();
                             D.generateManifest();
                         }
                         return;
@@ -1171,6 +1183,7 @@ public class HexTile {
                         if (!E.isCity()) {
                            // addOwner(model.getPlayer().getId());
                             E.setCity(true);
+                            parent.model.addVP();
                             E.generateManifest();
                         }
                         return;
@@ -1179,6 +1192,7 @@ public class HexTile {
                         if (!F.isCity()) {
                             //addOwner(model.getPlayer().getId());
                             F.setCity(true);
+                            parent.model.addVP();
                             F.generateManifest();
                         }
                         return;
@@ -1199,6 +1213,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     AB.setOwner(model.getPlayer().getId());
                     AB.setBuilt(true);
+                    AB.printRoadLength();
                     parent.model.roadQuota++;
                     AB.generateManifest();
                 }
@@ -1210,6 +1225,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     BC.setOwner(model.getPlayer().getId());
                     BC.setBuilt(true);
+                    BC.printRoadLength();
                     parent.model.roadQuota++;
                     BC.generateManifest();
 
@@ -1222,6 +1238,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     CD.setOwner(model.getPlayer().getId());
                     CD.setBuilt(true);
+                    CD.printRoadLength();
                     parent.model.roadQuota++;
                     CD.generateManifest();
                 }
@@ -1233,6 +1250,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     DE.setOwner(model.getPlayer().getId());
                     DE.setBuilt(true);
+                    DE.printRoadLength();
                     parent.model.roadQuota++;
                     DE.generateManifest();
 
@@ -1245,6 +1263,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     EF.setOwner(model.getPlayer().getId());
                     EF.setBuilt(true);
+                    EF.printRoadLength();
                     parent.model.roadQuota++;
                     EF.generateManifest();
                 }
@@ -1256,6 +1275,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     FA.setOwner(model.getPlayer().getId());
                     FA.setBuilt(true);
+                    FA.printRoadLength();
                     parent.model.roadQuota++;
                     FA.generateManifest();
                 }

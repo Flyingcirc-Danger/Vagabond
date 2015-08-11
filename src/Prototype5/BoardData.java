@@ -81,6 +81,10 @@ public class BoardData {
 
     private boolean messageToggle; //a toggle for recieving/parsing messages
 
+    private int victoryPoints;
+
+    private int armySize;
+
 
 
 
@@ -129,6 +133,8 @@ public class BoardData {
         this.gameStatusNotifier = new String();
         messageToggle = false;
         freeRoad = 0;
+        this.victoryPoints = 0;
+        this.armySize = 0;
 
     }
 
@@ -171,6 +177,8 @@ public class BoardData {
         displayToggle = false;
         messageToggle = false;
         freeRoad = 0;
+        this.victoryPoints = 0;
+        this.armySize = 0;
 
 
     }
@@ -1059,6 +1067,29 @@ public class BoardData {
     }
 
 
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
+
+    public void setVictoryPoints(int victoryPoints) {
+        this.victoryPoints = victoryPoints;
+    }
+
+    public void addVP(){
+        this.victoryPoints++;
+    }
+
+    public int getArmySize() {
+        return armySize;
+    }
+
+    public void setArmySize(int armySize) {
+        this.armySize = armySize;
+    }
+
+    public void addKnight(){
+        this.armySize++;
+    }
 }
 
 

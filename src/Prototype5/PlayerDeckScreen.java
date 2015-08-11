@@ -443,6 +443,7 @@ public class PlayerDeckScreen {
                             open = false;
                             removeCurrentCard();
                             parent.model.getMenus().getRobDialogue().setToolSwitch();
+                            parent.model.addKnight();
                         }
 
                         else {
@@ -738,6 +739,7 @@ public class PlayerDeckScreen {
         }
 
     }
+
 }
 
 

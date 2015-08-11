@@ -71,6 +71,12 @@ public class ResourceIcon {
         if(resource.equals("brick")){
             return parent.model.getPlayer().getBrick();
         }
+        if(resource.equals("army")){
+            return parent.model.getArmySize();
+        }
+        if(resource.equals("victorypoint")){
+            return parent.model.getVictoryPoints();
+        }
         return parent.model.getPlayer().getLogs();
     }
 
@@ -97,6 +103,12 @@ public class ResourceIcon {
         }
         if(resource.equals("brick")){
             return parent.images[4];
+        }
+        if(resource.equals("army")){
+            return parent.images[24];
+        }
+        if(resource.equals("victorypoint")){
+            return parent.images[23];
         }
             return parent.images[5];
         }

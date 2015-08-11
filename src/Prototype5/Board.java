@@ -49,7 +49,7 @@ public class Board extends PApplet {
         textSize(14);
         background(0, 188, 212);
         this.currentTool = 0;
-        this.images = new PImage[23];
+        this.images = new PImage[25];
         this.resourceIMG = new PImage[11];
         this.images[0] = loadImage("assets/logoSM.png");
         this.images[1] = loadImage("assets/grainSM.png");
@@ -76,6 +76,8 @@ public class Board extends PApplet {
         this.images[20] = loadImage("assets/noTradeSM.png");
         this.images[21] = loadImage("assets/tradeRejectSM.png");
         this.images[22] = loadImage("assets/developmentCards/cardBack.png");
+        this.images[23] = loadImage("assets/victorypointSM.png");
+        this.images[24] = loadImage("assets/armySM.png");
 
 
 

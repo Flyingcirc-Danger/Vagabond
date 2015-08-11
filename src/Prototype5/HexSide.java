@@ -4,7 +4,9 @@ package Prototype5;
 import processing.core.PApplet;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+
 
 /**
  * An object representing a side of a hex.
@@ -90,6 +92,8 @@ public class HexSide {
             parent.vertex(aStart.x - slopeY, aStart.y + slopeX);
             parent.vertex(bStart.x - slopeY, bStart.y + slopeX);
             parent.endShape();
+            parent.fill(0);
+            parent.text(id, midPoint.x,midPoint.y);
         }
     }
 
@@ -291,8 +295,145 @@ public class HexSide {
     }
 
 
+    public int settledNeighborCount(){
+        int result = 0;
+        for(HexSide neighbor : neighbors){
+            if(neighbor.isBuilt()){
+                result++;
+            }
+        }
+        return result;
+    }
 
 
 
 
-}
+
+
+
+
+    public ArrayList<HexSide>checkLength(){
+        if(!isBuilt()){
+            return new ArrayList<HexSide>();
+        } else {
+            int owner = this.getOwner();
+            ArrayList<HexSide> start = checkStartLength(new ArrayList<HexSide>(),this.getStart(),owner);
+            if(start.size() > 1) {
+                start.remove(this);
+                ArrayList<HexSide> end = checkEndLength(start,this.getEnd(),owner);
+                return end;
+            } else {
+                ArrayList<HexSide> end = checkEndLength(new ArrayList<HexSide>(),this.getEnd(),owner);
+                return end;
+            }
+        }
+    }
+
+    public HexPoint commonPoint( HexSide b){
+        if(this.getStart() == b.getStart()){
+            return this.getStart();
+        }
+        if(this.getStart() == b.getEnd()){
+            return this.getStart();
+        }
+        if(this.getEnd() == b.getEnd()){
+            return this.getEnd();
+        } else{
+            return this.getEnd();
+        }
+    }
+
+
+    public ArrayList<HexSide> checkStartLength(ArrayList<HexSide> path, HexPoint prev,int owner){
+        if(!isBuilt()){
+            return path;
+        }
+        if(path.contains(this)){
+            return path;
+        }
+        if(owner != this.getOwner()){
+            return path;
+        }
+        else{
+            if(!path.contains(this)) {
+                path.add(this);
+                ArrayList<HexSide> longestStart = new ArrayList<HexSide>();
+                for (HexSide neighbor : neighbors) {
+                    //don't turn back on itself
+                    if (neighbor.getEnd() != prev && neighbor.getStart() != prev) {
+                        //find the common join
+                        HexPoint newPrev = findJoin(neighbor);
+                        ArrayList<HexSide> temp = new ArrayList<HexSide>();
+                        temp = neighbor.checkStartLength(new ArrayList<HexSide>(),newPrev,owner);
+                        if (temp.size() > longestStart.size()) {
+                            longestStart = new ArrayList<HexSide>();
+                            longestStart.addAll(temp);
+                        }
+                    }
+                }
+                path.addAll(longestStart);
+                return path;
+            } else {
+                return new ArrayList<HexSide>();
+            }
+        }
+    }
+
+
+    public ArrayList<HexSide> checkEndLength(ArrayList<HexSide> path, HexPoint prev,int owner){
+        if(!isBuilt()){
+            return path;
+        } if(path.contains(this)){
+            return path;
+        }
+        if(owner != this.getOwner()){
+            return path;
+        }
+        else{
+            if(!path.contains(this)) {
+                path.add(this);
+                ArrayList<HexSide> longestEnd = new ArrayList<HexSide>();
+                for (HexSide neighbor : neighbors) {
+                    //dont go back on self
+                    if (neighbor.getStart() != prev && neighbor.getEnd() != prev) {
+                        HexPoint newPrev = findJoin(neighbor);
+                        ArrayList<HexSide> temp = new ArrayList<HexSide>();
+                        temp = neighbor.checkEndLength(new ArrayList<HexSide>(), newPrev,owner);
+                        if (temp.size() > longestEnd.size()) {
+                            longestEnd = new ArrayList<HexSide>();
+                            longestEnd.addAll(temp);
+                        }
+                    }
+                }
+                path.addAll(longestEnd);
+                return path;
+            } else {
+                return new ArrayList<HexSide>();
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+    public void printRoadLength(){
+        ArrayList<HexSide> roadList = this.checkLength();
+        StringBuffer result = new StringBuffer();
+        result.append("{");
+        for(HexSide side : roadList){
+            result.append(" " + side.getId() + ",");
+        }
+        result.append("} - Size: " + roadList.size());
+        System.out.println(result);
+    }
+
+
+    }
+
+
+
+
