@@ -32,6 +32,8 @@ public class Board extends PApplet {
 
     public PFont[] fonts;
 
+    public Notification test;
+
 
 
 
@@ -103,6 +105,7 @@ public class Board extends PApplet {
 
 
         frameRate(10.0f);
+
 
 
 

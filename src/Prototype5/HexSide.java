@@ -93,7 +93,7 @@ public class HexSide {
             parent.vertex(bStart.x - slopeY, bStart.y + slopeX);
             parent.endShape();
             parent.fill(0);
-            parent.text(id, midPoint.x,midPoint.y);
+           //FOR DEBUGGING: parent.text(id, midPoint.x,midPoint.y);
         }
     }
 
@@ -415,11 +415,6 @@ public class HexSide {
 
 
 
-
-
-
-
-
     public void printRoadLength(){
         ArrayList<HexSide> roadList = this.checkLength();
         StringBuffer result = new StringBuffer();
@@ -429,6 +424,27 @@ public class HexSide {
         }
         result.append("} - Size: " + roadList.size());
         System.out.println(result);
+    }
+
+
+    public void resolveLongestRoad(){
+        int length = this.checkLength().size();
+        VictoryBonus compare = parent.model.getVictoryBonus();
+        if(length >= 5 && length > compare.getRoadSize()){
+            //if i've not already got the largest road
+            if(compare.getRoadID() != parent.model.getPlayer().getId()){
+                parent.model.addVP();
+                parent.model.addVP();
+                compare.setRoadID(parent.model.getPlayer().getId());
+                compare.setRoadSize(length);
+                parent.model.getVictoryBonus().setRoadVisible(true);
+                parent.model.setBonusManifest(parent.model.getVictoryBonus().generateBonusManifest("road"));
+            } else{
+                //if i've already got the longest road, just update the length
+                compare.setRoadSize(length);
+            }
+
+        }
     }
 
 

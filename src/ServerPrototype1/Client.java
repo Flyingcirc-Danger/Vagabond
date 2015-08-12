@@ -38,13 +38,15 @@ public class Client {
                         System.out.println("Sent Steal");
                         String steal = model.getStealManifestString();
                         connection.write(steal);
-                    }
-                    else if(model.cardReady){
+                    } else if(model.cardReady){
                         System.out.println("Sent Card");
                         String card = model.getCardManifestString();
                         connection.write(card);
-                    }
-                    else if(connection.getMessage().length() > 0){
+                    } else if(model.bonusReady){
+                        System.out.println("Sent victory bonus");
+                        String bonus = model.getBonusManifestString();
+                        connection.write(bonus);
+                    } else if(connection.getMessage().length() > 0){
                         //HANDLES Replies. If the message is an XML reply
                         String sendMessage = connection.getMessage();
                         if(connection.getMessage().length() > 1){

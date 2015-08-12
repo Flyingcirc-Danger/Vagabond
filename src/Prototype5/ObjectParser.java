@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
+import java.awt.image.RasterOp;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -960,6 +961,10 @@ public class ObjectParser {
                 System.out.println("request received card");
                 readCard(model, XML);
             }
+            else if(doc.getElementsByTagName("victorybonus").getLength() > 0){
+                System.out.println("request received victoryBonus");
+                readVictoryBonus(model, XML);
+            }
             model.setMessageToggle(false);
         } catch (IOException e) {
             e.printStackTrace();
@@ -1036,6 +1041,10 @@ public class ObjectParser {
             if(doc.getElementsByTagName("card").getLength() > 0){
                 currentGame.lastMessageType = 2;
                 return 5;
+            }
+            if(doc.getElementsByTagName("victorybonus").getLength() > 0){
+                currentGame.lastMessageType = 2;
+                return 6;
             }
 
 
@@ -1813,6 +1822,44 @@ public class ObjectParser {
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void readVictoryBonus(BoardData model, String XML){
+        try {
+            Document dom = stringToDom(XML);
+            NodeList victory = dom.getElementsByTagName("victorybonus");
+            int id = Integer.parseInt(dom.getElementsByTagName("id").item(0).getTextContent());
+            int size = Integer.parseInt(dom.getElementsByTagName("size").item(0).getTextContent());
+            String type = dom.getElementsByTagName("type").item(0).getTextContent();
+            int fromID = Integer.parseInt(dom.getElementsByTagName("from").item(0).getTextContent());
+            PlayerInfo player = model.getPlayer();
+            VictoryBonus bonus = model.getVictoryBonus();
+            if(type.equals("knight")){
+                if(bonus.getArmyID() != id && bonus.getArmyID() == player.getId()) {
+                    model.subVP();
+                    model.subVP();
+                    model.setGameStatusNotifier("You Lose the Largest Army");
+                }
+                bonus.setArmyID(id);
+                bonus.setArmySize(size);
+            }
+            if(type.equals("road")){
+                if(bonus.getRoadID() != id && bonus.getRoadID() == player.getId()) {
+                    model.subVP();
+                    model.subVP();
+                    model.setGameStatusNotifier("You Lose the Longest Road");
+                }
+                bonus.setRoadID(id);
+                bonus.setRoadSize(size);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

@@ -28,6 +28,8 @@ public class PlayerDeckScreen {
     private HashMap<Integer,Integer> monopolyResults; //the results of playing a monopoly card.
     private HashMap<Integer,Integer> YOPResources;
     private int YOPAmt;
+    private ArrayList<Notification> notifications; // the notification dialogues on this screen.
+    private boolean notification; //the flag for whether or not a notification is active
 
 
     public PlayerDeckScreen(Board parent, PlayerInfo player) {
@@ -41,8 +43,10 @@ public class PlayerDeckScreen {
         monopolySuccess = false;
         monopolyResource = new String();
         monopolyResults = new HashMap<Integer, Integer>();
+        this.notification = false;
         setupButtons();
         resetYOP();
+        setupNotifications();
 
 
     }
@@ -162,9 +166,17 @@ public class PlayerDeckScreen {
 
     }
 
+
+    public void setupNotifications(){
+        notifications = new ArrayList<Notification>();
+        Notification cantAfford = new Notification(parent,"You can't afford to buy a card",20);
+        notifications.add(cantAfford);
+    }
+
     public void display() {
 
         if (isOpen()) {
+            notifications.get(0).display();
             //if a monopoly card has been played
             if (monopoly) {
                 displayMonopolyDialogue();
@@ -280,6 +292,7 @@ public class PlayerDeckScreen {
 
     public void checkButtons() {
         if (isOpen()) {
+            notifications.get(0).checkButtons();
             //if a monopoly card has been played
             if(monopolySuccess){
                 if(buttons.get(9).checkButton()){
@@ -419,6 +432,7 @@ public class PlayerDeckScreen {
                     //back button
                     if (buttonPress == 3) {
                         open = false;
+                        parent.model.getMenus().getDeckScreen().getNotifications().get(0).setVisible(false);
                     }
                     //play card button
                     if (buttonPress == 4) {
@@ -444,11 +458,23 @@ public class PlayerDeckScreen {
                             removeCurrentCard();
                             parent.model.getMenus().getRobDialogue().setToolSwitch();
                             parent.model.addKnight();
+                            if(parent.model.getArmySize() >= 3){
+                                int currentSize = parent.model.getArmySize();
+                                VictoryBonus vb =  parent.model.getVictoryBonus();
+                                if( currentSize > vb.getArmySize() && parent.model.getPlayer().getId() !=
+                                       vb.getArmyID()){
+                                    vb.setArmySize(parent.model.getArmySize());
+                                    vb.setArmyID(parent.model.getPlayer().getId());
+                                    vb.setArmyVisible(true);
+                                    parent.model.setBonusManifest(vb.generateBonusManifest("knight"));
+                                }
+                            }
                         }
 
                         else {
                             monopoly = false;
                         }
+
                     }
                     if (playerDeck.size() > 1) {
                         if (buttonPress == 1) {
@@ -471,11 +497,20 @@ public class PlayerDeckScreen {
                 } else {
                     //purchase card
                     if (buttons.get(0).checkButton()) {
-                        parent.model.getMenus().getDevDeck().getCard();
+                        PlayerInfo player = parent.model.getPlayer();
+                        if(player.getWool() > 0 && player.getGrain() > 0 && player.getOre() > 0) {
+                            parent.model.getMenus().getDevDeck().getCard();
+                            player.subtractWool(1);
+                            player.subtractGrain(1);
+                            player.subtractOre(1);
+                        } else{
+                            notifications.get(0).setVisible(true);
+                        }
                     }
                     //back button
                     if (buttons.get(1).checkButton()) {
                         open = false;
+                        parent.model.getMenus().getDeckScreen().getNotifications().get(0).setVisible(false);
                     }
                 }
             }
@@ -740,6 +775,13 @@ public class PlayerDeckScreen {
 
     }
 
+    public ArrayList<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(ArrayList<Notification> notifications) {
+        this.notifications = notifications;
+    }
 }
 
 

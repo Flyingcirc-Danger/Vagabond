@@ -236,17 +236,8 @@ public class DevelopmentCard {
                     if(!type.equals("Victory Point")) {
                         buttons.get(0).display();
                     }
-
-//                StringBuffer text = new StringBuffer();
-//                ArrayList<DevelopmentCard> playerDeck = parent.model.getPlayer().getPlayerDeck();
-//                text.append("Index: " + parent.model.getMenus().getDeckScreen().getSelectionIndex() + "\n");
-//                for(int i = 0; i < playerDeck.size(); i++){
-//                    text.append( i + ": " + playerDeck.get(i).getId() + "\n");
-//                }
-//                parent.textSize(10);
-//                parent.text(text.toString(), 100, parent.SCREEN_HEIGHT);
                 }
-
+            parent.model.getMenus().getDeckScreen().getNotifications().get(0).display();
             }
         }
 
@@ -316,9 +307,17 @@ public class DevelopmentCard {
             return 0;
         }
         } else {
-            //new card button
+            // buy a new new card button
             if (buttons.get(5).checkButton()) {
-                parent.model.getMenus().getDevDeck().getCard();
+                PlayerInfo player = parent.model.getPlayer();
+                if(player.getWool() > 0 && player.getGrain() > 0 && player.getOre() > 0) {
+                    parent.model.getMenus().getDevDeck().getCard();
+                    player.subtractWool(1);
+                    player.subtractGrain(1);
+                    player.subtractOre(1);
+                } else{
+                    parent.model.getMenus().getDeckScreen().getNotifications().get(0).setVisible(true);
+                }
                 return 0;
             }
             //next button
@@ -332,6 +331,7 @@ public class DevelopmentCard {
             }
             //back button
             if (buttons.get(1).checkButton()) {
+                parent.model.getMenus().getDeckScreen().getNotifications().get(0).setVisible(false);
                 return 3;
             }
             //play button

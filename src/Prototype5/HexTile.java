@@ -1213,7 +1213,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     AB.setOwner(model.getPlayer().getId());
                     AB.setBuilt(true);
-                    AB.printRoadLength();
+                    AB.resolveLongestRoad();
                     parent.model.roadQuota++;
                     AB.generateManifest();
                 }
@@ -1225,7 +1225,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     BC.setOwner(model.getPlayer().getId());
                     BC.setBuilt(true);
-                    BC.printRoadLength();
+                    BC.resolveLongestRoad();
                     parent.model.roadQuota++;
                     BC.generateManifest();
 
@@ -1238,7 +1238,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     CD.setOwner(model.getPlayer().getId());
                     CD.setBuilt(true);
-                    CD.printRoadLength();
+                    CD.resolveLongestRoad();
                     parent.model.roadQuota++;
                     CD.generateManifest();
                 }
@@ -1250,7 +1250,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     DE.setOwner(model.getPlayer().getId());
                     DE.setBuilt(true);
-                    DE.printRoadLength();
+                    DE.resolveLongestRoad();
                     parent.model.roadQuota++;
                     DE.generateManifest();
 
@@ -1263,7 +1263,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     EF.setOwner(model.getPlayer().getId());
                     EF.setBuilt(true);
-                    EF.printRoadLength();
+                    EF.resolveLongestRoad();
                     parent.model.roadQuota++;
                     EF.generateManifest();
                 }
@@ -1275,7 +1275,7 @@ public class HexTile {
                 if (checkAffordBuild("road")) {
                     FA.setOwner(model.getPlayer().getId());
                     FA.setBuilt(true);
-                    FA.printRoadLength();
+                    FA.resolveLongestRoad();
                     parent.model.roadQuota++;
                     FA.generateManifest();
                 }

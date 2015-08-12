@@ -184,6 +184,10 @@ public class ServerToClientConnection {
                     System.out.println("Propagating card ");
                     record.setCurrent(message);
                 }
+                //for victory bonus
+                if(parseVal == 6){
+                    record.setCurrent(message);
+                }
             }
         }
             heartBeat.put(id, message);
