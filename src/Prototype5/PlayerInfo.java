@@ -24,7 +24,7 @@ public class PlayerInfo {
         this.uname = uname;
         this.score = score;
         this.id = id;
-        this.resources = new int[]{4,4,4,4,4};
+        this.resources = new int[]{50,50,50,50,50};
         stealFlag = false;
         this.playerDeck = new ArrayList<DevelopmentCard>();
         this.inactiveKnights = new ArrayList<DevelopmentCard>();
@@ -34,7 +34,7 @@ public class PlayerInfo {
 
     public PlayerInfo(int id){
         this.id = id;
-        this.resources = new int[]{4,2,4,4,4};
+        this.resources = new int[]{50,50,50,50,50};
         this.playerDeck = new ArrayList<DevelopmentCard>();
         this.inactiveKnights = new ArrayList<DevelopmentCard>();
 

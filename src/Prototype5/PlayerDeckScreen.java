@@ -29,7 +29,6 @@ public class PlayerDeckScreen {
     private HashMap<Integer,Integer> YOPResources;
     private int YOPAmt;
     private ArrayList<Notification> notifications; // the notification dialogues on this screen.
-    private boolean notification; //the flag for whether or not a notification is active
 
 
     public PlayerDeckScreen(Board parent, PlayerInfo player) {
@@ -43,7 +42,6 @@ public class PlayerDeckScreen {
         monopolySuccess = false;
         monopolyResource = new String();
         monopolyResults = new HashMap<Integer, Integer>();
-        this.notification = false;
         setupButtons();
         resetYOP();
         setupNotifications();
@@ -144,13 +142,15 @@ public class PlayerDeckScreen {
         buttons.add(YOPLogsPlus);
         Button YOPLogsMinus = new Button(parent.loadImage("assets/discard/discardMinus.png"), parent);
         buttons.add(YOPLogsMinus);
-        //space out +/- buttons
+        //space out +/- buttons and set their alt imge
         runningTotal = (parent.SCREEN_WIDTH/2) - (550/2);
         for(int i = 10; i < 20; i+=2) {
             buttons.get(i).setStartX(runningTotal);
             buttons.get(i+1).setStartX(runningTotal);
             buttons.get(i).setStartY(parent.SCREEN_HEIGHT/2);
             buttons.get(i+1).setStartY((parent.SCREEN_HEIGHT/2)+35);
+            buttons.get(i).setAltImage(parent.loadImage("assets/discard/discardPlusDisabled.png"));
+            buttons.get(i+1).setAltImage(parent.loadImage("assets/discard/discardMinusDisabled.png"));
             runningTotal+=110;
         }
         // 20 -  YOP okay button
@@ -352,6 +352,7 @@ public class PlayerDeckScreen {
                         YOPResources.put(1, YOPResources.get(1) + 1);
                         YOPAmt--;
                     }
+
                 }
                 //checkGrain minus
                 if(buttons.get(11).checkButton()){
@@ -657,6 +658,7 @@ public class PlayerDeckScreen {
     }
 
     public void displayYOPDialogue(){
+        resolveDisabledImages();
         //red and yellow background
         parent.textAlign(parent.CENTER);
         parent.background(255,193,7);
@@ -682,6 +684,7 @@ public class PlayerDeckScreen {
         parent.textSize(20);
         int runningTotal = (parent.SCREEN_WIDTH/2) -(550/2);
         runningTotal += 35;
+
         buttons.get(10).display();
         buttons.get(11).display();
         parent.image(parent.loadImage("assets/discard/discardGrain.png"), runningTotal, parent.SCREEN_HEIGHT/2);
@@ -735,7 +738,19 @@ public class PlayerDeckScreen {
         //once 2 are selected
         if(YOPAmt == 0){
             buttons.get(20).display();
+            for(int i = 10; i < 20; i+=2) {
+                 buttons.get(i).useAlt = true;
+                buttons.get(i+1).useAlt = false;
+            }
         }
+        if(YOPAmt == 2){
+            buttons.get(20).display();
+            for(int i = 10; i < 20; i+=2) {
+                buttons.get(i).useAlt = false;
+                buttons.get(i+1).useAlt = true;
+            }
+        }
+
 
 
 
@@ -783,6 +798,89 @@ public class PlayerDeckScreen {
     public void setNotifications(ArrayList<Notification> notifications) {
         this.notifications = notifications;
     }
+
+    /**
+     * Determines when to show the disabled +/- buttons
+     */
+    private void resolveDisabledImages(){
+        //grain
+        if(YOPResources.get(1) == 2){
+            buttons.get(10).useAlt = true;
+            buttons.get(11).useAlt = false;
+        }
+        if(YOPResources.get(1) == 0){
+            buttons.get(10).useAlt = false;
+            buttons.get(11).useAlt = true;
+        }
+        if(YOPResources.get(1) == 1){
+            buttons.get(10).useAlt = false;
+            buttons.get(11).useAlt = false;
+        }
+        //ore
+        if(YOPResources.get(2) == 2){
+            buttons.get(12).useAlt = true;
+            buttons.get(13).useAlt = false;
+        }
+        if(YOPResources.get(2) == 0){
+            buttons.get(12).useAlt = false;
+            buttons.get(13).useAlt = true;
+        }
+        if(YOPResources.get(2) == 1){
+            buttons.get(12).useAlt = false;
+            buttons.get(13).useAlt = false;
+        }
+        //wool
+        if(YOPResources.get(3) == 2){
+            buttons.get(14).useAlt = true;
+            buttons.get(15).useAlt = false;
+        }
+        if(YOPResources.get(3) == 0){
+            buttons.get(14).useAlt = false;
+            buttons.get(15).useAlt = true;
+        }
+        if(YOPResources.get(3) == 1){
+            buttons.get(14).useAlt = false;
+            buttons.get(15).useAlt = false;
+        }
+        //brick
+        if(YOPResources.get(4) == 2){
+            buttons.get(16).useAlt = true;
+            buttons.get(17).useAlt = false;
+        }
+        if(YOPResources.get(4) == 0){
+            buttons.get(16).useAlt = false;
+            buttons.get(17).useAlt = true;
+        }
+        if(YOPResources.get(4) == 1){
+            buttons.get(16).useAlt = false;
+            buttons.get(17).useAlt = false;
+        }
+        //logs
+        if(YOPResources.get(5) == 2){
+            buttons.get(18).useAlt = true;
+            buttons.get(19).useAlt = false;
+        }
+        if(YOPResources.get(5) == 0){
+            buttons.get(18).useAlt = false;
+            buttons.get(19).useAlt = true;
+        }
+        if(YOPResources.get(5) == 1){
+            buttons.get(18).useAlt = false;
+            buttons.get(19).useAlt = false;
+        }
+        if(YOPAmt == 0){
+            for(int i = 10; i < 20; i+=2){
+                buttons.get(i).useAlt = true;
+            }
+        }
+        if(YOPAmt == 2){
+            for(int i = 10; i < 20; i+=2){
+                buttons.get(i+1).useAlt = true;
+            }
+        }
+    }
 }
+
+
 
 

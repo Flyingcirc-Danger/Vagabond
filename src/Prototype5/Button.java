@@ -24,8 +24,10 @@ public class Button {
     private Board parent;
     public Point textStart;
     public PImage icon;
+    public PImage altImage; //if there is a disabled image use this.
     public boolean isIcon;
     public PFont font;
+    public boolean useAlt;
 
 
     public Button(Point start, int width, int height, int curveSize, int[] color, Board parent){
@@ -41,6 +43,7 @@ public class Button {
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2) -2);
         font = parent.fonts[0];
+        useAlt = false;
     }
 
     public Button(int x, int y, int width, int height,Board parent){
@@ -56,21 +59,23 @@ public class Button {
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2)-2);
         font = parent.fonts[0];
+        useAlt = false;
     }
 
-    public Button(int x, int y, int width, int height, int[] color,Board parent){
-        this.start= new Point(x,y);
-        this.width = width ;
+    public Button(int x, int y, int width, int height, int[] color,Board parent) {
+        this.start = new Point(x, y);
+        this.width = width;
         this.height = height;
         this.color = color;
         this.curveSize = 0;
-        this.shadow = new int[]{0,0,0,30};
+        this.shadow = new int[]{0, 0, 0, 30};
         this.parent = parent;
         this.buttonText = "No Text";
         textSize = 20;
-        fontColor = new int[]{255,255,255};
-        textStart = new Point(start.x + (width/2),start.y + (height/2)-2);
+        fontColor = new int[]{255, 255, 255};
+        textStart = new Point(start.x + (width / 2), start.y + (height / 2) - 2);
         font = parent.fonts[0];
+        useAlt = false;
     }
 
     public Button(int x, int y, int width, int height,int [] color, String buttonText, Board parent){
@@ -86,6 +91,7 @@ public class Button {
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2)-2);
         font = parent.fonts[0];
+        useAlt = false;
     }
 
     public Button(int width, int height,Board parent){
@@ -101,6 +107,7 @@ public class Button {
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2)-2);
         font = parent.fonts[0];
+        useAlt = false;
     }
 
     public Button(int width, int height,String buttonText, Board parent){
@@ -116,6 +123,7 @@ public class Button {
         fontColor = new int[]{255,255,255};
         textStart = new Point(start.x + (width/2),start.y + (height/2)-2);
         font = parent.fonts[0];
+        useAlt = false;
     }
 
     public Button(PImage icon, int x, int y, Board parent){
@@ -127,7 +135,7 @@ public class Button {
         textStart = new Point();
         this.parent = parent;
         font = parent.fonts[0];
-
+        useAlt = false;
     }
 
     public Button(PImage icon, Board parent){
@@ -139,12 +147,17 @@ public class Button {
         this.parent = parent;
         textStart = new Point();
         font = parent.fonts[0];
+        useAlt = false;
     }
 
     public void display(){
         parent.textSize(textSize);
         if(isIcon){
-            parent.image(icon,start.x,start.y);
+            if(useAlt){
+                parent.image(altImage, start.x, start.y);
+            } else {
+                parent.image(icon, start.x, start.y);
+            }
         }else {
             if (width < parent.textWidth(buttonText) + 40) {
                 width = 40 + (int) parent.textWidth(buttonText);
@@ -213,6 +226,14 @@ public class Button {
             height = textSize + 20;
         }
 
+    }
+
+    /**
+     * Sets the alternate image for this button
+     * @param altImage the image to serve as an alt image
+     */
+    public void setAltImage(PImage altImage){
+        this.altImage = altImage;
     }
 
 
