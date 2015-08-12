@@ -149,12 +149,30 @@ public class DevelopmentCard {
             ruleText = "When you play this card, you can build two roads free of charge";
         }
         if (this.large) {
-
+            parent.model.getMenus().getResourceBar().display();
             parent.stroke(0, 0, 0, 0);
             int cardHeight = (parent.SCREEN_HEIGHT / 2);
             int cardWidth = (int) (cardHeight / (1.4));
             int startX = (parent.SCREEN_WIDTH / 2) - (cardWidth / 2);
             int startY = (parent.SCREEN_HEIGHT / 2) - (cardHeight / 2) - 15;
+            //Cost information
+            parent.fill(255);
+            parent.textAlign(parent.CENTER);
+            parent.textSize(20);
+            parent.text("Development Cards cost: ", parent.SCREEN_WIDTH / 2, (startY/2));
+            parent.textSize(15);
+            parent.textAlign(parent.LEFT);
+            int resourceWidth = 45 + (int) parent.textWidth("1 x Wheat");
+            int resourceStartX = (parent.SCREEN_WIDTH / 2) - ((resourceWidth * 3) / 2);
+            int resourceStartY = (startY/2) + 20;
+            parent.image(parent.images[1], resourceStartX + 5, resourceStartY);
+            parent.text("1x Wheat", resourceStartX + 35, resourceStartY + 20);
+            int runningTotal = resourceStartX + resourceWidth;
+            parent.image(parent.images[3], runningTotal + 5, resourceStartY);
+            parent.text("1x Wool", runningTotal + 35, resourceStartY + 20);
+            runningTotal = runningTotal + resourceWidth;
+            parent.image(parent.images[2], runningTotal + 5, resourceStartY);
+            parent.text("1x Ore", runningTotal + 35, resourceStartY + 20);
             //purchase text
             if (justPurchased) {
                 parent.fill(255);
@@ -181,7 +199,7 @@ public class DevelopmentCard {
             parent.textAlign(parent.CENTER);
             parent.textSize(30);
             parent.fill(255);
-            parent.text(type  + " " + id, parent.SCREEN_WIDTH / 2, startY + (cardHeight / 2) + 30);
+            parent.text(type, parent.SCREEN_WIDTH / 2, startY + (cardHeight / 2) + 30);
             int textHeight = startY + cardHeight - (startY + (cardHeight / 2) + 40);
             parent.textSize(12);
             parent.textAlign(parent.CENTER, parent.CENTER);

@@ -176,7 +176,6 @@ public class PlayerDeckScreen {
     public void display() {
 
         if (isOpen()) {
-            notifications.get(0).display();
             //if a monopoly card has been played
             if (monopoly) {
                 displayMonopolyDialogue();
@@ -191,6 +190,8 @@ public class PlayerDeckScreen {
             }
             else {
                 parent.background(0, 188, 212);
+                parent.model.getMenus().getResourceBar().display();
+                notifications.get(0).display();
                 int cardHeight = (parent.SCREEN_HEIGHT / 2);
                 int cardWidth = (int) (cardHeight / (1.4));
                 int startX = (parent.SCREEN_WIDTH / 2) - (cardWidth / 2);
