@@ -248,11 +248,15 @@ public class DevelopmentCard {
                     buttons.get(5).setStartY(startY + cardHeight + 60);
                     buttons.get(1).setStartY(startY + cardHeight + 110);
                     buttons.get(1).display();
-                    buttons.get(5).display();
+                    if(parent.model.isMyTurn()) {
+                        buttons.get(5).display();
+                    }
                     buttons.get(2).display();
                     buttons.get(3).display();
                     if(!type.equals("Victory Point")) {
-                        buttons.get(0).display();
+                        if(parent.model.isMyTurn()) {
+                            buttons.get(0).display();
+                        }
                     }
                 }
             parent.model.getMenus().getDeckScreen().getNotifications().get(0).display();

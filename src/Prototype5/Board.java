@@ -51,7 +51,7 @@ public class Board extends PApplet {
         textSize(14);
         background(0, 188, 212);
         this.currentTool = 0;
-        this.images = new PImage[25];
+        this.images = new PImage[27];
         this.resourceIMG = new PImage[11];
         this.images[0] = loadImage("assets/logoSM.png");
         this.images[1] = loadImage("assets/grainSM.png");
@@ -80,6 +80,8 @@ public class Board extends PApplet {
         this.images[22] = loadImage("assets/developmentCards/cardBack.png");
         this.images[23] = loadImage("assets/victorypointSM.png");
         this.images[24] = loadImage("assets/armySM.png");
+        this.images[25] = loadImage("assets/bankSMBW.png");
+        this.images[26] = loadImage("assets/tradeSMBW.png");
 
 
 
@@ -122,7 +124,9 @@ public class Board extends PApplet {
         if (model.getDisplayMode() <= 6) {
             fill(255, 0, 0, 0);
             fill(0);
+            background(0, 188, 212);
             model.displayBoard();
+/*    UNCOMMENT THESE LINES IF YOU WISH TO USE THE BUILT IN DEBUGGER
             if (debugger.open) {
                 debugger.displayOpen();
             }
@@ -132,9 +136,10 @@ public class Board extends PApplet {
                 debugger.displayClosed();
                 center.getModel().displayBoard();
             }
+            */
         }
 
-            model.displayMenus();
+        model.displayMenus();
         if(model.getDisplayMode() == 7) {
             model.getMenus().getWaitScreen().checkButton();
         }

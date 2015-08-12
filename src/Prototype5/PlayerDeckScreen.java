@@ -67,7 +67,7 @@ public class PlayerDeckScreen {
         Button back = new Button(backWidth, 40, "Back", parent);
         back.curveSize = 5;
         back.setStartX(20);
-        back.setStartY(20);
+        back.setStartY(50);
         back.color = new int[]{198, 40, 40};
         buttons.add(back);
         // 2 - DeckButton
@@ -265,9 +265,11 @@ public class PlayerDeckScreen {
                     parent.image(parent.images[2], runningTotal + 5, resourceStartY);
                     parent.text("1x Ore", runningTotal + 35, resourceStartY + 20);
                     //purchase new card button
-                    buttons.get(0).start.y = resourceStartY + 40;
-                    buttons.get(0).textStart.y = resourceStartY + 58;
-                    buttons.get(0).display();
+                    if(parent.model.isMyTurn()) {
+                        buttons.get(0).start.y = resourceStartY + 40;
+                        buttons.get(0).textStart.y = resourceStartY + 58;
+                        buttons.get(0).display();
+                    }
                     buttons.get(1).display();
                 } else {
                     playerDeck.get(selectionIndex).display();
@@ -437,45 +439,41 @@ public class PlayerDeckScreen {
                     }
                     //play card button
                     if (buttonPress == 4) {
-                        //send the card manifest info, so that the other players know what's happening
-                        parent.model.setCardManifest(ObjectParser.parseCard(parent.model, playerDeck.get(selectionIndex)));
-                        if (playerDeck.get(selectionIndex).getType().equals("Monopoly")) {
-                            monopoly = true;
-                            monopolySuccess = false;
-                        }
-                        else if (playerDeck.get(selectionIndex).getType().equals("Road Building")) {
-                            parent.model.freeRoad +=2;
-                            open = false;
-                            parent.currentTool = 2;
-                            parent.model.setGameStatusNotifier("Place 2 Free Roads");
-                            removeCurrentCard();
-
-                        }
-                        else if (playerDeck.get(selectionIndex).getType().equals("Year of Plenty")) {
-                            YOP = true;
-                        }
-                        else if (playerDeck.get(selectionIndex).getType().equals("Knight")) {
-                            open = false;
-                            removeCurrentCard();
-                            parent.model.getMenus().getRobDialogue().setToolSwitch();
-                            parent.model.addKnight();
-                            if(parent.model.getArmySize() >= 3){
-                                int currentSize = parent.model.getArmySize();
-                                VictoryBonus vb =  parent.model.getVictoryBonus();
-                                if( currentSize > vb.getArmySize() && parent.model.getPlayer().getId() !=
-                                       vb.getArmyID()){
-                                    vb.setArmySize(parent.model.getArmySize());
-                                    vb.setArmyID(parent.model.getPlayer().getId());
-                                    vb.setArmyVisible(true);
-                                    parent.model.setBonusManifest(vb.generateBonusManifest("knight"));
+                        if (parent.model.isMyTurn()) {
+                            //send the card manifest info, so that the other players know what's happening
+                            parent.model.setCardManifest(ObjectParser.parseCard(parent.model, playerDeck.get(selectionIndex)));
+                            if (playerDeck.get(selectionIndex).getType().equals("Monopoly")) {
+                                monopoly = true;
+                                monopolySuccess = false;
+                            } else if (playerDeck.get(selectionIndex).getType().equals("Road Building")) {
+                                parent.model.freeRoad += 2;
+                                open = false;
+                                parent.currentTool = 2;
+                                parent.model.setGameStatusNotifier("Place 2 Free Roads");
+                                removeCurrentCard();
+                            } else if (playerDeck.get(selectionIndex).getType().equals("Year of Plenty")) {
+                                YOP = true;
+                            } else if (playerDeck.get(selectionIndex).getType().equals("Knight")) {
+                                open = false;
+                                removeCurrentCard();
+                                parent.model.getMenus().getRobDialogue().setToolSwitch();
+                                parent.model.addKnight();
+                                if (parent.model.getArmySize() >= 3) {
+                                    int currentSize = parent.model.getArmySize();
+                                    VictoryBonus vb = parent.model.getVictoryBonus();
+                                    if (currentSize > vb.getArmySize() && parent.model.getPlayer().getId() !=
+                                            vb.getArmyID()) {
+                                        vb.setArmySize(parent.model.getArmySize());
+                                        vb.setArmyID(parent.model.getPlayer().getId());
+                                        vb.setArmyVisible(true);
+                                        parent.model.setBonusManifest(vb.generateBonusManifest("knight"));
+                                    }
                                 }
+                            } else {
+                                monopoly = false;
                             }
-                        }
 
-                        else {
-                            monopoly = false;
                         }
-
                     }
                     if (playerDeck.size() > 1) {
                         if (buttonPress == 1) {
@@ -498,14 +496,16 @@ public class PlayerDeckScreen {
                 } else {
                     //purchase card
                     if (buttons.get(0).checkButton()) {
-                        PlayerInfo player = parent.model.getPlayer();
-                        if(player.getWool() > 0 && player.getGrain() > 0 && player.getOre() > 0) {
-                            parent.model.getMenus().getDevDeck().getCard();
-                            player.subtractWool(1);
-                            player.subtractGrain(1);
-                            player.subtractOre(1);
-                        } else{
-                            notifications.get(0).setVisible(true);
+                        if (parent.model.isMyTurn()) {
+                            PlayerInfo player = parent.model.getPlayer();
+                            if (player.getWool() > 0 && player.getGrain() > 0 && player.getOre() > 0) {
+                                parent.model.getMenus().getDevDeck().getCard();
+                                player.subtractWool(1);
+                                player.subtractGrain(1);
+                                player.subtractOre(1);
+                            } else {
+                                notifications.get(0).setVisible(true);
+                            }
                         }
                     }
                     //back button

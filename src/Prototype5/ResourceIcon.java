@@ -29,6 +29,7 @@ public class ResourceIcon {
         parent.stroke(0,0,0,30);
         parent.rect(startPos.x + 32,7, 30,25,5,5,5,5);
         parent.fill(255);
+        parent.textAlign(parent.LEFT);
         parent.textFont(parent.fonts[0]);
         parent.textSize(14);
         parent.text(getAmount(), startPos.x + 47 - (parent.textWidth("" +amount)/2), 5 + 15 + 7 );

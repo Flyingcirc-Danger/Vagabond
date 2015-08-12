@@ -32,14 +32,22 @@ public class Bank {
         parent.fill(121, 85, 72);
         parent.stroke(0,0,0,0);
         parent.rect(10,60,30,30);
-        parent.image(parent.images[6],10,60);
+        if(parent.model.getPlayer().getId() == parent.model.getPlayerTurn()) {
+            parent.image(parent.images[6], 10, 60);
+        } else{
+            parent.image(parent.images[25], 10, 60);
+        }
         parent.fill(0, 0, 0,30);
         parent.rect(12,62,30,30);
         //player trade menu
         parent.fill(121, 85, 72);
         parent.stroke(0,0,0,0);
         parent.rect(10,parent.SCREEN_HEIGHT - 100,30,30);
-        parent.image(parent.images[19],10,parent.SCREEN_HEIGHT - 100);
+        if(parent.model.getPlayer().getId() == parent.model.getPlayerTurn()) {
+            parent.image(parent.images[19],10,parent.SCREEN_HEIGHT - 100);
+        } else{
+            parent.image(parent.images[26],10,parent.SCREEN_HEIGHT - 100);
+        }
         parent.fill(0, 0, 0,30);
         parent.rect(12,parent.SCREEN_HEIGHT - 100,30,30);
     }
@@ -434,235 +442,237 @@ public class Bank {
     /**
      * Checks to see which buttons have been pressed
      */
-    public void checkButtons(){
-        if(dialogue) {
-            int width = (parent.SCREEN_WIDTH/2) - ((int)(120 + parent.textWidth("Bank Trade"))/2);
-            int buttonWidth = (int) (parent.textWidth("Okay") + 50);
-            int startX = (parent.SCREEN_WIDTH/2) - (width/2);
-            int startY = (parent.SCREEN_HEIGHT/2) - (174/2);
-            //okay
-            if(Listeners.overRect(startX + (width /2) - buttonWidth - 10, startY + 174 - 47, buttonWidth,40,parent)){
-                PlayerInfo player = parent.model.getPlayer();
-                if(this.bankItem.equals("wheat")){
-                    player.addGrain(1);
-                }
-                if(this.bankItem.equals("brick")){
-                    player.addBrick(1);
-                }
-                if(this.bankItem.equals("ore")){
-                    player.addOre(1);
-                }
-                if(this.bankItem.equals("wool")){
-                    player.addWool(1);
-                }
-                if(this.bankItem.equals("logs")){
-                    player.addLogs(1);
-                }
-                if(this.playerItem.equals("wheat")){
-                    player.subtractGrain(4);
-                }
-                if(this.playerItem.equals("ore")){
-                    player.subtractOre(4);
-                }
-                if(this.playerItem.equals("wool")){
-                    player.subtractWool(4);
-                }
-                if(this.playerItem.equals("brick")){
-                    player.subtractBrick(4);
-                }
-                if(this.playerItem.equals("logs")){
-                    player.subtractLogs(4);
-                }
-                this.dialogue = false;
+    public void checkButtons() {
+        if (parent.model.getPlayer().getId() == parent.model.getPlayerTurn()) {
+            if (dialogue) {
+                int width = (parent.SCREEN_WIDTH / 2) - ((int) (120 + parent.textWidth("Bank Trade")) / 2);
+                int buttonWidth = (int) (parent.textWidth("Okay") + 50);
+                int startX = (parent.SCREEN_WIDTH / 2) - (width / 2);
+                int startY = (parent.SCREEN_HEIGHT / 2) - (174 / 2);
+                //okay
+                if (Listeners.overRect(startX + (width / 2) - buttonWidth - 10, startY + 174 - 47, buttonWidth, 40, parent)) {
+                    PlayerInfo player = parent.model.getPlayer();
+                    if (this.bankItem.equals("wheat")) {
+                        player.addGrain(1);
+                    }
+                    if (this.bankItem.equals("brick")) {
+                        player.addBrick(1);
+                    }
+                    if (this.bankItem.equals("ore")) {
+                        player.addOre(1);
+                    }
+                    if (this.bankItem.equals("wool")) {
+                        player.addWool(1);
+                    }
+                    if (this.bankItem.equals("logs")) {
+                        player.addLogs(1);
+                    }
+                    if (this.playerItem.equals("wheat")) {
+                        player.subtractGrain(4);
+                    }
+                    if (this.playerItem.equals("ore")) {
+                        player.subtractOre(4);
+                    }
+                    if (this.playerItem.equals("wool")) {
+                        player.subtractWool(4);
+                    }
+                    if (this.playerItem.equals("brick")) {
+                        player.subtractBrick(4);
+                    }
+                    if (this.playerItem.equals("logs")) {
+                        player.subtractLogs(4);
+                    }
+                    this.dialogue = false;
 
-            }
-            //cancel
-            if(Listeners.overRect(startX + (width /2) + 10, startY + 172 - 47, buttonWidth,40,parent)) {
-                this.dialogue = false;
-            }
-        } else {
-            //trade icon
-            if(Listeners.overRect(10,parent.SCREEN_HEIGHT - 100, 30,30,parent)){
-                this.parent.model.setDisplayMode(8);
-            }
-            //bank icon
-            if (Listeners.overRect(10, 60, 30, 30, parent)) {
-                if (this.open) {
-                    this.open = false;
-                    return;
-                } else {
-                    this.open = true;
-                    return;
                 }
-            }
-            if (open) {
-                if (Listeners.overRect(40, 60, 30, 30, parent)) {
-                    this.items = new boolean[5];
+                //cancel
+                if (Listeners.overRect(startX + (width / 2) + 10, startY + 172 - 47, buttonWidth, 40, parent)) {
+                    this.dialogue = false;
+                }
+            } else {
+                //trade icon
+                if (Listeners.overRect(10, parent.SCREEN_HEIGHT - 100, 30, 30, parent)) {
+                    this.parent.model.setDisplayMode(8);
+                }
+                //bank icon
+                if (Listeners.overRect(10, 60, 30, 30, parent)) {
+                    if (this.open) {
+                        this.open = false;
+                        return;
+                    } else {
+                        this.open = true;
+                        return;
+                    }
+                }
+                if (open) {
+                    if (Listeners.overRect(40, 60, 30, 30, parent)) {
+                        this.items = new boolean[5];
+                        if (this.items[0]) {
+                            this.items[0] = false;
+                        } else {
+                            this.items[0] = true;
+                            playerItem = "wheat";
+                        }
+                    }
+                    if (Listeners.overRect(70, 60, 30, 30, parent)) {
+                        this.items = new boolean[5];
+                        if (this.items[1]) {
+                            this.items[1] = false;
+                        } else {
+                            this.items[1] = true;
+                            playerItem = "ore";
+                        }
+                    }
+                    if (Listeners.overRect(100, 60, 30, 30, parent)) {
+                        this.items = new boolean[5];
+                        if (this.items[2]) {
+                            this.items[2] = false;
+                        } else {
+                            this.items[2] = true;
+                            playerItem = "wool";
+                        }
+                    }
+                    if (Listeners.overRect(130, 60, 30, 30, parent)) {
+                        this.items = new boolean[5];
+                        if (this.items[3]) {
+                            this.items[3] = false;
+                        } else {
+                            this.items[3] = true;
+                            playerItem = "brick";
+                        }
+                    }
+                    if (Listeners.overRect(160, 60, 30, 30, parent)) {
+                        this.items = new boolean[5];
+                        if (this.items[4]) {
+                            this.items[4] = false;
+                        } else {
+                            this.items[4] = true;
+                            playerItem = "logs";
+                        }
+                    }
+                    //once the menu is open and a
+                    //grain
                     if (this.items[0]) {
-                        this.items[0] = false;
-                    } else {
-                        this.items[0] = true;
-                        playerItem = "wheat";
+                        //ore
+                        if (Listeners.overRect(40, 90, 30, 30, parent)) {
+                            this.bankItem = "ore";
+                            dialogue = true;
+                        }
+                        //wool
+                        if (Listeners.overRect(40, 120, 30, 30, parent)) {
+                            this.bankItem = "wool";
+                            dialogue = true;
+                        }
+                        //brick
+                        if (Listeners.overRect(40, 150, 30, 30, parent)) {
+                            this.bankItem = "brick";
+                            dialogue = true;
+                        }
+                        //logs
+                        if (Listeners.overRect(40, 180, 30, 30, parent)) {
+                            this.bankItem = "logs";
+                            dialogue = true;
+                        }
                     }
-                }
-                if (Listeners.overRect(70, 60, 30, 30, parent)) {
-                    this.items = new boolean[5];
+                    //ore
                     if (this.items[1]) {
-                        this.items[1] = false;
-                    } else {
-                        this.items[1] = true;
-                        playerItem = "ore";
+                        //grain
+                        if (Listeners.overRect(70, 90, 30, 30, parent)) {
+                            this.bankItem = "wheat";
+                            dialogue = true;
+                        }
+                        //wool
+                        if (Listeners.overRect(70, 120, 30, 30, parent)) {
+                            this.bankItem = "wool";
+                            dialogue = true;
+                        }
+                        //brick
+                        if (Listeners.overRect(70, 150, 30, 30, parent)) {
+                            this.bankItem = "brick";
+                            dialogue = true;
+                        }
+                        //logs
+                        if (Listeners.overRect(70, 180, 30, 30, parent)) {
+                            this.bankItem = "logs";
+                            dialogue = true;
+                        }
                     }
-                }
-                if (Listeners.overRect(100, 60, 30, 30, parent)) {
-                    this.items = new boolean[5];
+                    //wool
                     if (this.items[2]) {
-                        this.items[2] = false;
-                    } else {
-                        this.items[2] = true;
-                        playerItem = "wool";
+                        //grain
+                        if (Listeners.overRect(100, 90, 30, 30, parent)) {
+                            this.bankItem = "wheat";
+                            dialogue = true;
+                        }
+                        //ore
+                        if (Listeners.overRect(100, 120, 30, 30, parent)) {
+                            this.bankItem = "ore";
+                            dialogue = true;
+                        }
+                        //brick
+                        if (Listeners.overRect(100, 150, 30, 30, parent)) {
+                            this.bankItem = "brick";
+                            dialogue = true;
+                        }
+                        //logs
+                        if (Listeners.overRect(100, 180, 30, 30, parent)) {
+                            this.bankItem = "logs";
+                            dialogue = true;
+                        }
                     }
-                }
-                if (Listeners.overRect(130, 60, 30, 30, parent)) {
-                    this.items = new boolean[5];
-                    if (this.items[3]) {
-                        this.items[3] = false;
-                    } else {
-                        this.items[3] = true;
-                        playerItem = "brick";
-                    }
-                }
-                if (Listeners.overRect(160, 60, 30, 30, parent)) {
-                    this.items = new boolean[5];
-                    if (this.items[4]) {
-                        this.items[4] = false;
-                    } else {
-                        this.items[4] = true;
-                        playerItem = "logs";
-                    }
-                }
-                //once the menu is open and a
-                //grain
-                if(this.items[0]){
-                    //ore
-                    if (Listeners.overRect(40, 90, 30, 30, parent)) {
-                        this.bankItem = "ore";
-                        dialogue = true;
-                    }
-                    //wool
-                    if (Listeners.overRect(40, 120, 30, 30, parent)) {
-                        this.bankItem = "wool";
-                        dialogue = true;
-                    }
-                    //brick
-                    if (Listeners.overRect(40, 150, 30, 30, parent)) {
-                        this.bankItem = "brick";
-                        dialogue = true;
-                    }
-                    //logs
-                    if (Listeners.overRect(40, 180, 30, 30, parent)) {
-                        this.bankItem = "logs";
-                        dialogue = true;
-                    }
-                }
-                //ore
-                if(this.items[1]){
-                    //grain
-                    if (Listeners.overRect(70, 90, 30, 30, parent)) {
-                        this.bankItem = "wheat";
-                        dialogue = true;
-                    }
-                    //wool
-                    if (Listeners.overRect(70, 120, 30, 30, parent)) {
-                        this.bankItem = "wool";
-                        dialogue = true;
-                    }
-                    //brick
-                    if (Listeners.overRect(70, 150, 30, 30, parent)) {
-                        this.bankItem = "brick";
-                        dialogue = true;
-                    }
-                    //logs
-                    if (Listeners.overRect(70, 180, 30, 30, parent)) {
-                        this.bankItem = "logs";
-                        dialogue = true;
-                    }
-                }
-                //wool
-                if(this.items[2]){
-                    //grain
-                    if (Listeners.overRect(100, 90, 30, 30, parent)) {
-                        this.bankItem = "wheat";
-                        dialogue = true;
-                    }
-                    //ore
-                    if (Listeners.overRect(100, 120, 30, 30, parent)) {
-                        this.bankItem = "ore";
-                        dialogue = true;
-                    }
-                    //brick
-                    if (Listeners.overRect(100, 150, 30, 30, parent)) {
-                        this.bankItem = "brick";
-                        dialogue = true;
-                    }
-                    //logs
-                    if (Listeners.overRect(100, 180, 30, 30, parent)) {
-                        this.bankItem = "logs";
-                        dialogue = true;
-                    }
-                }
 
-                //bricks
-                if(this.items[3]){
-                    //grain
-                    if (Listeners.overRect(130, 90, 30, 30, parent)) {
-                        this.bankItem = "wheat";
-                        dialogue = true;
-                    }
-                    //ore
-                    if (Listeners.overRect(130, 120, 30, 30, parent)) {
-                        this.bankItem = "ore";
-                        dialogue = true;
-                    }
-                    //wool
-                    if (Listeners.overRect(130, 150, 30, 30, parent)) {
-                        this.bankItem = "wool";
-                        dialogue = true;
-                    }
-                    //logs
-                    if (Listeners.overRect(130, 180, 30, 30, parent)) {
-                        this.bankItem = "logs";
-                        dialogue = true;
-                    }
-                }
-
-                //wood
-                if(this.items[4]){
-                    //grain
-                    if (Listeners.overRect(160, 90, 30, 30, parent)) {
-                        this.bankItem = "wheat";
-                        dialogue = true;
-                    }
-                    //ore
-                    if (Listeners.overRect(160, 120, 30, 30, parent)) {
-                        this.bankItem = "ore";
-                        dialogue = true;
-                    }
-                    //wool
-                    if (Listeners.overRect(160, 150, 30, 30, parent)) {
-                        this.bankItem = "wool";
-                        dialogue = true;
-                    }
                     //bricks
-                    if (Listeners.overRect(160, 180, 30, 30, parent)) {
-                        this.bankItem = "brick";
-                        dialogue = true;
+                    if (this.items[3]) {
+                        //grain
+                        if (Listeners.overRect(130, 90, 30, 30, parent)) {
+                            this.bankItem = "wheat";
+                            dialogue = true;
+                        }
+                        //ore
+                        if (Listeners.overRect(130, 120, 30, 30, parent)) {
+                            this.bankItem = "ore";
+                            dialogue = true;
+                        }
+                        //wool
+                        if (Listeners.overRect(130, 150, 30, 30, parent)) {
+                            this.bankItem = "wool";
+                            dialogue = true;
+                        }
+                        //logs
+                        if (Listeners.overRect(130, 180, 30, 30, parent)) {
+                            this.bankItem = "logs";
+                            dialogue = true;
+                        }
+                    }
+
+                    //wood
+                    if (this.items[4]) {
+                        //grain
+                        if (Listeners.overRect(160, 90, 30, 30, parent)) {
+                            this.bankItem = "wheat";
+                            dialogue = true;
+                        }
+                        //ore
+                        if (Listeners.overRect(160, 120, 30, 30, parent)) {
+                            this.bankItem = "ore";
+                            dialogue = true;
+                        }
+                        //wool
+                        if (Listeners.overRect(160, 150, 30, 30, parent)) {
+                            this.bankItem = "wool";
+                            dialogue = true;
+                        }
+                        //bricks
+                        if (Listeners.overRect(160, 180, 30, 30, parent)) {
+                            this.bankItem = "brick";
+                            dialogue = true;
+                        }
                     }
                 }
             }
+
+
         }
-
-
     }
 
     /**

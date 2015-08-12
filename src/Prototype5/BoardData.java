@@ -484,6 +484,7 @@ public class BoardData {
     public void displayGameStatus(){
         parent.textSize(13);
         parent.fill(255);
+        parent.textFont(parent.fonts[0]);
         parent.textAlign(parent.CENTER);
         if(gameStatusNotifier.length() > 0) {
             parent.text(gameStatusNotifier, parent.SCREEN_WIDTH/2, parent.SCREEN_HEIGHT - 60);
@@ -509,6 +510,11 @@ public class BoardData {
     public void displayBoard(){
         if(freeRoad > 0){
             setGameStatusNotifier("Place " + freeRoad + " Free Roads");
+        }
+        if(freeRoad == 0){
+            if(gameStatusNotifier.equals("Place 1 Free Roads")){
+                setGameStatusNotifier("");
+            }
         }
         displayGameStatus();
         if(!this.checkToggle()) {
@@ -1118,7 +1124,7 @@ public class BoardData {
     }
 
     public void subVP(){
-        this.victoryPoints--;
+        this.victoryPoints++;
     }
 
     public int getArmySize() {
@@ -1131,6 +1137,17 @@ public class BoardData {
 
     public void addKnight(){
         this.armySize++;
+    }
+
+    /**
+     * Checks to see if its currently my turn
+     * @return true - my turn, false - someone elses turn
+     */
+    public boolean isMyTurn(){
+        if(getPlayer().getId() == playerTurn){
+            return true;
+        }
+        return false;
     }
 }
 
