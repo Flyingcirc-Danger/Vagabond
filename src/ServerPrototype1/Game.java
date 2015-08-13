@@ -4,10 +4,13 @@ package ServerPrototype1;
 
 import Prototype5.*;
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -20,9 +23,8 @@ public class Game implements Runnable {
 
     public String XMLBoard;
     public BoardData mainBoard;
-    public ArrayList<Player> players;
+    public CopyOnWriteArrayList<Player> players;
     public HashMap<Integer, String> heartBeat;
-    public LinkedBlockingQueue<String> messages;
     public String XMLboard;
     public String updateMessage;
     public ArrayList<MessageRecord> playerRecords;
@@ -36,14 +38,15 @@ public class Game implements Runnable {
     public ArrayList<Integer> discarded;
     public boolean turnToggle;
     public int turnNo;
+    public Board clientBoard;
+    public ConcurrentLinkedQueue<String> messages;
 
-    public Game(){
+    public Game(Board clientBoard){
         this.currentID = 1;
         this.turnNo = 0;
         this.gameBegin = false;
         this.mainBoard = new BoardData();
-        players= new ArrayList<Player>();
-        messages = new LinkedBlockingQueue<String>();
+        players= new CopyOnWriteArrayList<Player>();
         heartBeat = new HashMap<Integer, String>();
         discarded = new ArrayList<Integer>();
         this.lastMessageType = 0;
@@ -54,6 +57,9 @@ public class Game implements Runnable {
         center.getModel().buildBoard((center));
         this.allDiscard = true;
         playerRecords = new ArrayList<MessageRecord>();
+        this.clientBoard = clientBoard;
+        messages = new ConcurrentLinkedQueue<String>();
+
 
         Thread sendAll = new Thread() {
             public void run() {
@@ -61,24 +67,39 @@ public class Game implements Runnable {
                     while (true) {
                         if (players.size() > 0) {
                             fixDiscard();
-                            String message = Server.generateRandString();
+
                             for(MessageRecord playerRec : playerRecords) {
+                                String message = new String();
                                 record = playerRec;
                                 if (record.isCurrent()) {
                                     message = record.getCurrent();
-                                }
-                                if (record.checkTurn()) {
-                                    message = record.getTurn();
-                                }
-                                for (Player con : players) {
-                                    con.send(message);
+                                    System.out.println("Added Message");
+                                    messages.add(message);
 
+                                } else if (record.checkTurn()) {
+                                    message = record.getTurn();
+                                    System.out.println("Added Turn");
+                                    messages.add(message);
                                 }
+
                             }
+                            String justSent = new String();
+                            if(messages.size() == 0){
+                                justSent = Server.generateRandString();
+                            } else {
+                               justSent =messages.poll();
+                            }
+                                for (Player con : players) {
+                                    if(justSent.length() > 5){
+                                        System.out.println("Sending message type: " + lastMessageType + "to player " + con.getId() );
+                                    }
+                                    con.send(justSent);
+                                }
+
 
 
                             //evaluate what kindof message has been sent
-                            if(message.length() > 1){
+                            if(justSent.length() > 1){
                                 //if the last message was anything other than a trade,
                                 //and everyone has discarded, advance the turn.
                                 if(lastMessageType != 2 && isAllDiscard()){
@@ -90,7 +111,7 @@ public class Game implements Runnable {
                             if(players.size() > 0) {
                                 ArrayList<Player> toRemove = new ArrayList<Player>();
                                 for (Player con : players) {
-                                    if (!heartBeat.get(con.getId()).equals(message)) {
+                                    if (!heartBeat.get(con.getId()).equals(justSent)) {
                                         //TODO: FIX THE HEARTBEAT
 //                                        System.out.println(con.getId() + ": message mismatch" + "\nexpected: " +
 //                                                message +
@@ -153,14 +174,33 @@ public class Game implements Runnable {
         this.currentID +=1;
         MessageRecord tempRec = new MessageRecord();
         ServerToClientConnection temp = new ServerToClientConnection(s, this.heartBeat, setID, this, tempRec);
-        //TODO: EACH PLAYER GETS THEIR OWN RECORD
         playerRecords.add(tempRec);
         Player newPlayer = new Player(temp,setID,"Tom", 0,mainBoard);
+        newPlayer.getConnection().setParent(newPlayer);
         players.add(newPlayer);
         heartBeat.put(newPlayer.getId(), "START");
         System.out.println("Player " + newPlayer.getId() + " has entered the game");
         this.mainBoard.addNewPlayer(setID);
     }
+
+
+    public void removePlayer(Player toRemove){
+//        if(clientBoard.model.getDisplayMode() == 7){
+//            this.mainBoard.removePlayer(toRemove.getId());
+//            this.players.remove(toRemove);
+//            reset the id's
+//            for(int i = 0; i < players.size(); i++){
+//                players.get(i).setId(i+1);
+//            }
+
+            this.mainBoard.removePlayer(toRemove.getId());
+            this.players.remove(toRemove);
+
+        if(readyPlayers > 0) {
+            this.readyPlayers--;
+        }
+    }
+
 
     public String getGameID(){
         return mainBoard.getIdentityToken();

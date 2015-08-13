@@ -1,6 +1,7 @@
 package Prototype5;
 
 import ServerPrototype1.Game;
+import ServerPrototype1.Server;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -10,7 +11,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
-import java.awt.image.RasterOp;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -1369,6 +1369,7 @@ public class ObjectParser {
         result.append("</fromWants>");
         result.append("<accept>" + Boolean.toString(accept) + "</accept>");
         result.append("<reject>" + Boolean.toString(reject) + "</reject>");
+        result.append("<token>" + Server.generateRandString() + "</token>");
         result.append("</trade>");
         saveOutput(result.toString(), "trade.xml");
         return result.toString();
@@ -1382,7 +1383,6 @@ public class ObjectParser {
      */
     public static void readTrade(BoardData model, String XML){
         System.out.println("Reading Trade");
-
         try {
             Document dom = stringToDom(XML);
             NodeList tradeMaster = dom.getElementsByTagName("trade");

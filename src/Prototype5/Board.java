@@ -2,6 +2,7 @@ package Prototype5;
 
 
 import ServerPrototype1.Client;
+import ServerPrototype1.Server;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
@@ -20,6 +21,7 @@ public class Board extends PApplet {
     public HexTile center;
     public Debug debugger;
     public BoardData model;
+    public Server game;
 
 
     public int currentTool;
@@ -108,10 +110,6 @@ public class Board extends PApplet {
 
         frameRate(10.0f);
 
-
-
-
-
     }
 
 
@@ -126,6 +124,7 @@ public class Board extends PApplet {
             fill(0);
             background(0, 188, 212);
             model.displayBoard();
+            model.getWarning().display();
 /*    UNCOMMENT THESE LINES IF YOU WISH TO USE THE BUILT IN DEBUGGER
             if (debugger.open) {
                 debugger.displayOpen();
@@ -157,10 +156,23 @@ public class Board extends PApplet {
         @Override
         public void mousePressed () {
             model.checkMenus();
+            if(model.getWarning().checkButtons()){
+                if(game != null) {
+                    game.activeConnection = false;
+                    try {
+                        game.serverSocket.close();
+                        game = null;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                model.restartClient();
+            }
             //regular board with debugging
             if (model.getDisplayMode() <= 5) {
                 //debugger.mouseDebug();
                 model.checkSelected(this.currentTool);
+
             }
             //dice roll
             if (model.getDisplayMode() == 6) {
@@ -189,8 +201,9 @@ public class Board extends PApplet {
             this.client = new Client(4001,model,ip);
             model.setToggle();
             background(0, 188, 212);
+            model.getMenus().getWaitScreen().setHostIp(ip);
             model.setDisplayMode(7);
-        } catch (IOException e) {
+        } catch (Exception e) {
             this.model.getMenus().setConnect(new ConnectMenu(this,300,200,true));
         }
     }

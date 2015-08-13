@@ -1,5 +1,7 @@
 package Prototype5;
 
+import org.w3c.dom.NodeList;
+
 /**
  * A Class for displaying a notifation.
  * Created by Tom_Bryant on 8/12/15.
@@ -14,6 +16,7 @@ public class Notification {
     private int height;
     private int textHeight;
     private boolean visible;
+    public boolean isEmpty;
 
 
     public Notification(Board parent, String message,int textHeight){
@@ -27,7 +30,14 @@ public class Notification {
         this.okayButton = new Button(buttonWidth, textHeight, "Okay",parent);
         okayButton.curveSize = 5;
         visible = false;
+        isEmpty = false;
     }
+
+    public Notification(){
+        visible =false;
+        isEmpty = true;
+    }
+
 
 
     public void display(){
@@ -47,13 +57,15 @@ public class Notification {
         }
     }
 
-    public void checkButtons(){
+    public boolean checkButtons(){
         if(visible){
             if(okayButton.checkButton()){
                 visible = false;
+                return true;
             }
 
         }
+        return false;
     }
 
     public boolean isVisible() {

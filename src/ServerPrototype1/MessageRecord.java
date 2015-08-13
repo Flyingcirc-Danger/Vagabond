@@ -29,8 +29,10 @@ public class MessageRecord {
      * @param msg
      */
     public void setCurrent(String msg){
+        System.out.println("Setting Current");
         if(msg.equals(lastMessage)){
             currentMessage = "";
+            System.out.println("Current Cleared");
         } else{
             currentMessage = msg;
         }
@@ -47,6 +49,7 @@ public class MessageRecord {
         String result = currentMessage;
         lastMessage = currentMessage;
         currentMessage = "";
+        System.out.println("Getting Current");
         return result;
     }
 
@@ -92,7 +95,6 @@ public class MessageRecord {
             currentTurn = turn;
         }
     }
-
 
     public void setTurnAuth(boolean auth){
         turnAuth = auth;

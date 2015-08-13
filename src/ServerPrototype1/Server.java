@@ -26,28 +26,25 @@ public class Server {
     public String updateMessage;
     public MessageRecord record;
     public Game mainGame;
+    public Board clientBoard;
+    public boolean activeConnection;
 
 
-    public Server(int port) {
+    public Server(int port, Board clientBoard) {
         serverToClientConnections = new ArrayList<ServerToClientConnection>();
         messages = new LinkedBlockingQueue<String>();
         heartBeat = new HashMap<Integer, String>();
         record = new MessageRecord();
-        mainGame = new Game();
+        mainGame = new Game(clientBoard);
         Thread game = new Thread(mainGame);
         game.setDaemon(true);
         game.start();
+        this.activeConnection = true;
         try {
             this.serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        this.mainBoard = new BoardData();
-//        int SCREEN_HEIGHT = 768;
-//        int SCREEN_WIDTH = 1024;
-//        HexTile center=new HexTile(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, mainBoard,mainBoard.getResourceTiles()[0],mainBoard.getTokens()[0]);
-//        center.getModel().buildRandomBoard((center));
-//        this.XMLboard = ObjectParser.parseModel(mainBoard);
 
 
         /**
@@ -57,23 +54,22 @@ public class Server {
         Thread accept = new Thread() {
             public void run() {
                 try {
-                    while (true) {
+                    while (activeConnection) {
                         Socket s = serverSocket.accept();
                         mainGame.addPlayer(s);
-//                        if(startID > 3){
-//                            startID = 0;
-//                        }
-//                        ServerToClientConnection temp = new ServerToClientConnection(s, heartBeat, startID++, mainBoard, record);
-//                        serverToClientConnections.add(temp);
-//                        heartBeat.put(temp.getId(), "START");
-//                        System.out.println("Client " + temp.getId() + "  has connected" );
-//                        int tempID = temp.getId();
-//                        String playerXML = ObjectParser.parseNewPlayer(tempID, true);
-//                        temp.write(XMLboard);
-//                        temp.write(playerXML);
                     }
+                    //cleanup in/outputs
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    for(Player player : mainGame.players){
+                        try {
+                            player.getConnection().getIn().close();
+                            player.getConnection().getOut().close();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                    activeConnection = false;
+                    System.out.println("Socket Closed");
                 }
             }
 
@@ -89,7 +85,7 @@ public class Server {
         Thread sendAll = new Thread() {
             public void run() {
                 try {
-                    while (true) {
+                    while (activeConnection) {
                         if (serverToClientConnections.size() > 0) {
                                 String message = generateRandString();
                                 if(record.isCurrent()){
@@ -170,12 +166,7 @@ public class Server {
         return result.toString();
     }
 
-    public static void main(String[] args){
-        new Server(4001);
-        while(true){
 
-        }
-    }
 }
 
 

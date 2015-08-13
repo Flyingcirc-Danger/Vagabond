@@ -1,6 +1,8 @@
 package Prototype5;
 
 
+import com.sun.org.apache.xml.internal.serializer.utils.SerializerMessages_zh_TW;
+
 import java.awt.*;
 import java.util.*;
 
@@ -95,6 +97,9 @@ public class BoardData {
 
     private VictoryBonus victoryBonus;
 
+    private Notification warning;
+
+
 
 
 
@@ -149,6 +154,7 @@ public class BoardData {
         this.victoryPoints = 0;
         this.armySize = 0;
         this.victoryBonus = new VictoryBonus(parent);
+        warning = new Notification();
 
     }
 
@@ -194,6 +200,8 @@ public class BoardData {
         this.victoryPoints = 0;
         this.armySize = 0;
         this.victoryBonus = new VictoryBonus(parent);
+        warning = new Notification();
+
 
 
     }
@@ -943,6 +951,14 @@ public class BoardData {
         this.playerColors = playerColors;
     }
 
+    public Notification getWarning() {
+        return warning;
+    }
+
+    public void setWarning(Notification warning) {
+        this.warning = warning;
+    }
+
     /**
      * Inits the playerColor map.
      * Maps colors to ids
@@ -1032,7 +1048,9 @@ public class BoardData {
                 this.alert = ObjectParser.generateAlert(this,"ready");
                 this.alertReady = true;
                 parent.background(0, 188, 212);
-                menus.setWaitScreen(new StatusMenu("Waiting For Other Players",parent, false,false));
+                String ip = menus.getWaitScreen().getHostIp();
+                boolean host = menus.getWaitScreen().isHost();
+                menus.setWaitScreen(new StatusMenu("Waiting For Other Players",parent, false,false,ip,host));
             }
         }
         if(displayMode == 8){
@@ -1195,6 +1213,40 @@ public class BoardData {
         }
         return false;
     }
+
+
+    /**
+     * Restarts the whole game.
+     * Resets all data. To be used only when
+     * restarting.
+     */
+    public void restartClient(){
+        getParent().stop();
+        getParent().setup();
+        getParent().start();
+    }
+
+    public void serverDisconnectWarning(){
+        this.warning = new Notification(parent, "Lost Connection To Server",20);
+        warning.setVisible(true);
+    }
+
+    public void clientDisconnectWarning(){
+        this.warning = new Notification(parent, "A Player Has Left. The Game Cannot Continue",20);
+        warning.setVisible(true);
+    }
+
+    public void removePlayer(int id){
+        for(int i = 0; i < playerList.size(); i++){
+            if(playerList.get(i) == id){
+                playerList.remove(i);
+                break;
+            }
+
+        }
+    }
+
+
 }
 
 

@@ -1,8 +1,13 @@
 package Prototype5;
 
+import ServerPrototype1.Server;
 import processing.core.PImage;
 
 import java.awt.*;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 /**
  * Created by Tom_Bryant on 7/9/15.
@@ -19,6 +24,8 @@ public class ConnectMenu {
     private StringBuffer ip;
     private boolean typing;
     private boolean error;
+    private ArrayList<Button> buttons;
+    private int menuIndex;
 
 
     public ConnectMenu(Board parent,int width, int height,boolean error){
@@ -29,25 +36,73 @@ public class ConnectMenu {
         this.img = parent.loadImage("assets/logoSM.png");
         this.ip = new StringBuffer("Enter IP to Connect");
         this.error = error;
+        setupButtons();
+        if(error){
+            menuIndex = 1;
+        } else {
+            menuIndex = 0;
+        }
+    }
+
+    private void setupButtons(){
+        this.buttons = new ArrayList<Button>();
+        // 0 - Join game button;
+        Button join = new Button(200,40,"Join Game", parent);
+        join.setStartX(parent.SCREEN_WIDTH / 2 - 100);
+        buttons.add(join);
+        // 1 - host game button;
+        int hostWidth = Button.widthEstimate("Host Game", parent);
+        Button host = new Button(200,40,"Host Game", parent);
+        host.setStartX(parent.SCREEN_WIDTH/2 - 100);
+        buttons.add(host);
+        // 2 - Quit game button;
+        Button quit = new Button(200,40,"Quit", parent);
+        quit.setStartX(parent.SCREEN_WIDTH / 2 - 100);
+        buttons.add(quit);
+        // 3 - connect to server button;
+        Button connect = new Button(200,40,"Connect", parent);
+        connect.setStartX(parent.SCREEN_WIDTH / 2 - 100);
+        buttons.add(connect);
+        // 4 - back button;
+        Button back = new Button(200,40,"Back", parent);
+        back.setStartX(parent.SCREEN_WIDTH / 2 - 100);
+        buttons.add(back);
+
     }
 
     public void display(){
-
         parent.background(0, 188, 212);
-        parent.stroke(0,0,0,0);
-        parent.smooth(8);
-        parent.fill(0,0,0,70);
-        parent.rect(0, 0, parent.SCREEN_WIDTH, parent.SCREEN_HEIGHT);
-        //check to see if this menu is built after an error has occured
-        if(error) {
-            errorMessage("Server not found");
-        }
-        parent.fill(0,0,0,70);
-        parent.rect(center.x - (width/2)+2, center.y - (height/2)+2, width, height);
         parent.stroke(0, 0, 0, 0);
-        parent.fill(255, 243, 224);
-        parent.rect(center.x - (width/2), center.y - (height/2), width, height);
-        buttonsAndLogo();
+        parent.smooth(8);
+        parent.fill(0, 0, 0, 70);
+        parent.rect(0, 0, parent.SCREEN_WIDTH, parent.SCREEN_HEIGHT);
+        if(menuIndex == 0){
+            int height = 210;
+            parent.fill(0,0,0,30);
+            parent.rect(parent.SCREEN_WIDTH/2 - 110 +2, parent.SCREEN_HEIGHT/2 - 105 +2,220,220);
+            parent.fill(255, 243, 224);
+            parent.rect(parent.SCREEN_WIDTH/2 - 110, parent.SCREEN_HEIGHT/2 - 105,220,220);
+            parent.image(img, parent.SCREEN_WIDTH / 2 - 100, parent.SCREEN_HEIGHT / 2 - 100);
+            buttons.get(0).setStartY(parent.SCREEN_HEIGHT / 2 - 20);
+            buttons.get(1).setStartY(parent.SCREEN_HEIGHT/2 + 23);
+            buttons.get(2).setStartY(parent.SCREEN_HEIGHT/2 + 66);
+            buttons.get(0).display();
+            buttons.get(1).display();
+            buttons.get(2).display();
+        } else if(menuIndex == 1) {
+            connectMenu();
+        }else{
+            //check to see if this menu is built after an error has occured
+            if (error) {
+                errorMessage("Server not found");
+            }
+            parent.fill(0, 0, 0, 70);
+            parent.rect(center.x - (width / 2) + 2, center.y - (height / 2) + 2, width, height);
+            parent.stroke(0, 0, 0, 0);
+            parent.fill(255, 243, 224);
+            parent.rect(center.x - (width / 2), center.y - (height / 2), width, height);
+            buttonsAndLogo();
+        }
 
     }
 
@@ -65,6 +120,7 @@ public class ConnectMenu {
         parent.stroke(255,145,0);
         parent.fill(255, 243, 224);
         parent.rect(center.x - (width/2), center.y + ((height/2)/3),width, (height/3));
+        //buttons
         int textWidth = (int) parent.textWidth("CONNECT");
         parent.textSize(20);
         parent.fill(255,145,0);
@@ -75,6 +131,35 @@ public class ConnectMenu {
         int centerTextY = (center.y - (height/2) + (sectionHeight) + 5) + (sectionHeight /2);
         parent.text(ip.toString(), center.x - (width/2) + 10, centerTextY);
         parent.stroke(0,0,0,0);
+    }
+
+
+    public void connectMenu(){
+        if(error){
+            parent.fill(211, 47, 47);
+            parent.rect(parent.SCREEN_WIDTH/2 - 110, parent.SCREEN_HEIGHT/2 - 145, 220,40);
+            parent.fill(255);
+            parent.textAlign(parent.CENTER);
+            parent.text("Address Not Found", parent.SCREEN_WIDTH/2, parent.SCREEN_HEIGHT/2 - 110);
+            parent.textAlign(parent.LEFT);
+        }
+        parent.fill(0,0,0,30);
+        parent.rect(parent.SCREEN_WIDTH/2 - 110 +2, parent.SCREEN_HEIGHT/2 - 105 +2,220,240);
+        int height = 210;
+        parent.fill(255, 243, 224);
+        parent.rect(parent.SCREEN_WIDTH/2 - 110, parent.SCREEN_HEIGHT/2 - 105,220,240);
+        parent.image(img, parent.SCREEN_WIDTH / 2 - 100, parent.SCREEN_HEIGHT / 2 - 95);
+        parent.stroke(0,0,0,50);
+        parent.fill(255);
+        parent.rect(parent.SCREEN_WIDTH/2 - 105, parent.SCREEN_HEIGHT/2 -15, 210,40);
+        parent.textSize(18);
+        parent.fill(0,0,0,90);
+        parent.text(ip.toString(), parent.SCREEN_WIDTH/2 - 100 ,parent.SCREEN_HEIGHT/2 + 18 );
+        buttons.get(3).setStartY(parent.SCREEN_HEIGHT / 2 + 38);
+        buttons.get(4).setStartY(parent.SCREEN_HEIGHT / 2 + 81);
+        buttons.get(3).display();
+        buttons.get(4).display();
+
     }
 
     /**
@@ -136,18 +221,56 @@ public class ConnectMenu {
      * Checks to see if which button has been selected
      */
     public void checkButtons(){
+        if(menuIndex == 0){
+            //join button
+            if(buttons.get(0).checkButton()){
+                menuIndex = 1;
+            }
+            //host button
+            if(buttons.get(1).checkButton()){
+                parent.game =  new Server(4001,parent);
+                String ip = "127.0.0.1";
+                try {
+                     ip = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                parent.initiateConnection(ip);
+                parent.model.getMenus().getWaitScreen().setHost(true);
 
-        Point connectButton = new Point(center.x - (width/2), center.y + ((height/2)/3));
-        if(checkHover(connectButton, width, (height/3))){
-            this.typing = false;
-            parent.initiateConnection(ip.toString());
-        }
-        Point textButton = new Point(center.x - (width/2) + 5, center.y - (height/2) + (height/3) + 5);
-        if(checkHover(textButton, width - 10, (height / 3) - 10)){
-            this.typing = true;
-        }
-        else {
-            this.typing = false;
+            }
+            //quit button
+            if(buttons.get(2).checkButton()){
+               parent.exit();
+            }
+
+        } else if(menuIndex == 1){
+            if(Listeners.overRect(parent.SCREEN_WIDTH/2 - 105, parent.SCREEN_HEIGHT/2 -15, 210,40, parent)){
+                this.typing = true;
+            } else{
+                this.typing = false;
+            }
+            if(buttons.get(3).checkButton()){
+                String connect = ip.toString();
+                ip = new StringBuffer("Connecting");
+                parent.initiateConnection(connect);
+            }
+            if(buttons.get(4).checkButton()){
+                menuIndex = 0;
+            }
+        } else {
+
+            Point connectButton = new Point(center.x - (width / 2), center.y + ((height / 2) / 3));
+            if (checkHover(connectButton, width, (height / 3))) {
+                this.typing = false;
+                parent.initiateConnection(ip.toString());
+            }
+            Point textButton = new Point(center.x - (width / 2) + 5, center.y - (height / 2) + (height / 3) + 5);
+            if (checkHover(textButton, width - 10, (height / 3) - 10)) {
+                this.typing = true;
+            } else {
+                this.typing = false;
+            }
         }
 
     }

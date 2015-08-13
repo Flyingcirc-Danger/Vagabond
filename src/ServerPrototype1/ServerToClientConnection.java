@@ -5,6 +5,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
 import Prototype5.*;
+import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 
 /**
  * Created by Tom_Bryant on 7/7/15.
@@ -24,6 +25,7 @@ public class ServerToClientConnection {
     private int connectionStrength;
     private Game currentGame;
     private MessageRecord record;
+    private Player parent;
 
 
     public ServerToClientConnection(Socket conn, HashMap<Integer, String> heartBeat, int id, Game currentGame, MessageRecord record){
@@ -53,12 +55,9 @@ public class ServerToClientConnection {
                             //heartBeat.put(id, (String) msg);
                     }
                 } catch(EOFException e ){
-
                 }
                 catch (IOException e) {
-                    e.printStackTrace();
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
                 }
             }
 
@@ -77,7 +76,12 @@ public class ServerToClientConnection {
         try {
             out.writeObject(msg);
         } catch (IOException e) {
-            //e.printStackTrace();
+            System.out.println("Player  " + parent.getId() + " has left the game");
+            currentGame.removePlayer(parent);
+            System.out.println("There are " + currentGame.players.size() + " players, left in the game");
+            if(currentGame.clientBoard.model.getDisplayMode() != 7) {
+                currentGame.clientBoard.model.clientDisconnectWarning();
+            }
         }
     }
 
@@ -196,5 +200,29 @@ public class ServerToClientConnection {
         }
             heartBeat.put(id, message);
 
+    }
+
+    public Player getParent() {
+        return parent;
+    }
+
+    public void setParent(Player parent) {
+        this.parent = parent;
+    }
+
+    public ObjectInputStream getIn() {
+        return in;
+    }
+
+    public void setIn(ObjectInputStream in) {
+        this.in = in;
+    }
+
+    public ObjectOutputStream getOut() {
+        return out;
+    }
+
+    public void setOut(ObjectOutputStream out) {
+        this.out = out;
     }
 }

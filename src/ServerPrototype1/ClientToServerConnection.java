@@ -23,6 +23,7 @@ public class ClientToServerConnection {
     private String message;
     private ConcurrentLinkedQueue<String> messages;
     private BoardData model;
+    private boolean activeConnection;
 
     public ClientToServerConnection(int port, BoardData model,String ip) throws IOException {
             this.con = new Socket(ip, port);
@@ -31,6 +32,7 @@ public class ClientToServerConnection {
             this.message = new String();
             this.model = model;
             this.messages = new ConcurrentLinkedQueue();
+            this.activeConnection = true;
 
 
         /**
@@ -38,14 +40,21 @@ public class ClientToServerConnection {
          */
         Thread heartBeat = new Thread(){
             public void run(){
-                while(true){
+                while(activeConnection){
                     try {
                         String msg = (String) in.readObject();
                         messages.add(msg);
                         evaluateMessage();
                         //message = msg;
                     } catch (java.io.EOFException e){
-                        
+                        System.out.println("The Server Has Closed Your Connection");
+                        try {
+                            in.close();
+                            activeConnection = false;
+                            model.clientDisconnectWarning();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (ClassNotFoundException e) {
@@ -92,7 +101,7 @@ public class ClientToServerConnection {
         } else if(messages.size() > 0) {
             String message = messages.poll();
             if(message.length() > 1) {
-                System.out.println(message);
+               // System.out.println(message);
             }
             if (message.length() < 2) {
                 //System.out.println("HeartBeat message: " + message);

@@ -11,6 +11,8 @@ public class StatusMenu {
     private boolean button;
     private boolean highighted;
     private boolean active;
+    private String hostIp;
+    private boolean host;
 
     public StatusMenu(String text, Board parent, boolean button,boolean active){
         this.text = text;
@@ -20,9 +22,34 @@ public class StatusMenu {
         this.active = active;
     }
 
+    public StatusMenu(String text, Board parent, boolean button,boolean active, String hostIp,boolean host){
+        this.text = text;
+        this.parent = parent;
+        this.button = button;
+        this.highighted = false;
+        this.active = active;
+        this.hostIp = hostIp;
+        this.host = host;
+    }
+
     public void display(){
+        parent.background(0, 188, 212);
+        parent.stroke(0, 0, 0, 0);
+        parent.smooth(8);
+        parent.fill(0, 0, 0, 70);
+        parent.rect(0, 0, parent.SCREEN_WIDTH, parent.SCREEN_HEIGHT);
+
         int length = (int) parent.textWidth(text) + 40;
         int height = 60;
+        parent.fill(255);
+        parent.textAlign(parent.CENTER);
+        parent.textSize(20);
+        parent.text("You are connected to the game at IP: " + hostIp, parent.SCREEN_WIDTH/2, 40);
+        if(host){
+            parent.text("Players Ready: " + parent.game.mainGame.readyPlayers + "/" +
+                    parent.game.mainGame.players.size(), parent.SCREEN_WIDTH/2, 80);
+        }
+        parent.textAlign(parent.LEFT);
         if(button){
             height = 80;
             parent.textSize(20);
@@ -39,8 +66,8 @@ public class StatusMenu {
             parent.fill(121, 85, 72);
             parent.stroke(0,0,0,0);
             parent.rect(parent.SCREEN_WIDTH/2 - (length/2), parent.SCREEN_HEIGHT/2 - (height/2), length, height);
-            parent.fill(0,0,0,30);
-            parent.rect(parent.SCREEN_WIDTH/2 - (length/2)+2, parent.SCREEN_HEIGHT/2 - (height/2)+2, length, height);
+            parent.fill(0, 0, 0, 30);
+            parent.rect(parent.SCREEN_WIDTH / 2 - (length / 2) + 2, parent.SCREEN_HEIGHT/2 - (height/2)+2, length, height);
             parent.fill(255);
             parent.text(text,parent.SCREEN_WIDTH/2 - (parent.textWidth(text)/2), parent.SCREEN_HEIGHT/2 + 10);
         }
@@ -108,5 +135,21 @@ public class StatusMenu {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getHostIp() {
+        return hostIp;
+    }
+
+    public void setHostIp(String hostIp) {
+        this.hostIp = hostIp;
+    }
+
+    public boolean isHost() {
+        return host;
+    }
+
+    public void setHost(boolean host) {
+        this.host = host;
     }
 }

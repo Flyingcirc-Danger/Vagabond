@@ -344,6 +344,7 @@ public class TradeFloor {
                         playerNeg = trade;//accepted trader becomes the playerNeg (playerNegotiatedWith).
                         if(!isOpenTrade()) {
                             //perform the trade
+                            System.out.println("I accept the Trade");
                             parent.model.setTradeManifest(ObjectParser.parseAccept(this, true));
                         } else{
                             playerNeg.setActiveOffer(false);
@@ -362,10 +363,11 @@ public class TradeFloor {
                             int wants = trade.getWants().size();
                             for(int id : trade.getWants().keySet()){
                                 if(parent.model.getPlayer().getAllResource(id) >= trade.getWants().get(id)){
+                                    System.out.println("I Have enough " + id + " : " + trade.getWants().get(id));
                                     matchesWant++;
                                 }
                             }
-                            if(matchesWant == trade.getOffers().size()){
+                            if(matchesWant == wants){
                                 parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false,false));
                             } else{
                                 System.out.println("You do not have enough resources for this trade"); //TODO: Add actual trade warning 1
