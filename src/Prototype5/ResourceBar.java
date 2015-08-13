@@ -25,6 +25,9 @@ public class ResourceBar {
         parent.rect(0, 0, parent.SCREEN_WIDTH, 40);
         for(ResourceIcon icon : resources){
             icon.display();
+            if(Listeners.overRect(icon.getStartPos().x, icon.getStartPos().y, 62,30,parent)){
+                icon.displayTooltip();
+            }
         }
 
     }

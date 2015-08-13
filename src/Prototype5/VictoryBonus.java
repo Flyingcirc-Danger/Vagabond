@@ -2,6 +2,7 @@ package Prototype5;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Tom_Bryant on 8/11/15.
@@ -18,6 +19,7 @@ public class VictoryBonus {
     private boolean armyVisible;
     private Board parent;
     private ArrayList<Button> buttons;
+    private HashMap<String, Integer> victoryPointMap;
 
 
     /**
@@ -31,6 +33,12 @@ public class VictoryBonus {
         this.armyVisible = false;
         this.roadVisible = false;
         this.parent = parent;
+        this.victoryPointMap = new HashMap<String,Integer>();
+        victoryPointMap.put("Town", 0);
+        victoryPointMap.put("City",0);
+        victoryPointMap.put("Victory Point Card",0);
+        victoryPointMap.put("Longest Road", 0);
+        victoryPointMap.put("Largest Army",0);
     }
 
     private void initButtons(){
@@ -144,10 +152,13 @@ public class VictoryBonus {
             parent.textAlign(parent.CENTER);
             parent.textSize(30);
             parent.fill(255);
+            parent.textFont(parent.fonts[1]);
             parent.text("The Longest Road", parent.SCREEN_WIDTH / 2, startY + (cardHeight / 2) + 30);
             int textHeight = startY + cardHeight - (startY + (cardHeight / 2) + 40);
             parent.textSize(12);
             parent.textAlign(parent.CENTER, parent.CENTER);
+            parent.textFont(parent.fonts[0]);
+            parent.textSize(12);
             parent.text("2 Victory Points! The first player to build a road of 5 unbroken segments gets this card. Another player who builds a longer road takes control of this card", startX + 27, startY + (cardHeight / 2) + 40, cardWidth - 44, textHeight - 20);
             buttons.get(0).setStartY(startY + cardHeight + 20);
             buttons.get(0).display();
@@ -184,6 +195,7 @@ public class VictoryBonus {
             parent.textSize(12);
             parent.textAlign(parent.CENTER, parent.CENTER);
             parent.textFont(parent.fonts[0]);
+            parent.textSize(12);
             parent.text("2 Victory Points! The first player to use three knights has the largest army. Another player who plays more knights takes control of this card", startX + 27, startY + (cardHeight / 2) + 40, cardWidth - 44, textHeight - 20);
             buttons.get(0).setStartY(startY + cardHeight + 20);
             buttons.get(0).display();
@@ -219,4 +231,12 @@ public class VictoryBonus {
 
     }
 
+
+    public HashMap<String, Integer> getVictoryPointMap() {
+        return victoryPointMap;
+    }
+
+    public void setVictoryPointMap(HashMap<String, Integer> victoryPointMap) {
+        this.victoryPointMap = victoryPointMap;
+    }
 }

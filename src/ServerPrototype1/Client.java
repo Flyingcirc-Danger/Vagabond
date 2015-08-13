@@ -1,6 +1,7 @@
 package ServerPrototype1;
 
 import Prototype5.*;
+import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 
 import java.io.IOException;
 
@@ -46,6 +47,10 @@ public class Client {
                         System.out.println("Sent victory bonus");
                         String bonus = model.getBonusManifestString();
                         connection.write(bonus);
+                    } else if(model.winReady){
+                        System.out.println("Sent Win Dialogue");
+                        String win = model.getWinManifestString();
+                        connection.write(win);
                     } else if(connection.getMessage().length() > 0){
                         //HANDLES Replies. If the message is an XML reply
                         String sendMessage = connection.getMessage();

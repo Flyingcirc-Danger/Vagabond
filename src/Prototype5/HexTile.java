@@ -1026,7 +1026,9 @@ public class HexTile {
      */
     private boolean checkAffordBuild(String building){
         if(building.equals("town")){
+            HashMap<String,Integer> vp = parent.model.getVictoryBonus().getVictoryPointMap();
             if(model.settlementQuota < 2){
+                vp.put("Town",vp.get("Town") + 1);
                 return true;
             }
             PlayerInfo toCheck =parent.model.getPlayer();
@@ -1038,6 +1040,7 @@ public class HexTile {
                 toCheck.subtractLogs(1);
                 toCheck.subtractGrain(1);
                 toCheck.subtractWool(1);
+                vp.put("Town",vp.get("Town") + 1);
                 return true;
             }
 
@@ -1057,6 +1060,17 @@ public class HexTile {
                 return true;
             }
 
+        } else if(building.equals("city")){
+            HashMap<String,Integer> vp = parent.model.getVictoryBonus().getVictoryPointMap();
+            PlayerInfo toCheck =parent.model.getPlayer();
+            if(toCheck.getGrain() >= 2 &&
+                    toCheck.getOre() >= 3){
+                vp.put("City", vp.get("City") + 1);
+                vp.put("Town", vp.get("Town") - 1);
+                toCheck.subtractGrain(2);
+                toCheck.subtractOre(3);
+                return true;
+            }
         }
         return false;
     }
@@ -1077,7 +1091,7 @@ public class HexTile {
 
                             A.setSettled(true);
                             parent.model.settlementQuota++;
-                            parent.model.addVP();
+                            parent.model.addVP(1);
                             A.generateManifest();
                         }
                     }
@@ -1088,7 +1102,7 @@ public class HexTile {
                             B.setOwner(model.getPlayer().getId());
                             B.setSettled(true);
                             parent.model.settlementQuota++;
-                            parent.model.addVP();
+                            parent.model.addVP(1);
                             B.generateManifest();
                         }
                     }
@@ -1100,7 +1114,7 @@ public class HexTile {
                             C.setOwner(model.getPlayer().getId());
                             C.setSettled(true);
                             parent.model.settlementQuota++;
-                            parent.model.addVP();
+                            parent.model.addVP(1);
                             C.generateManifest();
                         }
                     }
@@ -1112,7 +1126,7 @@ public class HexTile {
                             D.setOwner(model.getPlayer().getId());
                             D.setSettled(true);
                             parent.model.settlementQuota++;
-                            parent.model.addVP();
+                            parent.model.addVP(1);
                             D.generateManifest();
                         }
                     }
@@ -1124,7 +1138,7 @@ public class HexTile {
                             E.setOwner(model.getPlayer().getId());
                             E.setSettled(true);
                             parent.model.settlementQuota++;
-                            parent.model.addVP();
+                            parent.model.addVP(1);
                             E.generateManifest();
                         }
                     }
@@ -1136,7 +1150,7 @@ public class HexTile {
                             F.setOwner(model.getPlayer().getId());
                             F.setSettled(true);
                             parent.model.settlementQuota++;
-                            parent.model.addVP();
+                            parent.model.addVP(1);
                             F.generateManifest();
                         }
                     }
@@ -1145,55 +1159,61 @@ public class HexTile {
                 if(parent.currentTool == 3){
                     if (A.overPoint() && A.validUpgrade()) {
                         if (!A.isCity()) {
-
-                            A.setCity(true);
-                            parent.model.addVP();
-                            A.generateManifest();
+                            if(checkAffordBuild("city")) {
+                                A.setCity(true);
+                                parent.model.addVP(1);
+                                A.generateManifest();
+                            }
                         }
                         return;
                     }
                     if (B.overPoint() && B.validUpgrade()) {
                         if (!B.isCity()) {
-                           // addOwner(model.getPlayer().getId());
-                            B.setCity(true);
-                            parent.model.addVP();
-                            B.generateManifest();
+                            if(checkAffordBuild("city")) {
+                                B.setCity(true);
+                                parent.model.addVP(1);
+                                B.generateManifest();
+                            }
                         }
                         return;
                     }
                     if (C.overPoint() && C.validUpgrade()) {
                         if (!C.isCity()) {
-                            //addOwner(model.getPlayer().getId());
-                            C.setCity(true);
-                            parent.model.addVP();
-                            C.generateManifest();
+                            if(checkAffordBuild("city")) {
+                                C.setCity(true);
+                                parent.model.addVP(1);
+                                C.generateManifest();
+                            }
                         }
                         return;
                     }
                     if (D.overPoint() && D.validUpgrade()) {
                         if (!D.isCity()) {
-                            //addOwner(model.getPlayer().getId());
-                            D.setCity(true);
-                            parent.model.addVP();
-                            D.generateManifest();
+                            if(checkAffordBuild("city")) {
+                                D.setCity(true);
+                                parent.model.addVP(1);
+                                D.generateManifest();
+                            }
                         }
                         return;
                     }
                     if (E.overPoint() && E.validUpgrade()) {
                         if (!E.isCity()) {
-                           // addOwner(model.getPlayer().getId());
-                            E.setCity(true);
-                            parent.model.addVP();
-                            E.generateManifest();
+                            if(checkAffordBuild("city")) {
+                                E.setCity(true);
+                                parent.model.addVP(1);
+                                E.generateManifest();
+                            }
                         }
                         return;
                     }
                     if (F.overPoint() && F.validUpgrade()) {
                         if (!F.isCity()) {
-                            //addOwner(model.getPlayer().getId());
-                            F.setCity(true);
-                            parent.model.addVP();
-                            F.generateManifest();
+                            if(checkAffordBuild("city")) {
+                                F.setCity(true);
+                                parent.model.addVP(1);
+                                F.generateManifest();
+                            }
                         }
                         return;
                     }

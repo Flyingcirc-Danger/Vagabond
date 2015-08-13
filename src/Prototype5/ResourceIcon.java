@@ -3,6 +3,8 @@ package Prototype5;
 import processing.core.PImage;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by Tom_Bryant on 7/13/15.
@@ -79,6 +81,60 @@ public class ResourceIcon {
             return parent.model.getVictoryPoints();
         }
         return parent.model.getPlayer().getLogs();
+    }
+
+
+    public void displayTooltip(){
+        if(resource.equals("victorypoint")){
+            parent.stroke(0,0,0,0);
+            parent.fill(121, 85, 72);
+            parent.textSize(12);
+            int height = height = 18 * 5;
+            int width =(int) parent.textWidth("Largest Army : 0    ");
+            HashMap<String, Integer> vp = parent.model.getVictoryBonus().getVictoryPointMap();
+            parent.rect(startPos.x, 42, width,height,0,0,2,2);
+            parent.fill(255);
+            int runningTotal = 0;
+            parent.text("Towns: " + vp.get("Town"), startPos.x + 5, 44 + runningTotal, startPos.x + width - 5, 42+ height -2);
+            runningTotal += 16;
+            parent.text("Cities: " + vp.get("City"), startPos.x + 5, 44 + runningTotal, startPos.x + width - 5, 42+ height -2);
+            runningTotal += 16;
+            parent.text("VP Cards: " + vp.get("Victory Point Card"), startPos.x + 5, 44 + runningTotal, startPos.x + width - 5, 42+ height -2);
+            runningTotal += 16;
+            parent.text("Longest Road: "+ vp.get("Longest Road"), startPos.x + 5, 44 + runningTotal, startPos.x + width - 5, 42+ height -2);
+            runningTotal += 16;
+            parent.text("Largest Army: " + vp.get("Largest Army"), startPos.x + 5, 44 + runningTotal, startPos.x + width - 5, 42+ height -2);
+            //1 town, 2 city, 3 victory cards, 4, longest road, 5 largest army.
+        }
+        else{
+            String newResource = new String();
+            if(resource.equals("grain")){
+                newResource = "Wheat";
+            }
+            if(resource.equals("ore")){
+                newResource = "Ore";
+            }
+            if(resource.equals("wool")){
+                newResource = "Wool";
+            }
+            if(resource.equals("logs")){
+                newResource = "Logs";
+            }
+            if(resource.equals("brick")){
+                newResource = "Bricks";
+            }
+            if(resource.equals("army")){
+                newResource = "Soldiers";
+            }
+            parent.stroke(0,0,0,0);
+            parent.fill(121, 85, 72);
+            parent.textSize(12);
+            int height = 20;
+            int width = 10 + (int) parent.textWidth(newResource);
+            parent.rect(startPos.x, 42,width,height,0,0,4,4);
+            parent.fill(255);
+            parent.text(newResource,startPos.x + 5, 58);
+        }
     }
 
 

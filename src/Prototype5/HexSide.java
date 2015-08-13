@@ -433,15 +433,16 @@ public class HexSide {
         if(length >= 5 && length > compare.getRoadSize()){
             //if i've not already got the largest road
             if(compare.getRoadID() != parent.model.getPlayer().getId()){
-                parent.model.addVP();
-                parent.model.addVP();
+                parent.model.addVP(2);
                 compare.setRoadID(parent.model.getPlayer().getId());
                 compare.setRoadSize(length);
                 parent.model.getVictoryBonus().setRoadVisible(true);
                 parent.model.setBonusManifest(parent.model.getVictoryBonus().generateBonusManifest("road"));
+                parent.model.getVictoryBonus().getVictoryPointMap().put("Longest Road", 1);
             } else{
                 //if i've already got the longest road, just update the length
                 compare.setRoadSize(length);
+                parent.model.setBonusManifest(parent.model.getVictoryBonus().generateBonusManifest("road"));
             }
 
         }

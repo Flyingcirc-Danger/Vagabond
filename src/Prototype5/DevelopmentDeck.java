@@ -3,6 +3,7 @@ package Prototype5;
 import processing.core.PImage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -120,7 +121,9 @@ public class DevelopmentDeck {
         parent.model.getMenus().getDeckScreen().setSelectionIndex(
                 parent.model.getPlayer().getPlayerDeck().size() - 1);
         if(candidate.getType().equals("Victory Point")){
-            parent.model.addVP();
+            parent.model.addVP(1);
+            HashMap<String,Integer> vp = parent.model.getVictoryBonus().getVictoryPointMap();
+            vp.put("Victory Point Card", vp.get("Victory Point Card") + 1);
         }
         turnRemovedCards++;
     }

@@ -965,6 +965,10 @@ public class ObjectParser {
                 System.out.println("request received victoryBonus");
                 readVictoryBonus(model, XML);
             }
+            else if(doc.getElementsByTagName("WIN").getLength() > 0){
+                System.out.println("request received WIN");
+                readWin(model, XML);
+            }
             model.setMessageToggle(false);
         } catch (IOException e) {
             e.printStackTrace();
@@ -1045,6 +1049,10 @@ public class ObjectParser {
             if(doc.getElementsByTagName("victorybonus").getLength() > 0){
                 currentGame.lastMessageType = 2;
                 return 6;
+            }
+            if(doc.getElementsByTagName("WIN").getLength() > 0){
+                currentGame.lastMessageType = 2;
+                return 7;
             }
 
 
@@ -1839,6 +1847,7 @@ public class ObjectParser {
                     model.subVP();
                     model.subVP();
                     model.setGameStatusNotifier("You Lose the Largest Army");
+                    model.getVictoryBonus().getVictoryPointMap().put("Largest Army", 0);
                 }
                 bonus.setArmyID(id);
                 bonus.setArmySize(size);
@@ -1848,10 +1857,55 @@ public class ObjectParser {
                     model.subVP();
                     model.subVP();
                     model.setGameStatusNotifier("You Lose the Longest Road");
+                    model.getVictoryBonus().getVictoryPointMap().put("Longest Road", 0);
                 }
                 bonus.setRoadID(id);
                 bonus.setRoadSize(size);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static String parseWin(BoardData model){
+        StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        result.append("<WIN>");
+        HashMap<String, Integer> vp = model.getVictoryBonus().getVictoryPointMap();
+        result.append("<id>" + model.getPlayer().getId() + "</id>");
+        result.append("<town>" + vp.get("Town") + "</town>");
+        result.append("<city>" + vp.get("City") + "</city>");
+        result.append("<longestroad>" + vp.get("Longest Road") + "</longestroad>");
+        result.append("<largestarmy>" + vp.get("Largest Army") + "</largestarmy>");
+        result.append("<vpcard>" + vp.get("Victory Point Card") + "</vpcard>");
+        result.append("</WIN>");
+        return result.toString();
+    }
+
+    public static void readWin(BoardData model, String XML) {
+        try {
+            Document dom = stringToDom(XML);
+            int id = Integer.parseInt(dom.getElementsByTagName("id").item(0).getTextContent());
+            int townNo = Integer.parseInt(dom.getElementsByTagName("town").item(0).getTextContent());
+            int cityNo= Integer.parseInt(dom.getElementsByTagName("city").item(0).getTextContent());
+            int LRNo = Integer.parseInt(dom.getElementsByTagName("longestroad").item(0).getTextContent());
+            int LANo = Integer.parseInt(dom.getElementsByTagName("largestarmy").item(0).getTextContent());
+            int vpCard = Integer.parseInt(dom.getElementsByTagName("vpcard").item(0).getTextContent());
+            HashMap<String, Integer> winnersScore = model.getMenus().getWinDialogue().getWinnersScore();
+            if(id != model.getPlayer().getId()) {
+                winnersScore.put("Town", townNo);
+                winnersScore.put("City", cityNo);
+                winnersScore.put("Victory Point Card", vpCard);
+                winnersScore.put("Longest Road", LRNo);
+                winnersScore.put("Largest Army", LANo);
+                model.getMenus().getWinDialogue().setWinId(id);
+                model.setDisplayMode(11);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {

@@ -468,6 +468,11 @@ public class PlayerDeckScreen {
                                         vb.setArmyID(parent.model.getPlayer().getId());
                                         vb.setArmyVisible(true);
                                         parent.model.setBonusManifest(vb.generateBonusManifest("knight"));
+                                        parent.model.getVictoryBonus().getVictoryPointMap().put("Largest Army", 1);
+                                        parent.model.addVP(2);
+                                    } else{
+                                        vb.setArmySize(parent.model.getArmySize());
+                                        parent.model.setBonusManifest(vb.generateBonusManifest("knight"));
                                     }
                                 }
                             } else {

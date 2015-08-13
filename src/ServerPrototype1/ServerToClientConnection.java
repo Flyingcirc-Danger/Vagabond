@@ -188,6 +188,10 @@ public class ServerToClientConnection {
                 if(parseVal == 6){
                     record.setCurrent(message);
                 }
+                //for WIN
+                if(parseVal == 7){
+                    record.setCurrent(message);
+                }
             }
         }
             heartBeat.put(id, message);

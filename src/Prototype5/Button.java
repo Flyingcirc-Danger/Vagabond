@@ -175,7 +175,7 @@ public class Button {
             parent.rect(start.x+2, start.y+2, width, height, curveSize, curveSize, curveSize, curveSize);
             parent.textAlign(parent.CENTER, parent.CENTER);
             parent.fill(fontColor[0], fontColor[1], fontColor[2]);
-            parent.text(buttonText, start.x + width/2, start.y + height/2);
+            parent.text(buttonText, start.x + width/2, textStart.y);
             parent.textAlign(parent.LEFT, parent.BOTTOM);
         }
     }

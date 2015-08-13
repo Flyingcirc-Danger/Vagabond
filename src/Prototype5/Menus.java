@@ -28,6 +28,7 @@ public class Menus {
     private RobDialogue robDialogue;
     private DevelopmentDeck deck;
     private PlayerDeckScreen deckScreen;
+    private WinDialogue winDialogue;
 
     public Menus(Board parent, PlayerInfo player){
         this.gameMenu = new GameMenu(parent, 300,400);
@@ -43,7 +44,7 @@ public class Menus {
         this.robDialogue = new RobDialogue(parent);
         this.deck = new DevelopmentDeck(parent);
         this.deckScreen = new PlayerDeckScreen(parent,player);
-
+        this.winDialogue = new WinDialogue(parent);
 
     }
 
@@ -155,5 +156,11 @@ public class Menus {
         this.deckScreen = deckScreen;
     }
 
+    public WinDialogue getWinDialogue() {
+        return winDialogue;
+    }
 
+    public void setWinDialogue(WinDialogue winDialogue) {
+        this.winDialogue = winDialogue;
+    }
 }
