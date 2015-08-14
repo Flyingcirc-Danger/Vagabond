@@ -29,6 +29,7 @@ public class Menus {
     private DevelopmentDeck deck;
     private PlayerDeckScreen deckScreen;
     private WinDialogue winDialogue;
+    private EscapeMenu escape;
 
     public Menus(Board parent, PlayerInfo player){
         this.gameMenu = new GameMenu(parent, 300,400);
@@ -45,6 +46,7 @@ public class Menus {
         this.deck = new DevelopmentDeck(parent);
         this.deckScreen = new PlayerDeckScreen(parent,player);
         this.winDialogue = new WinDialogue(parent);
+        this.escape = new EscapeMenu(parent);
 
     }
 
@@ -162,5 +164,13 @@ public class Menus {
 
     public void setWinDialogue(WinDialogue winDialogue) {
         this.winDialogue = winDialogue;
+    }
+
+    public EscapeMenu getEscape() {
+        return escape;
+    }
+
+    public void setEscape(EscapeMenu escape) {
+        this.escape = escape;
     }
 }

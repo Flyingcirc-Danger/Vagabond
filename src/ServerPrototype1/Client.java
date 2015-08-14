@@ -74,5 +74,11 @@ public class Client {
     }
 
 
+    public ClientToServerConnection getConnection() {
+        return connection;
+    }
 
+    public void setConnection(ClientToServerConnection connection) {
+        this.connection = connection;
+    }
 }

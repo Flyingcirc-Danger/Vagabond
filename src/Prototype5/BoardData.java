@@ -1,9 +1,9 @@
 package Prototype5;
 
 
-import com.sun.org.apache.xml.internal.serializer.utils.SerializerMessages_zh_TW;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -1221,6 +1221,22 @@ public class BoardData {
      * restarting.
      */
     public void restartClient(){
+        if(parent.game != null) {
+            parent.game.activeConnection = false;
+            try {
+                parent.game.serverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(parent.client != null){
+            try {
+                parent.client.getConnection().getCon().close();
+                parent.client.getConnection().setActiveConnection(false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         warning.setVisible(false);
         getParent().stop();
         getParent().setup();

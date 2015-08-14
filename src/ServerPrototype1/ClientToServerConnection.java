@@ -46,6 +46,7 @@ public class ClientToServerConnection {
                         messages.add(msg);
                         evaluateMessage();
                         //message = msg;
+
                     } catch (java.io.EOFException e){
                         System.out.println("The Server Has Closed Your Connection");
                         try {
@@ -114,4 +115,20 @@ public class ClientToServerConnection {
         }
     }
 
+
+    public Socket getCon() {
+        return con;
+    }
+
+    public void setCon(Socket con) {
+        this.con = con;
+    }
+
+    public boolean isActiveConnection() {
+        return activeConnection;
+    }
+
+    public void setActiveConnection(boolean activeConnection) {
+        this.activeConnection = activeConnection;
+    }
 }

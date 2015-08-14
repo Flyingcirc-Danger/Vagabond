@@ -171,6 +171,9 @@ public class Board extends PApplet {
         if(model.getDisplayMode() == 10){
             model.getWarning().setVisible(false);
         }
+        if(model.getDisplayMode() != 10){
+            model.getMenus().getEscape().display();
+        }
 
         model.getWarning().display();
 
@@ -185,16 +188,12 @@ public class Board extends PApplet {
 
         @Override
         public void mousePressed () {
+            //block all button checks when on the escape menu
+            if(model.getMenus().getEscape().isVisible()){
+                return;
+            }
             model.checkMenus();
             if(model.getWarning().checkButtons()){
-                if(game != null) {
-                    game.activeConnection = false;
-                    try {
-                        game.serverSocket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
                 model.restartClient();
             }
             //regular board with debugging
@@ -214,7 +213,7 @@ public class Board extends PApplet {
         if(key == ESC){
             key = 0;
             if(model.getDisplayMode() != 10){
-                System.out.println("Here we display the escape menu");
+                model.getMenus().getEscape().toggleDisplay();
             }
         }
         if(model.getDisplayMode() ==10){
