@@ -1,11 +1,10 @@
 package Prototype5;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 import java.awt.*;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -303,21 +302,67 @@ public class HexTile {
         if(this.resource.equals("desert")){
             return;
         }
-        PImage img = parent.resourceIMG[0];
+        int ownerStake = getOwners().get(parent.model.getPlayer().getId());
+        int index = 0;
+        //grain
 
+        PImage img = parent.resourceIMG[index];
+
+        if(this.resource.equals("grain")){
+            index = calculateIndexByStake(ownerStake,0);
+            img = parent.resourceIMG[index];
+        }
+
+        //ore
         if(this.resource.equals("mine")){
-            img = parent.resourceIMG[1];
+            index = calculateIndexByStake(ownerStake, 1);
+            img = parent.resourceIMG[index];
         }
+        //wool
         if(this.resource.equals("pasture")){
-            img = parent.resourceIMG[2];
+            index = calculateIndexByStake(ownerStake, 2);
+            img = parent.resourceIMG[index];
         }
+        //brick
         if(this.resource.equals("brick")){
-            img = parent.resourceIMG[3];
+            index = calculateIndexByStake(ownerStake, 3);
+            img = parent.resourceIMG[index];
         }
+        //forest
         if(this.resource.equals("forest")){
-            img = parent.resourceIMG[4];
+            index = calculateIndexByStake(ownerStake, 4);
+            img = parent.resourceIMG[index];
         }
         parent.image(img,center.x - (img.width/2), center.y - (img.height/2));
+    }
+
+    /**
+     * Returns the correct resource image index based off the
+     * amount of resources the player recieves
+     * @param stake
+     * @param index
+     * @return
+     */
+    private int calculateIndexByStake(int stake, int index){
+        if(stake == 2){
+            return index + 5;
+        }
+        if(stake == 3){
+            return index + 11;
+        }
+        if(stake == 4){
+            return index + 16;
+        }
+        if(stake == 5){
+            return index + 21;
+        }
+        if(stake == 6){
+            return index + 26;
+        }
+        else{
+            return index;
+        }
+
     }
 
 
@@ -1161,6 +1206,7 @@ public class HexTile {
                         if (!A.isCity()) {
                             if(checkAffordBuild("city")) {
                                 A.setCity(true);
+                                A.setOwner(model.getPlayer().getId());
                                 parent.model.addVP(1);
                                 A.generateManifest();
                             }
@@ -1171,6 +1217,7 @@ public class HexTile {
                         if (!B.isCity()) {
                             if(checkAffordBuild("city")) {
                                 B.setCity(true);
+                                B.setOwner(model.getPlayer().getId());
                                 parent.model.addVP(1);
                                 B.generateManifest();
                             }
@@ -1181,6 +1228,7 @@ public class HexTile {
                         if (!C.isCity()) {
                             if(checkAffordBuild("city")) {
                                 C.setCity(true);
+                                C.setOwner(model.getPlayer().getId());
                                 parent.model.addVP(1);
                                 C.generateManifest();
                             }
@@ -1191,6 +1239,7 @@ public class HexTile {
                         if (!D.isCity()) {
                             if(checkAffordBuild("city")) {
                                 D.setCity(true);
+                                D.setOwner(model.getPlayer().getId());
                                 parent.model.addVP(1);
                                 D.generateManifest();
                             }
@@ -1201,6 +1250,7 @@ public class HexTile {
                         if (!E.isCity()) {
                             if(checkAffordBuild("city")) {
                                 E.setCity(true);
+                                E.setOwner(model.getPlayer().getId());
                                 parent.model.addVP(1);
                                 E.generateManifest();
                             }
@@ -1211,6 +1261,7 @@ public class HexTile {
                         if (!F.isCity()) {
                             if(checkAffordBuild("city")) {
                                 F.setCity(true);
+                                F.setOwner(model.getPlayer().getId());
                                 parent.model.addVP(1);
                                 F.generateManifest();
                             }

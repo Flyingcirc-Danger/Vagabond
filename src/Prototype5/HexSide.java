@@ -229,10 +229,15 @@ public class HexSide {
      * @return true if it is valid
      */
     public boolean validBuild(){
-        if((start.isSettled() && start.checkAgainstOwner(model.getPlayer().getId())) || (
-                end.isSettled() && end.checkAgainstOwner(model.getPlayer().getId())) ){
+        if(start.isSettled() && start.checkAgainstOwner(model.getPlayer().getId())){
             return true;
         }
+        if(end.isSettled() && end.checkAgainstOwner(model.getPlayer().getId())){
+            return true;
+        }
+
+
+
         for(HexSide ne : neighbors){
             if(ne.isBuilt()){
                 if(ne.getOwner() ==parent.model.getPlayer().getId()) {

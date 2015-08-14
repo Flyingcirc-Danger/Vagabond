@@ -4,7 +4,7 @@ import ServerPrototype1.Server;
 import processing.core.PImage;
 
 import java.awt.*;
-import java.net.Inet4Address;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -26,6 +26,7 @@ public class ConnectMenu {
     private boolean error;
     private ArrayList<Button> buttons;
     private int menuIndex;
+    private String errorMessage;
 
 
     public ConnectMenu(Board parent,int width, int height,boolean error){
@@ -36,6 +37,24 @@ public class ConnectMenu {
         this.img = parent.loadImage("assets/logoSM.png");
         this.ip = new StringBuffer("Enter IP to Connect");
         this.error = error;
+        this.errorMessage = "Address Not Found";
+        setupButtons();
+        if(error){
+            menuIndex = 1;
+        } else {
+            menuIndex = 0;
+        }
+    }
+
+    public ConnectMenu(Board parent,int width, int height,boolean error, String errorMessage ){
+        this.parent = parent;
+        this.center = new Point (parent.SCREEN_WIDTH/2, parent.SCREEN_HEIGHT/2);
+        this.width = width;
+        this.height = height;
+        this.img = parent.loadImage("assets/logoSM.png");
+        this.ip = new StringBuffer("Enter IP to Connect");
+        this.error = error;
+        this.errorMessage = errorMessage;
         setupButtons();
         if(error){
             menuIndex = 1;
@@ -78,10 +97,15 @@ public class ConnectMenu {
         parent.rect(0, 0, parent.SCREEN_WIDTH, parent.SCREEN_HEIGHT);
         if(menuIndex == 0){
             int height = 210;
+            int width = 220;
+            int textWidth = (int) (parent.textWidth(errorMessage) + 20);
+            if(width <  textWidth){
+                width = textWidth;
+            }
             parent.fill(0,0,0,30);
-            parent.rect(parent.SCREEN_WIDTH/2 - 110 +2, parent.SCREEN_HEIGHT/2 - 105 +2,220,220);
+            parent.rect(parent.SCREEN_WIDTH/2 - width/2 +2, parent.SCREEN_HEIGHT/2 - 105 +2,width,220);
             parent.fill(255, 243, 224);
-            parent.rect(parent.SCREEN_WIDTH/2 - 110, parent.SCREEN_HEIGHT/2 - 105,220,220);
+            parent.rect(parent.SCREEN_WIDTH/2 - width/2, parent.SCREEN_HEIGHT/2 - 105,width,220);
             parent.image(img, parent.SCREEN_WIDTH / 2 - 100, parent.SCREEN_HEIGHT / 2 - 100);
             buttons.get(0).setStartY(parent.SCREEN_HEIGHT / 2 - 20);
             buttons.get(1).setStartY(parent.SCREEN_HEIGHT/2 + 23);
@@ -136,18 +160,24 @@ public class ConnectMenu {
 
     public void connectMenu(){
         if(error){
+            int textWidth = (int) (parent.textWidth(errorMessage) + 20);
             parent.fill(211, 47, 47);
-            parent.rect(parent.SCREEN_WIDTH/2 - 110, parent.SCREEN_HEIGHT/2 - 145, 220,40);
+            parent.rect(parent.SCREEN_WIDTH/2 - textWidth/2, parent.SCREEN_HEIGHT/2 - 145, textWidth,40);
             parent.fill(255);
             parent.textAlign(parent.CENTER);
-            parent.text("Address Not Found", parent.SCREEN_WIDTH/2, parent.SCREEN_HEIGHT/2 - 110);
+            parent.text(errorMessage, parent.SCREEN_WIDTH/2, parent.SCREEN_HEIGHT/2 - 110);
             parent.textAlign(parent.LEFT);
         }
+        int width = 220;
+        int textWidth = (int) (parent.textWidth(errorMessage));
+        if(width <  textWidth){
+            width = textWidth;
+        }
         parent.fill(0,0,0,30);
-        parent.rect(parent.SCREEN_WIDTH/2 - 110 +2, parent.SCREEN_HEIGHT/2 - 105 +2,220,240);
+        parent.rect(parent.SCREEN_WIDTH/2 - width/2 +2, parent.SCREEN_HEIGHT/2 - 105 +2,width,240);
         int height = 210;
         parent.fill(255, 243, 224);
-        parent.rect(parent.SCREEN_WIDTH/2 - 110, parent.SCREEN_HEIGHT/2 - 105,220,240);
+        parent.rect(parent.SCREEN_WIDTH/2 - width/2, parent.SCREEN_HEIGHT/2 - 105,width,240);
         parent.image(img, parent.SCREEN_WIDTH / 2 - 100, parent.SCREEN_HEIGHT / 2 - 95);
         parent.stroke(0,0,0,50);
         parent.fill(255);
@@ -228,7 +258,12 @@ public class ConnectMenu {
             }
             //host button
             if(buttons.get(1).checkButton()){
-                parent.game =  new Server(4001,parent);
+                try {
+                    parent.game =  new Server(4001,parent);
+                } catch (IOException e) {
+                    parent.model.getMenus().setConnect(new ConnectMenu(parent,300,200,true,"Server Is Already Running"));
+                    return;
+                }
                 String ip = "127.0.0.1";
                 try {
                      ip = InetAddress.getLocalHost().getHostAddress();
@@ -294,6 +329,10 @@ public class ConnectMenu {
             ip.append(pressed);
         }
     }
+
+
+
+
 
 
 

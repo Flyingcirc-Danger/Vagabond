@@ -52,6 +52,7 @@ public class ClientToServerConnection {
                             in.close();
                             activeConnection = false;
                             model.clientDisconnectWarning();
+                            System.out.println("CALLED FROM THE CLIENT");
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }

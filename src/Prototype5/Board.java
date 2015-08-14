@@ -54,7 +54,7 @@ public class Board extends PApplet {
         background(0, 188, 212);
         this.currentTool = 0;
         this.images = new PImage[27];
-        this.resourceIMG = new PImage[11];
+        this.resourceIMG = new PImage[31];
         this.images[0] = loadImage("assets/logoSM.png");
         this.images[1] = loadImage("assets/grainSM.png");
         this.images[2] = loadImage("assets/oreSM.png");
@@ -85,19 +85,43 @@ public class Board extends PApplet {
         this.images[25] = loadImage("assets/bankSMBW.png");
         this.images[26] = loadImage("assets/tradeSMBW.png");
 
-
-
         this.resourceIMG[0] = loadImage("assets/grainLG1.png");
         this.resourceIMG[1] = loadImage("assets/oreLG1.png");
         this.resourceIMG[2] = loadImage("assets/woolLG1.png");
         this.resourceIMG[3] = loadImage("assets/brickLG1.png");
         this.resourceIMG[4] = loadImage("assets/logsLG1.png");
+
         this.resourceIMG[5] = loadImage("assets/grainLG2.png");
         this.resourceIMG[6] = loadImage("assets/oreLG2.png");
         this.resourceIMG[7] = loadImage("assets/woolLG2.png");
         this.resourceIMG[8] = loadImage("assets/brickLG2.png");
         this.resourceIMG[9] = loadImage("assets/logsLG2.png");
+
         this.resourceIMG[10] = loadImage("assets/robber.png");
+
+        this.resourceIMG[11] = loadImage("assets/grainLG3.png");
+        this.resourceIMG[12] = loadImage("assets/oreLG3.png");
+        this.resourceIMG[13] = loadImage("assets/woolLG3.png");
+        this.resourceIMG[14] = loadImage("assets/brickLG3.png");
+        this.resourceIMG[15] = loadImage("assets/logsLG3.png");
+
+        this.resourceIMG[16] = loadImage("assets/grainLG4.png");
+        this.resourceIMG[17] = loadImage("assets/oreLG4.png");
+        this.resourceIMG[18] = loadImage("assets/woolLG4.png");
+        this.resourceIMG[19] = loadImage("assets/brickLG4.png");
+        this.resourceIMG[20] = loadImage("assets/logsLG4.png");
+
+        this.resourceIMG[21] = loadImage("assets/grainLG5.png");
+        this.resourceIMG[22] = loadImage("assets/oreLG5.png");
+        this.resourceIMG[23] = loadImage("assets/woolLG5.png");
+        this.resourceIMG[24] = loadImage("assets/brickLG5.png");
+        this.resourceIMG[25] = loadImage("assets/logsLG5.png");
+
+        this.resourceIMG[26] = loadImage("assets/grainLG6.png");
+        this.resourceIMG[27] = loadImage("assets/oreLG6.png");
+        this.resourceIMG[28] = loadImage("assets/woolLG6.png");
+        this.resourceIMG[29] = loadImage("assets/brickLG6.png");
+        this.resourceIMG[30] = loadImage("assets/logsLG6.png");
 
 
 
@@ -106,6 +130,7 @@ public class Board extends PApplet {
         this.debugger = new Debug(this,center);
         debugger.displayClosed();
         this.model.setDisplayMode(10);
+        this.game = null; //when restarting we want to set the server to null
 
 
         frameRate(10.0f);
@@ -124,7 +149,7 @@ public class Board extends PApplet {
             fill(0);
             background(0, 188, 212);
             model.displayBoard();
-            model.getWarning().display();
+
 /*    UNCOMMENT THESE LINES IF YOU WISH TO USE THE BUILT IN DEBUGGER
             if (debugger.open) {
                 debugger.displayOpen();
@@ -143,6 +168,11 @@ public class Board extends PApplet {
             model.getMenus().getWaitScreen().checkButton();
         }
 
+        if(model.getDisplayMode() == 10){
+            model.getWarning().setVisible(false);
+        }
+
+        model.getWarning().display();
 
             fill(0);
        fill(255);
@@ -161,7 +191,6 @@ public class Board extends PApplet {
                     game.activeConnection = false;
                     try {
                         game.serverSocket.close();
-                        game = null;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -182,9 +211,16 @@ public class Board extends PApplet {
 
 
     public void keyPressed(){
+        if(key == ESC){
+            key = 0;
+            if(model.getDisplayMode() != 10){
+                System.out.println("Here we display the escape menu");
+            }
+        }
         if(model.getDisplayMode() ==10){
             if (model.getMenus().getConnect().isTyping()){
                 model.getMenus().getConnect().addText(key);
+
             }
         }
     }
@@ -204,6 +240,7 @@ public class Board extends PApplet {
             model.getMenus().getWaitScreen().setHostIp(ip);
             model.setDisplayMode(7);
         } catch (Exception e) {
+            System.out.println("CONNECTION ERROR");
             this.model.getMenus().setConnect(new ConnectMenu(this,300,200,true));
         }
     }
@@ -234,7 +271,7 @@ public class Board extends PApplet {
     }
 
     public static void main(String args[]) {
-        PApplet.main(new String[] { "--present", "Prototype5.Board" });
+        PApplet.main(new String[] {"Prototype5.Board" });
     }
     //"--present",
 }

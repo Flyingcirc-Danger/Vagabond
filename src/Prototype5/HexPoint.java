@@ -388,10 +388,27 @@ public class HexPoint implements Comparable<HexPoint> {
                 return false;
             }
         }
+        int otherPlayer = 0;
+        int myRoads = 0;
+        for (HexSide sd : roads) {
+            if (sd.isBuilt() && sd.getOwner() != parent.model.getPlayer().getId()) {
+                otherPlayer++;
+            } else if(sd.isBuilt() && sd.getOwner() == parent.model.getPlayer().getId()){
+                myRoads++;
+            }
+        }
+        //if both sides are
+        if (otherPlayer != 0 && myRoads == 0) {
+            return false;
+        }
+
+
+
+
         if (parent.model.settlementQuota >= 2) {
             int counter = roads.size();
             for (HexSide sd : roads) {
-                if (sd.isBuilt()) {
+                if (sd.isBuilt() && sd.getOwner() == parent.model.getPlayer().getId()) {
                     return true;
                 }
                 counter--;

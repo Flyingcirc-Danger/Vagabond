@@ -47,6 +47,7 @@ public class Notification {
             parent.rect((parent.SCREEN_WIDTH/2) - (width/2), (parent.SCREEN_HEIGHT/2) - (height/2),width, height, 5,5,5,5);
             parent.textAlign(parent.CENTER, parent.CENTER);
             parent.fill(255);
+            parent.textFont(parent.fonts[0]);
             parent.textSize(textHeight);
             parent.text(message, parent.SCREEN_WIDTH/2, parent.SCREEN_HEIGHT/2 - (height/4));
             parent.fill(0,0,0,30);

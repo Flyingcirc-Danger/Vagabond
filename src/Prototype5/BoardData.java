@@ -1221,6 +1221,7 @@ public class BoardData {
      * restarting.
      */
     public void restartClient(){
+        warning.setVisible(false);
         getParent().stop();
         getParent().setup();
         getParent().start();

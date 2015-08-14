@@ -28,9 +28,11 @@ public class Server {
     public Game mainGame;
     public Board clientBoard;
     public boolean activeConnection;
+    public int port;
 
 
-    public Server(int port, Board clientBoard) {
+    public Server(int port, Board clientBoard) throws IOException {
+        this.port = port;
         serverToClientConnections = new ArrayList<ServerToClientConnection>();
         messages = new LinkedBlockingQueue<String>();
         heartBeat = new HashMap<Integer, String>();
@@ -40,11 +42,7 @@ public class Server {
         game.setDaemon(true);
         game.start();
         this.activeConnection = true;
-        try {
-            this.serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.serverSocket = new ServerSocket(port);
 
 
         /**

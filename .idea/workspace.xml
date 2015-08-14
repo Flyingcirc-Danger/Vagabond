@@ -3,23 +3,25 @@
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
       <artifact name="CatanBoard:jar" />
-      <artifact name="Server:jar" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f28f63ae-1344-4579-ab5b-77e189cbc3ad" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/brickLG2.png" afterPath="$PROJECT_DIR$/assets/brickLG2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/grainLG2.png" afterPath="$PROJECT_DIR$/assets/grainLG2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/logsLG2.png" afterPath="$PROJECT_DIR$/assets/logsLG2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/oreLG2.png" afterPath="$PROJECT_DIR$/assets/oreLG2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/woolLG2.png" afterPath="$PROJECT_DIR$/assets/woolLG2.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/Board.java" afterPath="$PROJECT_DIR$/src/Prototype5/Board.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/BoardData.java" afterPath="$PROJECT_DIR$/src/Prototype5/BoardData.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerPrototype1/ClientToServerConnection.java" afterPath="$PROJECT_DIR$/src/ServerPrototype1/ClientToServerConnection.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/ConnectMenu.java" afterPath="$PROJECT_DIR$/src/Prototype5/ConnectMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerPrototype1/Game.java" afterPath="$PROJECT_DIR$/src/ServerPrototype1/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerPrototype1/MessageRecord.java" afterPath="$PROJECT_DIR$/src/ServerPrototype1/MessageRecord.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/HexPoint.java" afterPath="$PROJECT_DIR$/src/Prototype5/HexPoint.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/HexSide.java" afterPath="$PROJECT_DIR$/src/Prototype5/HexSide.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/HexTile.java" afterPath="$PROJECT_DIR$/src/Prototype5/HexTile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/Notification.java" afterPath="$PROJECT_DIR$/src/Prototype5/Notification.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/ObjectParser.java" afterPath="$PROJECT_DIR$/src/Prototype5/ObjectParser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerPrototype1/Server.java" afterPath="$PROJECT_DIR$/src/ServerPrototype1/Server.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerPrototype1/ServerToClientConnection.java" afterPath="$PROJECT_DIR$/src/ServerPrototype1/ServerToClientConnection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/StatusMenu.java" afterPath="$PROJECT_DIR$/src/Prototype5/StatusMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Prototype5/TradeFloor.java" afterPath="$PROJECT_DIR$/src/Prototype5/TradeFloor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CatanBoard.iws" />
@@ -42,81 +44,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/Server.java">
+      <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Prototype5/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.4814816">
-              <caret line="93" column="53" selection-start-line="93" selection-start-column="48" selection-end-line="93" selection-end-column="53" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3516#3542#0" expanded="true" />
-                <element signature="e#5041#5042#0" expanded="true" />
-                <element signature="e#5072#5073#0" expanded="true" />
-                <element signature="e#5141#5142#0" expanded="true" />
-                <element signature="e#5181#5182#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServerToClientConnection.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/ServerToClientConnection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.2222223">
-              <caret line="26" column="25" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="25" />
-              <folding>
-                <element signature="e#2775#2776#0" expanded="true" />
-                <element signature="e#2800#2801#0" expanded="true" />
-                <element signature="e#6006#6007#0" expanded="true" />
-                <element signature="e#6031#6032#0" expanded="true" />
-                <element signature="e#6078#6079#0" expanded="true" />
-                <element signature="e#6106#6107#0" expanded="true" />
-                <element signature="e#6148#6149#0" expanded="true" />
-                <element signature="e#6174#6175#0" expanded="true" />
-                <element signature="e#6224#6225#0" expanded="true" />
-                <element signature="e#6254#6255#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClientToServerConnection.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/ClientToServerConnection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.2222223">
-              <caret line="48" column="20" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.5555556">
+              <caret line="217" column="67" selection-start-line="217" selection-start-column="67" selection-end-line="217" selection-end-column="67" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ObjectParser.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Prototype5/ObjectParser.java">
+      <file leaf-file-name="BottomMenu.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.41269842">
-              <caret line="1371" column="76" selection-start-line="1371" selection-start-column="76" selection-end-line="1371" selection-end-column="76" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TradeFloor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Prototype5/TradeFloor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.111111">
-              <caret line="346" column="66" selection-start-line="346" selection-start-column="66" selection-end-line="346" selection-end-column="66" />
+            <state vertical-scroll-proportion="-7.3333335">
+              <caret line="86" column="36" selection-start-line="86" selection-start-column="30" selection-end-line="86" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/Game.java">
+      <file leaf-file-name="BoardData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Prototype5/BoardData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.333333">
-              <caret line="87" column="71" selection-start-line="87" selection-start-column="43" selection-end-line="87" selection-end-column="71" />
+            <state vertical-scroll-proportion="-4.6666665">
+              <caret line="603" column="20" selection-start-line="603" selection-start-column="11" selection-end-line="603" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -124,11 +76,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MessageRecord.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/MessageRecord.java">
+      <file leaf-file-name="HexTile.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Prototype5/HexTile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="62" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+            <state vertical-scroll-proportion="-4.6666665">
+              <caret line="1280" column="25" selection-start-line="1280" selection-start-column="16" selection-end-line="1280" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HexSide.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Prototype5/HexSide.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-35.555557">
+              <caret line="242" column="30" selection-start-line="242" selection-start-column="25" selection-end-line="242" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HexPoint.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Prototype5/HexPoint.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.7777777">
+              <caret line="392" column="30" selection-start-line="392" selection-start-column="30" selection-end-line="392" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -176,7 +152,6 @@
         <option value="$PROJECT_DIR$/src/Prototype5/Dice.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/Listeners.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/Buttons.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/HexPoint.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/PlayerTradeCard.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/DiscardScreen.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/RobDialogue.java" />
@@ -189,24 +164,25 @@
         <option value="$PROJECT_DIR$/src/Prototype5/Menus.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/Button.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/PlayerDeckScreen.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/HexTile.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/DevelopmentDeck.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/HexSide.java" />
         <option value="$PROJECT_DIR$/src/ServerPrototype1/Client.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/WinDialogue.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/StatusMenu.java" />
         <option value="$PROJECT_DIR$/src/ServerPrototype1/Player.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/Notification.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/ConnectMenu.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/Board.java" />
-        <option value="$PROJECT_DIR$/src/ServerPrototype1/ServerToClientConnection.java" />
-        <option value="$PROJECT_DIR$/src/Prototype5/BoardData.java" />
-        <option value="$PROJECT_DIR$/src/ServerPrototype1/Server.java" />
-        <option value="$PROJECT_DIR$/src/ServerPrototype1/ClientToServerConnection.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/TradeFloor.java" />
         <option value="$PROJECT_DIR$/src/ServerPrototype1/MessageRecord.java" />
         <option value="$PROJECT_DIR$/src/ServerPrototype1/Game.java" />
         <option value="$PROJECT_DIR$/src/Prototype5/ObjectParser.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/BoardData.java" />
+        <option value="$PROJECT_DIR$/src/ServerPrototype1/ClientToServerConnection.java" />
+        <option value="$PROJECT_DIR$/src/ServerPrototype1/ServerToClientConnection.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/Notification.java" />
+        <option value="$PROJECT_DIR$/src/ServerPrototype1/Server.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/ConnectMenu.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/StatusMenu.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/HexTile.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/HexSide.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/HexPoint.java" />
+        <option value="$PROJECT_DIR$/src/Prototype5/Board.java" />
       </list>
     </option>
   </component>
@@ -360,13 +336,31 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CatanBoard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CatanBoard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="META-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Statistic.jar!/" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
@@ -687,7 +681,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20907618" sideWeight="0.4921875" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3678832" sideWeight="0.47730955" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3678832" sideWeight="0.47730955" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32846716" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -749,84 +743,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/assets/tradeSM.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/developmentCards/logoskew.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/GameMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/Debug.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3325301">
-          <caret line="221" column="23" selection-start-line="221" selection-start-column="16" selection-end-line="221" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/developmentCards/cardBack.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/discard/discardBrick.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/discard/discardGrain.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/DiscardScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.082539685">
-          <caret line="166" column="55" selection-start-line="166" selection-start-column="55" selection-end-line="166" selection-end-column="55" />
-          <folding>
-            <element signature="e#12204#12205#0" expanded="false" />
-            <element signature="e#12238#12239#0" expanded="false" />
-            <element signature="e#12311#12312#0" expanded="false" />
-            <element signature="e#12357#12358#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5714286">
-          <caret line="80" column="28" selection-start-line="80" selection-start-column="26" selection-end-line="80" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/BuildCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="28" column="24" selection-start-line="28" selection-start-column="15" selection-end-line="28" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenuButton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="117" column="24" selection-start-line="117" selection-start-column="19" selection-end-line="117" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype5/Dice.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6195122">
@@ -900,14 +816,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/HexPoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.459276">
-          <caret line="327" column="59" selection-start-line="327" selection-start-column="54" selection-end-line="327" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype5/ResourceBar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -968,62 +876,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/HexSide.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="436" column="28" selection-start-line="436" selection-start-column="28" selection-end-line="436" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="52" column="46" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype5/WinDialogue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.96483517">
           <caret line="140" column="23" selection-start-line="140" selection-start-column="23" selection-end-line="140" selection-end-column="23" />
           <folding>
-            <element signature="e#4644#4645#0" expanded="true" />
-            <element signature="e#4673#4674#0" expanded="true" />
-            <element signature="e#4718#4719#0" expanded="true" />
-            <element signature="e#4754#4755#0" expanded="true" />
-            <element signature="e#4811#4812#0" expanded="true" />
-            <element signature="e#4846#4847#0" expanded="true" />
-            <element signature="e#4920#4921#0" expanded="true" />
-            <element signature="e#4968#4969#0" expanded="true" />
-            <element signature="e#5003#5004#0" expanded="true" />
-            <element signature="e#5031#5032#0" expanded="true" />
-            <element signature="e#5059#5060#0" expanded="true" />
-            <element signature="e#5089#5090#0" expanded="true" />
+            <element signature="e#4644#4645#0" expanded="false" />
+            <element signature="e#4673#4674#0" expanded="false" />
+            <element signature="e#4718#4719#0" expanded="false" />
+            <element signature="e#4754#4755#0" expanded="false" />
+            <element signature="e#4811#4812#0" expanded="false" />
+            <element signature="e#4846#4847#0" expanded="false" />
+            <element signature="e#4920#4921#0" expanded="false" />
+            <element signature="e#4968#4969#0" expanded="false" />
+            <element signature="e#5003#5004#0" expanded="false" />
+            <element signature="e#5031#5032#0" expanded="false" />
+            <element signature="e#5059#5060#0" expanded="false" />
+            <element signature="e#5089#5090#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/HexTile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.93406594">
-          <caret line="1026" column="31" selection-start-line="1026" selection-start-column="20" selection-end-line="1026" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/logoSM.png">
       <provider selected="true" editor-type-id="images">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/Button.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="173" column="68" selection-start-line="173" selection-start-column="68" selection-end-line="173" selection-end-column="68" />
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype5/Menus.java">
@@ -1033,23 +909,6 @@
           <folding>
             <element signature="e#3833#3834#0" expanded="false" />
             <element signature="e#3867#3868#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/StatusMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="28" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-          <folding>
-            <element signature="e#4633#4634#0" expanded="false" />
-            <element signature="e#4662#4663#0" expanded="false" />
-            <element signature="e#4706#4707#0" expanded="false" />
-            <element signature="e#4742#4743#0" expanded="false" />
-            <element signature="e#4773#4774#0" expanded="false" />
-            <element signature="e#4800#4801#0" expanded="false" />
-            <element signature="e#4841#4842#0" expanded="false" />
-            <element signature="e#4873#4874#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1070,105 +929,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/Notification.java">
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/ObjectParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="67" column="21" selection-start-line="67" selection-start-column="21" selection-end-line="67" selection-end-column="21" />
-          <folding>
-            <element signature="e#2000#2001#0" expanded="true" />
-            <element signature="e#2030#2031#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/ConnectMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18763326">
-          <caret line="230" column="55" selection-start-line="230" selection-start-column="31" selection-end-line="230" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35520363">
-          <caret line="163" column="36" selection-start-line="163" selection-start-column="36" selection-end-line="163" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/BoardData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33183858">
-          <caret line="203" column="0" selection-start-line="203" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
-          <folding>
-            <element signature="e#8557#8558#0" expanded="true" />
-            <element signature="e#8588#8589#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.4814816">
-          <caret line="93" column="53" selection-start-line="93" selection-start-column="48" selection-end-line="93" selection-end-column="53" />
+        <state vertical-scroll-proportion="0.36448598">
+          <caret line="1371" column="76" selection-start-line="1371" selection-start-column="76" selection-end-line="1371" selection-end-column="76" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3516#3542#0" expanded="true" />
-            <element signature="e#5041#5042#0" expanded="true" />
-            <element signature="e#5072#5073#0" expanded="true" />
-            <element signature="e#5141#5142#0" expanded="true" />
-            <element signature="e#5181#5182#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/MessageRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="62" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Prototype5/TradeFloor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.111111">
+        <state vertical-scroll-proportion="0.2593458">
           <caret line="346" column="66" selection-start-line="346" selection-start-column="66" selection-end-line="346" selection-end-column="66" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/ClientToServerConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.2222223">
-          <caret line="48" column="20" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/ServerToClientConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.2222223">
-          <caret line="26" column="25" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="25" />
-          <folding>
-            <element signature="e#2775#2776#0" expanded="true" />
-            <element signature="e#2800#2801#0" expanded="true" />
-            <element signature="e#6006#6007#0" expanded="true" />
-            <element signature="e#6031#6032#0" expanded="true" />
-            <element signature="e#6078#6079#0" expanded="true" />
-            <element signature="e#6106#6107#0" expanded="true" />
-            <element signature="e#6148#6149#0" expanded="true" />
-            <element signature="e#6174#6175#0" expanded="true" />
-            <element signature="e#6224#6225#0" expanded="true" />
-            <element signature="e#6254#6255#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.333333">
+        <state vertical-scroll-proportion="0.71495324">
           <caret line="87" column="71" selection-start-line="87" selection-start-column="43" selection-end-line="87" selection-end-column="71" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1176,13 +957,196 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Prototype5/ObjectParser.java">
+    <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/MessageRecord.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41269842">
-          <caret line="1371" column="76" selection-start-line="1371" selection-start-column="76" selection-end-line="1371" selection-end-column="76" />
+        <state vertical-scroll-proportion="0.9142857">
+          <caret line="62" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/ServerToClientConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37301588">
+          <caret line="82" column="58" selection-start-line="82" selection-start-column="58" selection-end-line="82" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/Notification.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="23" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="44" column="34" selection-start-line="44" selection-start-column="34" selection-end-line="44" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3487#3513#0" expanded="true" />
+            <element signature="e#5012#5013#0" expanded="true" />
+            <element signature="e#5043#5044#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/grainLG1.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/brickLG3.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/brickLG4.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/StatusMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37037036">
+          <caret line="46" column="68" selection-start-line="46" selection-start-column="68" selection-end-line="46" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/ConnectMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4920635">
+          <caret line="170" column="24" selection-start-line="170" selection-start-column="24" selection-end-line="170" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44444445">
+          <caret line="19" column="57" selection-start-line="19" selection-start-column="57" selection-end-line="19" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ServerPrototype1/ClientToServerConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18518518">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/Button.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48412699">
+          <caret line="231" column="31" selection-start-line="231" selection-start-column="29" selection-end-line="231" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenuButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="195" column="22" selection-start-line="195" selection-start-column="15" selection-end-line="195" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/BottomMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.3333335">
+          <caret line="86" column="36" selection-start-line="86" selection-start-column="30" selection-end-line="86" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/grainLG2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/brickLG2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/logsLG2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/oreLG2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/woolLG2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/BoardData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.6666665">
+          <caret line="603" column="20" selection-start-line="603" selection-start-column="11" selection-end-line="603" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/HexTile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.6666665">
+          <caret line="1280" column="25" selection-start-line="1280" selection-start-column="16" selection-end-line="1280" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/BoardManifest/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.037037037">
+          <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/HexSide.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-35.555557">
+          <caret line="242" column="30" selection-start-line="242" selection-start-column="25" selection-end-line="242" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/HexPoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.7777777">
+          <caret line="392" column="30" selection-start-line="392" selection-start-column="30" selection-end-line="392" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Prototype5/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5555556">
+          <caret line="217" column="67" selection-start-line="217" selection-start-column="67" selection-end-line="217" selection-end-column="67" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1192,7 +1156,7 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>Server:jar</last-edited>
+          <last-edited>CatanBoard:jar2</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1246,7 +1210,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

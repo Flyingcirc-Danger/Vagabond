@@ -5,7 +5,6 @@ import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
 import Prototype5.*;
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 
 /**
  * Created by Tom_Bryant on 7/7/15.
@@ -81,6 +80,7 @@ public class ServerToClientConnection {
             System.out.println("There are " + currentGame.players.size() + " players, left in the game");
             if(currentGame.clientBoard.model.getDisplayMode() != 7) {
                 currentGame.clientBoard.model.clientDisconnectWarning();
+                System.out.println("CALLED FROM THE SERVER");
             }
         }
     }
