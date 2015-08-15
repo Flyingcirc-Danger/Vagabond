@@ -23,6 +23,7 @@ public class BuildCard {
      */
     public void displayRoad(){
         int height = (2 * 30) + 45 + (spacing * 2);
+        parent.textSize(15);
         int width =  30 + 10 + (int)parent.textWidth("Victory Points = 0");
         int startY = parent.SCREEN_HEIGHT -72 - height;
         parent.stroke(0,0,0,0);
@@ -33,6 +34,8 @@ public class BuildCard {
         parent.fill(0,0,0,30);
         parent.rect(startX+2,startY+2,width,height);
         parent.fill(255);
+        parent.textFont(parent.fonts[0]);
+        parent.textSize(15);
         parent.text("Build Road", startX + ((width/2) - (parent.textWidth("Build Road")/2)), startY + 25);
         parent.textSize(12);
         parent.text("Victory Points = 0", startX + ((width / 2) - (parent.textWidth("Victory Points = 0") / 2)), startY + 45);
@@ -53,9 +56,12 @@ public class BuildCard {
 
     }
 
-
+    /**
+     * Displays the information necessary for building a town
+     */
     public void displayTown(){
         int height = (2 * 30) + 105 + (spacing * 2);
+        parent.textSize(15);
         int width =  30 + 10 + (int)parent.textWidth("Victory Points = 1");
         int startY = parent.SCREEN_HEIGHT -72 - height;
         parent.stroke(0,0,0,0);
@@ -66,6 +72,8 @@ public class BuildCard {
         parent.fill(0,0,0,30);
         parent.rect(startX+2,startY+2,width,height);
         parent.fill(255);
+        parent.textFont(parent.fonts[0]);
+        parent.textSize(15);
         parent.text("Build Town", startX + ((width/2) - (parent.textWidth("Build Town")/2)), startY + 25);
         parent.textSize(12);
         parent.text("Victory Points = 1", startX + ((width / 2) - (parent.textWidth("Victory Points = 1") / 2)), startY + 45);
@@ -100,4 +108,44 @@ public class BuildCard {
         parent.text("Wool x 1", startX +50, startY + 160);
 
     }
+
+
+    /**
+     * Displays the information necessary for building a City
+     */
+    public void displayCity(){
+        int height = (2 * 30) + 45 + (spacing * 2);
+        parent.textSize(15);
+        int width =  30 + 10 + (int)parent.textWidth("Victory Points = 2");
+        int startY = parent.SCREEN_HEIGHT -72 - height;
+        parent.stroke(0,0,0,0);
+        parent.textSize(15);
+        int startX = parent.SCREEN_WIDTH - 10 - (width);
+        parent.fill(121, 85, 72);
+        parent.rect(startX,startY,width,height);
+        parent.fill(0,0,0,30);
+        parent.rect(startX+2,startY+2,width,height);
+        parent.fill(255);
+        parent.textFont(parent.fonts[0]);
+        parent.textSize(15);
+        parent.text("Build City", startX + ((width/2) - (parent.textWidth("Build City")/2)), startY + 25);
+        parent.textSize(12);
+        parent.text("Victory Points = 2", startX + ((width / 2) - (parent.textWidth("Victory Points = 2") / 2)), startY + 45);
+        parent.image(parent.images[2], startX + 10, startY + 55);
+        if(parent.model.getPlayer().getOre() >= 3){
+            parent.fill(71,255,0);
+        } else {
+            parent.fill(255,57,0);
+        }
+        parent.text("Ore x 3", startX +50, startY + 70);
+        parent.image(parent.images[1], startX + 10, startY + 85);
+        if(parent.model.getPlayer().getGrain() >= 2){
+            parent.fill(71,255,0);
+        } else {
+            parent.fill(255,57,0);
+        }
+        parent.text("Wheat x 2", startX +50, startY + 102);
+
+    }
+
 }

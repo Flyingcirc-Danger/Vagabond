@@ -31,13 +31,13 @@ public class Server {
     public int port;
 
 
-    public Server(int port, Board clientBoard) throws IOException {
+    public Server(int port, Board clientBoard, String boardType) throws IOException {
         this.port = port;
         serverToClientConnections = new ArrayList<ServerToClientConnection>();
         messages = new LinkedBlockingQueue<String>();
         heartBeat = new HashMap<Integer, String>();
         record = new MessageRecord();
-        mainGame = new Game(clientBoard);
+        mainGame = new Game(clientBoard, boardType);
         Thread game = new Thread(mainGame);
         game.setDaemon(true);
         game.start();
@@ -165,6 +165,13 @@ public class Server {
     }
 
 
+    public Game getMainGame() {
+        return mainGame;
+    }
+
+    public void setMainGame(Game mainGame) {
+        this.mainGame = mainGame;
+    }
 }
 
 

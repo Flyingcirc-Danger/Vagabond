@@ -64,11 +64,11 @@ public class ResourceBar {
      * Spaces resources out on the bar
      */
     public void spaceResources(){
-        int tempCounter = (parent.SCREEN_WIDTH/2) - (490/2);
+        int tempCounter = (parent.SCREEN_WIDTH/2) - (700/2);
         for(ResourceIcon icon : resources){
             Point start = new Point(tempCounter, 5);
             icon.setStartPos(start);
-            tempCounter += 70;
+            tempCounter += 100;
         }
     }
 }

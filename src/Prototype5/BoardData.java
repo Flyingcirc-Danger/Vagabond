@@ -2,6 +2,8 @@ package Prototype5;
 
 
 
+import ServerPrototype1.Server;
+
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
@@ -89,6 +91,8 @@ public class BoardData {
 
     private String gameStatusNotifier; // a piece of text at the bottom of the screen for specific messages.
 
+    private String freeItemsStatusNotifier; //a piece of text at the top of the screen for specific messages
+
     private boolean messageToggle; //a toggle for recieving/parsing messages
 
     private int victoryPoints;
@@ -98,6 +102,8 @@ public class BoardData {
     private VictoryBonus victoryBonus;
 
     private Notification warning;
+
+    private int turnNumber;
 
 
 
@@ -149,12 +155,14 @@ public class BoardData {
         this.robberTile = new HexTile();
         menus.getDevDeck().shuffleDeck(tokenSeed());
         this.gameStatusNotifier = new String();
+        this.freeItemsStatusNotifier = new String();
         messageToggle = false;
         freeRoad = 0;
         this.victoryPoints = 0;
         this.armySize = 0;
         this.victoryBonus = new VictoryBonus(parent);
         warning = new Notification();
+        turnNumber = 0;
 
     }
 
@@ -194,6 +202,7 @@ public class BoardData {
         this.manifest = new StringBuffer();
         this.robberTile = new HexTile();
         this.gameStatusNotifier = new String();
+        this.freeItemsStatusNotifier = new String();
         displayToggle = false;
         messageToggle = false;
         freeRoad = 0;
@@ -201,7 +210,7 @@ public class BoardData {
         this.armySize = 0;
         this.victoryBonus = new VictoryBonus(parent);
         warning = new Notification();
-
+        turnNumber = 0;
 
 
     }
@@ -379,6 +388,14 @@ public class BoardData {
         this.victoryBonus = victoryBonus;
     }
 
+    public String getFreeItemsStatusNotifier() {
+        return freeItemsStatusNotifier;
+    }
+
+    public void setFreeItemsStatusNotifier(String freeItemsStatusNotifier) {
+        this.freeItemsStatusNotifier = freeItemsStatusNotifier;
+    }
+
     /**
      * IDs are assigned to each point for
      * debugging purposes. They are assigned
@@ -434,7 +451,10 @@ public class BoardData {
         hexDeck[0] = center;
         for(int i = 1; i < 19; i++){
             hexDeck[i] = chooseSide(i-1,-1);
-
+            if(hexDeck[i].getResource().equals("desert")){
+                hexDeck[i].setRobber(true);
+                this.robberTile = hexDeck[i];
+            }
         }
         configureEdges();
     }
@@ -479,9 +499,9 @@ public class BoardData {
                 }
             }
             if(((toBuild.getCenter().getX() < (toBuild.getRadius() * 2)) && instructions[rS].equals("EF"))
-                    || ((toBuild.getCenter().getX() > Board.SCREEN_WIDTH - (toBuild.getRadius() * 2))&& instructions[rS].equals("BC"))
-                    || ((toBuild.getCenter().getY() > Prototype3.Prototype3_3.Board.SCREEN_HEIGHT - (toBuild.getRadius() * 2))&& instructions[rS].equals("CD"))
-                    || ((toBuild.getCenter().getY() > Board.SCREEN_HEIGHT - (toBuild.getRadius() * 2))&& instructions[rS].equals("DE"))
+                    || ((toBuild.getCenter().getX() > (Board.SCREEN_WIDTH-100) - (toBuild.getRadius() * 2))&& instructions[rS].equals("BC"))
+                    || ((toBuild.getCenter().getY() > (Board.SCREEN_HEIGHT-100) - (toBuild.getRadius() * 2))&& instructions[rS].equals("CD"))
+                    || ((toBuild.getCenter().getY() > (Board.SCREEN_HEIGHT-100) - (toBuild.getRadius() * 2))&& instructions[rS].equals("DE"))
                     || ((toBuild.getCenter().getY() < (toBuild.getRadius() * 2)) && instructions[rS].equals("FA"))
                     || ((toBuild.getCenter().getY() < (toBuild.getRadius() * 2)) && instructions[rS].equals("AB"))){
                 return chooseSide(maxIndex, R);
@@ -503,6 +523,11 @@ public class BoardData {
         if(gameStatusNotifier.length() > 0) {
             parent.text(gameStatusNotifier, parent.SCREEN_WIDTH/2, parent.SCREEN_HEIGHT - 60);
         }
+        if(freeItemsStatusNotifier.length() > 0){
+            parent.textFont(parent.fonts[0]);
+            parent.textSize(15);
+            parent.text(freeItemsStatusNotifier, parent.SCREEN_WIDTH/2,  70);
+        }
         parent.textAlign(parent.LEFT);
     }
 
@@ -522,6 +547,16 @@ public class BoardData {
      * 10 = connect menu
      */
     public void displayBoard(){
+        freeItemsResolve();
+        if(parent.currentTool == 1){
+            parent.model.getMenus().getCard().displayTown();
+        }
+        if(parent.currentTool == 2){
+            parent.model.getMenus().getCard().displayRoad();
+        }
+        if(parent.currentTool == 3){
+            parent.model.getMenus().getCard().displayCity();
+        }
         if(freeRoad > 0){
             setGameStatusNotifier("Place " + freeRoad + " Free Roads");
         }
@@ -572,6 +607,41 @@ public class BoardData {
             }
         }
     }
+
+    public void displayBoardStructure() {
+        if (!this.checkToggle()) {
+            int option = this.displayMode;
+            for (int i = 0; i < coast.size(); i++) {
+                coast.get(i).shadow(2);
+            }
+            for (int i = 0; i < coast.size(); i++) {
+                coast.get(i).display();
+            }
+            for (int i = 0; i < hexDeck.length; i++) {
+                hexDeck[i].displayStructure();
+                //hexDeck[i].checkPoints();
+                //hexDeck[i].checkSides();
+                if (option == 1) {
+                    hexDeck[i].pointDebug();
+                    hexDeck[i].checkPoints();
+                }
+                if (option == 2) {
+                    hexDeck[i].sideDebug();
+                    hexDeck[i].checkSides();
+                }
+                if (option == 3) {
+                    hexDeck[i].resourceDebug();
+                }
+                if (option == 4) {
+                    hexDeck[i].pointDebug();
+                    hexDeck[i].sideDebug();
+                    hexDeck[i].checkPoints();
+                    hexDeck[i].checkSides();
+                }
+            }
+        }
+    }
+
 
     /**
      * Display mode 10 = connect menu
@@ -840,6 +910,7 @@ public class BoardData {
         manifest.append("<discardcards>" + menus.getDevDeck().getTurnRemovedCards() + "</discardcards>");
         menus.getDevDeck().setTurnRemovedCards(0);
         manifest.append("<lastTurnRoll>" + turnRoll + "</lastTurnRoll>");
+        manifest.append("<manifestToken>" + Server.generateRandString() + "</manifestToken>");
         manifest.append("</manifest>");
         ObjectParser.saveOutput(manifest.toString(),"manifest.xml");
         String result = manifest.toString();
@@ -1071,6 +1142,10 @@ public class BoardData {
                if(getPlayer().getResourceCount() > 7 && turnRoll == 7 ){
                    setDisplayMode(9);
                } else {
+                   if(turnRoll == 7){
+                       parent.model.setAlert(ObjectParser.generateAlert(parent.model,"discard"));
+                       parent.model.setAlertReady(true);
+                   }
                    if (this.player.getId() == playerTurn && turnRoll == 7) {
                        menus.getRobDialogue().setToolSwitch();
                    } else {
@@ -1083,6 +1158,7 @@ public class BoardData {
         }
         if(displayMode == 9){
             menus.getDiscardScreen().checkButtons();
+
         }
     }
 
@@ -1103,6 +1179,7 @@ public class BoardData {
      * @param d2 the roll on dice 2
      */
     public void handleTurn(int playerID, int d1, int d2){
+        turnNumber++;
         if(playerID == player.getId()){
             gameStatusNotifier = "Your turn";
         } else {
@@ -1121,7 +1198,9 @@ public class BoardData {
         }
 
         if(d1+d2 != 7) {
-            payResources(d1 + d2);
+            if(turnNumber > playerList.size() +1 ) {
+                payResources(d1 + d2);
+            }
         } else{
             menus.getDiscardScreen().setResourceDiscard(getPlayer().getResourceCount()/2);
             menus.getDiscardScreen().resetDiscardPile();
@@ -1263,7 +1342,46 @@ public class BoardData {
         }
     }
 
+    public void hostSync() {
+        for (HexCoast coast : this.coast) {
+            coast.setParent(parent);
+        }
+        for (HexTile tile : this.hexDeck) {
+            tile.setParent(parent);
+        }
 
+    }
+
+
+    public void freeItemsResolve(){
+        if(settlementQuota < 2){
+            setFreeItemsStatusNotifier("You have " + (2 - settlementQuota) + "x free Towns");
+            if(freeRoad > 0){
+                freeItemsStatusNotifier += " and " + freeRoad + "x free roads";
+            }
+            if(roadQuota < 2){
+                freeItemsStatusNotifier += " and " + (2 - roadQuota) + "x free roads";
+            }
+            return;
+        }
+        if(roadQuota < 2){
+            setFreeItemsStatusNotifier("You have " + (2 - roadQuota) + "x free Roads");
+            return;
+        }
+        if(freeRoad > 0){
+            setFreeItemsStatusNotifier("You have " + freeRoad + "x free Roads");
+            return;
+        }
+        setFreeItemsStatusNotifier("");
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
+    }
+
+    public void setTurnNumber(int turnNumber) {
+        this.turnNumber = turnNumber;
+    }
 }
 
 

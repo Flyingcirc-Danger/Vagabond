@@ -4,14 +4,12 @@ package ServerPrototype1;
 
 import Prototype5.*;
 
-import javax.xml.bind.SchemaOutputResolver;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -40,8 +38,10 @@ public class Game implements Runnable {
     public int turnNo;
     public Board clientBoard;
     public ConcurrentLinkedQueue<String> messages;
+    public String boardType;
 
-    public Game(Board clientBoard){
+    public Game(Board clientBoard, String boardType){
+        this.boardType = boardType;
         this.currentID = 1;
         this.turnNo = 0;
         this.gameBegin = false;
@@ -54,7 +54,11 @@ public class Game implements Runnable {
         int SCREEN_HEIGHT = 768;
         int SCREEN_WIDTH = 1024;
         HexTile center=new HexTile(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, mainBoard,mainBoard.getResourceTiles()[0],mainBoard.getTokens()[0]);
-        center.getModel().buildBoard((center));
+        if(boardType.equals("Classic")) {
+            center.getModel().buildBoard((center));
+        } else{
+            center.getModel().buildRandomBoard((center));
+        }
         this.allDiscard = true;
         playerRecords = new ArrayList<MessageRecord>();
         this.clientBoard = clientBoard;
@@ -212,8 +216,10 @@ public class Game implements Runnable {
      * player information and the board layout.
      */
     public void beginGame(){
+
         if(players.size() >= 2){
             Random dice = new Random();
+            this.turnSeq = dice.nextInt((players.size()));
             int d1 = dice.nextInt((6 - 1) + 1) + 1;
             int d2 = dice.nextInt((6 - 1) + 1) + 1;
             //no sevens on the first turn
@@ -224,7 +230,7 @@ public class Game implements Runnable {
                     d1 += 1;
                 }
             }
-            String turn = ObjectParser.generateTurnBegin(d1,d2,this);
+            String turn = ObjectParser.generateTurnBegin(d1, d2, this);
             for(Player play : players) {
                 try {
                     this.XMLboard = ObjectParser.parseModel(mainBoard);
@@ -293,6 +299,9 @@ public class Game implements Runnable {
             } else{
                 d1 += 1;
             }
+            for(MessageRecord rec : playerRecords) {
+                rec.setTurnAuth(true);
+            }
         }
         if(d1 + d2  == 7){
             allDiscard = false;
@@ -314,4 +323,14 @@ public class Game implements Runnable {
                 play.send(turn);
             }
     }
+
+    public void buildNewRandomBoard(){
+        this.mainBoard = new BoardData();
+        int SCREEN_HEIGHT = 768;
+        int SCREEN_WIDTH = 1024;
+        HexTile center=new HexTile(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, mainBoard,mainBoard.getResourceTiles()[0],mainBoard.getTokens()[0]);
+        center.getModel().buildRandomBoard((center));
+    }
+
+
 }

@@ -327,36 +327,50 @@ public class RobDialogue {
      * dialogue will appear
      */
     public void displayRobSuccess(){
-        PImage resIMG = parent.images[itemRobbed];
-        String resource = parent.mapResource(itemRobbed);
+
         parent.textSize(15);
-        int width = (int)parent.textWidth("From Player 1")  + 40;
-        int height = 150;
-        parent.textSize(15);
-        int startX = (parent.SCREEN_WIDTH/2) - (width/2);
-        int startY = (parent.SCREEN_HEIGHT/2) - (height/2);
-        parent.stroke(0,0,0,0);
-        parent.fill(121, 85, 72);
-        parent.rect(startX, startY, width,height,5,5,5,5);
-        parent.fill(0,0,0,30);
-        parent.rect(startX+2, startY+2, width,height,5,5,5,5);
-        parent.fill(255);
-        int runningTotal = 30;
-        parent.text("You Stole", startX + (width/2) - (parent.textWidth("You Stole")/2), startY + runningTotal);
-        runningTotal += 5;
-        int imageWidth = (35 + (int)parent.textWidth("1 x " + resource));
-        parent.image(resIMG, (parent.SCREEN_WIDTH/2) - (imageWidth/2), startY + runningTotal);
-        runningTotal += 24;
-        parent.text("1 x " + resource, (parent.SCREEN_WIDTH/2) - (imageWidth/2) + 35, startY + runningTotal);
-        runningTotal += 27;
-        parent.text("From Player " + playerTarget, startX + (width/2) - (parent.textWidth("From Player " + playerTarget)/2), startY + runningTotal);
-        parent.fill(198, 40, 40);
-        runningTotal += 10;
-        parent.rect(startX + (width/2) - 50, startY + runningTotal,100,40,5,5,5,5);
-        parent.fill(255, 235, 59);
-        parent.textFont(parent.fonts[1]);
-        runningTotal += 28;
-        parent.text("OK", startX + (width/2) - (parent.textWidth("OK")/2), startY + runningTotal);
+        int width = (int) parent.textWidth("From Player 1") + 40;
+        if(itemRobbed == 0) {
+            width = (int)parent.textWidth("Player " + playerTarget + " had no resources!");
+        }
+            int height = 150;
+            parent.textSize(15);
+            int startX = (parent.SCREEN_WIDTH / 2) - (width / 2);
+            int startY = (parent.SCREEN_HEIGHT / 2) - (height / 2);
+            parent.stroke(0, 0, 0, 0);
+            parent.fill(121, 85, 72);
+            parent.rect(startX, startY, width, height, 5, 5, 5, 5);
+            parent.fill(0, 0, 0, 30);
+            parent.rect(startX + 2, startY + 2, width, height, 5, 5, 5, 5);
+            parent.fill(255);
+            int runningTotal = 30;
+            parent.text("You Stole", startX + (width / 2) - (parent.textWidth("You Stole") / 2), startY + runningTotal);
+            runningTotal += 5;
+        if(itemRobbed > 0) {
+            PImage resIMG = parent.images[itemRobbed];
+            String resource = parent.mapResource(itemRobbed);
+            int imageWidth = (35 + (int) parent.textWidth("1 x " + resource));
+            parent.image(resIMG, (parent.SCREEN_WIDTH / 2) - (imageWidth / 2), startY + runningTotal);
+            runningTotal += 24;
+            parent.text("1 x " + resource, (parent.SCREEN_WIDTH / 2) - (imageWidth / 2) + 35, startY + runningTotal);
+            runningTotal += 27;
+            parent.text("From Player " + playerTarget, startX + (width / 2) - (parent.textWidth("From Player " + playerTarget) / 2), startY + runningTotal);
+            parent.fill(198, 40, 40);
+            runningTotal += 10;
+        } else {
+            runningTotal += 24;
+            parent.textAlign(parent.CENTER);
+            parent.text("Player " + playerTarget + " had no resources!", parent.SCREEN_WIDTH/2 , startY + runningTotal);
+            parent.textAlign(parent.LEFT);
+            runningTotal += 27;
+            runningTotal += 10;
+        }
+                parent.rect(startX + (width / 2) - 50, startY + runningTotal, 100, 40, 5, 5, 5, 5);
+                parent.fill(255, 235, 59);
+                parent.textFont(parent.fonts[1]);
+                runningTotal += 28;
+
+                parent.text("OK", startX + (width / 2) - (parent.textWidth("OK") / 2), startY + runningTotal);
 
 
     }
@@ -366,10 +380,14 @@ public class RobDialogue {
      * will inform you of what resource you have lost
      */
     public void displayVictimDialogue(){
-        PImage resIMG = parent.images[itemRobbed];
-        String resource = parent.mapResource(itemRobbed);
+
         parent.textSize(15);
-        int width = (int)parent.textWidth("From Player 1")  + 40;
+        int width = 0;
+        if(itemRobbed > 0) {
+            width = (int) parent.textWidth("From Player 1") + 40;
+        } else{
+            width = (int) parent.textWidth("Player " + parent.model.getPlayerTurn() + " failed to steal from you.");
+        }
         int height = 130;
         parent.textSize(15);
         int startX = (parent.SCREEN_WIDTH/2) - (width/2);
@@ -383,12 +401,22 @@ public class RobDialogue {
         int runningTotal = 30;
         parent.text("Player " + parent.model.getPlayerTurn() + " stole", startX + (width/2) - (parent.textWidth("Player " + parent.model.getPlayerTurn() + "Stole")/2), startY + runningTotal);
         runningTotal += 5;
-        int imageWidth = (35 + (int)parent.textWidth("1 x " + resource));
-        parent.image(resIMG, (parent.SCREEN_WIDTH/2) - (imageWidth/2), startY + runningTotal);
-        runningTotal += 24;
-        parent.text("1 x " + resource, (parent.SCREEN_WIDTH/2) - (imageWidth/2) + 35, startY + runningTotal);
-        parent.fill(198, 40, 40);
-        runningTotal += 18;
+        if(itemRobbed > 0) {
+            PImage resIMG = parent.images[itemRobbed];
+            String resource = parent.mapResource(itemRobbed);
+            int imageWidth = (35 + (int) parent.textWidth("1 x " + resource));
+            parent.image(resIMG, (parent.SCREEN_WIDTH / 2) - (imageWidth / 2), startY + runningTotal);
+            runningTotal += 24;
+            parent.text("1 x " + resource, (parent.SCREEN_WIDTH / 2) - (imageWidth / 2) + 35, startY + runningTotal);
+            parent.fill(198, 40, 40);
+            runningTotal += 18;
+        } else{
+            runningTotal += 24;
+            parent.textAlign(parent.CENTER);
+            parent.text("Player " + parent.model.getPlayerTurn() + " failed to steal from you.", parent.SCREEN_WIDTH/2, startY + runningTotal);
+            runningTotal += 18;
+            parent.textAlign(parent.LEFT);
+        }
         parent.rect(startX + (width/2) - 50, startY + runningTotal,100,40,5,5,5,5);
         parent.fill(255, 235, 59);
         parent.textFont(parent.fonts[1]);

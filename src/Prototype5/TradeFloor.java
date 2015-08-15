@@ -406,6 +406,8 @@ public class TradeFloor {
             }
             //back button
             if (Listeners.overRect(butX, butY + 40, ((int) parent.textWidth(" Propose ")), 30, parent)) {
+                client.setOffers(new HashMap<Integer, Integer>());
+                client.setWants(new HashMap<Integer, Integer>());
                 parent.model.setTradeManifest(ObjectParser.parseTrade(client,Integer.toString(playerNeg.getId()),false,true));
                 parent.model.setDisplayMode(0);
                 client.setOfferRejected(true);

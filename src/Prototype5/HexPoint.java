@@ -332,7 +332,6 @@ public class HexPoint implements Comparable<HexPoint> {
 
                 if(!this.isSettled()){
                     parent.fill(255, 0, 0,80);
-                    parent.model.getMenus().getCard().displayTown();
                 } else {
                     int[] color = parent.model.getColor(owner);
                     parent.fill(color[0], color[1],color[2]);
@@ -448,6 +447,14 @@ public class HexPoint implements Comparable<HexPoint> {
             parent.model.initManifest();
         }
         parent.model.getManifest().append(ObjectParser.parseSinglePoint(model,this,false));
+    }
+
+    public BoardData getModel() {
+        return model;
+    }
+
+    public void setModel(BoardData model) {
+        this.model = model;
     }
 }
 

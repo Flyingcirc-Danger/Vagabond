@@ -1629,7 +1629,7 @@ public class ObjectParser {
             int resource = Integer.parseInt(steal.item(3).getTextContent());
             //if addressed to me
             if(toID == model.getPlayer().getId()){
-                //if this was a send offer not a recieve
+                //if this was a send offer not a reieeve
                 if(send){
                     //do steal
                     //if we're out of the discard screen

@@ -117,4 +117,12 @@ public class HexCoast {
             return (int) toRound;
         }
     }
+
+    public PApplet getParent() {
+        return parent;
+    }
+
+    public void setParent(PApplet parent) {
+        this.parent = parent;
+    }
 }

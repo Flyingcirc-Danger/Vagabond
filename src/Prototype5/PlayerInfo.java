@@ -24,7 +24,7 @@ public class PlayerInfo {
         this.uname = uname;
         this.score = score;
         this.id = id;
-        this.resources = new int[]{50,50,50,50,50};
+        this.resources = new int[]{0,0,0,0,0};
         stealFlag = false;
         this.playerDeck = new ArrayList<DevelopmentCard>();
         this.inactiveKnights = new ArrayList<DevelopmentCard>();
@@ -34,7 +34,7 @@ public class PlayerInfo {
 
     public PlayerInfo(int id){
         this.id = id;
-        this.resources = new int[]{50,50,50,50,50};
+        this.resources = new int[]{0,0,0,0,0};
         this.playerDeck = new ArrayList<DevelopmentCard>();
         this.inactiveKnights = new ArrayList<DevelopmentCard>();
 
@@ -216,6 +216,9 @@ public class PlayerInfo {
             }
         }
         //Triple random for seed randomness
+        if(remaining.size() == 0){
+            return 0;
+        }
         int index = rand.nextInt(remaining.size());
         index = rand.nextInt(remaining.size());
         index = rand.nextInt(remaining.size());
@@ -251,23 +254,24 @@ public class PlayerInfo {
      * @param resource the int identifier of the resource
      * @return
      */
-    public void  giveResource(int resource){
-        if(resource == 1){
+    public void  giveResource(int resource) {
+        if (resource == 1) {
             addGrain(1);
         }
-        if(resource == 2){
+        if (resource == 2) {
             addOre(1);
         }
-        if(resource == 3){
+        if (resource == 3) {
             addWool(1);
         }
-        if(resource == 4){
+        if (resource == 4) {
             addBrick(1);
         }
-        if(resource == 5){
+        if (resource == 5) {
             addLogs(1);
+        } else {
+            return;
         }
-
     }
 
 

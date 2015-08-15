@@ -26,7 +26,7 @@ public class DevelopmentDeck {
         devImages[0] = parent.loadImage("assets/developmentCards/knight.png");
         devImages[1] = parent.loadImage("assets/developmentCards/monopoly.png");
         devImages[2] = parent.loadImage("assets/developmentCards/yearofplenty.png");
-        devImages[3] = parent.loadImage("assets/developmentCards/victoryPoint.png");
+        devImages[3] = parent.loadImage("assets/developmentCards/victorypoint.png");
         devImages[4] = parent.loadImage("assets/developmentCards/freeroad.png");
         devImages[5] = parent.loadImage("assets/developmentCards/logoskew.png");
         devImages[6] = parent.loadImage("assets/developmentCards/prev.png");

@@ -14,12 +14,14 @@ public class EscapeMenu {
     private Board parent;
     private boolean visible;
     private PImage img;
+    private PImage costCard;
 
     public EscapeMenu(Board parent) {
         this.visible = false;
         this.parent = parent;
         this.img = parent.loadImage("assets/logoSM.png");
         setButtons();
+        this.costCard = parent.loadImage("assets/playerCard.png");
 
     }
 
@@ -54,6 +56,8 @@ public class EscapeMenu {
             buttons.get(0).display();
             buttons.get(1).display();
             buttons.get(2).display();
+            int cardHeight = costCard.height;
+            parent.image(costCard, 50,parent.SCREEN_HEIGHT/2 - cardHeight/2 );
             checkButtons();
         }
     }

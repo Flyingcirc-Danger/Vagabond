@@ -128,7 +128,7 @@ public class Board extends PApplet {
 
         this.center=new HexTile(this, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,50, model,model.getResourceTiles()[0],model.getTokens()[0]);
         this.debugger = new Debug(this,center);
-        debugger.displayClosed();
+        //debugger.displayClosed();
         this.model.setDisplayMode(10);
         this.game = null; //when restarting we want to set the server to null
 

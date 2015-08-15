@@ -53,14 +53,26 @@ public class ClientToServerConnection {
                             in.close();
                             activeConnection = false;
                             model.clientDisconnectWarning();
-                            System.out.println("CALLED FROM THE CLIENT");
+                            System.out.println("LOST CONNECTION TO THE SERVER 1");
                         } catch (IOException e1) {
-                            e1.printStackTrace();
+                            //e1.printStackTrace();
+                            activeConnection = false;
+                            model.clientDisconnectWarning();
+                            System.out.println("LOST CONNECTION TO THE SERVER 2");
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        try {
+                            in.close();
+                            activeConnection = false;
+                            model.clientDisconnectWarning();
+                            System.out.println("LOST CONNECTION TO THE SERVER 3");
+                        } catch (IOException e1) {
+                            System.out.println("LOST CONNECTION TO THE SERVER 4");
+                            //e1.printStackTrace();
+                        }
+                       // e.printStackTrace();
                     } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                       // e.printStackTrace();
                     }
                 }
             }

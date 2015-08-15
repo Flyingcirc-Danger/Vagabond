@@ -82,7 +82,6 @@ public class HexSide {
                 parent.fill(color[0], color[1],color[2]);
             } else{
                 parent.fill(255, 0, 0,80);
-                parent.model.getMenus().getCard().displayRoad();
             }
             parent.stroke(0, 0, 0, 0);
 

@@ -102,6 +102,9 @@ public class HexTile {
         addToPayout();
     }
 
+
+
+
     /**
      * For temporary hex objects
      */
@@ -284,8 +287,11 @@ public class HexTile {
         EF.drawRoad();
         FA.drawRoad();
         if((parent.model.getTurnRoll() == value) && checkOwner() && !robber){
-
-            diceDisplay();
+            if(parent.model.getTurnNumber() > parent.model.getPlayerList().size() + 1) {
+                diceDisplay();
+            } else{
+                displayToken();
+            }
         } else {
             displayToken();
         }
@@ -293,6 +299,30 @@ public class HexTile {
             robberDisplay();
         }
     }
+
+
+    /**
+     * Draws the hex on the parent canvas
+     */
+    public void displayStructure(){
+        int[] color = {255,193,7};
+        parent.textAlign(parent.LEFT,parent.BOTTOM);
+        parent.smooth(8);
+        if (this.isHighlighted()) {
+            parent.fill(21,101,192);
+        } else {
+            parent.fill(color[0],color[1],color[2]);
+        }
+        parent.beginShape();
+        parent.vertex((float) A.getX(), (float) A.getY());
+        parent.vertex((float) B.getX(), (float) B.getY());
+        parent.vertex((float) C.getX(), (float) C.getY());
+        parent.vertex((float) D.getX(), (float) D.getY());
+        parent.vertex((float) E.getX(), (float) E.getY());
+        parent.vertex((float) F.getX(), (float) F.getY());
+        parent.endShape();
+    }
+
 
     /**
      * Displays the large resource graphic IF the diceRoll on this turn
@@ -1133,7 +1163,6 @@ public class HexTile {
                     if (!A.isSettled()) {
                         if (checkAffordBuild("town")) {
                             A.setOwner(model.getPlayer().getId());
-
                             A.setSettled(true);
                             parent.model.settlementQuota++;
                             parent.model.addVP(1);
@@ -1397,23 +1426,24 @@ public class HexTile {
     }
 
     /**
-     * Pays the required resource based on the roll
+     * Pays the required resource  based on the roll
      */
     public void payResource(){
+        int stake = owners.get(parent.model.getPlayer().getId());
         if(this.resource.equals("grain")){
-           parent.model.getPlayer().addGrain(1);
+           parent.model.getPlayer().addGrain(stake);
         }
         if(this.resource.equals("mine")){
-           parent.model.getPlayer().addOre(1);
+           parent.model.getPlayer().addOre(stake);
         }
         if(this.resource.equals("pasture")){
-           parent.model.getPlayer().addWool(1);
+           parent.model.getPlayer().addWool(stake);
         }
         if(this.resource.equals("brick")){
-           parent.model.getPlayer().addBrick(1);
+           parent.model.getPlayer().addBrick(stake);
         }
         if(this.resource.equals("forest")){
-           parent.model.getPlayer().addLogs(1);
+           parent.model.getPlayer().addLogs(stake);
         }
     }
 
@@ -1441,7 +1471,19 @@ public class HexTile {
 
     }
 
-
-
-
+    public void setParent(Board parent) {
+        this.parent = parent;
+        A.setParent(parent);
+        B.setParent(parent);
+        C.setParent(parent);
+        D.setParent(parent);
+        E.setParent(parent);
+        F.setParent(parent);
+        AB.setParent(parent);
+        BC.setParent(parent);
+        CD.setParent(parent);
+        DE.setParent(parent);
+        EF.setParent(parent);
+        FA.setParent(parent);
+    }
 }

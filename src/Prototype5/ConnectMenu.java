@@ -27,6 +27,7 @@ public class ConnectMenu {
     private ArrayList<Button> buttons;
     private int menuIndex;
     private String errorMessage;
+    private HowTo howTo;
 
 
     public ConnectMenu(Board parent,int width, int height,boolean error){
@@ -44,6 +45,7 @@ public class ConnectMenu {
         } else {
             menuIndex = 0;
         }
+        this.howTo = new HowTo(parent);
     }
 
     public ConnectMenu(Board parent,int width, int height,boolean error, String errorMessage ){
@@ -82,14 +84,33 @@ public class ConnectMenu {
         Button connect = new Button(200,40,"Connect", parent);
         connect.setStartX(parent.SCREEN_WIDTH / 2 - 100);
         buttons.add(connect);
-        // 4 - back button;
+        // 4 - back button Join Game;
         Button back = new Button(200,40,"Back", parent);
         back.setStartX(parent.SCREEN_WIDTH / 2 - 100);
         buttons.add(back);
-
+        // 5 - back button host game
+        Button backBoard = new Button(200,40,"Back", parent);
+        backBoard.setStartX(parent.SCREEN_WIDTH / 2 - 100);
+        buttons.add(backBoard);
+        // 6 - Classic board
+        Button classic = new Button(200,40,"Classic Board", parent);
+        classic.setStartX(parent.SCREEN_WIDTH / 2 - 100);
+        buttons.add(classic);
+        // 7  - random board
+        Button random = new Button(200,40,"Random Board", parent);
+        random.setStartX(parent.SCREEN_WIDTH / 2 - 100);
+        buttons.add(random);
+        // 8  - howTo
+        Button howToBut = new Button(200,40,"How To Play", parent);
+        howToBut.setStartX(parent.SCREEN_WIDTH / 2 - 100);
+        buttons.add(howToBut);
     }
 
     public void display(){
+        if(howTo.isActive()){
+            howTo.display();
+            return;
+        }
         parent.background(0, 188, 212);
         parent.stroke(0, 0, 0, 0);
         parent.smooth(8);
@@ -103,18 +124,22 @@ public class ConnectMenu {
                 width = textWidth;
             }
             parent.fill(0,0,0,30);
-            parent.rect(parent.SCREEN_WIDTH/2 - width/2 +2, parent.SCREEN_HEIGHT/2 - 105 +2,width,220);
+            parent.rect(parent.SCREEN_WIDTH/2 - width/2 +2, parent.SCREEN_HEIGHT/2 - 105 +2,width,260);
             parent.fill(255, 243, 224);
-            parent.rect(parent.SCREEN_WIDTH/2 - width/2, parent.SCREEN_HEIGHT/2 - 105,width,220);
+            parent.rect(parent.SCREEN_WIDTH/2 - width/2, parent.SCREEN_HEIGHT/2 - 105,width,260);
             parent.image(img, parent.SCREEN_WIDTH / 2 - 100, parent.SCREEN_HEIGHT / 2 - 100);
             buttons.get(0).setStartY(parent.SCREEN_HEIGHT / 2 - 20);
             buttons.get(1).setStartY(parent.SCREEN_HEIGHT/2 + 23);
-            buttons.get(2).setStartY(parent.SCREEN_HEIGHT/2 + 66);
+            buttons.get(8).setStartY(parent.SCREEN_HEIGHT/2 + 66);
+            buttons.get(2).setStartY(parent.SCREEN_HEIGHT/2 + 109);
             buttons.get(0).display();
             buttons.get(1).display();
             buttons.get(2).display();
+            buttons.get(8).display();
         } else if(menuIndex == 1) {
             connectMenu();
+        } else if(menuIndex == 2) {
+            hostMenu();
         }else{
             //check to see if this menu is built after an error has occured
             if (error) {
@@ -156,6 +181,24 @@ public class ConnectMenu {
         parent.text(ip.toString(), center.x - (width/2) + 10, centerTextY);
         parent.stroke(0,0,0,0);
     }
+
+
+    public void hostMenu(){
+        int height = 210;
+        int width = 220;
+        parent.fill(0,0,0,30);
+        parent.rect(parent.SCREEN_WIDTH/2 - width/2 +2, parent.SCREEN_HEIGHT/2 - 105 +2,width,220);
+        parent.fill(255, 243, 224);
+        parent.rect(parent.SCREEN_WIDTH/2 - width/2, parent.SCREEN_HEIGHT/2 - 105,width,220);
+        parent.image(img, parent.SCREEN_WIDTH / 2 - 100, parent.SCREEN_HEIGHT / 2 - 100);
+        buttons.get(6).setStartY(parent.SCREEN_HEIGHT / 2 - 20);
+        buttons.get(7).setStartY(parent.SCREEN_HEIGHT/2 + 23);
+        buttons.get(5).setStartY(parent.SCREEN_HEIGHT/2 + 66);
+        buttons.get(6).display();
+        buttons.get(7).display();
+        buttons.get(5).display();
+    }
+
 
 
     public void connectMenu(){
@@ -251,6 +294,10 @@ public class ConnectMenu {
      * Checks to see if which button has been selected
      */
     public void checkButtons(){
+        if(howTo.isActive()){
+            howTo.checkButtons();
+            return;
+        }
         if(menuIndex == 0){
             //join button
             if(buttons.get(0).checkButton()){
@@ -258,42 +305,76 @@ public class ConnectMenu {
             }
             //host button
             if(buttons.get(1).checkButton()){
-                try {
-                    parent.game =  new Server(4001,parent);
-                } catch (IOException e) {
-                    parent.model.getMenus().setConnect(new ConnectMenu(parent,300,200,true,"Server Is Already Running"));
-                    return;
-                }
-                String ip = "127.0.0.1";
-                try {
-                     ip = InetAddress.getLocalHost().getHostAddress();
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                }
-                parent.initiateConnection(ip);
-                parent.model.getMenus().getWaitScreen().setHost(true);
+                menuIndex = 2;
 
             }
             //quit button
             if(buttons.get(2).checkButton()){
                parent.exit();
             }
+            //howTobutton
+            if(buttons.get(8).checkButton()){
+                howTo.setActive(true);
+            }
 
-        } else if(menuIndex == 1){
-            if(Listeners.overRect(parent.SCREEN_WIDTH/2 - 105, parent.SCREEN_HEIGHT/2 -15, 210,40, parent)){
+        } else if(menuIndex == 1) {
+            if (Listeners.overRect(parent.SCREEN_WIDTH / 2 - 105, parent.SCREEN_HEIGHT / 2 - 15, 210, 40, parent)) {
                 this.typing = true;
-            } else{
+            } else {
                 this.typing = false;
             }
-            if(buttons.get(3).checkButton()){
+            if (buttons.get(3).checkButton()) {
                 String connect = ip.toString();
                 ip = new StringBuffer("Connecting");
                 parent.initiateConnection(connect);
             }
-            if(buttons.get(4).checkButton()){
+            if (buttons.get(4).checkButton()) {
                 menuIndex = 0;
             }
-        } else {
+        }else if(menuIndex == 2) {
+                //back
+                if (buttons.get(5).checkButton()) {
+                    menuIndex = 0;
+                }
+                //classic
+                if (buttons.get(6).checkButton()) {
+                    try {
+                        parent.game = new Server(4001, parent,"Classic");
+                    } catch (IOException e) {
+                        parent.model.getMenus().setConnect(new ConnectMenu(parent, 300, 200, true, "Server Is Already Running"));
+                        return;
+                    }
+                    String ip = "127.0.0.1";
+                    try {
+                        ip = InetAddress.getLocalHost().getHostAddress();
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    }
+                    parent.initiateConnection(ip);
+                    parent.game.getMainGame().mainBoard.setParent(parent);
+                    parent.game.getMainGame().mainBoard.hostSync();
+                    parent.model.getMenus().getWaitScreen().setHost(true);
+                }
+            //random
+            if (buttons.get(7).checkButton()) {
+                try {
+                    parent.game = new Server(4001, parent,"Random");
+                } catch (IOException e) {
+                    parent.model.getMenus().setConnect(new ConnectMenu(parent, 300, 200, true, "Server Is Already Running"));
+                    return;
+                }
+                String ip = "127.0.0.1";
+                try {
+                    ip = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                parent.initiateConnection(ip);
+                parent.game.getMainGame().mainBoard.setParent(parent);
+                parent.game.getMainGame().mainBoard.hostSync();
+                parent.model.getMenus().getWaitScreen().setHost(true);
+            }
+            } else {
 
             Point connectButton = new Point(center.x - (width / 2), center.y + ((height / 2) / 3));
             if (checkHover(connectButton, width, (height / 3))) {
