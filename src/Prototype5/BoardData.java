@@ -105,6 +105,8 @@ public class BoardData {
 
     private int turnNumber;
 
+    private int freeTown;
+
 
 
 
@@ -163,6 +165,8 @@ public class BoardData {
         this.victoryBonus = new VictoryBonus(parent);
         warning = new Notification();
         turnNumber = 0;
+        this.freeTown = 1;
+        this.freeRoad = 1;
 
     }
 
@@ -211,7 +215,7 @@ public class BoardData {
         this.victoryBonus = new VictoryBonus(parent);
         warning = new Notification();
         turnNumber = 0;
-
+        this.freeTown = 1;
 
     }
 
@@ -557,10 +561,10 @@ public class BoardData {
         if(parent.currentTool == 3){
             parent.model.getMenus().getCard().displayCity();
         }
-        if(freeRoad > 0){
+        if(freeRoad > 0 && getPlayer().getId() == getPlayerTurn()){
             setGameStatusNotifier("Place " + freeRoad + " Free Roads");
         }
-        if(freeRoad == 0){
+        if(freeRoad == 0 && getPlayer().getId() == getPlayerTurn()){
             if(gameStatusNotifier.equals("Place 1 Free Roads")){
                 setGameStatusNotifier("");
             }
@@ -912,7 +916,7 @@ public class BoardData {
         manifest.append("<lastTurnRoll>" + turnRoll + "</lastTurnRoll>");
         manifest.append("<manifestToken>" + Server.generateRandString() + "</manifestToken>");
         manifest.append("</manifest>");
-        ObjectParser.saveOutput(manifest.toString(),"manifest.xml");
+        //ObjectParser.saveOutput(manifest.toString(),"manifest.xml");
         String result = manifest.toString();
         manifest = new StringBuffer();
         manifestReady = false;
@@ -1038,12 +1042,13 @@ public class BoardData {
         this.playerColors =  new HashMap<Integer, int[] >();
         //player1 = blue
         playerColors.put(0,new int[]{1,87,155});
+        playerColors.put(1,new int[]{1,87,155});
         //player2 = red
-        playerColors.put(1,new int[]{183,28,28});
+        playerColors.put(2,new int[]{183,28,28});
         //player3 = green
-        playerColors.put(2,new int[]{51,105,30});
+        playerColors.put(3,new int[]{51,105,30});
         //player4 = yellow/Orange
-        playerColors.put(3,new int[]{245,127,23});
+        playerColors.put(4,new int[]{245,127,23});
 
     }
 
@@ -1111,6 +1116,9 @@ public class BoardData {
      * menus, determined by the display mode
      */
     public void checkMenus(){
+        if(displayMode == 11){
+            menus.getWinDialogue().checkButtons();
+        }
         if(displayMode == 10){
             menus.getConnect().checkButtons();
         }
@@ -1128,8 +1136,10 @@ public class BoardData {
             menus.getTradeFloor().checkButtons(0);
         }
         if(displayMode <= 5){
-            menus.getBank().checkButtons();
-            menus.getBottomMenu().checkSelected();
+            if(!menus.getDeckScreen().isOpen()) {
+                menus.getBank().checkButtons();
+                menus.getBottomMenu().checkSelected();
+            }
             if(menus.getTradeFloor().isTradeAlert()) {
                 menus.getTradeFloor().checkButtons(1);
             }
@@ -1142,10 +1152,6 @@ public class BoardData {
                if(getPlayer().getResourceCount() > 7 && turnRoll == 7 ){
                    setDisplayMode(9);
                } else {
-                   if(turnRoll == 7){
-                       parent.model.setAlert(ObjectParser.generateAlert(parent.model,"discard"));
-                       parent.model.setAlertReady(true);
-                   }
                    if (this.player.getId() == playerTurn && turnRoll == 7) {
                        menus.getRobDialogue().setToolSwitch();
                    } else {
@@ -1169,7 +1175,6 @@ public class BoardData {
         if(displayMode == 7){
             menus.getWaitScreen().checkButton();
         }
-
     }
 
     /**
@@ -1179,12 +1184,18 @@ public class BoardData {
      * @param d2 the roll on dice 2
      */
     public void handleTurn(int playerID, int d1, int d2){
+        if(turnNumber == playerList.size() + 1){
+            freeTown++;
+            freeRoad++;
+        }
         turnNumber++;
         if(playerID == player.getId()){
             gameStatusNotifier = "Your turn";
         } else {
             gameStatusNotifier = "Player " + playerID + "'s Turn";
         }
+        menus.getBank().setOpen(false);
+        menus.getBank().setDialogue(false);
         menus.setDie(new Dice(d1,d2,parent));
         this.playerTurn = playerID;
         this.setDisplayMode(6);
@@ -1201,7 +1212,12 @@ public class BoardData {
             if(turnNumber > playerList.size() +1 ) {
                 payResources(d1 + d2);
             }
+
         } else{
+            if(getPlayer().getResourceCount() <= 7){
+                    parent.model.setAlert(ObjectParser.generateAlert(parent.model,"discard"));
+                    parent.model.setAlertReady(true);
+            }
             menus.getDiscardScreen().setResourceDiscard(getPlayer().getResourceCount()/2);
             menus.getDiscardScreen().resetDiscardPile();
         }
@@ -1349,23 +1365,15 @@ public class BoardData {
         for (HexTile tile : this.hexDeck) {
             tile.setParent(parent);
         }
-
     }
 
 
     public void freeItemsResolve(){
-        if(settlementQuota < 2){
-            setFreeItemsStatusNotifier("You have " + (2 - settlementQuota) + "x free Towns");
+        if(freeTown > 0){
+            setFreeItemsStatusNotifier("You have " + freeTown + "x free Towns");
             if(freeRoad > 0){
                 freeItemsStatusNotifier += " and " + freeRoad + "x free roads";
             }
-            if(roadQuota < 2){
-                freeItemsStatusNotifier += " and " + (2 - roadQuota) + "x free roads";
-            }
-            return;
-        }
-        if(roadQuota < 2){
-            setFreeItemsStatusNotifier("You have " + (2 - roadQuota) + "x free Roads");
             return;
         }
         if(freeRoad > 0){
@@ -1381,6 +1389,22 @@ public class BoardData {
 
     public void setTurnNumber(int turnNumber) {
         this.turnNumber = turnNumber;
+    }
+
+    public int getFreeTown() {
+        return freeTown;
+    }
+
+    public void setFreeTown(int freeTown) {
+        this.freeTown = freeTown;
+    }
+
+    public int getFreeRoad() {
+        return freeRoad;
+    }
+
+    public void setFreeRoad(int freeRoad) {
+        this.freeRoad = freeRoad;
     }
 }
 

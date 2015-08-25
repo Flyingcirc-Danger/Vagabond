@@ -34,7 +34,7 @@ public class ObjectParser {
         result.append(parsePoints(model, false));
         result.append(parseSides(model, false));
         result.append("</model>");
-        saveOutput(result.toString(), "model.xml");
+        //saveOutput(result.toString(), "model.xml");
         return result.toString();
     }
 
@@ -1020,7 +1020,7 @@ public class ObjectParser {
      * @param XML the XML containing instructions.
      */
     public static int serverParseRequest(Game currentGame, String XML){
-        //ANY LAST MESSAGE TYPE OTHER THAN 2 WILL ADVANCE THE TURN
+        // if 2 is returned the server will advance the turn
         try{
             Document doc = stringToDom(XML);
             if(doc.getElementsByTagName("manifest").getLength() > 0){
@@ -1090,7 +1090,7 @@ public class ObjectParser {
         }
         result.append("</playerIDs>");
         result.append("</playerinfo>");
-        saveOutput(result.toString(), "player.xml");
+        //saveOutput(result.toString(), "player.xml");
         return result.toString();
 
     }
@@ -1116,7 +1116,7 @@ public class ObjectParser {
         }
         result.append("</playerIDs>");
         result.append("</playerinfo>");
-        saveOutput(result.toString(), "player.xml");
+        //saveOutput(result.toString(), "player.xml");
         return result.toString();
 
     }
@@ -1185,9 +1185,12 @@ public class ObjectParser {
         if(alert.equals("discard")){
             result.append("<alert><type>" + alert + "</type>");
             result.append("<id>" + model.getPlayer().getId() + "</id>");
+            result.append("<token>" + Server.generateRandString() + "</token>");
             result.append("</alert>");
         } else {
-            result.append("<alert><type>" + alert + "</type></alert>");
+            result.append("<alert><type>" + alert + "</type>");
+            result.append("<token>" + Server.generateRandString() + "</token>");
+            result.append("</alert>");
         }
         return result.toString();
     }
@@ -1205,6 +1208,7 @@ public class ObjectParser {
         result.append("<player-id>" + currentGame.advanceTurn() + "</player-id>");
         result.append("<d1>" + d1 + "</d1>");
         result.append("<d2>" + d2 + "</d2>");
+        result.append("<token>" + Server.generateRandString() + "</token>");
         result.append("</turn-begin>");
         return result.toString();
     }
@@ -1300,8 +1304,9 @@ public class ObjectParser {
         result.append("</fromWants>");
         result.append("<accept>" + Boolean.toString(accept) + "</accept>");
         result.append("<reject>false</reject>");
+        result.append("<token>" + Server.generateRandString() + "</token>");
         result.append("</trade>");
-        saveOutput(result.toString(), "acceptTrade.xml");
+        //saveOutput(result.toString(), "acceptTrade.xml");
         return result.toString();
     }
 
@@ -1371,7 +1376,7 @@ public class ObjectParser {
         result.append("<reject>" + Boolean.toString(reject) + "</reject>");
         result.append("<token>" + Server.generateRandString() + "</token>");
         result.append("</trade>");
-        saveOutput(result.toString(), "trade.xml");
+        //saveOutput(result.toString(), "trade.xml");
         return result.toString();
     }
 
@@ -1595,8 +1600,9 @@ public class ObjectParser {
         }
         result.append("<resource>" + resource + "</resource>" );
         result.append("<send>" + send + "</send>");
+        result.append("<token>" + Server.generateRandString() +"</token>");
         result.append("</robber>");
-        saveOutput(result.toString(),"steal.xml");
+        //saveOutput(result.toString(),"steal.xml");
         return result.toString();
     }
 
@@ -1671,8 +1677,9 @@ public class ObjectParser {
         result.append("<card>");
             result.append("<from>" + model.getPlayer().getId() + "</from>");
             result.append("<type>" + card.getType() + "</type>");
+            result.append("<token>" + Server.generateRandString() + "</token>");
             result.append("</card>");
-            saveOutput(result.toString(), "card.xml");
+            //saveOutput(result.toString(), "card.xml");
             return result.toString();
         }
 
@@ -1696,8 +1703,9 @@ public class ObjectParser {
             if(response){
                 result.append("<amount>" + model.getPlayer().getAllResource(resource) + "</amount>");
             }
-            result.append("</card>");
-            saveOutput(result.toString(), "monopoly.xml");
+        result.append("<token>" + Server.generateRandString() + "</token>");
+        result.append("</card>");
+            //saveOutput(result.toString(), "monopoly.xml");
             return result.toString();
         }
 
@@ -1739,7 +1747,7 @@ public class ObjectParser {
                     if(resource == 5){
                         resourceName = "Logs";
                     }
-                    model.setGameStatusNotifier("Player " + from + " steals  your " + resourceName );
+                    model.setGameStatusNotifier("Player " + from + " steals  your " + resourceName);
                     model.setCardManifest(ObjectParser.parseMonopolyCard(model, resource, from, true));
                 }
                 // if it's to me it will be a response.
@@ -1882,6 +1890,7 @@ public class ObjectParser {
         result.append("<longestroad>" + vp.get("Longest Road") + "</longestroad>");
         result.append("<largestarmy>" + vp.get("Largest Army") + "</largestarmy>");
         result.append("<vpcard>" + vp.get("Victory Point Card") + "</vpcard>");
+        result.append("<token>" + Server.generateRandString() + "</token>");
         result.append("</WIN>");
         return result.toString();
     }

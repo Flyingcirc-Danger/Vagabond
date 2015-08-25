@@ -30,6 +30,8 @@ public class HexPoint implements Comparable<HexPoint> {
     private int owner;
 
     private BoardData model;
+
+    private HarborPiece harborConnection;
     /**
      *
      * @param coords The coordinate of this point
@@ -455,6 +457,21 @@ public class HexPoint implements Comparable<HexPoint> {
 
     public void setModel(BoardData model) {
         this.model = model;
+    }
+
+    public boolean isHarbor(){
+        if(this.harborConnection != null){
+            return true;
+        }
+        return false;
+    }
+
+    public HarborPiece getHarborConnection() {
+        return harborConnection;
+    }
+
+    public void setHarborConnection(HarborPiece harborConnection) {
+        this.harborConnection = harborConnection;
     }
 }
 

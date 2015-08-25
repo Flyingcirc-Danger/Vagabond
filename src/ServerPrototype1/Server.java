@@ -53,8 +53,14 @@ public class Server {
             public void run() {
                 try {
                     while (activeConnection) {
+                        if(!mainGame.gameBegin) {
                         Socket s = serverSocket.accept();
-                        mainGame.addPlayer(s);
+                            if(!mainGame.gameBegin && mainGame.players.size() < 4) {
+                                mainGame.addPlayer(s);
+                            } else{
+                                s.close();
+                            }
+                        }
                     }
                     //cleanup in/outputs
                 } catch (IOException e) {

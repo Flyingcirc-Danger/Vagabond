@@ -1,7 +1,10 @@
 package Prototype5;
 
+import processing.core.PApplet;
+
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Tom_Bryant on 6/30/15.
@@ -34,6 +37,41 @@ public class BottomMenu {
         parent.rect(0,parent.SCREEN_HEIGHT - height - 2, width, height);
         parent.fill(121, 85, 72);
         parent.rect(0,parent.SCREEN_HEIGHT - height, width, height);
+        int playerNo = parent.model.getPlayer().getId();
+
+
+        int runningTotal = 0;
+        ArrayList<Integer> players = new ArrayList<Integer>();
+        players.addAll(parent.model.getPlayerList());
+        players.add(parent.model.getPlayer().getId());
+        Collections.sort(players);
+        for(int i = players.size() -1; i >= 0; i--) {
+            int[] playerColor = parent.model.getColor(players.get(i));
+            parent.fill(playerColor[0], playerColor[1],playerColor[2]);
+            if(players.get(i) == parent.model.getPlayerTurn()){
+                parent.strokeWeight(5);
+                parent.stroke(255,171,64);
+            } else{
+                parent.strokeWeight(1);
+                parent.stroke(0,0,0);
+            }
+            parent.rect(parent.SCREEN_WIDTH - 260 - runningTotal, parent.SCREEN_HEIGHT - 38, 25, 25);
+            parent.fill(255);
+            parent.textSize(15);
+            parent.textAlign(parent.CENTER,parent.CENTER);
+            parent.text(players.get(i), parent.SCREEN_WIDTH - 260 + 13 - runningTotal, parent.SCREEN_HEIGHT - 38 + 13);
+            parent.textAlign(parent.LEFT);
+            parent.strokeWeight(1);
+            if(players.get(i) == parent.model.getPlayer().getId()){
+                parent.image(parent.images[27],parent.SCREEN_WIDTH - 260 - runningTotal + 3, parent.SCREEN_HEIGHT - 38 - 10);
+            }
+            runningTotal += 35;
+        }
+
+
+
+
+
         if(parent.model.getPlayer().getId() == parent.model.getPlayerTurn()){
             myTurn = true;
         } else {
@@ -45,7 +83,6 @@ public class BottomMenu {
             bt.checkHover();
             bt.display();
         }
-
     }
 
     /**

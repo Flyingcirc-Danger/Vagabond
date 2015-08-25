@@ -1,7 +1,6 @@
 package ServerPrototype1;
 
 import Prototype5.*;
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 
 import java.io.IOException;
 
@@ -19,7 +18,7 @@ public class Client {
         this.model = model;
         this.connection = new ClientToServerConnection(port,model,ip);
         /**
-         * Automatically sends messages recieved from the connection
+         * Automatically sends messages received from the connection
          * back to the connection. (HeartBeat).
          */
         Thread reply = new Thread(){

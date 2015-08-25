@@ -1,9 +1,6 @@
 package Prototype5;
 
 
-
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,6 +26,8 @@ public class TradeFloor {
     private boolean acceptAlert; //boolean to display the accept trade alert
     private boolean openTrade; //boolean to check whether this trade was initiated to all.
     private boolean rejectAlert; //boolean to display the rejection trade alert
+    private Notification notAfford;
+    private Notification proposeTrade;
 
     public TradeFloor(Board parent) {
         this.parent = parent;
@@ -42,7 +41,8 @@ public class TradeFloor {
         this.acceptCoords = new int[4];
         this.openTrade = false;
         this.rejectAlert = false;
-
+        this.notAfford = new Notification(parent,"You can't afford that trade",20);
+        this.proposeTrade = new Notification(parent,"Trade Sent",20);
 
     }
 
@@ -76,7 +76,6 @@ public class TradeFloor {
         for(int i = 0; i < trades.length; i++){
             trades[i].displayCard();
         }
-
         displayClientFloor();
         if(tradeAlert){
             displayTradeAlert();
@@ -87,7 +86,8 @@ public class TradeFloor {
         if(rejectAlert){
            displayReject();
         }
-
+        notAfford.display();
+        proposeTrade.display();
     }
 
     /**
@@ -116,15 +116,12 @@ public class TradeFloor {
         this.tradeAlertPlayer = client.getId();
     }
 
-
     /**
      * Displays the client trading menu.
      * Outgoing and Incoming boxes.
      */
     public void displayClientFloor(){
         //offer
-
-
         int offerStartX = (parent.SCREEN_WIDTH /4) - 200;
         int startY = ((parent.SCREEN_HEIGHT/4) *3) - (100) ;
         parent.fill(40, 53, 157);
@@ -178,18 +175,20 @@ public class TradeFloor {
     }
 
     private void clientButtons(int startX, int endX, int startY){
-        parent.textSize(20);
-        int width = (int)parent.textWidth(" Propose ");
-        int butY = (startY + 100) - 80/2;
-        int butX = startX + ((endX - startX)/2) - (width/2);
 
-        parent.fill(255,160,0);
-        parent.rect(butX, butY,width,30,5,5,5,5);
-        parent.fill(255);
-        parent.textSize(16);
-        parent.text("Propose", butX + (width/2) - (parent.textWidth("Propose")/2), (butY + 15) + 7);
-        parent.fill(0, 0, 0, 30);
-        parent.rect(butX+2, butY+2,width,30,5,5,5,5);
+            parent.textSize(20);
+            int width = (int) parent.textWidth(" Propose ");
+            int butY = (startY + 100) - 80 / 2;
+            int butX = startX + ((endX - startX) / 2) - (width / 2);
+        if(client.getWants().size() > 0 || client.getOffers().size() > 0) {
+            parent.fill(255, 160, 0);
+            parent.rect(butX, butY, width, 30, 5, 5, 5, 5);
+            parent.fill(255);
+            parent.textSize(16);
+            parent.text("Propose", butX + (width / 2) - (parent.textWidth("Propose") / 2), (butY + 15) + 7);
+            parent.fill(0, 0, 0, 30);
+            parent.rect(butX + 2, butY + 2, width, 30, 5, 5, 5, 5);
+        }
         parent.fill(255,160,0);
         parent.rect(butX, butY + 40,width,30,5,5,5,5);
         parent.fill(255);
@@ -197,9 +196,6 @@ public class TradeFloor {
         parent.text("Back", butX + (width/2) - (parent.textWidth("Back")/2), (butY + 55) + 7);
         parent.fill(0,0,0,30);
         parent.rect(butX +2, butY + 42,width,32,5,5,5,5);
-
-
-
     }
 
     /**
@@ -249,7 +245,6 @@ public class TradeFloor {
         int startXR2 = offerStartX + 200 - (240/2);
         counterResource(4,startXR2, startY + 80,true);
         counterResource(5,startXR2 + 120, startY + 80,true);
-
     }
 
     /**
@@ -322,6 +317,14 @@ public class TradeFloor {
      * @param mode
      */
     public void checkButtons(int mode){
+        if(notAfford.isVisible()){
+            notAfford.checkButtons();
+            return;
+        }
+        if(proposeTrade.isVisible()){
+            proposeTrade.checkButtons();
+            return;
+        }
         if(mode == 0) {
             for (PlayerTradeCard trade : trades) {
                 int tradeButton = trade.checkButtons();
@@ -346,6 +349,7 @@ public class TradeFloor {
                             //perform the trade
                             System.out.println("I accept the Trade");
                             parent.model.setTradeManifest(ObjectParser.parseAccept(this, true));
+                            proposeTrade.setVisible(true);
                         } else{
                             playerNeg.setActiveOffer(false);
                             trade.setActiveOffer(true);
@@ -370,7 +374,8 @@ public class TradeFloor {
                             if(matchesWant == wants){
                                 parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false,false));
                             } else{
-                                System.out.println("You do not have enough resources for this trade"); //TODO: Add actual trade warning 1
+                                System.out.println("You do not have enough resources for this trade");
+                                notAfford.setVisible(true);
                             }
                         }
                     }
@@ -389,19 +394,26 @@ public class TradeFloor {
 
 
             parent.fill(0);
-            if (Listeners.overRect(butX, butY, ((int) parent.textWidth(" Propose ")), 30, parent)) {
-                if (playerNeg == client) {
-                    //if not countering a trade
-                    if(affordTradeOffers(client)) {
-                        parent.model.setTradeManifest(ObjectParser.parseTrade(client, "all", false, false));
-                    } else{
-                        System.out.println("You Can't Afford That Trade"); //TODO: Add actual trade warning 2
+            if(client.getWants().size() > 0 || client.getOffers().size() > 0) {
+                if (Listeners.overRect(butX, butY, ((int) parent.textWidth(" Propose ")), 30, parent)) {
+                    if (playerNeg == client) {
+                        //if not countering a trade
+                        if (affordTradeOffers(client)) {
+                            parent.model.setTradeManifest(ObjectParser.parseTrade(client, "all", false, false));
+                            proposeTrade.setVisible(true);
+                        } else {
+                            System.out.println("You Can't Afford That Trade");
+                            notAfford.setVisible(true);
+                        }
+                    } else {
+                        if (affordTradeOffers(client)) {
+                            //if countering a trade the playerNeg will be set.
+                            parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false, false));
+                            proposeTrade.setVisible(true);
+                        } else {
+                            notAfford.setVisible(true);
+                        }
                     }
-                } else {
-                    if(affordTradeOffers(client)) {
-                        //if countering a trade the playerNeg will be set.
-                        parent.model.setTradeManifest(ObjectParser.parseTrade(client, Integer.toString(playerNeg.getId()), false, false));
-                    } //TODO: Add actual trade warning 3
                 }
             }
             //back button
@@ -411,6 +423,8 @@ public class TradeFloor {
                 parent.model.setTradeManifest(ObjectParser.parseTrade(client,Integer.toString(playerNeg.getId()),false,true));
                 parent.model.setDisplayMode(0);
                 client.setOfferRejected(true);
+                notAfford.setVisible(false);
+                proposeTrade.setVisible(false);
             }
             PlayerInfo player = parent.model.getPlayer();
             for (int i = 0; i < plusButtons.length; i++) {
@@ -572,7 +586,6 @@ public class TradeFloor {
             }
         }
         this.acceptAlert = true;
-
     }
 
     /**
@@ -584,7 +597,6 @@ public class TradeFloor {
             trade.setOffers(new HashMap<Integer, Integer>());
             trade.setWants(new HashMap<Integer, Integer>());
         }
-
     }
 
     public PlayerTradeCard getPlayerNeg() {
@@ -761,7 +773,6 @@ public class TradeFloor {
         parent.rect(startX+2,startY+2, width, height,5,5,5,5);
     }
 
-
     /**
      * Resets the offer/want negotiations
      */
@@ -784,8 +795,6 @@ public class TradeFloor {
         }
     }
 
-
-
     /**
      * Once the trading floor is closed.
      * Display the reject.
@@ -805,10 +814,7 @@ public class TradeFloor {
         parent.rect((parent.SCREEN_WIDTH/2) - 30,(parent.SCREEN_HEIGHT/2) + 10, 60,30,5,5,5,5 );
         parent.fill(255);
         parent.text("OK", (parent.SCREEN_WIDTH/2) - (parent.textWidth("OK")/2),(parent.SCREEN_HEIGHT/2) + 30);
-
-
     }
-
 
     /**
      * Checks to see if a player can afford a trade from the perspective of
@@ -850,5 +856,4 @@ public class TradeFloor {
             return false;
         }
     }
-
 }

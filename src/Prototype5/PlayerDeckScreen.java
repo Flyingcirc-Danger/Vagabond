@@ -744,12 +744,11 @@ public class PlayerDeckScreen {
         if(YOPAmt == 0){
             buttons.get(20).display();
             for(int i = 10; i < 20; i+=2) {
-                 buttons.get(i).useAlt = true;
+                buttons.get(i).useAlt = true;
                 buttons.get(i+1).useAlt = false;
             }
         }
         if(YOPAmt == 2){
-            buttons.get(20).display();
             for(int i = 10; i < 20; i+=2) {
                 buttons.get(i).useAlt = false;
                 buttons.get(i+1).useAlt = true;

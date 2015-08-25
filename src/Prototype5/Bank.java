@@ -740,6 +740,7 @@ public class Bank {
             }
             else{
                 parent.fill(255,0,0);
+                parent.textSize(12);
                 parent.text("Requires 4 Wheat", (95 - (parent.textWidth("Requires 4 Wheat")/2)),  105);
             }
         }
@@ -789,6 +790,7 @@ public class Bank {
             }
             else{
                 parent.fill(255,0,0);
+                parent.textSize(12);
                 parent.text("Requires 4 Ore", (95 - (parent.textWidth("Requires 4 Ore")/2)),  105);
             }
         }
@@ -838,6 +840,7 @@ public class Bank {
             }
             else{
                 parent.fill(255,0,0);
+                parent.textSize(12);
                 parent.text("Requires 4 Wool", (95 - (parent.textWidth("Requires 4 Wool")/2)),  105);
             }
         }
@@ -887,6 +890,7 @@ public class Bank {
             }
             else{
                 parent.fill(255,0,0);
+                parent.textSize(12);
                 parent.text("Requires 4 Brick", (95 - (parent.textWidth("Requires 4 Brick")/2)),  105);
             }
         }
@@ -935,6 +939,7 @@ public class Bank {
 
             } else{
                 parent.fill(255,0,0);
+                parent.textSize(12);
                 parent.text("Requires 4 Logs", (95 - (parent.textWidth("Requires 4 Logs")/2)),  105);
             }
         }
@@ -953,7 +958,6 @@ public class Bank {
         }
         if(this.open){
             displayOpen();
-
         } else{
             displayClosed();
         }
@@ -1047,6 +1051,10 @@ public class Bank {
         parent.textFont(parent.fonts[0]);
         parent.fill(0,0,0,30);
         parent.rect(startX+2,startY+2, width, height,5,5,5,5);
+    }
+
+    public void setDialogue(boolean dialogue) {
+        this.dialogue = dialogue;
     }
 }
 

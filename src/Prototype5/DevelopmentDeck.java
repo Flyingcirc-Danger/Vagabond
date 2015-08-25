@@ -114,18 +114,20 @@ public class DevelopmentDeck {
      * Also returns the card
      */
     public void getCard(){
-        DevelopmentCard candidate = deck.get(deck.size()-1);
-        System.out.println("Getting card " + candidate.getId());
-        removeCard();
-        candidate.addToPlayerDeck();
-        parent.model.getMenus().getDeckScreen().setSelectionIndex(
-                parent.model.getPlayer().getPlayerDeck().size() - 1);
-        if(candidate.getType().equals("Victory Point")){
-            parent.model.addVP(1);
-            HashMap<String,Integer> vp = parent.model.getVictoryBonus().getVictoryPointMap();
-            vp.put("Victory Point Card", vp.get("Victory Point Card") + 1);
+        if(deck.size() > 0) {
+            DevelopmentCard candidate = deck.get(deck.size() - 1);
+            System.out.println("Getting card " + candidate.getId());
+            removeCard();
+            candidate.addToPlayerDeck();
+            parent.model.getMenus().getDeckScreen().setSelectionIndex(
+                    parent.model.getPlayer().getPlayerDeck().size() - 1);
+            if (candidate.getType().equals("Victory Point")) {
+                parent.model.addVP(1);
+                HashMap<String, Integer> vp = parent.model.getVictoryBonus().getVictoryPointMap();
+                vp.put("Victory Point Card", vp.get("Victory Point Card") + 1);
+            }
+            turnRemovedCards++;
         }
-        turnRemovedCards++;
     }
 
     /**

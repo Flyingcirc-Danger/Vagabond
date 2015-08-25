@@ -140,4 +140,10 @@ public class WinDialogue {
     public int getWinId(){
         return this.id;
     }
+
+    public void checkButtons(){
+        if(okayButton.checkButton()){
+            parent.model.restartClient();
+        }
+    }
 }

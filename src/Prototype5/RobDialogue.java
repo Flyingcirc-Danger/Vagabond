@@ -355,7 +355,6 @@ public class RobDialogue {
             parent.text("1 x " + resource, (parent.SCREEN_WIDTH / 2) - (imageWidth / 2) + 35, startY + runningTotal);
             runningTotal += 27;
             parent.text("From Player " + playerTarget, startX + (width / 2) - (parent.textWidth("From Player " + playerTarget) / 2), startY + runningTotal);
-            parent.fill(198, 40, 40);
             runningTotal += 10;
         } else {
             runningTotal += 24;
@@ -365,14 +364,13 @@ public class RobDialogue {
             runningTotal += 27;
             runningTotal += 10;
         }
+                parent.fill(198, 40, 40);
                 parent.rect(startX + (width / 2) - 50, startY + runningTotal, 100, 40, 5, 5, 5, 5);
                 parent.fill(255, 235, 59);
                 parent.textFont(parent.fonts[1]);
                 runningTotal += 28;
 
                 parent.text("OK", startX + (width / 2) - (parent.textWidth("OK") / 2), startY + runningTotal);
-
-
     }
 
     /**
@@ -408,7 +406,6 @@ public class RobDialogue {
             parent.image(resIMG, (parent.SCREEN_WIDTH / 2) - (imageWidth / 2), startY + runningTotal);
             runningTotal += 24;
             parent.text("1 x " + resource, (parent.SCREEN_WIDTH / 2) - (imageWidth / 2) + 35, startY + runningTotal);
-            parent.fill(198, 40, 40);
             runningTotal += 18;
         } else{
             runningTotal += 24;
@@ -417,6 +414,7 @@ public class RobDialogue {
             runningTotal += 18;
             parent.textAlign(parent.LEFT);
         }
+        parent.fill(198, 40, 40);
         parent.rect(startX + (width/2) - 50, startY + runningTotal,100,40,5,5,5,5);
         parent.fill(255, 235, 59);
         parent.textFont(parent.fonts[1]);

@@ -293,7 +293,7 @@ public class Game implements Runnable {
         int d1 = dice.nextInt((6 - 1) + 1) + 1;
         int d2 = dice.nextInt((6 - 1) + 1) + 1;
         //no sevens on the first round of turns
-        if(turnNo < players.size() && d1 + d2 == 7){
+        if(turnNo < (players.size() *2) && d1 + d2 == 7){
             if(d1 == 6 ){
                 d1 = 5;
             } else{

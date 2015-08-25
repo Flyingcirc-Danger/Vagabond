@@ -47,8 +47,9 @@ public class Board extends PApplet {
 
     public void hex(HexTile drawTile){
         int[] cl = drawTile.tileColor();
+        fill(255);
         fill(cl[0],cl[1],cl[2],100);
-        stroke(0,0,0,30);
+        stroke(0,0,0,100);
         beginShape();
         vertex(drawTile.getAx(), drawTile.getAy());
         vertex(drawTile.getBx(), drawTile.getBy());
@@ -57,6 +58,7 @@ public class Board extends PApplet {
         vertex(drawTile.getEx(), drawTile.getEy());
         vertex(drawTile.getFx(), drawTile.getFy());
         endShape(CLOSE);
+
         if(drawTile.getValue() < 13) {
             stroke(0,0,0,0);
             fill(0,0,0,60f);

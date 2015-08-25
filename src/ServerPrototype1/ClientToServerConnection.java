@@ -5,6 +5,7 @@ package ServerPrototype1;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -26,7 +27,8 @@ public class ClientToServerConnection {
     private boolean activeConnection;
 
     public ClientToServerConnection(int port, BoardData model,String ip) throws IOException {
-            this.con = new Socket(ip, port);
+            this.con = new Socket();
+            con.connect(new InetSocketAddress(ip, port), 1000);
             this.out = new ObjectOutputStream(con.getOutputStream());
             this.in = new ObjectInputStream(con.getInputStream());
             this.message = new String();

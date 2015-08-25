@@ -298,6 +298,7 @@ public class HexTile {
         if(isRobber()){
             robberDisplay();
         }
+        //checkCoast();
     }
 
 
@@ -1102,8 +1103,9 @@ public class HexTile {
     private boolean checkAffordBuild(String building){
         if(building.equals("town")){
             HashMap<String,Integer> vp = parent.model.getVictoryBonus().getVictoryPointMap();
-            if(model.settlementQuota < 2){
+            if(model.getFreeTown() > 0){
                 vp.put("Town",vp.get("Town") + 1);
+                model.setFreeTown(model.getFreeTown() -1);
                 return true;
             }
             PlayerInfo toCheck =parent.model.getPlayer();
@@ -1120,7 +1122,8 @@ public class HexTile {
             }
 
         } else if(building.equals("road")){
-            if(model.roadQuota < 2){
+            if(model.getFreeRoad() > 0){
+                model.setFreeRoad(model.getFreeRoad() - 1);
                 return true;
             }
             if(model.freeRoad > 0){
@@ -1486,4 +1489,43 @@ public class HexTile {
         EF.setParent(parent);
         FA.setParent(parent);
     }
+
+
+
+//    public String checkCoast(){
+//        if(this.landLocked()){
+//            return "none";
+//        } else{
+//            Point newCenter = new Point;
+//            //check EF
+//            if(!EFNeighbor()){
+//                newCenter = new Point(center.x - (sideToSide * 2), center.y);
+//                return "EF";
+//
+//            }
+//        }
+//        return "none";
+//    }
+
+//    public boolean buildHarbor(){
+//        //can't build a harbor on a landlocked tile
+//        if(landLocked()){
+//            return false;
+//        }
+//        //checkEF
+//        //first check to see if E or F is already a harbor
+//        if(!EFNeighbor()) {
+//            if (E.isHarbor() || F.isHarbor()) {
+//                return false;
+//            }
+//        }
+//        //check FA
+//        if(!FANeighbor()){
+//            if(F.isHarbor() || A.isHarbor()){
+//                return false;
+//            }
+//        }
+//
+//    }
 }
+
